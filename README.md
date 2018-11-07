@@ -17,6 +17,7 @@ A python library for bandit algorithms.
 
 * Uniform
 * UCB
+* MOSS
 
 ## Example
 

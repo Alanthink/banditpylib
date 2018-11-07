@@ -23,7 +23,6 @@ def draw(results, outFile):
             handlers.append(handler)
             legends.append(key)
 
-    print('Generate figure...')
     plt.legend(handlers, legends)
     plt.ylabel('regret', fontweight='bold', fontsize=15)
     plt.xlabel('horizon', fontweight='bold', fontsize=15)

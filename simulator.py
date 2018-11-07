@@ -18,8 +18,8 @@ class Simulator:
                 log.error('Some learner has different goal!')
             if not (isinstance(l, Learner)):
                 log.error('Some learner is not legimate!')
-            if (l.K != b.K):
-                log.error('Some learner does not know the correct number of arms!')
+            # initialize every learner
+            l.start(b.K)
 
         self.bandit = b
         self.learners = lList
@@ -29,15 +29,21 @@ class RegretMinimizationSimulator(Simulator):
     def __init_(self, b, lList):
         Simulator.__init__(self, b, lList)
 
-    def sim(self, horizon, breakpoints, trials):
+    def sim(self, horizon, interval, trials):
+        breakpoints = []
+        for i in range(horizon + 1):
+            if i % interval == 0:
+                breakpoints.append(i)
+
         results = dict()
         results['breakpoints'] = breakpoints
 
         for l in self.learners:
+            print('Simulate learner %s' % l.getName())
             totalRegret = dict()
             for trial in range(trials):
                 l.reset()
-                for t in range(horizon):
+                for t in range(horizon + 1):
                     choice = l.choice(t)
                     reward = self.bandit.pull(choice)
                     l.update(choice, reward)

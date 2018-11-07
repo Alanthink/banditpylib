@@ -2,28 +2,24 @@
 from arm import BernoulliArm
 from bandit import Bandit
 from draw import draw
-from learner import Uniform, UCB
+from learner import Uniform, UCB, MOSS
 from simulator import RegretMinimizationSimulator
 
 if __name__ == '__main__':
-    means = [0.3, 0.7]
+    means = [0.3, 0.5, 0.7]
     K = len(means)
-    arms = []
-    for mean in means:
-        arms.append(BernoulliArm(mean))
+    arms = [BernoulliArm(mean) for mean in means]
 
     randomSeed = 0
     bandit = Bandit(arms, randomSeed)
-    learners = [Uniform(K), UCB(K, 2)]
+    learners = [Uniform(), UCB(2), MOSS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
 
     horizon = 1000
-    breakpoints = []
-    for i in range(horizon):
-        if i > 0 and i % 10 == 0:
-            breakpoints.append(i)
+    # record regret every other `interval` times
+    interval = 20
     trials = 100
 
-    results = simulator.sim(horizon, breakpoints, trials)
+    results = simulator.sim(horizon, interval, trials)
 
     draw(results, 'out/out.pdf')

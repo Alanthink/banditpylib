@@ -18,11 +18,12 @@ class EmArm:
 
 
 class Learner:
-    def __init__(self, K):
+    def __init__(self):
+        pass
+
+    def start(self, K):
         self.K = K
-        self.emArms = []
-        for ind in range(self.K):
-            self.emArms.append(EmArm())
+        self.emArms = [EmArm() for ind in range(self.K)]
         self.rewards = 0
 
     def update(self, ind, reward):
@@ -37,16 +38,16 @@ class Learner:
 
 
 class RegretMinimizationLearner(Learner):
-    def __init__(self, K):
-        Learner.__init__(self, K)
+    def __init__(self):
+        Learner.__init__(self)
 
     def goal(self):
         return "Minimize the regret"
 
 
 class Uniform(RegretMinimizationLearner):
-    def __init__(self, K):
-        RegretMinimizationLearner.__init__(self, K)
+    def __init__(self):
+        RegretMinimizationLearner.__init__(self)
 
     def choice(self, t):
         return t % self.K
@@ -56,8 +57,8 @@ class Uniform(RegretMinimizationLearner):
 
 
 class UCB(RegretMinimizationLearner):
-    def __init__(self, K, alpha):
-        RegretMinimizationLearner.__init__(self, K)
+    def __init__(self, alpha):
+        RegretMinimizationLearner.__init__(self)
         self.alpha = alpha
 
     def upperConfidenceBound(self, arm, t):
@@ -76,3 +77,25 @@ class UCB(RegretMinimizationLearner):
 
     def getName(self):
         return 'UCB'
+
+
+class MOSS(RegretMinimizationLearner):
+    def __init__(self):
+        RegretMinimizationLearner.__init__(self)
+
+    def upperConfidenceBound(self, arm, t):
+        return arm.getEmMean() + np.sqrt(2 / arm.pulls * np.log(max(1, t / (self.K * arm.pulls))))
+
+    def choice(self, t):
+        if (t < self.K):
+            return t % self.K
+
+        armToChoose = 0
+        for ind in range(self.K):
+            if self.upperConfidenceBound(self.emArms[ind], t) > \
+              self.upperConfidenceBound(self.emArms[armToChoose], t):
+                armToChoose = ind
+        return armToChoose
+
+    def getName(self):
+        return 'MOSS'
