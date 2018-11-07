@@ -12,7 +12,10 @@ class Simulator:
             log.error('Learners should be given in a list!')
         if len(lList) < 1:
             log.error('There should be at least one learner!')
+        goal = lList[0].goal()
         for l in lList:
+            if l.goal() != goal:
+                log.error('Some learner has different goal!')
             if not (isinstance(l, Learner)):
                 log.error('Some learner is not legimate!')
             if (l.K != b.K):
@@ -20,6 +23,11 @@ class Simulator:
 
         self.bandit = b
         self.learners = lList
+
+
+class RegretMinimizationSimulator(Simulator):
+    def __init_(self, b, lList):
+        Simulator.__init__(self, b, lList)
 
     def sim(self, horizon, breakpoints, trials):
         results = dict()
@@ -42,4 +50,3 @@ class Simulator:
             results[l.getName()] = regret
 
         return results
-    

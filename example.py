@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from arm import BernoulliArm
-from bandit import RegretBandit
+from bandit import Bandit
 from draw import draw
 from learner import Uniform, UCB
-from simulator import Simulator
+from simulator import RegretMinimizationSimulator
 
 if __name__ == '__main__':
     means = [0.3, 0.7]
@@ -13,9 +13,9 @@ if __name__ == '__main__':
         arms.append(BernoulliArm(mean))
 
     randomSeed = 0
-    bandit = RegretBandit(arms, randomSeed)
+    bandit = Bandit(arms, randomSeed)
     learners = [Uniform(K), UCB(K, 2)]
-    simulator = Simulator(bandit, learners)
+    simulator = RegretMinimizationSimulator(bandit, learners)
 
     horizon = 1000
     breakpoints = []

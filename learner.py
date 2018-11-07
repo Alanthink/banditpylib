@@ -36,9 +36,17 @@ class Learner:
         self.rewards = 0
 
 
-class Uniform(Learner):
+class RegretMinimizationLearner(Learner):
     def __init__(self, K):
         Learner.__init__(self, K)
+
+    def goal(self):
+        return "Minimize the regret"
+
+
+class Uniform(RegretMinimizationLearner):
+    def __init__(self, K):
+        RegretMinimizationLearner.__init__(self, K)
 
     def choice(self, t):
         return t % self.K
@@ -47,9 +55,9 @@ class Uniform(Learner):
         return 'Uniform'
 
 
-class UCB(Learner):
+class UCB(RegretMinimizationLearner):
     def __init__(self, K, alpha):
-        Learner.__init__(self, K)
+        RegretMinimizationLearner.__init__(self, K)
         self.alpha = alpha
 
     def upperConfidenceBound(self, arm, t):
@@ -67,4 +75,4 @@ class UCB(Learner):
         return armToChoose
 
     def getName(self):
-        return 'UCB'   
+        return 'UCB'

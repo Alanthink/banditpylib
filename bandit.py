@@ -31,11 +31,5 @@ class Bandit:
             log.error('Wrong arm index!')
         return self.arms[ind].pull()
 
-
-class RegretBandit(Bandit):
-    """Regret minimization"""
-    def __init__(self, arms, seed):
-        Bandit.__init__(self, arms, seed)
-
     def regret(self, pulls, rewards):
         return self.bestArm.mean * pulls - rewards

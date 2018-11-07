@@ -11,6 +11,13 @@
 
 A python library for bandit algorithms.
 
+## Implemented Algorithms
+
+### regret minimization
+
+* Uniform
+* UCB
+
 ## Example
 
 See the [example.py](example.py) for details.
