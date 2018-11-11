@@ -1,35 +1,43 @@
-from arm import Arm
+# -*- coding: utf-8 -*-
+"""
+Bandit
+"""
 
-import glog as log
 import numpy as np
+
+from arm import Arm
 
 
 class Bandit:
+    """Base bandit class"""
+
     def __init__(self, arms, seed):
-        if not (type(arms) is list):
-            log.error('Arms should be given in a list!')
+        if not isinstance(arms, list):
+            raise Exception('Arms should be given in a list!')
         for arm in arms:
             if not isinstance(arm, Arm):
-                log.error('Not an arm!')
+                raise Exception('Not an arm!')
         self.arms = arms
 
-        if not (type(seed) is int):
-            log.error('Random seed should be an integer!')
+        if not isinstance(seed, int):
+            raise Exception('Random seed should be an integer!')
         np.random.seed(seed)
 
-        self.K = len(arms)
-        if self.K < 2:
-            log.error('The number of arms should be at least two!')
-        
-        self.bestArm = self.arms[0]
+        self.arm_num = len(arms)
+        if self.arm_num < 2:
+            raise Exception('The number of arms should be at least two!')
+
+        self.best_arm = self.arms[0]
         for arm in self.arms:
-            if arm.mean > self.bestArm.mean:
-                self.bestArm = arm
+            if arm.mean > self.best_arm.mean:
+                self.best_arm = arm
 
     def pull(self, ind):
-        if ind not in range(self.K):
-            log.error('Wrong arm index!')
+        """pull arm"""
+        if ind not in range(self.arm_num):
+            raise Exception('Wrong arm index!')
         return self.arms[ind].pull()
 
     def regret(self, pulls, rewards):
-        return self.bestArm.mean * pulls - rewards
+        """regret compared to the best strategy"""
+        return self.best_arm.mean * pulls - rewards

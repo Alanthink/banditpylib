@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Draw methods
+Figure generating methods
 """
 
 import os

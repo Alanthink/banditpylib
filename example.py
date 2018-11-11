@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Example
+A simple example.
+
+To run, try `python3 example.py` under `banditpylib` root directory.
+The result is output to `out/out.pdf` by default.
 """
 
 from arm import BernoulliArm
