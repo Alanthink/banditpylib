@@ -1,101 +1,133 @@
-import glog as log
+# -*- coding: utf-8 -*-
+"""
+Different strategies
+"""
+
 import numpy as np
 
 
 class EmArm:
+    """Data Structure for storing empirical information of each arm"""
+
     def __init__(self):
         self.pulls = 0
         self.rewards = 0
 
-    def getEmMean(self):
+    def get_em_mean(self):
+        """get empirical mean"""
         if self.pulls == 0:
-            log.error('No empirical mean yet!')
+            raise Exception('No empirical mean yet!')
         return self.rewards / self.pulls
 
     def reset(self):
+        """clear historical records"""
         self.pulls = 0
         self.rewards = 0
 
 
 class Learner:
-    def __init__(self):
-        pass
+    """Base class for learners"""
 
-    def start(self, K):
-        self.K = K
-        self.emArms = [EmArm() for ind in range(self.K)]
+    def __init__(self, K):
+        self.arm_num = K
+        self.em_arms = [EmArm() for ind in range(self.arm_num)]
         self.rewards = 0
 
     def update(self, ind, reward):
-        self.emArms[ind].pulls += 1
-        self.emArms[ind].rewards += reward
+        """update historical record for a specific arm"""
+        self.em_arms[ind].pulls += 1
+        self.em_arms[ind].rewards += reward
         self.rewards += reward
 
     def reset(self):
-        for arm in self.emArms:
+        """clear historical records for all arms"""
+        for arm in self.em_arms:
             arm.reset()
         self.rewards = 0
 
 
 class RegretMinimizationLearner(Learner):
-    def __init__(self):
-        Learner.__init__(self)
+    """Base class for regret minimization learners"""
 
-    def goal(self):
+    def __init__(self, K):
+        Learner.__init__(self, K)
+
+    @classmethod
+    def goal(cls):
+        """return goal of this kind of learners"""
         return "Minimize the regret"
 
 
 class Uniform(RegretMinimizationLearner):
-    def __init__(self):
-        RegretMinimizationLearner.__init__(self)
+    """Naive uniform algorithm: sample each arm the same number of times"""
 
-    def choice(self, t):
-        return t % self.K
+    def __init__(self, K):
+        RegretMinimizationLearner.__init__(self, K)
 
-    def getName(self):
+    def choice(self, time):
+        """return an arm to pull"""
+        return time % self.arm_num
+
+    @classmethod
+    def get_name(cls):
+        """return name of the learner"""
         return 'Uniform'
 
 
 class UCB(RegretMinimizationLearner):
-    def __init__(self, alpha):
-        RegretMinimizationLearner.__init__(self)
+    """UCB"""
+
+    def __init__(self, K, alpha):
+        RegretMinimizationLearner.__init__(self, K)
         self.alpha = alpha
 
-    def upperConfidenceBound(self, arm, t):
-        return arm.getEmMean() + np.sqrt(self.alpha / arm.pulls * np.log(t))
+    def upper_confidence_bound(self, arm, time):
+        """upper confidence bound"""
+        return arm.get_em_mean() + \
+            np.sqrt(self.alpha / arm.pulls * np.log(time))
 
-    def choice(self, t):
-        if (t < self.K):
-            return t % self.K
+    def choice(self, time):
+        """return an arm to pull"""
+        if time < self.arm_num:
+            return time % self.arm_num
 
-        armToChoose = 0
-        for ind in range(self.K):
-            if self.upperConfidenceBound(self.emArms[ind], t) > \
-              self.upperConfidenceBound(self.emArms[armToChoose], t):
-                armToChoose = ind
-        return armToChoose
+        arm_to_pull = 0
+        for ind in range(self.arm_num):
+            if self.upper_confidence_bound(self.em_arms[ind], time) > \
+              self.upper_confidence_bound(self.em_arms[arm_to_pull], time):
+                arm_to_pull = ind
+        return arm_to_pull
 
-    def getName(self):
+    @classmethod
+    def get_name(cls):
+        """return name of the learner"""
         return 'UCB'
 
 
 class MOSS(RegretMinimizationLearner):
-    def __init__(self):
-        RegretMinimizationLearner.__init__(self)
+    """MOSS"""
 
-    def upperConfidenceBound(self, arm, t):
-        return arm.getEmMean() + np.sqrt(2 / arm.pulls * np.log(max(1, t / (self.K * arm.pulls))))
+    def __init__(self, K):
+        RegretMinimizationLearner.__init__(self, K)
 
-    def choice(self, t):
-        if (t < self.K):
-            return t % self.K
+    def upper_confidence_bound(self, arm, time):
+        """upper confidence bound"""
+        return arm.get_em_mean() + np.sqrt(
+            2 / arm.pulls * np.log(max(1, time / (self.arm_num * arm.pulls))))
 
-        armToChoose = 0
-        for ind in range(self.K):
-            if self.upperConfidenceBound(self.emArms[ind], t) > \
-              self.upperConfidenceBound(self.emArms[armToChoose], t):
-                armToChoose = ind
-        return armToChoose
+    def choice(self, time):
+        """return an arm to pull"""
+        if time < self.arm_num:
+            return time % self.arm_num
 
-    def getName(self):
+        arm_to_pull = 0
+        for ind in range(self.arm_num):
+            if self.upper_confidence_bound(self.em_arms[ind], time) > \
+              self.upper_confidence_bound(self.em_arms[arm_to_pull], time):
+                arm_to_pull = ind
+        return arm_to_pull
+
+    @classmethod
+    def get_name(cls):
+        """return name of the learner"""
         return 'MOSS'
