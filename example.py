@@ -9,7 +9,7 @@ The result is output to `out/out.pdf` by default.
 from arm import BernoulliArm
 from bandit import Bandit
 from draw import draw
-from learner import Uniform, UCB, MOSS
+from learner import Uniform, UCB, MOSS, TS
 from simulator import RegretMinimizationSimulator
 
 if __name__ == '__main__':
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     # make sure to get the same result for each run
     random_seed = 0
     bandit = Bandit(arms, random_seed)
-    learners = [Uniform(), UCB(2), MOSS()]
+    learners = [Uniform(), UCB(2), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
 
     horizon = 1000

@@ -56,7 +56,6 @@ class RegretMinimizationLearner(Learner):
     def __init__(self):
         Learner.__init__(self)
 
-    @classmethod
     def goal(cls):
         """return goal of this kind of learners"""
         return "Minimize the regret"
@@ -132,3 +131,28 @@ class MOSS(RegretMinimizationLearner):
     def get_name(cls):
         """return name of the learner"""
         return 'MOSS'
+
+
+class TS(RegretMinimizationLearner):
+    """Thompson Sampling"""
+
+    def __init__(self):
+        RegretMinimizationLearner.__init__(self)
+
+    def choice(self, time):
+        """return an arm to pull"""
+        if time < self.arm_num:
+            return time % self.arm_num
+
+        # each arm has a uniform prior B(1, 1)
+        vir_means = np.zeros(self.arm_num)
+        for arm in range(self.arm_num):
+            a = 1 + self.em_arms[arm].rewards
+            b = 1 + self.em_arms[arm].pulls - self.em_arms[arm].rewards
+            vir_means[arm] = np.random.beta(a, b)
+
+        return np.argmax(vir_means)
+
+    def get_name(cls):
+        """return name of the learner"""
+        return 'TS'

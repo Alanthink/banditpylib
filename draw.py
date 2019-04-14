@@ -15,20 +15,23 @@ def draw(results, out_file):
     breakpoints = results['breakpoints']
 
     with plt.xkcd():
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+
         handlers = []
         legends = []
         for key in results:
             if key != 'breakpoints':
-                handler, = plt.plot(breakpoints, results[key])
+                handler, = ax.plot(breakpoints, results[key])
                 handlers.append(handler)
                 legends.append(key)
 
-        plt.legend(handlers, legends)
-        ax = plt.axes()
-        ax.spines['right'].set_color('none')
-        ax.spines['top'].set_color('none')
-        plt.ylabel('regret', fontweight='bold', fontsize=15)
-        plt.xlabel('horizon', fontweight='bold', fontsize=15)
+        ax.legend(handlers, legends)
+
+        ax.set_ylabel('regret', fontweight='bold', fontsize=15)
+        ax.set_xlabel('horizon', fontweight='bold', fontsize=15)
         print('Output figure to %s' % out_file)
         plt.savefig(out_file, format="pdf")
         plt.close()
