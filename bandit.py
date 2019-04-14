@@ -32,6 +32,10 @@ class Bandit:
             if arm.mean > self.best_arm.mean:
                 self.best_arm = arm
 
+    def get_num_of_arm(self):
+        """return numbe of arms"""
+        return self.arm_num
+
     def pull(self, ind):
         """pull arm"""
         if ind not in range(self.arm_num):

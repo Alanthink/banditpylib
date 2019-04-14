@@ -28,7 +28,11 @@ class EmArm:
 class Learner:
     """Base class for learners"""
 
-    def __init__(self, K):
+    def __init__(self):
+        pass
+
+    def init(self, K):
+        """initialize K arms"""
         self.arm_num = K
         self.em_arms = [EmArm() for ind in range(self.arm_num)]
         self.rewards = 0
@@ -49,8 +53,8 @@ class Learner:
 class RegretMinimizationLearner(Learner):
     """Base class for regret minimization learners"""
 
-    def __init__(self, K):
-        Learner.__init__(self, K)
+    def __init__(self):
+        Learner.__init__(self)
 
     @classmethod
     def goal(cls):
@@ -61,14 +65,13 @@ class RegretMinimizationLearner(Learner):
 class Uniform(RegretMinimizationLearner):
     """Naive uniform algorithm: sample each arm the same number of times"""
 
-    def __init__(self, K):
-        RegretMinimizationLearner.__init__(self, K)
+    def __init__(self):
+        RegretMinimizationLearner.__init__(self)
 
     def choice(self, time):
         """return an arm to pull"""
         return time % self.arm_num
 
-    @classmethod
     def get_name(cls):
         """return name of the learner"""
         return 'Uniform'
@@ -77,8 +80,8 @@ class Uniform(RegretMinimizationLearner):
 class UCB(RegretMinimizationLearner):
     """UCB"""
 
-    def __init__(self, K, alpha):
-        RegretMinimizationLearner.__init__(self, K)
+    def __init__(self, alpha):
+        RegretMinimizationLearner.__init__(self)
         self.alpha = alpha
 
     def upper_confidence_bound(self, arm, time):
@@ -98,7 +101,6 @@ class UCB(RegretMinimizationLearner):
                 arm_to_pull = ind
         return arm_to_pull
 
-    @classmethod
     def get_name(cls):
         """return name of the learner"""
         return 'UCB'
@@ -107,8 +109,8 @@ class UCB(RegretMinimizationLearner):
 class MOSS(RegretMinimizationLearner):
     """MOSS"""
 
-    def __init__(self, K):
-        RegretMinimizationLearner.__init__(self, K)
+    def __init__(self):
+        RegretMinimizationLearner.__init__(self)
 
     def upper_confidence_bound(self, arm, time):
         """upper confidence bound"""
@@ -127,7 +129,6 @@ class MOSS(RegretMinimizationLearner):
                 arm_to_pull = ind
         return arm_to_pull
 
-    @classmethod
     def get_name(cls):
         """return name of the learner"""
         return 'MOSS'

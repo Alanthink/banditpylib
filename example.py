@@ -13,20 +13,18 @@ from learner import Uniform, UCB, MOSS
 from simulator import RegretMinimizationSimulator
 
 if __name__ == '__main__':
-    MEANS = [0.3, 0.5, 0.7]
-    K = len(MEANS)
-    ARMS = [BernoulliArm(mean) for mean in MEANS]
+    means = [0.3, 0.5, 0.7]
+    arms = [BernoulliArm(mean) for mean in means]
+    # make sure to get the same result for each run
+    random_seed = 0
+    bandit = Bandit(arms, random_seed)
+    learners = [Uniform(), UCB(2), MOSS()]
+    simulator = RegretMinimizationSimulator(bandit, learners)
 
-    RANDOM_SEED = 0
-    HORIZON = 1000
-    # record regret every other `interval` times
-    INTERVAL = 20
-    TRIALS = 100
+    horizon = 1000
+    # record regret every `gap` times
+    gap = 20
+    trials = 100
 
-    BANDIT = Bandit(ARMS, RANDOM_SEED)
-    LEARNERS = [Uniform(K), UCB(K, 2), MOSS(K)]
-    SIMULATOR = RegretMinimizationSimulator(BANDIT, LEARNERS)
-
-    RESULTS = SIMULATOR.sim(HORIZON, INTERVAL, TRIALS)
-
-    draw(RESULTS, 'out/out.pdf')
+    results = simulator.sim(horizon, gap, trials)
+    draw(results, 'out/out.pdf')

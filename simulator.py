@@ -15,14 +15,19 @@ class Simulator:  # pylint: disable=too-few-public-methods
             raise Exception('Not a legimate bandit!')
         if not isinstance(learners, list):
             raise Exception('Learners should be given in a list!')
-        if len(learners) < 1:
+        if not learners:
             raise Exception('There should be at least one learner!')
+
         goal = learners[0].goal()
         for learner in learners:
             if learner.goal() != goal:
                 raise Exception('Some learner has different goal!')
             if not isinstance(learner, Learner):
                 raise Exception('Some learner is not legimate!')
+
+        # initialize all learners
+        for learner in learners:
+            learner.init(bandit.get_num_of_arm())
 
         self.bandit = bandit
         self.learners = learners
