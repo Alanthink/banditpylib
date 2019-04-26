@@ -21,7 +21,7 @@ if __name__ == '__main__':
     learners = [Uniform(), UCB(2), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
 
-    horizon = 1000
+    horizon = 2000
     # record regret every `gap` times
     gap = 20
     trials = 100

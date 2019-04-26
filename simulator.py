@@ -43,6 +43,10 @@ class RegretMinimizationSimulator(Simulator):
     def sim(self, horizon, interval, trials):
         # pylint: disable=too-many-locals
         """Simulation method"""
+
+        for learner in self.learners:
+            learner.pass_horizon(horizon)
+
         breakpoints = []
         for i in range(horizon + 1):
             if i % interval == 0:

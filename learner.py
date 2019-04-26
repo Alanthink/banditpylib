@@ -43,6 +43,10 @@ class Learner:
         self.em_arms[ind].rewards += reward
         self.rewards += reward
 
+    def pass_horizon(self, horizon):
+        """pass the horizon to the learner"""
+        self.horizon = horizon
+
     def reset(self):
         """clear historical records for all arms"""
         for arm in self.em_arms:
@@ -93,12 +97,11 @@ class UCB(RegretMinimizationLearner):
         if time < self.arm_num:
             return time % self.arm_num
 
-        arm_to_pull = 0
+        upper_bound = np.zeros(self.arm_num)
         for ind in range(self.arm_num):
-            if self.upper_confidence_bound(self.em_arms[ind], time) > \
-              self.upper_confidence_bound(self.em_arms[arm_to_pull], time):
-                arm_to_pull = ind
-        return arm_to_pull
+            upper_bound[ind] = self.upper_confidence_bound(self.em_arms[ind],
+                                                           time)
+        return np.argmax(upper_bound)
 
     def get_name(cls):
         """return name of the learner"""
@@ -114,19 +117,19 @@ class MOSS(RegretMinimizationLearner):
     def upper_confidence_bound(self, arm, time):
         """upper confidence bound"""
         return arm.get_em_mean() + np.sqrt(
-            2 / arm.pulls * np.log(max(1, time / (self.arm_num * arm.pulls))))
+            max(0, np.log(self.horizon /
+                          (self.arm_num * arm.pulls))) / arm.pulls)
 
     def choice(self, time):
         """return an arm to pull"""
         if time < self.arm_num:
             return time % self.arm_num
 
-        arm_to_pull = 0
+        upper_bound = np.zeros(self.arm_num)
         for ind in range(self.arm_num):
-            if self.upper_confidence_bound(self.em_arms[ind], time) > \
-              self.upper_confidence_bound(self.em_arms[arm_to_pull], time):
-                arm_to_pull = ind
-        return arm_to_pull
+            upper_bound[ind] = self.upper_confidence_bound(self.em_arms[ind],
+                                                           time)
+        return np.argmax(upper_bound)
 
     def get_name(cls):
         """return name of the learner"""
