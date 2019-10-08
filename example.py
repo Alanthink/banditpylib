@@ -8,18 +8,24 @@ The result is output to `out/out.pdf` by default.
 import os
 
 from absl import app
+from absl import logging
 from absl import flags
 
 from arm import BernoulliArm
 from bandit import Bandit
-from draw import draw
+from draw import draw_figure
 from learner import Uniform, UCB, MOSS, TS
 from simulator import RegretMinimizationSimulator
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('dir', 'out', 'Output directory.')
-flags.DEFINE_string('filename', 'out.pdf', 'Output filename.')
+flags.DEFINE_string('dir', 'out', 'output directory.')
+flags.DEFINE_string('data_filename', 'data', 'output data filename.')
+flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename.')
+
+# DEBUG, INFO, WARN, ERROR, FATAL
+# For debugging purpose
+logging.set_verbosity(logging.INFO)
 
 
 def main(argv):
@@ -27,19 +33,18 @@ def main(argv):
 
   means = [0.3, 0.5, 0.7]
   arms = [BernoulliArm(mean) for mean in means]
-  # make sure to get the same result for each run
-  random_seed = 0
-  bandit = Bandit(arms, random_seed)
-  learners = [Uniform(), UCB(2), MOSS(), TS()]
+  bandit = Bandit(arms)
+  learners = [Uniform(), UCB(), MOSS(), TS()]
   simulator = RegretMinimizationSimulator(bandit, learners)
 
-  horizon = 2000
-  # record regret every `gap` times
-  gap = 20
-  trials = 100
+  data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
+  figure_file = os.path.join(FLAGS.dir, FLAGS.figure_filename)
 
-  results = simulator.sim(horizon, gap, trials)
-  draw(results, os.path.join(FLAGS.dir, FLAGS.filename))
+  horizon = 2000
+  simulator.sim(horizon, data_file)
+  draw_figure(data_file, figure_file)
+
+  os.remove(data_file)
 
 
 if __name__ == '__main__':

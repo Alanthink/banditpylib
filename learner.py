@@ -60,7 +60,7 @@ class RegretMinimizationLearner(Learner):
 
   def __init__(self):
     Learner.__init__(self)
-    self.goal = 'Minimize the regret'
+    self.goal = 'Regret minimization'
 
 
 class Uniform(RegretMinimizationLearner):
@@ -72,13 +72,13 @@ class Uniform(RegretMinimizationLearner):
 
   def choice(self, time):
     """return an arm to pull"""
-    return time % self.arm_num
+    return (time-1) % self.arm_num
 
 
 class UCB(RegretMinimizationLearner):
   """UCB"""
 
-  def __init__(self, alpha):
+  def __init__(self, alpha=2):
     RegretMinimizationLearner.__init__(self)
     self.alpha = alpha
     self.name = 'UCB'
@@ -90,8 +90,8 @@ class UCB(RegretMinimizationLearner):
 
   def choice(self, time):
     """return an arm to pull"""
-    if time < self.arm_num:
-      return time % self.arm_num
+    if time <= self.arm_num:
+      return (time-1) % self.arm_num
 
     upper_bound = np.zeros(self.arm_num)
     for ind in range(self.arm_num):
@@ -114,8 +114,8 @@ class MOSS(RegretMinimizationLearner):
 
   def choice(self, time):
     """return an arm to pull"""
-    if time < self.arm_num:
-      return time % self.arm_num
+    if time <= self.arm_num:
+      return (time-1) % self.arm_num
 
     upper_bound = np.zeros(self.arm_num)
     for ind in range(self.arm_num):
@@ -128,12 +128,12 @@ class TS(RegretMinimizationLearner):
 
   def __init__(self):
     RegretMinimizationLearner.__init__(self)
-    self.name = 'TS'
+    self.name = 'Thompson Sampling'
 
   def choice(self, time):
     """return an arm to pull"""
-    if time < self.arm_num:
-      return time % self.arm_num
+    if time <= self.arm_num:
+      return (time-1) % self.arm_num
 
     # each arm has a uniform prior B(1, 1)
     vir_means = np.zeros(self.arm_num)

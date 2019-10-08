@@ -2,7 +2,6 @@
 Bandit
 """
 
-import numpy as np
 from absl import logging
 
 from arm import Arm
@@ -11,17 +10,13 @@ from arm import Arm
 class Bandit:
   """Base bandit class"""
 
-  def __init__(self, arms, seed):
+  def __init__(self, arms):
     if not isinstance(arms, list):
       logging.fatal('Arms should be given in a list!')
     for arm in arms:
       if not isinstance(arm, Arm):
         logging.fatal('Not an arm!')
     self.arms = arms
-
-    if not isinstance(seed, int):
-      logging.fatal('Random seed should be an integer!')
-    np.random.seed(seed)
 
     self.arm_num = len(arms)
     if self.arm_num < 2:
