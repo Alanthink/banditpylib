@@ -3,6 +3,7 @@ Simulators for doing experiments
 """
 
 import json
+import time
 
 from multiprocessing import Process
 
@@ -106,4 +107,6 @@ class RegretMinimizationSimulator(Simulator):
     with open(output_path, 'w') as output_file:
       for learner in self.learners:
         logging.info('Run learner %s' % learner.name)
+        start_time = time.time()
         self.multi_proc_helper(learner, horizon, breakpoints, output_file, trials, processors)
+        logging.info('%.2f seconds used' % (time.time()-start_time))
