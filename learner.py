@@ -1,6 +1,8 @@
 """
-Different strategies
+Learners under the classic bandit model.
 """
+
+from abc import ABC, abstractmethod
 
 import numpy as np
 
@@ -26,48 +28,80 @@ class EmArm:
     self.rewards = 0
 
 
-class Learner:
-  """Base class for learners"""
+class Learner(ABC):
+  """Abstract class for learners"""
 
-  def __init__(self):
+  @abstractmethod
+  def init(self, bandit):
     pass
 
-  def init(self, K):
-    """initialize K arms"""
-    self.arm_num = K
-    self.em_arms = [EmArm() for ind in range(self.arm_num)]
-    self.rewards = 0
-
-  def update(self, ind, reward):
-    """update historical record for a specific arm"""
-    self.em_arms[ind].pulls += 1
-    self.em_arms[ind].rewards += reward
-    self.rewards += reward
+  @abstractmethod
+  def update(self, action, feedback):
+    pass
 
   def pass_horizon(self, horizon):
     """pass the horizon to the learner"""
     self.horizon = horizon
 
+  @abstractmethod
+  def reset(self):
+    pass
+
+  @abstractmethod
+  def choice(self, time):
+    pass
+
+  def get_goal(self):
+    return self.goal
+
+  def get_name(self):
+    return self.name
+
+  def get_rewards(self):
+    return self.rewards
+
+
+class BanditLearner(Learner):
+  """Base class for learners in the classic bandit model"""
+
+  def init(self, bandit):
+    """initialization"""
+    if bandit.get_type() != 'classicbandit':
+      logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
+    self.arm_num = bandit.get_arm_num()
+
+  def update(self, action, feedback):
+    """update historical record for a specific arm"""
+    self.em_arms[action].pulls += 1
+    self.em_arms[action].rewards += feedback
+    self.rewards += feedback
+
   def reset(self):
     """clear historical records for all arms"""
-    for arm in self.em_arms:
-      arm.reset()
+    self.em_arms = [EmArm() for ind in range(self.arm_num)]
     self.rewards = 0
 
+  @abstractmethod
+  def choice(self, time):
+    pass
 
-class RegretMinimizationLearner(Learner):
+
+class RegretMinimizationLearner(BanditLearner):
   """Base class for regret minimization learners"""
 
   def __init__(self):
-    Learner.__init__(self)
     self.goal = 'Regret minimization'
+
+  @abstractmethod
+  def choice(self, time):
+    pass
 
 
 class Uniform(RegretMinimizationLearner):
   """Naive uniform algorithm: sample each arm the same number of times"""
 
   def __init__(self):
-    RegretMinimizationLearner.__init__(self)
+    super().__init__()
     self.name = 'Uniform'
 
   def choice(self, time):
@@ -79,7 +113,7 @@ class UCB(RegretMinimizationLearner):
   """UCB"""
 
   def __init__(self, alpha=2):
-    RegretMinimizationLearner.__init__(self)
+    super().__init__()
     self.alpha = alpha
     self.name = 'UCB'
 
@@ -103,8 +137,9 @@ class MOSS(RegretMinimizationLearner):
   """MOSS"""
 
   def __init__(self):
-    RegretMinimizationLearner.__init__(self)
+    super().__init__()
     self.name = 'MOSS'
+    logging.info('(MOSS) I am using the horizon.')
 
   def upper_confidence_bound(self, arm, time):
     """upper confidence bound"""
@@ -127,7 +162,7 @@ class TS(RegretMinimizationLearner):
   """Thompson Sampling"""
 
   def __init__(self):
-    RegretMinimizationLearner.__init__(self)
+    super().__init__()
     self.name = 'Thompson Sampling'
 
   def choice(self, time):

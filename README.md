@@ -9,20 +9,34 @@
                               |_|    |___/                
 ```
 
-A python library for bandit algorithms, which supports multiprocessors.
+A python library for bandit algorithms.
+
+## Features
+
+* Multiprocessors
+* Classic Bandit
+* MNL Bandit (alpha version)
 
 ## Implemented Algorithms
 
-### regret minimization
+### Classic Bandit
+
+#### regret minimization
 
 * Uniform
 * UCB [[1]](#ACF02)
 * MOSS [[2]](#AB09)
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
 
+### MNL Bandit
+
+#### regret minimization
+
+* Exploration-Exploitation [[5]](#AAGZ19)
+
 ## Example
 
-See the [example.py](example.py) for details.
+See [main.py](main.py) for details.
 
 ## License
 
@@ -40,3 +54,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 2. <a name="AB09"></a> Jean-Yves Audibert and Sébastien Bubeck. Minimax Policies for Adversarial and Stochastic Bandits. In COLT, 2009.
 3. <a name="T33"></a> William R Thompson. On the likelihood that one unknown probability exceeds another in view of the evidence of two samples. Biometrika, 25(3/4):285–294, 1933.
 4. <a name="KKM12"></a> Emilie Kaufmann, Nathaniel Korda, and Rémi Munos. Thompson sampling: An asymptotically optimal finite-time analysis. In ALT, pages 199–213, 2012.
+5. <a name="AAGZ19"></a> Shipra Agrawal, Vashist Avadhanula, Vineet Goyal and Assaf Zeevi. MNL-bandit: A dynamic learning approach to assortment selection. In Operations Research, 2019.

@@ -2,21 +2,25 @@
 Arms
 """
 
+from abc import ABC, abstractmethod
+
 import numpy as np
 
 
-class Arm:
-  """Base class for arm"""
+class Arm(ABC):
+  """Base class for an arm in the classic bandit model"""
 
-  def __init__(self, mean):
-    self.mean = mean
+  @abstractmethod
+  def pull(self):
+    pass
 
 
 class BernoulliArm(Arm):
   """Bernoulli arm"""
 
   def __init__(self, mean):
-    Arm.__init__(self, mean)
+    super().__init__()
+    self.mean = mean
 
   def pull(self):
     """return a stochastic reward"""
@@ -27,9 +31,10 @@ class GaussianArm(Arm):
   """Gaussian arm"""
 
   def __init__(self, mu, sigma):
-    Arm.__init__(self, mu)
+    super().__init__()
+    self.mu = mu
     self.sigma = sigma
 
   def pull(self):
     """return a stochastic reward"""
-    return np.random.normal(self.mean, self.sigma, 1)[0]
+    return np.random.normal(self.mu, self.sigma, 1)[0]

@@ -10,7 +10,7 @@ from multiprocessing import Process
 import numpy as np
 from absl import logging
 
-from bandit import Bandit
+from bandit import BanditEnvironment
 from learner import Learner
 
 
@@ -25,16 +25,16 @@ class Simulator:
   """Base class for simulator"""
 
   def __init__(self, bandit, learners, seed=0):
-    if not isinstance(bandit, Bandit):
+    if not isinstance(bandit, BanditEnvironment):
       logging.fatal('Not a legimate bandit!')
     if not isinstance(learners, list):
       logging.fatal('Learners should be given in a list!')
     if not learners:
       logging.fatal('There should be at least one learner!')
 
-    goal = learners[0].goal
+    goal = learners[0].get_goal()
     for learner in learners:
-      if learner.goal != goal:
+      if learner.get_goal() != goal:
         logging.fatal('Some learner has different goal!')
       if not isinstance(learner, Learner):
         logging.fatal('Some learner is not legimate!')
@@ -47,7 +47,7 @@ class Simulator:
 
     # initialize all learners
     for learner in learners:
-      learner.init(bandit.get_num_of_arm())
+      learner.init(bandit)
 
     self.bandit = bandit
     self.learners = learners
@@ -56,8 +56,8 @@ class Simulator:
 class RegretMinimizationSimulator(Simulator):
   """Simulator for regret minimization"""
 
-  def __init_(self, bandit, learners):
-    Simulator.__init__(self, bandit, learners)
+  def __init__(self, bandit, learners):
+    super().__init__(bandit, learners)
 
   def one_run(self, learner, horizon, breakpoints, output_file, seed):
     np.random.seed(seed)
@@ -70,8 +70,8 @@ class RegretMinimizationSimulator(Simulator):
         learner.update(choice, reward)
       if time in breakpoints:
         total_regret[time] = total_regret.get(time, 0) + \
-          self.bandit.regret(time, learner.rewards)
-    json.dump(dict({learner.name: total_regret}), output_file)
+          self.bandit.regret(time, learner.get_rewards())
+    json.dump(dict({learner.get_name(): total_regret}), output_file)
     output_file.write('\n')
     output_file.flush()
 
@@ -86,7 +86,7 @@ class RegretMinimizationSimulator(Simulator):
     for _ in range(trials//processors):
       self.multi_proc(learner, horizon, breakpoints, output_file, processors)
 
-  def sim(self, horizon, output_path, interval=20, trials=200, processors=40):
+  def sim(self, horizon, output_path, interval=20, trials=200, processors=20):
     """Simulation method
 
     Input:
@@ -106,7 +106,7 @@ class RegretMinimizationSimulator(Simulator):
 
     with open(output_path, 'w') as output_file:
       for learner in self.learners:
-        logging.info('Run learner %s' % learner.name)
+        logging.info('Run learner %s' % learner.get_name())
         start_time = time.time()
         self.multi_proc_helper(learner, horizon, breakpoints, output_file, trials, processors)
         logging.info('%.2f seconds used' % (time.time()-start_time))
