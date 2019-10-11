@@ -2,9 +2,10 @@
 Abstract learner
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
-class Learner(ABC):
+
+class Learner():
   """Abstract class for learners"""
 
   @abstractmethod
@@ -15,7 +16,6 @@ class Learner(ABC):
   def rewards(self):
     pass
 
-  @abstractmethod
   def init(self, bandit, horizon):
     self._bandit = bandit
     self._horizon = horizon

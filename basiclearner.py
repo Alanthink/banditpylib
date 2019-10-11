@@ -45,18 +45,15 @@ class EmArm:
 class BanditLearner(Learner):
   """Base class for learners in the classic bandit model"""
 
-  def init(self, bandit, horizon):
-    """initialization"""
-    super().init(bandit, horizon)
+  def local_init(self):
+    """local initialization"""
     if self._bandit.type != 'classicbandit':
       logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
+    self._arm_num = self._bandit.arm_num
 
   @property
   def rewards(self):
     return self.__rewards
-
-  def local_init(self):
-    self._arm_num = self._bandit.arm_num
 
   def update(self, action, feedback):
     """update historical record for a specific arm"""
@@ -150,7 +147,7 @@ class MOSS(RegretMinimizationLearner):
   def __init__(self):
     super().__init__()
     self._name = 'MOSS'
-    logging.info('(MOSS) I am using the horizon.')
+    logging.info('(MOSS) I will use horizon.')
 
   @property
   def name(self):
