@@ -14,17 +14,26 @@ class Arm(ABC):
   def pull(self):
     pass
 
+  @abstractmethod
+  def mean(self):
+    pass
+
 
 class BernoulliArm(Arm):
   """Bernoulli arm"""
 
   def __init__(self, mean):
     super().__init__()
-    self.mean = mean
+    self._mean = mean
 
   def pull(self):
     """return a stochastic reward"""
-    return np.random.binomial(1, self.mean)
+    return np.random.binomial(1, self._mean)
+
+  @property
+  def mean(self):
+    return self._mean
+
 
 
 class GaussianArm(Arm):
@@ -32,9 +41,13 @@ class GaussianArm(Arm):
 
   def __init__(self, mu, sigma):
     super().__init__()
-    self.mu = mu
-    self.sigma = sigma
+    self._mu = mu
+    self._sigma = sigma
 
   def pull(self):
     """return a stochastic reward"""
-    return np.random.normal(self.mu, self.sigma, 1)[0]
+    return np.random.normal(self._mu, self._sigma, 1)[0]
+
+  @property
+  def mean(self):
+    return self._mu

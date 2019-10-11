@@ -26,9 +26,9 @@ class Simulator:
     if not learners:
       logging.fatal('There should be at least one learner!')
 
-    goal = learners[0].get_goal()
+    goal = learners[0].goal
     for learner in learners:
-      if learner.get_goal() != goal:
+      if learner.goal != goal:
         logging.fatal('Some learner has different goal!')
       if not isinstance(learner, Learner):
         logging.fatal('Some learner is not legimate!')
@@ -41,8 +41,8 @@ class Simulator:
     #   logging.fatal('Random seed should be an integer!')
     #   np.random.seed(seed)
 
-    self.bandit = bandit
-    self.learners = learners
+    self._bandit = bandit
+    self._learners = learners
 
 
 class RegretMinimizationSimulator(Simulator):
@@ -54,7 +54,7 @@ class RegretMinimizationSimulator(Simulator):
   def one_run(self, learner, horizon, breakpoints, output_file, seed):
     ############################################################################
     # learner initialization
-    learner.init(self.bandit, horizon)
+    learner.init(self._bandit, horizon)
     ############################################################################
     np.random.seed(seed)
 
@@ -62,12 +62,12 @@ class RegretMinimizationSimulator(Simulator):
     for step in range(horizon + 1):
       if step > 0:
         choice = learner.choice(step)
-        reward = self.bandit.pull(choice)
+        reward = self._bandit.pull(choice)
         learner.update(choice, reward)
       if step in breakpoints:
         total_regret[step] = total_regret.get(step, 0) + \
-          self.bandit.regret(step, learner.get_rewards())
-    json.dump(dict({learner.get_name(): total_regret}), output_file)
+          self._bandit.regret(step, learner.rewards)
+    json.dump(dict({learner.name: total_regret}), output_file)
     output_file.write('\n')
     output_file.flush()
 
@@ -98,8 +98,8 @@ class RegretMinimizationSimulator(Simulator):
         breakpoints.append(i)
 
     with open(output_path, 'w') as output_file:
-      for learner in self.learners:
-        logging.info('run learner %s' % learner.get_name())
+      for learner in self._learners:
+        logging.info('run learner %s' % learner.name)
         start_time = time.time()
         self.multi_proc_helper(learner, horizon, breakpoints, output_file, trials, processors)
         logging.info('%.2f seconds elapsed' % (time.time()-start_time))
