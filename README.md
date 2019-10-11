@@ -13,12 +13,12 @@ A python library for bandit algorithms.
 
 ## TODO
 
-* change variable to protected ones / add property decorators
+* add MNL bandit
 
 ## Features
 
-* Multiprocesses support
-* Classic Bandit
+* support multiprocesses
+* easy to extend
 
 ## Implemented Algorithms
 
@@ -31,15 +31,9 @@ A python library for bandit algorithms.
 * MOSS [[2]](#AB09)
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
 
-### MNL Bandit
-
-#### regret minimization
-
-* Exploration-Exploitation [[5]](#AAGZ19)
-
 ## Example
 
-![output example](figures/example.pdf)
+![output example](figures/example.jpg)
 
 See [main.py](main.py) for details.
 
