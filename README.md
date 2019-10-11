@@ -19,7 +19,6 @@ A python library for bandit algorithms.
 
 * Multiprocesses support
 * Classic Bandit
-* MNL Bandit (alpha version)
 
 ## Implemented Algorithms
 
