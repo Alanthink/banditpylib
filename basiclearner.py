@@ -53,7 +53,7 @@ class BanditLearner(Learner):
 
   @property
   def rewards(self):
-    return self._rewards
+    return self.__rewards
 
   def local_init(self):
     self._arm_num = self._bandit.arm_num
@@ -61,12 +61,12 @@ class BanditLearner(Learner):
   def update(self, action, feedback):
     """update historical record for a specific arm"""
     self._em_arms[action].update(1, feedback)
-    self._rewards += feedback
+    self.__rewards += feedback
 
   def reset(self):
     """clear historical records for all arms"""
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
-    self._rewards = 0
+    self.__rewards = 0
 
   @abstractmethod
   def choice(self, time):
