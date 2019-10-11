@@ -10,11 +10,10 @@ from absl import logging
 
 
 class EmArm:
-  """Data Structure for storing empirical information of each arm"""
+  """Class for storing empirical information of an arm"""
 
   def __init__(self):
-    self.pulls = 0
-    self.rewards = 0
+    self.reset()
 
   def get_em_mean(self):
     """get empirical mean"""
@@ -32,16 +31,19 @@ class Learner(ABC):
   """Abstract class for learners"""
 
   @abstractmethod
-  def init(self, bandit):
+  def init(self, bandit, horizon):
+    self.bandit = bandit
+    self.horizon = horizon
+    self.local_init()
+    self.reset()
+
+  @abstractmethod
+  def local_init(self):
     pass
 
   @abstractmethod
   def update(self, action, feedback):
     pass
-
-  def pass_horizon(self, horizon):
-    """pass the horizon to the learner"""
-    self.horizon = horizon
 
   @abstractmethod
   def reset(self):
@@ -51,24 +53,30 @@ class Learner(ABC):
   def choice(self, time):
     pass
 
+  @abstractmethod
   def get_goal(self):
-    return self.goal
+    pass
 
+  @abstractmethod
   def get_name(self):
-    return self.name
+    pass
 
+  @abstractmethod
   def get_rewards(self):
-    return self.rewards
+    pass
 
 
 class BanditLearner(Learner):
   """Base class for learners in the classic bandit model"""
 
-  def init(self, bandit):
+  def init(self, bandit, horizon):
     """initialization"""
-    if bandit.get_type() != 'classicbandit':
+    super().init(bandit, horizon)
+    if self.bandit.get_type() != 'classicbandit':
       logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
-    self.arm_num = bandit.get_arm_num()
+
+  def local_init(self):
+    self.arm_num = self.bandit.get_arm_num()
 
   def update(self, action, feedback):
     """update historical record for a specific arm"""
@@ -85,6 +93,17 @@ class BanditLearner(Learner):
   def choice(self, time):
     pass
 
+  @abstractmethod
+  def get_goal(self):
+    pass
+
+  @abstractmethod
+  def get_name(self):
+    pass
+
+  def get_rewards(self):
+    return self.rewards
+
 
 class RegretMinimizationLearner(BanditLearner):
   """Base class for regret minimization learners"""
@@ -94,6 +113,13 @@ class RegretMinimizationLearner(BanditLearner):
 
   @abstractmethod
   def choice(self, time):
+    pass
+
+  def get_goal(self):
+    return self.goal
+
+  @abstractmethod
+  def get_name(self):
     pass
 
 
@@ -107,6 +133,9 @@ class Uniform(RegretMinimizationLearner):
   def choice(self, time):
     """return an arm to pull"""
     return (time-1) % self.arm_num
+
+  def get_name(self):
+    return self.name
 
 
 class UCB(RegretMinimizationLearner):
@@ -131,6 +160,9 @@ class UCB(RegretMinimizationLearner):
     for ind in range(self.arm_num):
       upper_bound[ind] = self.upper_confidence_bound(self.em_arms[ind], time)
     return np.argmax(upper_bound)
+
+  def get_name(self):
+    return self.name
 
 
 class MOSS(RegretMinimizationLearner):
@@ -157,6 +189,9 @@ class MOSS(RegretMinimizationLearner):
       upper_bound[ind] = self.upper_confidence_bound(self.em_arms[ind], time)
     return np.argmax(upper_bound)
 
+  def get_name(self):
+    return self.name
+
 
 class TS(RegretMinimizationLearner):
   """Thompson Sampling"""
@@ -178,3 +213,6 @@ class TS(RegretMinimizationLearner):
       vir_means[arm] = np.random.beta(a, b)
 
     return np.argmax(vir_means)
+
+  def get_name(self):
+    return self.name

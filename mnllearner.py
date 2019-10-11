@@ -14,13 +14,15 @@ from utils import search_best_assortment
 class MNLLearner(Learner):
   """Base class for learners in the MNL bandit model"""
 
-  def init(self, bandit):
+  def init(self, bandit, horizon):
     """initialization"""
-    if bandit.get_type() != 'mnlbandit':
+    super().init(bandit, horizon)
+    if self.bandit.get_type() != 'mnlbandit':
       logging.fatal('(mnllearner) I don\'t understand the bandit environment!')
-    self.prod_num = bandit.get_prod_num()
-    self.revenue = bandit.get_revenue()
-    self.reset()
+
+  def local_init(self):
+    self.prod_num = self.bandit.get_prod_num()
+    self.revenue = self.bandit.get_revenue()
 
   @abstractmethod
   def update(self, action, feedback):
@@ -32,6 +34,18 @@ class MNLLearner(Learner):
 
   @abstractmethod
   def choice(self, time):
+    pass
+
+  @abstractmethod
+  def get_goal(self):
+    pass
+
+  @abstractmethod
+  def get_name(self):
+    pass
+
+  @abstractmethod
+  def get_rewards(self):
     pass
 
 
@@ -48,11 +62,21 @@ class RegretMinimizationLearner(MNLLearner):
 
   @abstractmethod
   def reset(self):
-    pass
+    self.rewards = 0
 
   @abstractmethod
   def choice(self, time):
     pass
+
+  def get_goal(self):
+    return self.goal
+
+  @abstractmethod
+  def get_name(self):
+    pass
+
+  def get_rewards(self):
+    return self.rewards
 
 
 class ExplorationExploitation(RegretMinimizationLearner):
@@ -98,3 +122,6 @@ class ExplorationExploitation(RegretMinimizationLearner):
       _, best_assort = search_best_assortment(self.v_ucb, self.revenue)
       self.s_ell = best_assort
     return self.s_ell
+
+  def get_name(self):
+    return self.name

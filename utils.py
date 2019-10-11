@@ -1,3 +1,11 @@
+import time
+
+# for generating random seeds
+def current_time():
+  tem_time = time.time()
+  return int((tem_time-int(tem_time))*10000000)
+
+
 def search(subsets, n, i, path):
   if i == (n+1):
     if path:

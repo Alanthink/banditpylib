@@ -22,7 +22,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'output data filename')
 flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
-flags.DEFINE_enum('behavior', 'all', ['all', 'd', 'f', 'r'],
+flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
     'd:generate the data, f:generate the figure, r:remove the data, all:do everything')
 
 # DEBUG, INFO, WARN, ERROR, FATAL
@@ -36,7 +36,7 @@ def main(argv):
   data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
   figure_file = os.path.join(FLAGS.dir, FLAGS.figure_filename)
 
-  if FLAGS.behavior == 'd' or 'all':
+  if FLAGS.do in ['d', 'all']:
     # data generation
     means = [0.3, 0.5, 0.7]
     arms = [BernoulliArm(mean) for mean in means]
@@ -46,10 +46,10 @@ def main(argv):
 
     horizon = 2000
     simulator.sim(horizon, data_file)
-  if FLAGS.behavior == 'f' or 'all':
+  if FLAGS.do in ['f', 'all']:
     # figure generation
     draw_figure(data_file, figure_file)
-  if FLAGS.behavior == 'r' or 'all':
+  if FLAGS.do in ['r', 'all']:
     # remove generated data
     os.remove(data_file)
 

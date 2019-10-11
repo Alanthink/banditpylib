@@ -11,9 +11,13 @@
 
 A python library for bandit algorithms.
 
+## TODO
+
+* change variable to protected ones / add property decorators
+
 ## Features
 
-* Multiprocessors
+* Multiprocesses support
 * Classic Bandit
 * MNL Bandit (alpha version)
 

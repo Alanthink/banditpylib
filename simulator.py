@@ -12,13 +12,7 @@ from absl import logging
 
 from bandit import BanditEnvironment
 from learner import Learner
-
-
-# for generating random seeds
-def current_time():
-  import time
-  tem_time = time.time()
-  return int((tem_time-int(tem_time))*10000000)
+from utils import current_time
 
 
 class Simulator:
@@ -41,13 +35,11 @@ class Simulator:
 
     logging.info(goal)
 
-    if not isinstance(seed, int):
-      logging.fatal('Random seed should be an integer!')
-      np.random.seed(seed)
-
-    # initialize all learners
-    for learner in learners:
-      learner.init(bandit)
+    del seed
+    # Set random seed only when there is one process
+    # if not isinstance(seed, int):
+    #   logging.fatal('Random seed should be an integer!')
+    #   np.random.seed(seed)
 
     self.bandit = bandit
     self.learners = learners
@@ -60,17 +52,21 @@ class RegretMinimizationSimulator(Simulator):
     super().__init__(bandit, learners)
 
   def one_run(self, learner, horizon, breakpoints, output_file, seed):
+    ############################################################################
+    # learner initialization
+    learner.init(self.bandit, horizon)
+    ############################################################################
     np.random.seed(seed)
+
     total_regret = dict()
-    learner.reset()
-    for time in range(horizon + 1):
-      if time > 0:
-        choice = learner.choice(time)
+    for step in range(horizon + 1):
+      if step > 0:
+        choice = learner.choice(step)
         reward = self.bandit.pull(choice)
         learner.update(choice, reward)
-      if time in breakpoints:
-        total_regret[time] = total_regret.get(time, 0) + \
-          self.bandit.regret(time, learner.get_rewards())
+      if step in breakpoints:
+        total_regret[step] = total_regret.get(step, 0) + \
+          self.bandit.regret(step, learner.get_rewards())
     json.dump(dict({learner.get_name(): total_regret}), output_file)
     output_file.write('\n')
     output_file.flush()
@@ -86,17 +82,14 @@ class RegretMinimizationSimulator(Simulator):
     for _ in range(trials//processors):
       self.multi_proc(learner, horizon, breakpoints, output_file, processors)
 
-  def sim(self, horizon, output_path, interval=20, trials=200, processors=20):
+  def sim(self, horizon, output_path, interval=20, trials=200, processors=40):
     """Simulation method
 
     Input:
-      interval: record regret every `interval` samples
+      interval: record regret every `interval` actions
       trials: total number of independent runs
       processors: maximum number of processors allowed to be used
     """
-
-    for learner in self.learners:
-      learner.pass_horizon(horizon)
 
     # 0 is included
     breakpoints = []
@@ -106,7 +99,7 @@ class RegretMinimizationSimulator(Simulator):
 
     with open(output_path, 'w') as output_file:
       for learner in self.learners:
-        logging.info('Run learner %s' % learner.get_name())
+        logging.info('run learner %s' % learner.get_name())
         start_time = time.time()
         self.multi_proc_helper(learner, horizon, breakpoints, output_file, trials, processors)
-        logging.info('%.2f seconds used' % (time.time()-start_time))
+        logging.info('%.2f seconds elapsed' % (time.time()-start_time))
