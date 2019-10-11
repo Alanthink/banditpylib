@@ -55,7 +55,7 @@ class Bandit(BanditEnvironment):
 
   @property
   def arm_num(self):
-    """return numbe of arms"""
+    """return number of arms"""
     return self._arm_num
 
   @property

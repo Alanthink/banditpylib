@@ -12,26 +12,27 @@ class Learner():
   def name(self):
     pass
 
-  @abstractmethod
-  def rewards(self):
-    pass
-
   def init(self, bandit, horizon):
     self._bandit = bandit
     self._horizon = horizon
-    self.local_init()
-    self.reset()
+    self.model_init()
+    self.goal_init()
+    self.learner_init()
 
   @abstractmethod
-  def local_init(self):
+  def model_init(self):
+    pass
+
+  @abstractmethod
+  def goal_init(self):
+    pass
+
+  @abstractmethod
+  def learner_init(self):
     pass
 
   @abstractmethod
   def update(self, action, feedback):
-    pass
-
-  @abstractmethod
-  def reset(self):
     pass
 
   @abstractmethod

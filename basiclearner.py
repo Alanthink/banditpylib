@@ -45,25 +45,22 @@ class EmArm:
 class BanditLearner(Learner):
   """Base class for learners in the classic bandit model"""
 
-  def local_init(self):
+  def model_init(self):
     """local initialization"""
     if self._bandit.type != 'classicbandit':
       logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
-    self._arm_num = self._bandit.arm_num
 
-  @property
-  def rewards(self):
-    return self.__rewards
+  @abstractmethod
+  def goal_init(self):
+    pass
 
+  @abstractmethod
+  def learner_init(self):
+    pass
+
+  @abstractmethod
   def update(self, action, feedback):
-    """update historical record for a specific arm"""
-    self._em_arms[action].update(1, feedback)
-    self.__rewards += feedback
-
-  def reset(self):
-    """clear historical records for all arms"""
-    self._em_arms = [EmArm() for ind in range(self._arm_num)]
-    self.__rewards = 0
+    pass
 
   @abstractmethod
   def choice(self, time):
@@ -75,6 +72,10 @@ class BanditLearner(Learner):
 
   @abstractmethod
   def name(self):
+    pass
+
+  @abstractmethod
+  def local_update(self, action, feedback):
     pass
 
 
@@ -88,12 +89,33 @@ class RegretMinimizationLearner(BanditLearner):
   def goal(self):
     return self._goal
 
+  @property
+  def rewards(self):
+    return self.__rewards
+
+  def goal_init(self):
+    self._arm_num = self._bandit.arm_num
+    self.__rewards = 0
+
+  def learner_init(self):
+    """clear historical records for all arms"""
+    self._em_arms = [EmArm() for ind in range(self._arm_num)]
+
+  def update(self, action, feedback):
+    """update historical record for a specific arm"""
+    self._em_arms[action].update(1, feedback)
+    self.__rewards += feedback
+    self.local_update(action, feedback)
+
   @abstractmethod
   def choice(self, time):
     pass
 
   @abstractmethod
   def name(self):
+    pass
+
+  def local_update(self, action, feedback):
     pass
 
 
