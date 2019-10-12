@@ -44,8 +44,7 @@ def main(argv):
     learners = [Uniform(), UCB(), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
 
-    horizon = 2000
-    simulator.sim(horizon, data_file)
+    simulator.sim(data_file)
   if FLAGS.do in ['f', 'all']:
     # figure generation
     draw_figure(data_file, figure_file)

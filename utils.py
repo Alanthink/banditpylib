@@ -20,6 +20,7 @@ def search(subsets, n, i, path, K=np.inf):
 
 
 def search_best_assortment(abspar, revenue, K=np.inf):
+  # abspar[0] and revenue[0] are reserved for non-purchase
   # products are numbered from 1
   subsets = []
   search(subsets, len(abspar)-1, 1, [], K)

@@ -37,6 +37,10 @@ A python library for bandit algorithms.
 
 See [main.py](main.py) for details.
 
+## Requirement
+
+See [requirements.txt](requirements.txt) for details.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
