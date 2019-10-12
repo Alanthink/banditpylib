@@ -5,10 +5,15 @@ import utils
 
 class UtilsTests(absltest.TestCase):
 
-  def test_search(self):
+  def test_search_unrestricted(self):
     results = []
     utils.search(results, 3, 1, [])
     self.assertEqual(results, [[1,2,3], [1, 2], [1, 3], [1], [2, 3], [2], [3]])
+
+  def test_search_restricted(self):
+    results = []
+    utils.search(results, 3, 1, [], 1)
+    self.assertEqual(results, [[1], [2], [3]])
 
   def test_search_best_assortment(self):
     best_rev, best_assort = utils.search_best_assortment([1,1,1,1], [0,1,1,1])

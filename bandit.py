@@ -79,7 +79,14 @@ class MNLBandit(BanditEnvironment):
   Products are numbered from 1 to len(abspar) by default. 0 is for non-purchase.
   """
 
-  def __init__(self, abspar, revenue):
+  def __init__(self, abspar, revenue, K=np.inf):
+    """
+    abspar: abstraction parameters of products
+    revenue: revenue of products
+    K: the cardinality upper bound of every assortment
+
+    abspar[0] and revenue[0] are reserved for non-purchase
+    """
     logging.info('MNL bandit model')
     if not isinstance(abspar, list) or not isinstance(revenue, list):
       logging.fatal('Parameters should be given in a list!')
@@ -95,12 +102,14 @@ class MNLBandit(BanditEnvironment):
       if rev < 0:
         logging.fatal('Product revenue should be at least 0!')
 
-    self._abspar = [1] + abspar
-    self._revenue = [0] + revenue
-    self._product_num = len(abspar)
+    self._abspar = abspar
+    self._revenue = revenue
+    self._K = K
+    self._product_num = len(abspar)-1
 
     # compute the best revenue
-    self._best_rev, self._best_assort = search_best_assortment(self._abspar, self._revenue)
+    self._best_rev, self._best_assort = search_best_assortment(self._abspar, self._revenue, self._K)
+    logging.info('Best assortment: %s, with revenue: %.3f' % (self._best_assort, self._best_rev))
 
     self._type = 'mnlbandit'
 
@@ -113,13 +122,17 @@ class MNLBandit(BanditEnvironment):
     return self._revenue
 
   @property
+  def K(self):
+    return self._K
+
+  @property
   def type(self):
     return self._type
 
   def pull(self, action):
     """
     Input:
-      action: a list of product numbers
+      action: a list of product indexes
     """
     if not isinstance(action, list):
       logging.fatal('Assortment should be given in a list!')
@@ -134,10 +147,13 @@ class MNLBandit(BanditEnvironment):
       if prod < 1 or prod > self._product_num:
         logging.fatal('Product index should be between 1 and %d' % self._product_num)
 
-    # remove duplicate products
+    # remove duplicate products if possible
     action = list(set(action))
-    denominator = sum([self._abspar[prod] for prod in action]) + 1
-    prob = [1/denominator] + [self._abspar[prod]/denominator for prod in action]
+    if len(action) > self._K:
+      logging.fatal('The assortment has products more than K!')
+
+    denominator = sum([self._abspar[prod] for prod in action]) + self._abspar[0]
+    prob = [self._abspar[0]/denominator] + [self._abspar[prod]/denominator for prod in action]
     observation = np.random.choice(len(prob), 1, p=prob)[0]
     # return (revenue, purchase observation)
     if observation == 0:
