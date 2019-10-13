@@ -22,6 +22,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'output data filename')
 flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
+flags.DEFINE_boolean('debug', False, 'run a simple setup for debug')
 flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
     'd:generate the data, f:generate the figure, r:remove the data, all:do everything')
 
@@ -43,8 +44,10 @@ def main(argv):
     bandit = Bandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
-
-    simulator.sim(data_file)
+    if FLAGS.debug:
+      simulator.sim(data_file, horizon=100, interval=10, trials=1, processors=1)
+    else:
+      simulator.sim(data_file)
   if FLAGS.do in ['f', 'all']:
     # figure generation
     draw_figure(data_file, figure_file)

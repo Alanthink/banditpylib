@@ -55,7 +55,7 @@ def load_regrets(file_name):
     logging.warn('Algorithms are not experimented with the same trials!')
   logging.info('%d independent runs totally' % total_runs[0])
 
-  results = pd.DataFrame({'learners':col_learners, 'horizons': col_horizons, 'regrets': col_regrets})
+  results = pd.DataFrame({'learner':col_learners, 'horizon': col_horizons, 'regret': col_regrets})
 
   return results
 
@@ -65,10 +65,12 @@ def draw_figure(data_file, out_file):
 
   results = load_regrets(data_file)
 
-  sns.lineplot(x='horizons', y='regrets', hue='learners', data=results, ci='sd')
+  print(results.head())
+
+  sns.lineplot(x='horizon', y='regret', hue='learner', data=results, ci='sd')
 
   plt.ylabel('regret', fontweight='bold', fontsize=15)
   plt.xlabel('horizon', fontweight='bold', fontsize=15)
-  logging.info('Output figure to %s' % out_file)
+  logging.info('output figure to %s' % out_file)
   plt.savefig(out_file, format="pdf")
   plt.close()

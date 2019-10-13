@@ -53,21 +53,29 @@ class RegretMinimizationSimulator(Simulator):
 
   def one_run(self, learner, horizon, breakpoints, output_file, seed):
     ############################################################################
+    # bandit initialization
+    self._bandit.init()
     # learner initialization
     learner.init(self._bandit, horizon)
     ############################################################################
     np.random.seed(seed)
 
-    total_regret = dict()
-    for step in range(horizon + 1):
-      if step > 0:
-        choice = learner.choice(step)
-        reward = self._bandit.pull(choice)
-        learner.update(choice, reward)
-      if step in breakpoints:
-        total_regret[step] = total_regret.get(step, 0) + \
-          self._bandit.regret(step, learner.rewards)
-    json.dump(dict({learner.name: total_regret}), output_file)
+    agg_regret = dict()
+    for t in range(horizon + 1):
+      if t > 0:
+        context = self._bandit.context()
+        if context:
+          choice = learner.choice(t, context)
+          reward = self._bandit.pull(context, choice)
+          learner.update(context, choice, reward)
+        else:
+          choice = learner.choice(t)
+          reward = self._bandit.pull(choice)
+          learner.update(choice, reward)
+      if t in breakpoints:
+        agg_regret[t] = agg_regret.get(t, 0) + \
+          self._bandit.regret(learner.rewards)
+    json.dump(dict({learner.name: agg_regret}), output_file)
     output_file.write('\n')
     output_file.flush()
 
@@ -82,11 +90,11 @@ class RegretMinimizationSimulator(Simulator):
     for _ in range(trials//processors):
       self.multi_proc(learner, horizon, breakpoints, output_file, processors)
 
-  def sim(self, output_path, horizon=2000, interval=20, trials=200, processors=40):
+  def sim(self, output_path, horizon=2000, mod=20, trials=200, processors=40):
     """Simulation method
 
     Input:
-      interval: record regret every `interval` actions
+      mod: record regret after every `mod` actions
       trials: total number of independent runs
       processors: maximum number of processors allowed to be used
     """
@@ -94,7 +102,7 @@ class RegretMinimizationSimulator(Simulator):
     # 0 is included
     breakpoints = []
     for i in range(horizon + 1):
-      if i % interval == 0:
+      if i % mod == 0:
         breakpoints.append(i)
 
     with open(output_path, 'w') as output_file:

@@ -59,11 +59,11 @@ class BanditLearner(Learner):
     pass
 
   @abstractmethod
-  def update(self, action, feedback):
+  def update(self, action, feedback): # pylint: disable=arguments-differ
     pass
 
   @abstractmethod
-  def choice(self, time):
+  def choice(self, time): # pylint: disable=arguments-differ
     pass
 
   @abstractmethod

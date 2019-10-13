@@ -15,11 +15,19 @@ class BanditEnvironment(ABC):
   """Abstract bandit environment"""
 
   @abstractmethod
-  def pull(self, action):
+  def init(self):
     pass
 
   @abstractmethod
-  def regret(self, action_num, rewards):
+  def context(self):
+    pass
+
+  @abstractmethod
+  def pull(self):
+    pass
+
+  @abstractmethod
+  def regret(self):
     pass
 
   @abstractmethod
@@ -53,6 +61,12 @@ class Bandit(BanditEnvironment):
 
     self._type = 'classicbandit'
 
+  def init(self):
+    self.__best_rewards = 0
+
+  def context(self):
+    return None
+
   @property
   def arm_num(self):
     """return number of arms"""
@@ -62,15 +76,16 @@ class Bandit(BanditEnvironment):
   def type(self):
     return self._type
 
-  def pull(self, action):
+  def pull(self, arm): # pylint: disable=arguments-differ
     """pull arm"""
-    if action not in range(self._arm_num):
+    if arm not in range(self._arm_num):
       logging.fatal('Wrong arm index!')
-    return self._arms[action].pull()
+    self.__best_rewards += self._best_arm.mean
+    return self._arms[arm].pull()
 
-  def regret(self, action_num, rewards):
+  def regret(self, rewards): # pylint: disable=arguments-differ
     """regret compared to the best strategy"""
-    return self._best_arm.mean * action_num - rewards
+    return self.__best_rewards - rewards
 
 
 class MNLBandit(BanditEnvironment):
@@ -113,6 +128,12 @@ class MNLBandit(BanditEnvironment):
 
     self._type = 'mnlbandit'
 
+  def init(self):
+    self.__best_revenue = 0
+
+  def context(self):
+    return None
+
   @property
   def prod_num(self):
     return self._product_num
@@ -129,36 +150,39 @@ class MNLBandit(BanditEnvironment):
   def type(self):
     return self._type
 
-  def pull(self, action):
+  def pull(self, assortment): # pylint: disable=arguments-differ
     """
     Input:
-      action: a list of product indexes
+      assortment: a list of product indexes
     """
-    if not isinstance(action, list):
+    if not isinstance(assortment, list):
       logging.fatal('Assortment should be given in a list!')
-    if not action:
+    if not assortment:
       logging.fatal('Empty assortment!')
 
-    action = action.copy()
+    assortment = assortment.copy()
 
-    for prod in action:
+    for prod in assortment:
       if not isinstance(prod, int):
         logging.fatal('Product index should be an integer!')
       if prod < 1 or prod > self._product_num:
         logging.fatal('Product index should be between 1 and %d' % self._product_num)
 
     # remove duplicate products if possible
-    action = list(set(action))
-    if len(action) > self._K:
-      logging.fatal('The assortment has products more than K!')
+    assortment = list(set(assortment))
+    if len(assortment) > self._K:
+      logging.fatal('The assortment has products more than %d!' % self._K)
 
-    denominator = sum([self._abspar[prod] for prod in action]) + self._abspar[0]
-    prob = [self._abspar[0]/denominator] + [self._abspar[prod]/denominator for prod in action]
+    denominator = sum([self._abspar[prod] for prod in assortment]) + self._abspar[0]
+    prob = [self._abspar[0]/denominator] + [self._abspar[prod]/denominator for prod in assortment]
     observation = np.random.choice(len(prob), 1, p=prob)[0]
+
+    self.__best_revenue += self._best_rev
+
     # return (revenue, purchase observation)
     if observation == 0:
       return (0, 0)
-    return self._revenue[action[observation-1]], action[observation-1]
+    return self._revenue[assortment[observation-1]], assortment[observation-1]
 
-  def regret(self, action_num, rewards):
-    return self._best_rev * action_num - rewards
+  def regret(self, revenue): # pylint: disable=arguments-differ
+    return self.__best_revenue - revenue

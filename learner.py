@@ -32,11 +32,11 @@ class Learner():
     pass
 
   @abstractmethod
-  def update(self, action, feedback):
+  def update(self):
     pass
 
   @abstractmethod
-  def choice(self, time):
+  def choice(self):
     pass
 
   @abstractmethod
