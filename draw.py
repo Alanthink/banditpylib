@@ -65,8 +65,6 @@ def draw_figure(data_file, out_file):
 
   results = load_regrets(data_file)
 
-  print(results.head())
-
   sns.lineplot(x='horizon', y='regret', hue='learner', data=results, ci='sd')
 
   plt.ylabel('regret', fontweight='bold', fontsize=15)
