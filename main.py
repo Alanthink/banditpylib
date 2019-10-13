@@ -45,7 +45,7 @@ def main(argv):
     learners = [Uniform(), UCB(), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
     if FLAGS.debug:
-      simulator.sim(data_file, horizon=100, interval=10, trials=1, processors=1)
+      simulator.sim(data_file, horizon=100, mod=10, trials=1, processors=1)
     else:
       simulator.sim(data_file)
   if FLAGS.do in ['f', 'all']:
