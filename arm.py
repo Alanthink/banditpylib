@@ -24,15 +24,15 @@ class BernoulliArm(Arm):
 
   def __init__(self, mean):
     super().__init__()
-    self._mean = mean
+    self.__mean = mean
 
   def pull(self):
     """return a stochastic reward"""
-    return np.random.binomial(1, self._mean)
+    return np.random.binomial(1, self.__mean)
 
   @property
   def mean(self):
-    return self._mean
+    return self.__mean
 
 
 
@@ -41,13 +41,13 @@ class GaussianArm(Arm):
 
   def __init__(self, mu, sigma):
     super().__init__()
-    self._mu = mu
-    self._sigma = sigma
+    self.__mu = mu
+    self.__sigma = sigma
 
   def pull(self):
     """return a stochastic reward"""
-    return np.random.normal(self._mu, self._sigma, 1)[0]
+    return np.random.normal(self.__mu, self.__sigma, 1)[0]
 
   @property
   def mean(self):
-    return self._mu
+    return self.__mu

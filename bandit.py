@@ -48,18 +48,18 @@ class Bandit(BanditEnvironment):
     for arm in arms:
       if not isinstance(arm, Arm):
         logging.fatal('Not an arm!')
-    self._arms = arms
+    self.__arms = arms
 
-    self._arm_num = len(arms)
-    if self._arm_num < 2:
+    self.__arm_num = len(arms)
+    if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    self._best_arm = self._arms[0]
-    for arm in self._arms:
-      if arm.mean > self._best_arm.mean:
-        self._best_arm = arm
+    self.__best_arm = self.__arms[0]
+    for arm in self.__arms:
+      if arm.mean > self.__best_arm.mean:
+        self.__best_arm = arm
 
-    self._type = 'classicbandit'
+    self.__type = 'classicbandit'
 
   def init(self):
     self.__best_rewards = 0
@@ -70,18 +70,18 @@ class Bandit(BanditEnvironment):
   @property
   def arm_num(self):
     """return number of arms"""
-    return self._arm_num
+    return self.__arm_num
 
   @property
   def type(self):
-    return self._type
+    return self.__type
 
   def pull(self, arm): # pylint: disable=arguments-differ
     """pull arm"""
-    if arm not in range(self._arm_num):
+    if arm not in range(self.__arm_num):
       logging.fatal('Wrong arm index!')
-    self.__best_rewards += self._best_arm.mean
-    return self._arms[arm].pull()
+    self.__best_rewards += self.__best_arm.mean
+    return self.__arms[arm].pull()
 
   def regret(self, rewards): # pylint: disable=arguments-differ
     """regret compared to the best strategy"""
@@ -117,16 +117,16 @@ class MNLBandit(BanditEnvironment):
       if rev < 0:
         logging.fatal('Product revenue should be at least 0!')
 
-    self._abspar = abspar
-    self._revenue = revenue
-    self._K = K
-    self._product_num = len(abspar)-1
+    self.__abspar = abspar
+    self.__revenue = revenue
+    self.__K = K
+    self.__product_num = len(abspar)-1
 
     # compute the best revenue
-    self._best_rev, self._best_assort = search_best_assortment(self._abspar, self._revenue, self._K)
-    logging.info('Best assortment: %s, with revenue: %.3f' % (self._best_assort, self._best_rev))
+    self.__best_rev, self.__best_assort = search_best_assortment(self.__abspar, self.__revenue, self.__K)
+    logging.info('Best assortment: %s, with revenue: %.3f' % (self.__best_assort, self.__best_rev))
 
-    self._type = 'mnlbandit'
+    self.__type = 'mnlbandit'
 
   def init(self):
     self.__best_revenue = 0
@@ -136,19 +136,19 @@ class MNLBandit(BanditEnvironment):
 
   @property
   def prod_num(self):
-    return self._product_num
+    return self.__product_num
 
   @property
   def revenue(self):
-    return self._revenue
+    return self.__revenue
 
   @property
   def K(self):
-    return self._K
+    return self.__K
 
   @property
   def type(self):
-    return self._type
+    return self.__type
 
   def pull(self, assortment): # pylint: disable=arguments-differ
     """
@@ -165,24 +165,24 @@ class MNLBandit(BanditEnvironment):
     for prod in assortment:
       if not isinstance(prod, int):
         logging.fatal('Product index should be an integer!')
-      if prod < 1 or prod > self._product_num:
-        logging.fatal('Product index should be between 1 and %d' % self._product_num)
+      if prod < 1 or prod > self.__product_num:
+        logging.fatal('Product index should be between 1 and %d' % self.__product_num)
 
     # remove duplicate products if possible
     assortment = list(set(assortment))
-    if len(assortment) > self._K:
-      logging.fatal('The assortment has products more than %d!' % self._K)
+    if len(assortment) > self.__K:
+      logging.fatal('The assortment has products more than %d!' % self.__K)
 
-    denominator = sum([self._abspar[prod] for prod in assortment]) + self._abspar[0]
-    prob = [self._abspar[0]/denominator] + [self._abspar[prod]/denominator for prod in assortment]
+    denominator = sum([self.__abspar[prod] for prod in assortment]) + self.__abspar[0]
+    prob = [self.__abspar[0]/denominator] + [self.__abspar[prod]/denominator for prod in assortment]
     observation = np.random.choice(len(prob), 1, p=prob)[0]
 
-    self.__best_revenue += self._best_rev
+    self.__best_revenue += self.__best_rev
 
     # return (revenue, purchase observation)
     if observation == 0:
       return (0, 0)
-    return self._revenue[assortment[observation-1]], assortment[observation-1]
+    return self.__revenue[assortment[observation-1]], assortment[observation-1]
 
   def regret(self, revenue): # pylint: disable=arguments-differ
     return self.__best_revenue - revenue

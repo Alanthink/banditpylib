@@ -19,27 +19,27 @@ class EmArm:
 
   @property
   def pulls(self):
-    return self._pulls
+    return self.__pulls
 
   @property
   def rewards(self):
-    return self._rewards
+    return self.__rewards
 
   @property
   def em_mean(self):
     """get empirical mean"""
-    if self._pulls == 0:
+    if self.__pulls == 0:
       logging.fatal('No empirical mean yet!')
-    return self._rewards / self._pulls
+    return self.__rewards / self.__pulls
 
   def reset(self):
     """clear historical records"""
-    self._pulls = 0
-    self._rewards = 0
+    self.__pulls = 0
+    self.__rewards = 0
 
   def update(self, pulls, rewards):
-    self._pulls += pulls
-    self._rewards += rewards
+    self.__pulls += pulls
+    self.__rewards += rewards
 
 
 class BanditLearner(Learner):
@@ -83,11 +83,11 @@ class RegretMinimizationLearner(BanditLearner):
   """Base class for regret minimization learners"""
 
   def __init__(self):
-    self._goal = 'Regret minimization'
+    self.__goal = 'Regret minimization'
 
   @property
   def goal(self):
-    return self._goal
+    return self.__goal
 
   @property
   def rewards(self):
@@ -124,11 +124,11 @@ class Uniform(RegretMinimizationLearner):
 
   def __init__(self):
     super().__init__()
-    self._name = 'Uniform'
+    self.__name = 'Uniform'
 
   @property
   def name(self):
-    return self._name
+    return self.__name
 
   def choice(self, time):
     """return an arm to pull"""
@@ -140,17 +140,17 @@ class UCB(RegretMinimizationLearner):
 
   def __init__(self, alpha=2):
     super().__init__()
-    self._alpha = alpha
-    self._name = 'UCB'
+    self.__alpha = alpha
+    self.__name = 'UCB'
 
   @property
   def name(self):
-    return self._name
+    return self.__name
 
   def upper_confidence_bound(self, arm, time):
     """upper confidence bound"""
     return arm.em_mean + \
-        np.sqrt(self._alpha / arm.pulls * np.log(time))
+        np.sqrt(self.__alpha / arm.pulls * np.log(time))
 
   def choice(self, time):
     """return an arm to pull"""
@@ -168,12 +168,12 @@ class MOSS(RegretMinimizationLearner):
 
   def __init__(self):
     super().__init__()
-    self._name = 'MOSS'
+    self.__name = 'MOSS'
     logging.info('(MOSS) I will use horizon.')
 
   @property
   def name(self):
-    return self._name
+    return self.__name
 
   def upper_confidence_bound(self, arm, time):
     """upper confidence bound"""
@@ -197,11 +197,11 @@ class TS(RegretMinimizationLearner):
 
   def __init__(self):
     super().__init__()
-    self._name = 'Thompson Sampling'
+    self.__name = 'Thompson Sampling'
 
   @property
   def name(self):
-    return self._name
+    return self.__name
 
   def choice(self, time):
     """return an arm to pull"""
