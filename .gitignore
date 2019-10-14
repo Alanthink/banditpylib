@@ -1,4 +1,7 @@
 __pycache__/
+bandits/__pycache__/
+learners/__pycache__/
 scripts/
 out/
-mnllearner.py
+bandits/contextmnlbandit.py
+learners/mnllearner.py

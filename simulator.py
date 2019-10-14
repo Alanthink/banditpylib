@@ -10,8 +10,8 @@ from multiprocessing import Process
 import numpy as np
 from absl import logging
 
-from bandit import BanditEnvironment
-from learner import Learner
+from bandits.bandit import BanditEnvironment
+from learners.learner import Learner
 from utils import current_time
 
 

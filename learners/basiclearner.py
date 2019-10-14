@@ -8,7 +8,7 @@ import numpy as np
 
 from absl import logging
 
-from learner import Learner
+from learners.learner import Learner
 
 
 class EmArm:
