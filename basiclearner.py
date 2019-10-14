@@ -144,6 +144,39 @@ class Uniform(RegretMinimizationLearner):
     pass
 
 
+class EpsGreedy(RegretMinimizationLearner):
+  """Epsilon-Greedy Algorithm
+
+  With probability eps/t do uniform sampling and with the left probability,
+  pull arm with the maximum empirical mean.
+  """
+
+  def __init__(self, eps=1):
+    super().__init__()
+    self.__eps = eps
+    self.__name = 'EpsilonGreedy'
+
+  @property
+  def name(self):
+    return self.__name
+
+  def learner_init(self):
+    pass
+
+  def choice(self, context):
+    """return an arm to pull"""
+    if self._t <= self._arm_num:
+      return (self._t-1) % self._arm_num
+
+    rand = np.random.random_sample()
+    if rand <= self.__eps/self._t:
+      return np.random.randint(self._arm_num)
+    return np.argmax(np.array([arm.em_mean for arm in self._em_arms]))
+
+  def learner_update(self, context, action, feedback):
+    pass
+
+
 class UCB(RegretMinimizationLearner):
   """UCB"""
 

@@ -84,7 +84,7 @@ class RegretMinimizationSimulator(Simulator):
     for _ in range(trials//processors):
       self.multi_proc(learner, horizon, breakpoints, output_file, processors)
 
-  def sim(self, output_path, horizon=2000, mod=20, trials=200, processors=40):
+  def sim(self, output_path, horizon=100, mod=10, trials=1, processors=1):
     """Simulation method
 
     Input:

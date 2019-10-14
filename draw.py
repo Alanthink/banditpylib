@@ -60,12 +60,16 @@ def load_regrets(file_name):
   return results
 
 
-def draw_figure(data_file, out_file):
+def draw_figure(data_file, out_file, novar):
   os.makedirs(os.path.dirname(out_file), exist_ok=True)
 
   results = load_regrets(data_file)
 
-  sns.lineplot(x='horizon', y='regret', hue='learner', data=results, ci='sd')
+  if novar:
+    ci_val = None
+  else:
+    ci_val = 'sd'
+  sns.lineplot(x='horizon', y='regret', hue='learner', data=results, ci=ci_val)
 
   plt.ylabel('regret', fontweight='bold', fontsize=15)
   plt.xlabel('horizon', fontweight='bold', fontsize=15)

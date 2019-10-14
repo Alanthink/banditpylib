@@ -23,6 +23,7 @@ flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'output data filename')
 flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
 flags.DEFINE_boolean('debug', False, 'run a simple setup for debug')
+flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
     'd:generate the data, f:generate the figure, r:remove the data, all:do everything')
 
@@ -39,18 +40,25 @@ def main(argv):
 
   if FLAGS.do in ['d', 'all']:
     # data generation
+
+    ############################################################################
+    # to be replaced
     means = [0.3, 0.5, 0.7]
     arms = [BernoulliArm(mean) for mean in means]
     bandit = Bandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
+    (horizon, mod, trials, processors) = (2000, 20, 200, 40)
+    ############################################################################
+
     if FLAGS.debug:
-      simulator.sim(data_file, horizon=100, mod=10, trials=1, processors=1)
-    else:
       simulator.sim(data_file)
+    else:
+      simulator.sim(data_file, horizon, mod, trials, processors)
+
   if FLAGS.do in ['f', 'all']:
     # figure generation
-    draw_figure(data_file, figure_file)
+    draw_figure(data_file, figure_file, FLAGS.novar)
   if FLAGS.do in ['r', 'all']:
     # remove generated data
     os.remove(data_file)

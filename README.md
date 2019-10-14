@@ -19,6 +19,7 @@ A python library for bandit algorithms.
 
 * support multiprocesses
 * easy to extend
+* separate data generation and figure generation
 
 ## Implemented Algorithms
 
@@ -27,6 +28,7 @@ A python library for bandit algorithms.
 #### regret minimization
 
 * Uniform
+* Epsilon Greedy
 * UCB [[1]](#ACF02)
 * MOSS [[2]](#AB09)
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
