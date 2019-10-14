@@ -19,7 +19,6 @@ A python library for bandit algorithms.
 
 * support multiprocesses
 * easy to extend
-* separate data generation and figure generation
 
 ## Implemented Algorithms
 
