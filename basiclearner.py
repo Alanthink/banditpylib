@@ -49,6 +49,9 @@ class BanditLearner(Learner):
     """local initialization"""
     if self._bandit.type != 'classicbandit':
       logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
+    self._arm_num = self._bandit.arm_num
+    # record empirical information for every arm
+    self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
   @abstractmethod
   def goal_init(self):
@@ -58,12 +61,19 @@ class BanditLearner(Learner):
   def learner_init(self):
     pass
 
+  def model_update(self, context, action, feedback):
+    self._em_arms[action].update(1, feedback)
+
   @abstractmethod
-  def update(self, action, feedback): # pylint: disable=arguments-differ
+  def goal_update(self, context, action, feedback):
     pass
 
   @abstractmethod
-  def choice(self, time): # pylint: disable=arguments-differ
+  def learner_update(self, context, action, feedback):
+    pass
+
+  @abstractmethod
+  def choice(self, context):
     pass
 
   @abstractmethod
@@ -72,10 +82,6 @@ class BanditLearner(Learner):
 
   @abstractmethod
   def name(self):
-    pass
-
-  @abstractmethod
-  def local_update(self, action, feedback):
     pass
 
 
@@ -94,28 +100,25 @@ class RegretMinimizationLearner(BanditLearner):
     return self.__rewards
 
   def goal_init(self):
-    self._arm_num = self._bandit.arm_num
     self.__rewards = 0
 
+  @abstractmethod
   def learner_init(self):
-    """clear historical records for all arms"""
-    self._em_arms = [EmArm() for ind in range(self._arm_num)]
+    pass
 
-  def update(self, action, feedback):
-    """update historical record for a specific arm"""
-    self._em_arms[action].update(1, feedback)
+  def goal_update(self, context, action, feedback):
     self.__rewards += feedback
-    self.local_update(action, feedback)
 
   @abstractmethod
-  def choice(self, time):
+  def learner_update(self, context, action, feedback):
+    pass
+
+  @abstractmethod
+  def choice(self, context):
     pass
 
   @abstractmethod
   def name(self):
-    pass
-
-  def local_update(self, action, feedback):
     pass
 
 
@@ -130,9 +133,15 @@ class Uniform(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def choice(self, time):
+  def learner_init(self):
+    pass
+
+  def choice(self, context):
     """return an arm to pull"""
-    return (time-1) % self._arm_num
+    return (self._t) % self._arm_num
+
+  def learner_update(self, context, action, feedback):
+    pass
 
 
 class UCB(RegretMinimizationLearner):
@@ -147,20 +156,26 @@ class UCB(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
+  def learner_init(self):
+    pass
+
   def upper_confidence_bound(self, arm, time):
     """upper confidence bound"""
     return arm.em_mean + \
         np.sqrt(self.__alpha / arm.pulls * np.log(time))
 
-  def choice(self, time):
+  def choice(self, context):
     """return an arm to pull"""
-    if time <= self._arm_num:
-      return (time-1) % self._arm_num
+    if self._t <= self._arm_num:
+      return (self._t-1) % self._arm_num
 
     upper_bound = np.zeros(self._arm_num)
     for ind in range(self._arm_num):
-      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], time)
+      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], (self._t-1))
     return np.argmax(upper_bound)
+
+  def learner_update(self, context, action, feedback):
+    pass
 
 
 class MOSS(RegretMinimizationLearner):
@@ -175,21 +190,27 @@ class MOSS(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
+  def learner_init(self):
+    pass
+
   def upper_confidence_bound(self, arm, time):
     """upper confidence bound"""
     del time
     return arm.em_mean + np.sqrt(
         max(0, np.log(self._horizon / (self._arm_num * arm.pulls))) / arm.pulls)
 
-  def choice(self, time):
+  def choice(self, context):
     """return an arm to pull"""
-    if time <= self._arm_num:
-      return (time-1) % self._arm_num
+    if self._t <= self._arm_num:
+      return (self._t-1) % self._arm_num
 
     upper_bound = np.zeros(self._arm_num)
     for ind in range(self._arm_num):
-      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], time)
+      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], (self._t-1))
     return np.argmax(upper_bound)
+
+  def learner_update(self, context, action, feedback):
+    pass
 
 
 class TS(RegretMinimizationLearner):
@@ -203,10 +224,13 @@ class TS(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def choice(self, time):
+  def learner_init(self):
+    pass
+
+  def choice(self, context):
     """return an arm to pull"""
-    if time <= self._arm_num:
-      return (time-1) % self._arm_num
+    if self._t <= self._arm_num:
+      return (self._t-1) % self._arm_num
 
     # each arm has a uniform prior B(1, 1)
     vir_means = np.zeros(self._arm_num)
@@ -216,3 +240,6 @@ class TS(RegretMinimizationLearner):
       vir_means[arm] = np.random.beta(a, b)
 
     return np.argmax(vir_means)
+
+  def learner_update(self, context, action, feedback):
+    pass

@@ -15,6 +15,7 @@ class Learner():
   def init(self, bandit, horizon):
     self._bandit = bandit
     self._horizon = horizon
+    self._t = 1
     self.model_init()
     self.goal_init()
     self.learner_init()
@@ -31,12 +32,26 @@ class Learner():
   def learner_init(self):
     pass
 
+  def update(self, context, action, feedback):
+    self.model_update(context, action, feedback)
+    self.goal_update(context, action, feedback)
+    self.learner_update(context, action, feedback)
+    self._t += 1
+
   @abstractmethod
-  def update(self):
+  def model_update(self, context, action, feedback):
     pass
 
   @abstractmethod
-  def choice(self):
+  def goal_update(self, context, action, feedback):
+    pass
+
+  @abstractmethod
+  def learner_update(self, context, action, feedback):
+    pass
+
+  @abstractmethod
+  def choice(self, context):
     pass
 
   @abstractmethod

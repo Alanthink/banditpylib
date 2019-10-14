@@ -23,11 +23,11 @@ class BanditEnvironment(ABC):
     pass
 
   @abstractmethod
-  def pull(self):
+  def pull(self, context, action):
     pass
 
   @abstractmethod
-  def regret(self):
+  def regret(self, rewards):
     pass
 
   @abstractmethod
@@ -62,7 +62,7 @@ class Bandit(BanditEnvironment):
     self.__type = 'classicbandit'
 
   def init(self):
-    self.__best_rewards = 0
+    self.__max_rewards = 0
 
   def context(self):
     return None
@@ -76,16 +76,19 @@ class Bandit(BanditEnvironment):
   def type(self):
     return self.__type
 
-  def pull(self, arm): # pylint: disable=arguments-differ
+  def pull(self, context, action):
     """pull arm"""
+    arm = action
+    del action
+
     if arm not in range(self.__arm_num):
       logging.fatal('Wrong arm index!')
-    self.__best_rewards += self.__best_arm.mean
+    self.__max_rewards += self.__best_arm.mean
     return self.__arms[arm].pull()
 
-  def regret(self, rewards): # pylint: disable=arguments-differ
+  def regret(self, rewards):
     """regret compared to the best strategy"""
-    return self.__best_rewards - rewards
+    return self.__max_rewards - rewards
 
 
 class MNLBandit(BanditEnvironment):
@@ -99,8 +102,6 @@ class MNLBandit(BanditEnvironment):
     abspar: abstraction parameters of products
     revenue: revenue of products
     K: the cardinality upper bound of every assortment
-
-    abspar[0] and revenue[0] are reserved for non-purchase
     """
     logging.info('MNL bandit model')
     if not isinstance(abspar, list) or not isinstance(revenue, list):
@@ -117,19 +118,21 @@ class MNLBandit(BanditEnvironment):
       if rev < 0:
         logging.fatal('Product revenue should be at least 0!')
 
-    self.__abspar = abspar
-    self.__revenue = revenue
+    # abspar[0] and revenue[0] are reserved for non-purchase
+    # we are assuming abspar[0]=1 and revenue[0]=0
+    self.__abspar = [1] + abspar
+    self.__revenue = [0] + revenue
     self.__K = K
-    self.__product_num = len(abspar)-1
+    self.__product_num = len(abspar)
 
     # compute the best revenue
     self.__best_rev, self.__best_assort = search_best_assortment(self.__abspar, self.__revenue, self.__K)
-    logging.info('Best assortment: %s, with revenue: %.3f' % (self.__best_assort, self.__best_rev))
+    logging.info('Assortment: %s has best revenue: %.3f' % (self.__best_assort, self.__best_rev))
 
     self.__type = 'mnlbandit'
 
   def init(self):
-    self.__best_revenue = 0
+    self.__max_revenue = 0
 
   def context(self):
     return None
@@ -150,11 +153,14 @@ class MNLBandit(BanditEnvironment):
   def type(self):
     return self.__type
 
-  def pull(self, assortment): # pylint: disable=arguments-differ
+  def pull(self, context, action):
     """
     Input:
-      assortment: a list of product indexes
+      action: a list of product indexes
     """
+    assortment = action
+    del action
+
     if not isinstance(assortment, list):
       logging.fatal('Assortment should be given in a list!')
     if not assortment:
@@ -177,12 +183,14 @@ class MNLBandit(BanditEnvironment):
     prob = [self.__abspar[0]/denominator] + [self.__abspar[prod]/denominator for prod in assortment]
     observation = np.random.choice(len(prob), 1, p=prob)[0]
 
-    self.__best_revenue += self.__best_rev
+    self.__max_revenue += self.__best_rev
 
     # return (revenue, purchase observation)
     if observation == 0:
       return (0, 0)
     return self.__revenue[assortment[observation-1]], assortment[observation-1]
 
-  def regret(self, revenue): # pylint: disable=arguments-differ
-    return self.__best_revenue - revenue
+  def regret(self, rewards):
+    revenue = rewards
+    del rewards
+    return self.__max_revenue - revenue

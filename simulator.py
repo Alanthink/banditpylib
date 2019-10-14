@@ -64,17 +64,11 @@ class RegretMinimizationSimulator(Simulator):
     for t in range(horizon + 1):
       if t > 0:
         context = self._bandit.context()
-        if context:
-          choice = learner.choice(t, context)
-          reward = self._bandit.pull(context, choice)
-          learner.update(context, choice, reward)
-        else:
-          choice = learner.choice(t)
-          reward = self._bandit.pull(choice)
-          learner.update(choice, reward)
+        action = learner.choice(context)
+        reward = self._bandit.pull(context, action)
+        learner.update(context, action, reward)
       if t in breakpoints:
-        agg_regret[t] = agg_regret.get(t, 0) + \
-          self._bandit.regret(learner.rewards)
+        agg_regret[t] = self._bandit.regret(learner.rewards)
     json.dump(dict({learner.name: agg_regret}), output_file)
     output_file.write('\n')
     output_file.flush()
