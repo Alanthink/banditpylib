@@ -36,7 +36,7 @@ class EmArm:
   def em_var(self):
     """get empirical variance"""
     if self.__pulls == 0:
-      logging.fatal('No empirical std yet!')
+      logging.fatal('No empirical variance yet!')
     return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
 
   def reset(self):
