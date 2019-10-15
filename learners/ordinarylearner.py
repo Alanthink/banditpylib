@@ -33,11 +33,11 @@ class EmArm:
     return self.__rewards / self.__pulls
 
   @property
-  def em_std(self):
-    """get empirical standard variance"""
+  def em_var(self):
+    """get empirical variance"""
     if self.__pulls == 0:
       logging.fatal('No empirical std yet!')
-    return np.sqrt(self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
+    return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
 
   def reset(self):
     """clear historical records"""
@@ -299,7 +299,7 @@ class UCBV(RegretMinimizationLearner):
       return (self._t-1) % self._arm_num
 
     ucb = [arm.em_mean+
-           np.sqrt(2*self.__eta*arm.em_std/arm.pulls*np.log(self._t))+
+           np.sqrt(2*self.__eta*arm.em_var/arm.pulls*np.log(self._t))+
            3*self.__eta*np.log(self._t)/arm.pulls for arm in self._em_arms]
 
     return np.argmax(ucb)
