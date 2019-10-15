@@ -32,14 +32,23 @@ class EmArm:
       logging.fatal('No empirical mean yet!')
     return self.__rewards / self.__pulls
 
+  @property
+  def em_std(self):
+    """get empirical standard variance"""
+    if self.__pulls == 0:
+      logging.fatal('No empirical std yet!')
+    return np.sqrt(self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
+
   def reset(self):
     """clear historical records"""
     self.__pulls = 0
     self.__rewards = 0
+    self.__sq_rewards = 0
 
   def update(self, pulls, rewards):
     self.__pulls += pulls
     self.__rewards += rewards
+    self.__sq_rewards += rewards**2
 
 
 class BanditLearner(Learner):
@@ -192,20 +201,15 @@ class UCB(RegretMinimizationLearner):
   def learner_init(self):
     pass
 
-  def upper_confidence_bound(self, arm, time):
-    """upper confidence bound"""
-    return arm.em_mean + \
-        np.sqrt(self.__alpha / arm.pulls * np.log(time))
-
   def choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
-    upper_bound = np.zeros(self._arm_num)
-    for ind in range(self._arm_num):
-      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], (self._t-1))
-    return np.argmax(upper_bound)
+    ucb = [arm.em_mean+np.sqrt(self.__alpha/arm.pulls*np.log(self._t))
+        for arm in self._em_arms]
+
+    return np.argmax(ucb)
 
   def learner_update(self, context, action, feedback):
     pass
@@ -226,21 +230,16 @@ class MOSS(RegretMinimizationLearner):
   def learner_init(self):
     pass
 
-  def upper_confidence_bound(self, arm, time):
-    """upper confidence bound"""
-    del time
-    return arm.em_mean + np.sqrt(
-        max(0, np.log(self._horizon / (self._arm_num * arm.pulls))) / arm.pulls)
-
   def choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
-    upper_bound = np.zeros(self._arm_num)
-    for ind in range(self._arm_num):
-      upper_bound[ind] = self.upper_confidence_bound(self._em_arms[ind], (self._t-1))
-    return np.argmax(upper_bound)
+    ucb = [arm.em_mean+
+           np.sqrt(max(0, np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
+           for arm in self._em_arms]
+
+    return np.argmax(ucb)
 
   def learner_update(self, context, action, feedback):
     pass
@@ -273,6 +272,37 @@ class TS(RegretMinimizationLearner):
       vir_means[arm] = np.random.beta(a, b)
 
     return np.argmax(vir_means)
+
+  def learner_update(self, context, action, feedback):
+    pass
+
+
+class UCBV(RegretMinimizationLearner):
+  """UCB-V algorithm"""
+
+  def __init__(self, eta=1.2):
+    """eta should be greater than 1"""
+    super().__init__()
+    self.__name = 'UCBV'
+    self.__eta = eta
+
+  @property
+  def name(self):
+    return self.__name
+
+  def learner_init(self):
+    pass
+
+  def choice(self, context):
+    """return an arm to pull"""
+    if self._t <= self._arm_num:
+      return (self._t-1) % self._arm_num
+
+    ucb = [arm.em_mean+
+           np.sqrt(2*self.__eta*arm.em_std/arm.pulls*np.log(self._t))+
+           3*self.__eta*np.log(self._t)/arm.pulls for arm in self._em_arms]
+
+    return np.argmax(ucb)
 
   def learner_update(self, context, action, feedback):
     pass

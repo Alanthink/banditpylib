@@ -31,6 +31,7 @@ A python library for bandit algorithms.
 * UCB [[1]](#ACF02)
 * MOSS [[2]](#AB09)
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
+* UCBV [[5]](#AMS09)
 
 ## Example
 
@@ -58,3 +59,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 2. <a name="AB09"></a> Jean-Yves Audibert and Sébastien Bubeck. Minimax Policies for Adversarial and Stochastic Bandits. In COLT, 2009.
 3. <a name="T33"></a> William R Thompson. On the likelihood that one unknown probability exceeds another in view of the evidence of two samples. Biometrika, 25(3/4):285–294, 1933.
 4. <a name="KKM12"></a> Emilie Kaufmann, Nathaniel Korda, and Rémi Munos. Thompson sampling: An asymptotically optimal finite-time analysis. In ALT, pages 199–213, 2012.
+5. <a name="AMS09"></a> Jean-Yves Audibert, Rémi Munos, and Csaba Szepesvári. Exploration-exploitation tradeoff using variance estimates in multi-armed bandits. Theoretical Computer Science, 410(19):1876–1902, 2009.
