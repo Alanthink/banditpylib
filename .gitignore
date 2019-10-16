@@ -3,5 +3,3 @@ bandits/__pycache__/
 learners/__pycache__/
 scripts/
 out/
-bandits/contextmnlbandit.py
-learners/mnllearner.py

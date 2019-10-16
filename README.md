@@ -22,7 +22,7 @@ A python library for bandit algorithms.
 
 ## Implemented Algorithms
 
-### Classic Bandit
+### Ordinary Bandit
 
 #### regret minimization
 
@@ -32,6 +32,12 @@ A python library for bandit algorithms.
 * MOSS [[2]](#AB09)
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
 * UCBV [[5]](#AMS09)
+
+### MNL Bandit
+
+#### regret minimization
+
+* Exploration-exploitation [[6]]()
 
 ## Example
 
