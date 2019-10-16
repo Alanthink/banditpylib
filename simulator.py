@@ -10,7 +10,7 @@ from multiprocessing import Process
 import numpy as np
 from absl import logging
 
-from bandits.bandit import BanditEnvironment
+from bandits.environment import Environment
 from learners.learner import Learner
 from utils import current_time
 
@@ -19,7 +19,7 @@ class Simulator:
   """Base class for simulator"""
 
   def __init__(self, bandit, learners, seed=0):
-    if not isinstance(bandit, BanditEnvironment):
+    if not isinstance(bandit, Environment):
       logging.fatal('Not a legimate bandit!')
     if not isinstance(learners, list):
       logging.fatal('Learners should be given in a list!')

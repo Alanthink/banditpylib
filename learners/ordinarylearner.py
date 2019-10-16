@@ -56,8 +56,8 @@ class BanditLearner(Learner):
 
   def model_init(self):
     """local initialization"""
-    if self._bandit.type != 'classicbandit':
-      logging.fatal('(classiclearner) I don\'t understand the bandit environment!')
+    if self._bandit.type != 'ordinarybandit':
+      logging.fatal('(%s) I don\'t understand the bandit environment!' % self.name)
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]

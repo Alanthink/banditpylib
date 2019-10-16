@@ -12,7 +12,7 @@ from absl import logging
 from absl import flags
 
 from arm import BernoulliArm
-from bandits.ordinarybandit import Bandit
+from bandits.bandit import OrdinaryBandit
 from draw import draw_figure
 from learners.ordinarylearner import Uniform, UCB, MOSS, TS
 from simulator import RegretMinimizationSimulator
@@ -45,7 +45,7 @@ def main(argv):
     # to be replaced
     means = [0.3, 0.5, 0.7]
     arms = [BernoulliArm(mean) for mean in means]
-    bandit = Bandit(arms)
+    bandit = OrdinaryBandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
     simulator = RegretMinimizationSimulator(bandit, learners)
     (horizon, mod, trials, processors) = (2000, 20, 200, 40)
