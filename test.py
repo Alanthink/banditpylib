@@ -24,12 +24,12 @@ class UtilsTests(absltest.TestCase):
 class banditTests(absltest.TestCase):
 
   def test_MNL_bandit(self):
-    from bandits.mnlbandit import MNLBandit
+    from bandits.mnlbandit import OrdinaryMNLBandit
     abspar = [0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5]
     revenue = [1,1,1,1,1,1,1,1,1,1]
     # upper bound of cardinality of every assortment
     K = 4
-    bandit = MNLBandit(abspar, revenue, K)
+    bandit = OrdinaryMNLBandit(abspar, revenue, K)
     bandit.init()
     bandit.pull(None, [1])
     bandit.pull(None, [1])

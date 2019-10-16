@@ -8,12 +8,22 @@ from abc import ABC, abstractmethod
 class Environment(ABC):
   """Abstract bandit environment"""
 
+  @property
+  @abstractmethod
+  def type(self):
+    pass
+
+  @property
+  @abstractmethod
+  def context(self):
+    pass
+
   @abstractmethod
   def init(self):
     pass
 
   @abstractmethod
-  def context(self):
+  def _best_pull(self, context):
     pass
 
   @abstractmethod
@@ -22,8 +32,4 @@ class Environment(ABC):
 
   @abstractmethod
   def regret(self, rewards):
-    pass
-
-  @abstractmethod
-  def type(self):
     pass

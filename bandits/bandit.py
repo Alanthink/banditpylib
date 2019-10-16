@@ -1,16 +1,56 @@
+from abc import abstractmethod
 from absl import logging
 
 from arm import Arm
 from bandits.environment import Environment
 
 
-class OrdinaryBandit(Environment):
-  """Classic bandit model
+class Bandit(Environment):
+
+  def init(self):
+    self.__max_rewards = 0
+
+  @property
+  @abstractmethod
+  def arm_num(self):
+    pass
+
+  @property
+  @abstractmethod
+  def type(self):
+    pass
+
+  @property
+  @abstractmethod
+  def context(self):
+    pass
+
+  @abstractmethod
+  def _best_pull(self, context):
+    pass
+
+  def pull(self, context, action):
+    arm = action
+    del action
+
+    best_arm, arms = self._best_pull(context)
+
+    if arm not in range(self.arm_num):
+      logging.fatal('Wrong arm index!')
+    self.__max_rewards += best_arm.mean
+    return arms[arm].pull()
+
+  def regret(self, rewards):
+    return self.__max_rewards - rewards
+
+
+class OrdinaryBandit(Bandit):
+  """Ordinary bandit model
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
   def __init__(self, arms):
-    logging.info('Classic bandit model')
+    logging.info('Ordinary bandit model')
     if not isinstance(arms, list):
       logging.fatal('Arms should be given in a list!')
     for arm in arms:
@@ -22,18 +62,10 @@ class OrdinaryBandit(Environment):
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    self.__best_arm = self.__arms[0]
-    for arm in self.__arms:
-      if arm.mean > self.__best_arm.mean:
-        self.__best_arm = arm
+    sorted_mean = sorted([(arm.mean, arm) for arm in self.__arms], key=lambda x:x[0])
+    self.__best_arm = sorted_mean[-1][1]
 
     self.__type = 'ordinarybandit'
-
-  def init(self):
-    self.__max_rewards = 0
-
-  def context(self):
-    return None
 
   @property
   def arm_num(self):
@@ -44,16 +76,8 @@ class OrdinaryBandit(Environment):
   def type(self):
     return self.__type
 
-  def pull(self, context, action):
-    """pull arm"""
-    arm = action
-    del action
+  def context(self):
+    return None
 
-    if arm not in range(self.__arm_num):
-      logging.fatal('Wrong arm index!')
-    self.__max_rewards += self.__best_arm.mean
-    return self.__arms[arm].pull()
-
-  def regret(self, rewards):
-    """regret compared to the best strategy"""
-    return self.__max_rewards - rewards
+  def _best_pull(self, context):
+    return self.__best_arm, self.__arms

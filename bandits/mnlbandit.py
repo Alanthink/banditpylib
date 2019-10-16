@@ -3,11 +3,11 @@ from absl import logging
 
 import numpy as np
 
-from bandits.bandit import BanditEnvironment
+from bandits.bandit import Environment
 from utils import search_best_assortment
 
 
-class MNLBandit(BanditEnvironment):
+class MNLBandit(Environment):
   """MNL bandit model
 
   Products are numbered from 1 by default. 0 is for non-purchase.
@@ -37,7 +37,7 @@ class MNLBandit(BanditEnvironment):
     pass
 
   @abstractmethod
-  def _best_ans(self, context):
+  def _best_pull(self, context):
     pass
 
   def pull(self, context, action):
@@ -66,7 +66,7 @@ class MNLBandit(BanditEnvironment):
     if len(assortment) > self.card_constraint:
       logging.fatal('The assortment has products more than %d!' % self.card_constraint)
 
-    best_rev, _, abspar, revenue= self._best_ans(context)
+    _, best_rev, abspar, revenue= self._best_pull(context)
 
     denominator = sum([abspar[prod] for prod in assortment]) + 1
     prob = [1/denominator] + [abspar[prod]/denominator for prod in assortment]
@@ -134,5 +134,5 @@ class OrdinaryMNLBandit(MNLBandit):
   def context(self):
     return self.__revenue
 
-  def _best_ans(self, context):
-    return (self.__best_rev, self.__best_assort, self.__abspar, self.__revenue)
+  def _best_pull(self, context):
+    return (self.__best_assort, self.__best_rev, self.__abspar, self.__revenue)
