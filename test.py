@@ -7,12 +7,12 @@ class UtilsTests(absltest.TestCase):
 
   def test_search_unrestricted(self):
     results = []
-    utils.search(results, 3, 1, [])
+    utils.search(results, 4, 1, [])
     self.assertEqual(results, [[1,2,3], [1, 2], [1, 3], [1], [2, 3], [2], [3]])
 
   def test_search_restricted(self):
     results = []
-    utils.search(results, 3, 1, [], 1)
+    utils.search(results, 4, 1, [], 1)
     self.assertEqual(results, [[1], [2], [3]])
 
   def test_search_best_assortment(self):
@@ -25,15 +25,15 @@ class banditTests(absltest.TestCase):
 
   def test_MNL_bandit(self):
     from bandits.mnlbandit import OrdinaryMNLBandit
-    abspar = [0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5]
-    revenue = [1,1,1,1,1,1,1,1,1,1]
+    abspar = [1,0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5]
+    revenue = [0,1,1,1,1,1,1,1,1,1,1]
     # upper bound of cardinality of every assortment
     K = 4
     bandit = OrdinaryMNLBandit(abspar, revenue, K)
     bandit.init()
-    bandit.pull(None, [1])
-    bandit.pull(None, [1])
-    bandit.pull(None, [1])
+    bandit.feed([1])
+    bandit.feed([1])
+    bandit.feed([1])
     self.assertEqual(bandit.regret(0), 2)
 
 

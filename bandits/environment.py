@@ -18,18 +18,28 @@ class Environment(ABC):
   def context(self):
     pass
 
+  @property
+  @abstractmethod
+  def _oracle_context(self):
+    pass
+
   @abstractmethod
   def init(self):
     pass
 
   @abstractmethod
-  def _best_pull(self, context):
+  def _update_context(self):
     pass
 
   @abstractmethod
-  def pull(self, context, action):
+  def _take_action(self, action):
     pass
 
   @abstractmethod
   def regret(self, rewards):
     pass
+
+  def feed(self, action):
+    feedback = self._take_action(action)
+    self._update_context()
+    return feedback

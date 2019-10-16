@@ -19,7 +19,7 @@ class MNLBandit(Environment):
   @property
   @abstractmethod
   def prod_num(self):
-    """Total number of products"""
+    pass
 
   @property
   @abstractmethod
@@ -36,11 +36,16 @@ class MNLBandit(Environment):
   def context(self):
     pass
 
+  @property
   @abstractmethod
-  def _best_pull(self, context):
+  def _oracle_context(self):
     pass
 
-  def pull(self, context, action):
+  @abstractmethod
+  def _update_context(self):
+    pass
+
+  def _take_action(self, action):
     """
     Input:
       action: a list of product indexes
@@ -66,18 +71,16 @@ class MNLBandit(Environment):
     if len(assortment) > self.card_constraint:
       logging.fatal('The assortment has products more than %d!' % self.card_constraint)
 
-    _, best_rev, abspar, revenue= self._best_pull(context)
-
-    denominator = sum([abspar[prod] for prod in assortment]) + 1
-    prob = [1/denominator] + [abspar[prod]/denominator for prod in assortment]
-    observation = np.random.choice(len(prob), 1, p=prob)[0]
-
+    _, best_rev, abspar, revenue = self._oracle_context
     self.__max_revenue += best_rev
 
-    # return (purchase observation, revenue)
-    if observation == 0:
-      return (0, 0)
-    return assortment[observation-1], revenue[assortment[observation-1]]
+    denominator = sum([abspar[prod] for prod in assortment]) + abspar[0]
+    prob = [abspar[0]/denominator] + [abspar[prod]/denominator for prod in assortment]
+    rand = np.random.choice(len(prob), 1, p=prob)[0]
+    # feedback = (purchase observation, revenue)
+    if rand == 0:
+       return (0, 0)
+    return (assortment[rand-1], revenue[assortment[rand-1]])
 
   def regret(self, rewards):
     revenue = rewards
@@ -107,13 +110,13 @@ class OrdinaryMNLBandit(MNLBandit):
       if rev < 0:
         logging.fatal('Product revenue should be at least 0!')
 
-    self.__abspar = abspar
-    self.__revenue = revenue
+    self.__abspar = [1]+abspar
+    self.__revenue = [0]+revenue
     self.__K = K
     self.__product_num = len(abspar)
 
     # compute the best assortment
-    self.__best_rev, self.__best_assort = search_best_assortment([1]+self.__abspar, [0]+self.__revenue, self.__K)
+    self.__best_rev, self.__best_assort = search_best_assortment(self.__abspar, self.__revenue, self.__K)
     logging.info('Assortment %s has best revenue: %.3f.' % (self.__best_assort, self.__best_rev))
 
     self.__type = 'ordinarymnlbandit'
@@ -134,5 +137,9 @@ class OrdinaryMNLBandit(MNLBandit):
   def context(self):
     return self.__revenue
 
-  def _best_pull(self, context):
+  @property
+  def _oracle_context(self):
     return (self.__best_assort, self.__best_rev, self.__abspar, self.__revenue)
+
+  def _update_context(self):
+    pass

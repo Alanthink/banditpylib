@@ -51,7 +51,7 @@ class RegretMinimizationSimulator(Simulator):
   def __init__(self, bandit, learners):
     super().__init__(bandit, learners)
 
-  def one_run(self, learner, horizon, breakpoints, output_file, seed):
+  def one_trial(self, learner, horizon, breakpoints, output_file, seed):
     ############################################################################
     # bandit initialization
     self._bandit.init()
@@ -63,10 +63,10 @@ class RegretMinimizationSimulator(Simulator):
     agg_regret = dict()
     for t in range(horizon + 1):
       if t > 0:
-        context = self._bandit.context()
+        context = self._bandit.context
         action = learner.choice(context)
-        reward = self._bandit.pull(context, action)
-        learner.update(context, action, reward)
+        feedback = self._bandit.feed(action)
+        learner.update(context, action, feedback)
       if t in breakpoints:
         agg_regret[t] = self._bandit.regret(learner.rewards)
     json.dump(dict({learner.name: agg_regret}), output_file)
@@ -74,7 +74,7 @@ class RegretMinimizationSimulator(Simulator):
     output_file.flush()
 
   def multi_proc(self, learner, horizon, breakpoints, output_file, processors):
-    procs = [Process(target=self.one_run, args=(learner, horizon, breakpoints, output_file, current_time())) for _ in range(processors)]
+    procs = [Process(target=self.one_trial, args=(learner, horizon, breakpoints, output_file, current_time())) for _ in range(processors)]
     for proc in procs:
       proc.start()
     for proc in procs:

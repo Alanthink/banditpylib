@@ -10,7 +10,7 @@ def current_time():
 
 
 def search(subsets, n, i, path, K=np.inf):
-  if i == (n+1):
+  if i == n:
     if path:
       subsets.append(path)
     return
@@ -20,16 +20,9 @@ def search(subsets, n, i, path, K=np.inf):
 
 
 def search_best_assortment(abspar, revenue, K=np.inf):
-  # abspar[0] and revenue[0] are reserved for non-purchase
-  # products are numbered from 1
+  # non-purchase is assumed to have abstraction par 1
   subsets = []
-  search(subsets, len(abspar)-1, 1, [], K)
-  best_rev = -1
-  best_assort = []
-  for subset in subsets:
-    denominator = sum([abspar[prod] for prod in subset])+abspar[0]
-    rev = sum([abspar[prod]/denominator*revenue[prod] for prod in subset])
-    if rev > best_rev:
-      best_assort = subset
-      best_rev = rev
-  return best_rev, best_assort
+  search(subsets, len(abspar), 1, [], K)
+  sorted_assort = sorted( [ (sum([abspar[prod]/(sum([abspar[prod] for prod in subset])+1)*revenue[prod]
+      for prod in subset]), subset) for subset in subsets], key=lambda x:x[0] )
+  return sorted_assort[-1]

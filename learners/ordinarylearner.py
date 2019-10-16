@@ -54,7 +54,7 @@ class EmArm:
 class BanditLearner(Learner):
   """Base class for learners in the classic bandit model"""
 
-  def model_init(self):
+  def _model_init(self):
     """local initialization"""
     if self._bandit.type != 'ordinarybandit':
       logging.fatal('(%s) I don\'t understand the bandit environment!' % self.name)
@@ -63,22 +63,22 @@ class BanditLearner(Learner):
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
   @abstractmethod
-  def goal_init(self):
+  def _goal_init(self):
     pass
 
   @abstractmethod
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
-  def model_update(self, context, action, feedback):
+  def _model_update(self, context, action, feedback):
     self._em_arms[action].update(1, feedback)
 
   @abstractmethod
-  def goal_update(self, context, action, feedback):
+  def _goal_update(self, context, action, feedback):
     pass
 
   @abstractmethod
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
   @abstractmethod
@@ -108,18 +108,18 @@ class RegretMinimizationLearner(BanditLearner):
   def rewards(self):
     return self.__rewards
 
-  def goal_init(self):
+  def _goal_init(self):
     self.__rewards = 0
 
   @abstractmethod
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
-  def goal_update(self, context, action, feedback):
+  def _goal_update(self, context, action, feedback):
     self.__rewards += feedback
 
   @abstractmethod
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
   @abstractmethod
@@ -142,14 +142,14 @@ class Uniform(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
     """return an arm to pull"""
     return (self._t) % self._arm_num
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
 
@@ -169,7 +169,7 @@ class EpsGreedy(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
@@ -182,7 +182,7 @@ class EpsGreedy(RegretMinimizationLearner):
       return np.random.randint(self._arm_num)
     return np.argmax(np.array([arm.em_mean for arm in self._em_arms]))
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
 
@@ -198,7 +198,7 @@ class UCB(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
@@ -211,7 +211,7 @@ class UCB(RegretMinimizationLearner):
 
     return np.argmax(ucb)
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
 
@@ -227,7 +227,7 @@ class MOSS(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
@@ -241,7 +241,7 @@ class MOSS(RegretMinimizationLearner):
 
     return np.argmax(ucb)
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
 
@@ -256,7 +256,7 @@ class TS(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
@@ -273,7 +273,7 @@ class TS(RegretMinimizationLearner):
 
     return np.argmax(vir_means)
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass
 
 
@@ -290,7 +290,7 @@ class UCBV(RegretMinimizationLearner):
   def name(self):
     return self.__name
 
-  def learner_init(self):
+  def _learner_init(self):
     pass
 
   def choice(self, context):
@@ -304,5 +304,5 @@ class UCBV(RegretMinimizationLearner):
 
     return np.argmax(ucb)
 
-  def learner_update(self, context, action, feedback):
+  def _learner_update(self, context, action, feedback):
     pass

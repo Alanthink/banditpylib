@@ -20,24 +20,29 @@ class Bandit(Environment):
   def type(self):
     pass
 
-  @property
   @abstractmethod
   def context(self):
     pass
 
+  @property
   @abstractmethod
-  def _best_pull(self, context):
+  def _oracle_context(self):
     pass
 
-  def pull(self, context, action):
+  @abstractmethod
+  def _update_context(self):
+    pass
+
+  def _take_action(self, action):
     arm = action
     del action
 
-    best_arm, arms = self._best_pull(context)
+    best_arm, arms = self._oracle_context
+    self.__max_rewards += best_arm.mean
 
     if arm not in range(self.arm_num):
       logging.fatal('Wrong arm index!')
-    self.__max_rewards += best_arm.mean
+
     return arms[arm].pull()
 
   def regret(self, rewards):
@@ -79,5 +84,9 @@ class OrdinaryBandit(Bandit):
   def context(self):
     return None
 
-  def _best_pull(self, context):
+  @property
+  def _oracle_context(self):
     return self.__best_arm, self.__arms
+
+  def _update_context(self):
+    pass

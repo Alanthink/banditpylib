@@ -53,7 +53,7 @@ def load_regrets(file_name):
       total_runs.append(trials_per_learner[learner])
   if len(total_runs) > 1:
     logging.warn('Algorithms are not experimented with the same trials!')
-  logging.info('%d independent runs totally' % total_runs[0])
+  logging.info('%d independent trials totally' % total_runs[0])
 
   results = pd.DataFrame({'learner':col_learners, 'horizon': col_horizons, 'regret': col_regrets})
 
