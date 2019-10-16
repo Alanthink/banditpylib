@@ -1,5 +1,3 @@
-__pycache__/
-bandits/__pycache__/
-learners/__pycache__/
+*__pycache__*
 scripts/
 out/
