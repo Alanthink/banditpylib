@@ -8,8 +8,14 @@ from abc import abstractmethod
 class Learner():
   """Abstract class for learners"""
 
+  @property
   @abstractmethod
   def name(self):
+    pass
+
+  @property
+  @abstractmethod
+  def goal(self):
     pass
 
   def init(self, bandit, horizon):
@@ -52,8 +58,4 @@ class Learner():
 
   @abstractmethod
   def choice(self, context):
-    pass
-
-  @abstractmethod
-  def goal(self):
     pass

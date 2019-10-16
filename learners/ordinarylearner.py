@@ -85,10 +85,12 @@ class BanditLearner(Learner):
   def choice(self, context):
     pass
 
+  @property
   @abstractmethod
   def goal(self):
     pass
 
+  @property
   @abstractmethod
   def name(self):
     pass
@@ -126,6 +128,7 @@ class RegretMinimizationLearner(BanditLearner):
   def choice(self, context):
     pass
 
+  @property
   @abstractmethod
   def name(self):
     pass

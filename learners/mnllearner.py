@@ -40,10 +40,12 @@ class MNLLearner(Learner):
   def choice(self, context):
     pass
 
+  @property
   @abstractmethod
   def goal(self):
     pass
 
+  @property
   @abstractmethod
   def name(self):
     pass
@@ -74,6 +76,7 @@ class RegretMinimizationLearner(MNLLearner):
   def choice(self, context):
     pass
 
+  @property
   @abstractmethod
   def name(self):
     pass
