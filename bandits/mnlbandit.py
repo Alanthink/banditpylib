@@ -3,7 +3,7 @@ from absl import logging
 
 import numpy as np
 
-from bandits.bandit import Environment
+from bandits.environment import Environment
 from utils import search_best_assortment
 
 
