@@ -20,6 +20,7 @@ class Bandit(Environment):
   def type(self):
     pass
 
+  @property
   @abstractmethod
   def context(self):
     pass
@@ -81,6 +82,7 @@ class OrdinaryBandit(Bandit):
   def type(self):
     return self.__type
 
+  @property
   def context(self):
     return None
 
