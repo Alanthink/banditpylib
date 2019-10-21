@@ -79,7 +79,7 @@ class MNLBandit(Environment):
     rand = np.random.choice(len(prob), 1, p=prob)[0]
     # feedback = (purchase observation, revenue)
     if rand == 0:
-       return (0, 0)
+       return (0, revenue[0])
     return (assortment[rand-1], revenue[assortment[rand-1]])
 
   def regret(self, rewards):
@@ -116,8 +116,10 @@ class OrdinaryMNLBandit(MNLBandit):
     self.__product_num = len(abspar)
 
     # compute the best assortment
-    self.__best_rev, self.__best_assort = search_best_assortment(self.__abspar, self.__revenue, self.__K)
-    logging.info('Assortment %s has best revenue: %.3f.' % (self.__best_assort, self.__best_rev))
+    self.__best_rev, self.__best_assort = search_best_assortment(
+        self.__abspar, self.__revenue, self.__K)
+    logging.info('Assortment %s has best revenue %.3f.' %
+        (self.__best_assort, self.__best_rev))
 
     self.__type = 'ordinarymnlbandit'
 

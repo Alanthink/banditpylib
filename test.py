@@ -1,5 +1,6 @@
 from absl.testing import absltest
 
+import numpy as np
 import utils
 
 
@@ -23,10 +24,10 @@ class UtilsTests(absltest.TestCase):
 
 class banditTests(absltest.TestCase):
 
-  def test_MNL_bandit(self):
+  def test_MNLbandit(self):
     from bandits.mnlbandit import OrdinaryMNLBandit
-    abspar = [1,0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5]
-    revenue = [0,1,1,1,1,1,1,1,1,1,1]
+    abspar = [0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5]
+    revenue = [1,1,1,1,1,1,1,1,1,1]
     # upper bound of cardinality of every assortment
     K = 4
     bandit = OrdinaryMNLBandit(abspar, revenue, K)
