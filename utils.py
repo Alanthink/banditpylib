@@ -23,6 +23,7 @@ def search_best_assortment(abspar, revenue, K=np.inf):
   # non-purchase is assumed to have abstraction par 1
   subsets = []
   search(subsets, len(abspar), 1, [], K)
-  sorted_assort = sorted( [ (sum([abspar[prod]/(sum([abspar[prod] for prod in subset])+1)*revenue[prod]
+  sorted_assort = sorted( [ (sum([abspar[prod]/
+      (sum([abspar[prod] for prod in subset])+1)*revenue[prod]
       for prod in subset]), subset) for subset in subsets], key=lambda x:x[0] )
   return sorted_assort[-1]

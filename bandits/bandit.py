@@ -68,7 +68,8 @@ class OrdinaryBandit(Bandit):
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    sorted_mean = sorted([(arm.mean, arm) for arm in self.__arms], key=lambda x:x[0])
+    sorted_mean = sorted([(arm.mean, arm) for arm in self.__arms],
+        key=lambda x:x[0])
     self.__best_arm = sorted_mean[-1][1]
 
     self.__type = 'ordinarybandit'

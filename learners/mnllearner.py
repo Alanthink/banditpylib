@@ -98,7 +98,8 @@ class ExplorationExploitation(RegretMinimizationLearner):
 
   def _learner_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
-      logging.fatal('(ExplorationExploitation) I don\'t understand the bandit environment!')
+      logging.fatal(
+          '(ExplorationExploitation) I don\'t understand the bandit environment!')
 
     self.__prod_num = self._bandit.prod_num
     self.__revenue = self._bandit.context
@@ -109,7 +110,8 @@ class ExplorationExploitation(RegretMinimizationLearner):
     self.__purchases = np.zeros(self.__prod_num)
     self.__T = np.zeros(self.__prod_num)
     self.__update_epoch = False
-    _, best_assort = search_best_assortment(self.__v_ucb, self.__revenue, self.__K)
+    _, best_assort = search_best_assortment(self.__v_ucb,
+        self.__revenue, self.__K)
     self.__s_ell = best_assort
 
   @property
@@ -118,7 +120,8 @@ class ExplorationExploitation(RegretMinimizationLearner):
 
   def choice(self, context):
     if self.__update_epoch:
-      _, best_assort = search_best_assortment(self.__v_ucb, self.__revenue, self.__K)
+      _, best_assort = search_best_assortment(self.__v_ucb,
+          self.__revenue, self.__K)
       self.__s_ell = best_assort
     return self.__s_ell
 
@@ -136,7 +139,8 @@ class ExplorationExploitation(RegretMinimizationLearner):
         self.__T[prod] += 1
       # calculate self._v_ucb
       bar_v = self.__purchases[self.__T!=0]/self.__T[self.__T!=0]
-      tmp = 48*np.log(np.sqrt(self.__prod_num)*self.__ell+1)/self.__T[self.__T!=0]
+      tmp = 48*np.log(np.sqrt(self.__prod_num)*self.__ell+1)/
+          self.__T[self.__T!=0]
       self.__v_ucb[self.__T!=0] = bar_v + np.sqrt(bar_v*tmp) + tmp
       self.__v_ucb[self.__T==0] = 1
       self.__ell += 1

@@ -66,16 +66,19 @@ class MNLBandit(Environment):
       if not isinstance(prod, int):
         logging.fatal('Product index should be an integer!')
       if prod < 1 or prod > self.prod_num:
-        logging.fatal('Product index should be between 1 and %d!' % self.prod_num)
+        logging.fatal('Product index should be between 1 and %d!' %
+            self.prod_num)
 
     if len(assortment) > self.card_constraint:
-      logging.fatal('The assortment has products more than %d!' % self.card_constraint)
+      logging.fatal('The assortment has products more than %d!' %
+          self.card_constraint)
 
     _, best_rev, abspar, revenue = self._oracle_context
     self.__max_revenue += best_rev
 
     denominator = sum([abspar[prod] for prod in assortment]) + abspar[0]
-    prob = [abspar[0]/denominator] + [abspar[prod]/denominator for prod in assortment]
+    prob = [abspar[0]/denominator] + \
+        [abspar[prod]/denominator for prod in assortment]
     rand = np.random.choice(len(prob), 1, p=prob)[0]
     # feedback = (purchase observation, revenue)
     if rand == 0:
@@ -100,7 +103,8 @@ class OrdinaryMNLBandit(MNLBandit):
       logging.fatal('Parameters should be given in a list!')
 
     if len(abspar) != len(revenue):
-      logging.fatal('Abstract parameter number does not equal to revenue number!')
+      logging.fatal(
+          'Abstract parameter number does not equal to revenue number!')
 
     for par in abspar:
       if par > 1 or par < 0:

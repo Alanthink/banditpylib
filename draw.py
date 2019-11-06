@@ -42,7 +42,8 @@ def load_regrets(file_name):
       trials_per_learner[learner] += 1
       for horizon in horizons:
         if str(horizon) not in regrets:
-          logging.fatal('Regret of T=%d is not recorded for learner %s' % (horizon, learner))
+          logging.fatal('Regret of T=%d is not recorded for learner %s' %
+              (horizon, learner))
         col_horizons.append(horizon)
         col_regrets.append(float(regrets[str(horizon)]))
         col_learners.append(learner)
@@ -55,7 +56,8 @@ def load_regrets(file_name):
     logging.warn('Algorithms are not experimented with the same trials!')
   logging.info('%d independent trials totally' % total_runs[0])
 
-  results = pd.DataFrame({'learner':col_learners, 'horizon': col_horizons, 'regret': col_regrets})
+  results = pd.DataFrame({'learner':col_learners, 'horizon': col_horizons,
+      'regret': col_regrets})
 
   return results
 
@@ -74,5 +76,5 @@ def draw_figure(data_file, out_file, novar):
   plt.ylabel('regret', fontweight='bold', fontsize=15)
   plt.xlabel('horizon', fontweight='bold', fontsize=15)
   logging.info('output figure to %s' % out_file)
-  plt.savefig(out_file, format="pdf")
+  plt.savefig(out_file, format='pdf')
   plt.close()

@@ -74,13 +74,16 @@ class RegretMinimizationSimulator(Simulator):
     output_file.flush()
 
   def multi_proc(self, learner, horizon, breakpoints, output_file, processors):
-    procs = [Process(target=self.one_trial, args=(learner, horizon, breakpoints, output_file, current_time())) for _ in range(processors)]
+    procs = [Process(target=self.one_trial, args=(
+        learner, horizon, breakpoints, output_file, current_time()))
+        for _ in range(processors)]
     for proc in procs:
       proc.start()
     for proc in procs:
       proc.join()
 
-  def multi_proc_helper(self, learner, horizon, breakpoints, output_file, trials, processors):
+  def multi_proc_helper(self, learner, horizon, breakpoints, output_file,
+      trials, processors):
     for _ in range(trials//processors):
       self.multi_proc(learner, horizon, breakpoints, output_file, processors)
 
@@ -103,5 +106,6 @@ class RegretMinimizationSimulator(Simulator):
       for learner in self._learners:
         logging.info('run learner %s' % learner.name)
         start_time = time.time()
-        self.multi_proc_helper(learner, horizon, breakpoints, output_file, trials, processors)
+        self.multi_proc_helper(learner, horizon, breakpoints, output_file,
+            trials, processors)
         logging.info('%.2f seconds elapsed' % (time.time()-start_time))
