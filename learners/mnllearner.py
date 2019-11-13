@@ -99,7 +99,8 @@ class ExplorationExploitation(RegretMinimizationLearner):
   def _learner_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
       logging.fatal(
-          '(ExplorationExploitation) I don\'t understand the bandit environment!')
+          ("(ExplorationExploitation) I don't",
+           " understand the bandit environment!"))
 
     self.__prod_num = self._bandit.prod_num
     self.__revenue = self._bandit.context
@@ -139,7 +140,7 @@ class ExplorationExploitation(RegretMinimizationLearner):
         self.__T[prod] += 1
       # calculate self._v_ucb
       bar_v = self.__purchases[self.__T!=0]/self.__T[self.__T!=0]
-      tmp = 48*np.log(np.sqrt(self.__prod_num)*self.__ell+1)/
+      tmp = 48*np.log(np.sqrt(self.__prod_num)*self.__ell+1) / \
           self.__T[self.__T!=0]
       self.__v_ucb[self.__T!=0] = bar_v + np.sqrt(bar_v*tmp) + tmp
       self.__v_ucb[self.__T==0] = 1

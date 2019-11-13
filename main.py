@@ -25,10 +25,11 @@ flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
 flags.DEFINE_boolean('debug', False, 'run a simple setup for debug')
 flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
-    'd:generate the data, f:generate the figure, r:remove the data, all:do everything')
+    ('d:generate the data,',
+     'f:generate the figure,',
+     'r:remove the data, all:do everything'))
 
 # DEBUG, INFO, WARN, ERROR, FATAL
-# For debugging purpose
 logging.set_verbosity(logging.INFO)
 
 

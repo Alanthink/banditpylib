@@ -57,7 +57,8 @@ class BanditLearner(Learner):
   def _model_init(self):
     """local initialization"""
     if self._bandit.type != 'ordinarybandit':
-      logging.fatal('(%s) I don\'t understand the bandit environment!' % self.name)
+      logging.fatal(("(%s) I don't understand",
+                     " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
@@ -239,7 +240,8 @@ class MOSS(RegretMinimizationLearner):
       return (self._t-1) % self._arm_num
 
     ucb = [arm.em_mean+
-           np.sqrt(max(0, np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
+           np.sqrt(max(0,
+           np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
            for arm in self._em_arms]
 
     return np.argmax(ucb)
