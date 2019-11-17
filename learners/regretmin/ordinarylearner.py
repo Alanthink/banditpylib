@@ -8,9 +8,10 @@ import numpy as np
 
 from absl import logging
 
-from learners.learner import Learner
+from learners.regretmin.regretmin import RegretMinimizationLearner
 
 
+# a useful class
 class EmArm:
   """Class for storing empirical information of an arm"""
 
@@ -51,8 +52,28 @@ class EmArm:
     self.__sq_rewards += rewards**2
 
 
-class BanditLearner(Learner):
+class OrdinaryLearner(RegretMinimizationLearner):
   """Base class for learners in the classic bandit model"""
+
+  @property
+  @abstractmethod
+  def name(self):
+    pass
+
+  @abstractmethod
+  def _learner_init(self):
+    pass
+
+  @abstractmethod
+  def choice(self, context):
+    pass
+
+  @abstractmethod
+  def _learner_update(self, context, action, feedback):
+    pass
+
+  def __init__(self):
+    super().__init__()
 
   def _model_init(self):
     """local initialization"""
@@ -63,88 +84,20 @@ class BanditLearner(Learner):
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
-  @abstractmethod
-  def _goal_init(self):
-    pass
-
-  @abstractmethod
-  def _learner_init(self):
-    pass
-
   def _model_update(self, context, action, feedback):
-    self._em_arms[action].update(1, feedback)
-
-  @abstractmethod
-  def _goal_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def choice(self, context):
-    pass
-
-  @property
-  @abstractmethod
-  def goal(self):
-    pass
-
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+    self._em_arms[action].update(1, feedback[0])
 
 
-class RegretMinimizationLearner(BanditLearner):
-  """Base class for regret minimization learners"""
-
-  def __init__(self):
-    self.__goal = 'Regret minimization'
-
-  @property
-  def goal(self):
-    return self.__goal
-
-  @property
-  def rewards(self):
-    return self.__rewards
-
-  def _goal_init(self):
-    self.__rewards = 0
-
-  @abstractmethod
-  def _learner_init(self):
-    pass
-
-  def _goal_update(self, context, action, feedback):
-    self.__rewards += feedback
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def choice(self, context):
-    pass
-
-  @property
-  @abstractmethod
-  def name(self):
-    pass
-
-
-class Uniform(RegretMinimizationLearner):
+class Uniform(OrdinaryLearner):
   """Naive uniform algorithm: sample each arm the same number of times"""
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'Uniform'
 
   @property
   def name(self):
     return self.__name
+
+  def __init__(self):
+    super().__init__()
+    self.__name = 'Uniform'
 
   def _learner_init(self):
     pass
@@ -157,21 +110,21 @@ class Uniform(RegretMinimizationLearner):
     pass
 
 
-class EpsGreedy(RegretMinimizationLearner):
+class EpsGreedy(OrdinaryLearner):
   """Epsilon-Greedy Algorithm
 
   With probability eps/t do uniform sampling and with the left probability,
   pull arm with the maximum empirical mean.
   """
 
+  @property
+  def name(self):
+    return self.__name
+
   def __init__(self, eps=1):
     super().__init__()
     self.__eps = eps
     self.__name = 'EpsilonGreedy'
-
-  @property
-  def name(self):
-    return self.__name
 
   def _learner_init(self):
     pass
@@ -190,17 +143,17 @@ class EpsGreedy(RegretMinimizationLearner):
     pass
 
 
-class UCB(RegretMinimizationLearner):
+class UCB(OrdinaryLearner):
   """UCB"""
+
+  @property
+  def name(self):
+    return self.__name
 
   def __init__(self, alpha=2):
     super().__init__()
     self.__alpha = alpha
     self.__name = 'UCB'
-
-  @property
-  def name(self):
-    return self.__name
 
   def _learner_init(self):
     pass
@@ -219,17 +172,16 @@ class UCB(RegretMinimizationLearner):
     pass
 
 
-class MOSS(RegretMinimizationLearner):
+class MOSS(OrdinaryLearner):
   """MOSS"""
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'MOSS'
-    logging.info('(MOSS) I will use horizon.')
 
   @property
   def name(self):
     return self.__name
+
+  def __init__(self):
+    super().__init__()
+    self.__name = 'MOSS'
 
   def _learner_init(self):
     pass
@@ -241,7 +193,7 @@ class MOSS(RegretMinimizationLearner):
 
     ucb = [arm.em_mean+
            np.sqrt(max(0,
-           np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
+           np.log(self.horizon/(self._arm_num*arm.pulls)))/arm.pulls)
            for arm in self._em_arms]
 
     return np.argmax(ucb)
@@ -250,16 +202,16 @@ class MOSS(RegretMinimizationLearner):
     pass
 
 
-class TS(RegretMinimizationLearner):
+class TS(OrdinaryLearner):
   """Thompson Sampling"""
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'Thompson Sampling'
 
   @property
   def name(self):
     return self.__name
+
+  def __init__(self):
+    super().__init__()
+    self.__name = 'Thompson Sampling'
 
   def _learner_init(self):
     pass
@@ -282,18 +234,18 @@ class TS(RegretMinimizationLearner):
     pass
 
 
-class UCBV(RegretMinimizationLearner):
+class UCBV(OrdinaryLearner):
   """UCB-V algorithm"""
+
+  @property
+  def name(self):
+    return self.__name
 
   def __init__(self, eta=1.2):
     """eta should be greater than 1"""
     super().__init__()
     self.__name = 'UCBV'
     self.__eta = eta
-
-  @property
-  def name(self):
-    return self.__name
 
   def _learner_init(self):
     pass

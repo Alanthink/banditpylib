@@ -7,89 +7,44 @@ from absl import logging
 
 import numpy as np
 
-from learners.learner import Learner
+from learners.regretmin.regretmin import RegretMinimizationLearner
 from utils import search_best_assortment
 
 
-class MNLLearner(Learner):
+class MNLLearner(RegretMinimizationLearner):
   """Base class for learners in the MNL bandit model"""
 
-  def _model_init(self):
-    pass
-
+  @property
   @abstractmethod
-  def _goal_init(self):
+  def name(self):
     pass
 
   @abstractmethod
   def _learner_init(self):
     pass
+
+  @abstractmethod
+  def choice(self, context):
+    pass
+
+  @abstractmethod
+  def _learner_update(self, context, action, feedback):
+    pass
+
+  def __init__(self):
+    super().__init__()
+
+  def _model_init(self):
+    if self._bandit.type != 'ordinarymnlbandit':
+      logging.fatal(
+          ("(ExplorationExploitation) I don't",
+           " understand the bandit environment!"))
 
   def _model_update(self, context, action, feedback):
     pass
 
-  @abstractmethod
-  def _goal_update(self, context, action, feedback):
-    pass
 
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def choice(self, context):
-    pass
-
-  @property
-  @abstractmethod
-  def goal(self):
-    pass
-
-  @property
-  @abstractmethod
-  def name(self):
-    pass
-
-
-class RegretMinimizationLearner(MNLLearner):
-  """Base class for regret minimization learners"""
-
-  def __init__(self):
-    self.__goal = 'Regret minimization'
-
-  def _goal_init(self):
-    self.__rewards = 0
-
-  @abstractmethod
-  def _learner_init(self):
-    pass
-
-  @property
-  def goal(self):
-    return self.__goal
-
-  @property
-  def rewards(self):
-    return self.__rewards
-
-  @abstractmethod
-  def choice(self, context):
-    pass
-
-  @property
-  @abstractmethod
-  def name(self):
-    pass
-
-  def _goal_update(self, context, action, feedback):
-    self.__rewards += feedback[1]
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
-
-class ExplorationExploitation(RegretMinimizationLearner):
+class ExplorationExploitation(MNLLearner):
   """Exploration-Exploitation algorithm for MNL-Bandit"""
 
   def __init__(self):
@@ -97,11 +52,6 @@ class ExplorationExploitation(RegretMinimizationLearner):
     self.__name = 'Exploration-Exploitation'
 
   def _learner_init(self):
-    if self._bandit.type != 'ordinarymnlbandit':
-      logging.fatal(
-          ("(ExplorationExploitation) I don't",
-           " understand the bandit environment!"))
-
     self.__prod_num = self._bandit.prod_num
     self.__revenue = self._bandit.context
     self.__K = self._bandit.card_constraint
@@ -130,12 +80,12 @@ class ExplorationExploitation(RegretMinimizationLearner):
     """
     Input
       action: a list of product indexes
-      feedback: (purchase observation, revenue)
+      feedback: (revenue, purchase observation)
     """
 
-    self.__purchases[feedback[0]] += 1
+    self.__purchases[feedback[1]] += 1
 
-    if feedback[0] == 0:
+    if feedback[1] == 0:
       for prod in self.__s_ell:
         self.__T[prod] += 1
       # calculate self._v_ucb

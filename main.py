@@ -12,9 +12,9 @@ from absl import logging
 from absl import flags
 
 from arm import BernoulliArm
-from bandits.bandit import OrdinaryBandit
+from bandits.ordinarybandit import OrdinaryBandit
 from draw import draw_figure
-from learners.ordinarylearner import Uniform, UCB, MOSS, TS
+from learners.regretmin.ordinarylearner import Uniform, UCB, MOSS, TS
 from simulator import RegretMinimizationSimulator
 
 FLAGS = flags.FLAGS

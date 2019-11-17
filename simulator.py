@@ -5,12 +5,12 @@ Simulators for doing experiments
 import json
 import time
 
-from multiprocessing import Process
+from multiprocessing import Pool
 
 import numpy as np
 from absl import logging
 
-from bandits.environment import Environment
+from bandits.bandit import Bandit
 from learners.learner import Learner
 from utils import current_time
 
@@ -19,7 +19,7 @@ class Simulator:
   """Base class for simulator"""
 
   def __init__(self, bandit, learners, seed=0):
-    if not isinstance(bandit, Environment):
+    if not isinstance(bandit, Bandit):
       logging.fatal('Not a legimate bandit!')
     if not isinstance(learners, list):
       logging.fatal('Learners should be given in a list!')
@@ -51,7 +51,7 @@ class RegretMinimizationSimulator(Simulator):
   def __init__(self, bandit, learners):
     super().__init__(bandit, learners)
 
-  def one_trial(self, learner, horizon, breakpoints, output_file, seed):
+  def one_trial(self, learner, horizon, breakpoints, seed):
     ############################################################################
     # bandit initialization
     self._bandit.init()
@@ -63,31 +63,34 @@ class RegretMinimizationSimulator(Simulator):
     agg_regret = dict()
     for t in range(horizon + 1):
       if t > 0:
+        # simulation starts from t = 1
         context = self._bandit.context
         action = learner.choice(context)
         feedback = self._bandit.feed(action)
         learner.update(context, action, feedback)
       if t in breakpoints:
         agg_regret[t] = self._bandit.regret(learner.rewards)
-    json.dump(dict({learner.name: agg_regret}), output_file)
-    output_file.write('\n')
-    output_file.flush()
+    return dict({learner.name: agg_regret})
 
-  def multi_proc(self, learner, horizon, breakpoints, output_file, processors):
-    procs = [Process(target=self.one_trial, args=(
-        learner, horizon, breakpoints, output_file, current_time()))
-        for _ in range(processors)]
-    for proc in procs:
-      proc.start()
-    for proc in procs:
-      proc.join()
+  def write_to_file(self, data):
+    with open(self.__output_file, 'a') as f:
+      json.dump(data, f)
+      f.write('\n')
+      f.flush()
 
-  def multi_proc_helper(self, learner, horizon, breakpoints, output_file,
-      trials, processors):
-    for _ in range(trials//processors):
-      self.multi_proc(learner, horizon, breakpoints, output_file, processors)
+  def multi_proc(self, learner, horizon, breakpoints, trials, processors):
+    pool = Pool(processes = processors)
 
-  def sim(self, output_path, horizon=100, mod=10, trials=1, processors=1):
+    for _ in range(trials):
+      pool.apply_async(self.one_trial, args=(
+          learner, horizon, breakpoints, current_time(), ),
+          callback=self.write_to_file)
+
+    # can not apply for processes any more
+    pool.close()
+    pool.join()
+
+  def sim(self, output_file, horizon=20, mod=10, trials=2, processors=2):
     """Simulation method
 
     Input:
@@ -96,16 +99,18 @@ class RegretMinimizationSimulator(Simulator):
       processors: maximum number of processors allowed to be used
     """
 
+    # clean file
+    open(output_file, 'w').close()
+    self.__output_file = output_file
+
     # 0 is included
     breakpoints = []
     for i in range(horizon + 1):
       if i % mod == 0:
         breakpoints.append(i)
 
-    with open(output_path, 'w') as output_file:
-      for learner in self._learners:
-        logging.info('run learner %s' % learner.name)
-        start_time = time.time()
-        self.multi_proc_helper(learner, horizon, breakpoints, output_file,
-            trials, processors)
-        logging.info('%.2f seconds elapsed' % (time.time()-start_time))
+    for learner in self._learners:
+      logging.info('run learner %s' % learner.name)
+      start_time = time.time()
+      self.multi_proc(learner, horizon, breakpoints, trials, processors)
+      logging.info('%.2f seconds elapsed' % (time.time()-start_time))

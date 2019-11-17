@@ -1,95 +1,51 @@
-from abc import abstractmethod
-from absl import logging
+"""
+Bandit
+"""
 
-from arm import Arm
-from bandits.environment import Environment
+from abc import ABC, abstractmethod
 
 
-class Bandit(Environment):
+class Bandit(ABC):
+  """Abstract bandit environment"""
 
+  @property
+  @abstractmethod
+  def type(self):
+    pass
+
+  # current state of the environment
+  @property
+  @abstractmethod
+  def context(self):
+    pass
+
+  # full state of the environment (can not be fetched from outside)
+  @property
+  @abstractmethod
+  def _oracle_context(self):
+    pass
+
+  @abstractmethod
   def init(self):
-    self.__max_rewards = 0
-
-  @property
-  @abstractmethod
-  def arm_num(self):
-    pass
-
-  @property
-  @abstractmethod
-  def type(self):
-    pass
-
-  @property
-  @abstractmethod
-  def context(self):
-    pass
-
-  @property
-  @abstractmethod
-  def _oracle_context(self):
     pass
 
   @abstractmethod
   def _update_context(self):
     pass
 
+  @abstractmethod
   def _take_action(self, action):
-    arm = action
-    del action
-
-    best_arm, arms = self._oracle_context
-    self.__max_rewards += best_arm.mean
-
-    if arm not in range(self.arm_num):
-      logging.fatal('Wrong arm index!')
-
-    return arms[arm].pull()
-
-  def regret(self, rewards):
-    return self.__max_rewards - rewards
-
-
-class OrdinaryBandit(Bandit):
-  """Ordinary bandit model
-  Arms are numbered from 0 to len(arms)-1 by default.
-  """
-
-  def __init__(self, arms):
-    logging.info('Ordinary bandit model')
-    if not isinstance(arms, list):
-      logging.fatal('Arms should be given in a list!')
-    for arm in arms:
-      if not isinstance(arm, Arm):
-        logging.fatal('Not an arm!')
-    self.__arms = arms
-
-    self.__arm_num = len(arms)
-    if self.__arm_num < 2:
-      logging.fatal('The number of arms should be at least two!')
-
-    sorted_mean = sorted([(arm.mean, arm) for arm in self.__arms],
-        key=lambda x:x[0])
-    self.__best_arm = sorted_mean[-1][1]
-
-    self.__type = 'ordinarybandit'
-
-  @property
-  def arm_num(self):
-    """return number of arms"""
-    return self.__arm_num
-
-  @property
-  def type(self):
-    return self.__type
-
-  @property
-  def context(self):
-    return None
-
-  @property
-  def _oracle_context(self):
-    return self.__best_arm, self.__arms
-
-  def _update_context(self):
     pass
+
+  @abstractmethod
+  def regret(self, rewards):
+    pass
+
+  def feed(self, action):
+    """
+    Output:
+      feedback: a tuple and feedback[0] denotes the reward
+    """
+    feedback = self._take_action(action)
+    self._update_context()
+    return feedback

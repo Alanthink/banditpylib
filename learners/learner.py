@@ -2,32 +2,22 @@
 Abstract learner
 """
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 
-class Learner():
+class Learner(ABC):
   """Abstract class for learners"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
-
+  # learner goal
   @property
   @abstractmethod
   def goal(self):
     pass
 
-  def init(self, bandit, horizon):
-    self._bandit = bandit
-    self._horizon = horizon
-    self._t = 1
-    self._model_init()
-    self._goal_init()
-    self._learner_init()
-
+  # learner name
+  @property
   @abstractmethod
-  def _model_init(self):
+  def name(self):
     pass
 
   @abstractmethod
@@ -35,17 +25,11 @@ class Learner():
     pass
 
   @abstractmethod
-  def _learner_init(self):
+  def _model_init(self):
     pass
 
-  def update(self, context, action, feedback):
-    self._model_update(context, action, feedback)
-    self._goal_update(context, action, feedback)
-    self._learner_update(context, action, feedback)
-    self._t += 1
-
   @abstractmethod
-  def _model_update(self, context, action, feedback):
+  def _learner_init(self):
     pass
 
   @abstractmethod
@@ -53,9 +37,35 @@ class Learner():
     pass
 
   @abstractmethod
-  def _learner_update(self, context, action, feedback):
+  def _model_update(self, context, action, feedback):
     pass
 
   @abstractmethod
+  def _learner_update(self, context, action, feedback):
+    pass
+
+  # action suggested by the learner
+  @abstractmethod
   def choice(self, context):
     pass
+
+  def __init__(self):
+    pass
+
+  def init(self, bandit, horizon):
+    self._bandit = bandit
+    self.__horizon = horizon
+    self._t = 1
+    self._goal_init()
+    self._model_init()
+    self._learner_init()
+
+  def update(self, context, action, feedback):
+    self._goal_update(context, action, feedback)
+    self._model_update(context, action, feedback)
+    self._learner_update(context, action, feedback)
+    self._t += 1
+
+  @property
+  def horizon(self):
+    return self.__horizon

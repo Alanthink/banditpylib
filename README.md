@@ -9,18 +9,18 @@
                               |_|    |___/                
 ```
 
-A python library for bandit algorithms.
+A python library for bandit algorithms
 
 ## Features
 
-* support multiprocesses
 * easy to extend
+* multiprocesses support
 
 ## Implemented Algorithms
 
-### Ordinary Bandit
+### Regret Minimization
 
-#### regret minimization
+#### Ordinary Bandit
 
 * Uniform
 * Epsilon Greedy
@@ -29,21 +29,36 @@ A python library for bandit algorithms.
 * Thompson Sampling \[[3](#T33), [4](#KKM12)\]
 * UCBV [[5]](#AMS09)
 
-### Ordinary MNL Bandit
-
-#### regret minimization
+#### Ordinary MNL Bandit
 
 * Exploration-exploitation [[6]](#AAGZ19)
 
-## Example
+## Running of the Project
+
+### Quick Run
+
+```shell
+# install required packages under the vitual environment
+# python 3 is used
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+python main.py
+deactivate
+```
+
+The output is put to `out/figure.pdf` by default and the output figure is like the following.
 
 ![output example](figures/example.jpg)
 
-See [main.py](main.py) for details.
+### Other Options
 
-## Requirement
-
-See [requirements.txt](requirements.txt) for details.
+```shell
+# run a simple setup for debug
+python main.py --debug
+# generate raw data
+python main.py --do=d
+```
 
 ## License
 

@@ -14,6 +14,7 @@ class Arm(ABC):
   def pull(self):
     pass
 
+  @property
   @abstractmethod
   def mean(self):
     pass
@@ -33,7 +34,6 @@ class BernoulliArm(Arm):
   @property
   def mean(self):
     return self.__mean
-
 
 
 class GaussianArm(Arm):
