@@ -53,6 +53,7 @@ class Learner(ABC):
     pass
 
   def init(self, bandit, horizon):
+    # time starts from 1
     self._bandit = bandit
     self.__horizon = horizon
     self._t = 1

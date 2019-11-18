@@ -46,10 +46,10 @@ class EmArm:
     self.__rewards = 0
     self.__sq_rewards = 0
 
-  def update(self, pulls, rewards):
-    self.__pulls += pulls
-    self.__rewards += rewards
-    self.__sq_rewards += rewards**2
+  def update(self, reward):
+    self.__pulls += 1
+    self.__rewards += reward
+    self.__sq_rewards += reward**2
 
 
 class OrdinaryLearner(RegretMinimizationLearner):
@@ -85,7 +85,7 @@ class OrdinaryLearner(RegretMinimizationLearner):
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
   def _model_update(self, context, action, feedback):
-    self._em_arms[action].update(1, feedback[0])
+    self._em_arms[action].update(feedback[0])
 
 
 class Uniform(OrdinaryLearner):
@@ -104,7 +104,7 @@ class Uniform(OrdinaryLearner):
 
   def choice(self, context):
     """return an arm to pull"""
-    return (self._t) % self._arm_num
+    return (self._t-1) % self._arm_num
 
   def _learner_update(self, context, action, feedback):
     pass
@@ -255,11 +255,11 @@ class UCBV(OrdinaryLearner):
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
-    ucb = [arm.em_mean+
+    ucbv = [arm.em_mean+
            np.sqrt(2*self.__eta*arm.em_var/arm.pulls*np.log(self._t))+
            3*self.__eta*np.log(self._t)/arm.pulls for arm in self._em_arms]
 
-    return np.argmax(ucb)
+    return np.argmax(ucbv)
 
   def _learner_update(self, context, action, feedback):
     pass
