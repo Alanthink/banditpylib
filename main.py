@@ -15,7 +15,6 @@ from arm import BernoulliArm
 from bandits.ordinarybandit import OrdinaryBandit
 from draw import draw_figure
 from learners.regretmin.ordinarylearner import Uniform, UCB, MOSS, TS
-from simulator import RegretMinimizationSimulator
 
 FLAGS = flags.FLAGS
 
@@ -48,14 +47,15 @@ def main(argv):
     arms = [BernoulliArm(mean) for mean in means]
     bandit = OrdinaryBandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
-    simulator = RegretMinimizationSimulator(bandit, learners)
     (horizon, mod, trials, processors) = (2000, 20, 200, 40)
     ############################################################################
 
     if FLAGS.debug:
-      simulator.sim(data_file)
+      for learner in learners:
+        learner.play(bandit, data_file)
     else:
-      simulator.sim(data_file, horizon, mod, trials, processors)
+      for learner in learners:
+        learner.play(bandit, data_file, horizon, mod, trials, processors)
 
   if FLAGS.do in ['f', 'all']:
     # figure generation

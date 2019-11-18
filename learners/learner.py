@@ -52,10 +52,10 @@ class Learner(ABC):
   def __init__(self):
     pass
 
-  def init(self, bandit, horizon):
+  def init(self, bandit):
     # time starts from 1
+    bandit.init()
     self._bandit = bandit
-    self.__horizon = horizon
     self._t = 1
     self._goal_init()
     self._model_init()
@@ -66,7 +66,3 @@ class Learner(ABC):
     self._model_update(context, action, feedback)
     self._learner_update(context, action, feedback)
     self._t += 1
-
-  @property
-  def horizon(self):
-    return self.__horizon
