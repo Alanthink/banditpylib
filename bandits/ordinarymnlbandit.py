@@ -64,10 +64,6 @@ class OrdinaryMNLBandit(Bandit):
   def context(self):
     return self.__revenue
 
-  @property
-  def _oracle_context(self):
-    return (self.__best_assort, self.__best_rev, self.__abspar, self.__revenue)
-
   def _update_context(self):
     pass
 
@@ -102,17 +98,16 @@ class OrdinaryMNLBandit(Bandit):
       logging.fatal('The assortment has products more than %d!' %
           self.card_constraint)
 
-    _, best_rev, abspar, revenue = self._oracle_context
-    self.__max_revenue += best_rev
+    self.__max_revenue += self.__best_rev
 
-    denominator = sum([abspar[prod] for prod in assortment]) + abspar[0]
-    prob = [abspar[0]/denominator] + \
-        [abspar[prod]/denominator for prod in assortment]
+    denominator = sum([self.__abspar[prod] for prod in assortment]) + self.__abspar[0]
+    prob = [self.__abspar[0]/denominator] + \
+        [self.__abspar[prod]/denominator for prod in assortment]
     rand = np.random.choice(len(prob), 1, p=prob)[0]
     # feedback = (revenue, purchase observation)
     if rand == 0:
-       return (0, revenue[0])
-    return (revenue[assortment[rand-1]], assortment[rand-1])
+       return (0, self.__revenue[0])
+    return (self.__revenue[assortment[rand-1]], assortment[rand-1])
 
   def regret(self, rewards):
     revenue = rewards

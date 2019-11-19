@@ -4,7 +4,7 @@ import numpy as np
 
 from absl import logging
 
-from learners.learner import Learner
+from learners import Learner
 
 __all__ = ['FixBudgetBAILearner']
 
@@ -47,7 +47,7 @@ class FixBudgetBAILearner(Learner):
 
   @property
   def budget(self):
-    return self.budget
+    return self.__budget
 
   def __init__(self):
     super().__init__()
@@ -64,8 +64,9 @@ class FixBudgetBAILearner(Learner):
     Input:
       pars["budget"]
     """
+
     np.random.seed(seed)
-    self.__budget = self._pars["budget"]
+    self.__budget = self._pars['budget']
 
     ############################################################################
     # learner initialization
@@ -81,10 +82,13 @@ class FixBudgetBAILearner(Learner):
         break
       feedback = self._bandit.feed(action)
       self.update(context, action, feedback)
-      budget_remain -= sum(action[1])
+      if isinstance(action, list):
+        budget_remain -= sum([tup[1] for tup in action])
+      else:
+        budget_remain -= 1
       if budget_remain < 0:
         logging.fatal('%s uses more than the given budget!' % self.name)
 
     regret = self._bandit.best_arm_regret(self._best_arm())
 
-    return dict({self.name: [self._pars["budget"], regret] })
+    return dict({self.name: [self.__budget, regret] })

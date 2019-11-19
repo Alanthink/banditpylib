@@ -47,8 +47,8 @@ def main(argv):
     arms = [BernoulliArm(mean) for mean in means]
     bandit = OrdinaryBandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
-    pars = dict({"output": data_file,
-        "horizon":2000, "mod":20, "trials":200, "processors":40})
+    pars = dict({'output': data_file,
+        'horizon':2000, 'mod':20, 'trials':200, 'processors':40})
     ############################################################################
 
     # clean file
@@ -56,8 +56,8 @@ def main(argv):
 
     if FLAGS.debug:
       for learner in learners:
-        learner.play(bandit, dict({"output": data_file,
-            "horizon":20, "mod":2, "trials":2, "processors":2}))
+        learner.play(bandit, dict({'output': data_file,
+            'horizon':20, 'mod':2, 'trials':2, 'processors':2}))
     else:
       for learner in learners:
         learner.play(bandit, pars)

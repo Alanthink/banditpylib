@@ -93,8 +93,11 @@ class Learner(ABC):
     pool = Pool(processes = self._pars['processors'])
 
     for _ in range(self._pars['trials']):
-      pool.apply_async(self.one_trial, args=(current_time(), ),
+      result = pool.apply_async(self.one_trial, args=(current_time(), ),
           callback=self.write_to_file)
+      del result
+      # for debug purposes
+      # result.get()
 
     # can not apply for processes any more
     pool.close()
@@ -107,7 +110,7 @@ class Learner(ABC):
     self._bandit = bandit
     self._pars = pars
 
-    logging.info('run learner %s' % self.name)
+    logging.info('run learner %s with goal %s' % (self.name, self.goal))
     start_time = time.time()
     self.multi_proc()
     logging.info('%.2f seconds elapsed' % (time.time()-start_time))

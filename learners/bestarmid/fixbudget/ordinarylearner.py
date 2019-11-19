@@ -52,8 +52,11 @@ class OrdinaryLearner(FixBudgetBAILearner):
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
   def _model_update(self, context, action, feedback):
-    for i in range(action):
-      self._em_arms[action[i][0]].update(feedback[i], action[i][1])
+    if isinstance(action, list):
+      for (i, tup) in enumerate(action):
+        self._em_arms[tup[0]].update(feedback[0][i], tup[1])
+    else:
+      self._em_arms[action].update(feedback[0])
 
 
 class Uniform(OrdinaryLearner):
@@ -72,13 +75,16 @@ class Uniform(OrdinaryLearner):
 
   def choice(self, context):
     """return an arm to pull"""
-    return (self._t-1) % self._arm_num
+    if self._t <= self.budget:
+      return (self._t-1) % self._arm_num
+    return 'stop'
 
   def _learner_update(self, context, action, feedback):
     pass
 
   def _best_arm(self):
-    return np.argmax([arm.em_mean for arm in self._em_arms])
+    return max([(ind, arm.em_mean)
+        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
 
 
 class SR(OrdinaryLearner):
@@ -111,9 +117,11 @@ class SR(OrdinaryLearner):
         else:
           self.__pulls_per_round.append(nk[-1]-nk[-2])
 
-      self.__budget_left = self.budget
+      # __k is the round index
       self.__k = 0
       self.__active_arms = list(range(self._arm_num))
+
+    self.__budget_left = self.budget
 
   def choice(self, context):
     """return an arm to pull"""
@@ -131,18 +139,19 @@ class SR(OrdinaryLearner):
     # normal mode (run in rounds)
     self.__k += 1
     if self.__k != (self._arm_num-1):
-      self.__budget_left -= (self.__budget_left[self.__k]*len(self.__active_arms))
-      return [(arm, self.__pulls_per_round[self.__k])
-              for arm in range(self._arm_num)]
+      self.__budget_left -= (
+          self.__pulls_per_round[self.__k]*len(self.__active_arms))
+      return [(ind, self.__pulls_per_round[self.__k])
+              for ind in self.__active_arms]
 
-    # check there is only two active arms left
+    # check if there is only two active arms left in the last round
     if len(self.__active_arms) != 2:
       logging.fatal('The last round should have only 2 arms!')
 
     action = []
     action.append((self.__active_arms[0], self.__budget_left//2))
     self.__budget_left -= self.__budget_left//2
-    action.append((self.__active_arms[1], self.__budget_left//2))
+    action.append((self.__active_arms[1], self.__budget_left))
     self.__budget_left = 0
     return action
 
@@ -152,12 +161,12 @@ class SR(OrdinaryLearner):
           np.array([self._em_arms[arm].em_mean for arm in self.__active_arms]))
     else:
       # remove the arm with the least mean
-      em_means = [(arm, self._em_arms[arm].em_mean)
-          for arm in self.__active_arms]
-      arm_to_remove = max(em_means, key=lambda x:x[1])[0]
-      arms = [arm for arm in self.__active_arms if arm != arm_to_remove]
-      if len(arms) == 1:
-        self.__best_arm = arms[0]
+      arm_to_remove = min([(ind, self._em_arms[ind].em_mean)
+          for ind in self.__active_arms], key=lambda x:x[1])[0]
+      self.__active_arms = [
+          ind for ind in self.__active_arms if (ind != arm_to_remove)]
+      if len(self.__active_arms) == 1:
+        self.__best_arm = self.__active_arms[0]
 
   def _best_arm(self):
     return self.__best_arm

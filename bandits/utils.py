@@ -19,12 +19,6 @@ class Bandit(ABC):
   def context(self):
     pass
 
-  # full state of the environment (can not be fetched from outside)
-  @property
-  @abstractmethod
-  def _oracle_context(self):
-    pass
-
   @abstractmethod
   def init(self):
     pass

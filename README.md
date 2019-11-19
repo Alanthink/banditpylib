@@ -9,14 +9,15 @@
                               |_|    |___/                
 ```
 
-A python library for bandit algorithms
+A lightweight python library for bandit algorithms
 
 ## Features
 
-* easy to extend
+* object-oriented
 * multiprocesses support
+* easy to debug
 
-## Implemented Algorithms
+## Implemented Policies
 
 ### Regret Minimization
 
@@ -32,6 +33,15 @@ A python library for bandit algorithms
 #### Ordinary MNL Bandit
 
 * Exploration-exploitation [[6]](#AAGZ19)
+
+### Best Arm Identification
+
+#### Ordinary MNL Bandit
+
+##### Fixed Budget 
+
+* Uniform
+* SR [[7]](#AB10)
 
 ## Running of the Project
 
@@ -63,6 +73,10 @@ python main.py --do=d
 python -m unittest discover
 ```
 
+## TODO
+
+* add figure output for best arm identification
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
@@ -81,3 +95,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 4. <a name="KKM12"></a> Emilie Kaufmann, Nathaniel Korda, and Rémi Munos. Thompson sampling: An asymptotically optimal finite-time analysis. In ALT, pages 199–213, 2012.
 5. <a name="AMS09"></a> Jean-Yves Audibert, Rémi Munos, and Csaba Szepesvári. Exploration-exploitation tradeoff using variance estimates in multi-armed bandits. Theoretical Computer Science, 410(19):1876–1902, 2009.
 6. <a name="AAGZ19"></a> Shipra Agrawal, Vashist Avadhanula, Vineet Goyal and Assaf Zeevi. MNL-bandit: A dynamic learning approach to assortment selection. Operation Research, 67(5):1453-1485, 2019.
+7. <a name="AB10"></a> Jean-Yves Audibert and Sébastien Bubeck. Best arm identification in multi-armed bandits. In COLT, 2010.

@@ -23,9 +23,9 @@ class OrdinaryBandit(Bandit):
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    sorted_mean = sorted([(arm.mean, arm) for arm in self.__arms],
-        key=lambda x:x[0])
-    self.__best_arm = sorted_mean[-1][1]
+    self.__best_arm_ind = max([(tup[0], tup[1].mean)
+        for tup in enumerate(self.__arms)], key=lambda x:x[1])[0]
+    self.__best_arm = self.__arms[self.__best_arm_ind]
 
     self.__type = 'ordinarybandit'
 
@@ -42,10 +42,6 @@ class OrdinaryBandit(Bandit):
   def context(self):
     return None
 
-  @property
-  def _oracle_context(self):
-    return self.__best_arm, self.__arms
-
   def init(self):
     self.__max_rewards = 0
 
@@ -53,21 +49,19 @@ class OrdinaryBandit(Bandit):
     pass
 
   def _take_action(self, action):
-    best_arm, arms = self._oracle_context
-
     is_list = True
     if not isinstance(action, list):
       is_list = False
       action = [(action, 1)]
 
     rewards = []
-    for pair in action:
-      arm = pair[0]
-      if arm not in range(self.arm_num):
+    for tup in action:
+      ind = tup[0]
+      if ind not in range(self.arm_num):
         logging.fatal('Wrong arm index!')
 
-      rewards.append(arms[arm].pull(pair[1]))
-      self.__max_rewards += (best_arm.mean * pair[1])
+      rewards.append(self.__arms[ind].pull(tup[1]))
+      self.__max_rewards += (self.__best_arm.mean * tup[1])
 
     if not is_list:
       # rewards[0] is a numpy array with size 1
@@ -78,4 +72,4 @@ class OrdinaryBandit(Bandit):
     return self.__max_rewards - rewards
 
   def best_arm_regret(self, ind):
-    return 1 - (self.__best_arm == ind)
+    return 1 - (self.__best_arm_ind == ind)
