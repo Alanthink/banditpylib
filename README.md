@@ -36,7 +36,7 @@ A lightweight python library for bandit algorithms
 
 ### Best Arm Identification
 
-#### Ordinary MNL Bandit
+#### Ordinary Bandit
 
 ##### Fixed Budget 
 
