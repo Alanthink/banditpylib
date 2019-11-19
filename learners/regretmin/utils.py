@@ -4,6 +4,8 @@ import numpy as np
 
 from learners import Learner
 
+__all__ = ['RegretMinimizationLearner']
+
 
 class RegretMinimizationLearner(Learner):
   """Base class for regret minimization learners"""
@@ -22,7 +24,7 @@ class RegretMinimizationLearner(Learner):
     pass
 
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
@@ -38,11 +40,7 @@ class RegretMinimizationLearner(Learner):
     return self.__goal
 
   @property
-  def rewards(self):
-    return self.__rewards
-
-  @property
-  def horizon(self):
+  def _horizon(self):
     return self.__horizon
 
   def __init__(self):
@@ -55,7 +53,7 @@ class RegretMinimizationLearner(Learner):
   def _goal_update(self, context, action, feedback):
     self.__rewards += feedback[0]
 
-  def one_trial(self, seed):
+  def _one_trial(self, seed):
     """
     Input:
       pars["horizon"]: budget
@@ -66,7 +64,7 @@ class RegretMinimizationLearner(Learner):
 
     ############################################################################
     # learner initialization
-    self.init(self._bandit)
+    self._init(self._bandit)
     ############################################################################
 
     agg_regret = dict()
@@ -74,9 +72,9 @@ class RegretMinimizationLearner(Learner):
       if t > 0:
         # simulation starts from t = 1
         context = self._bandit.context
-        action = self.choice(context)
+        action = self._choice(context)
         feedback = self._bandit.feed(action)
-        self.update(context, action, feedback)
+        self._update(context, action, feedback)
       if t % self._pars["mod"]:
-        agg_regret[t] = self._bandit.regret(self.rewards)
+        agg_regret[t] = self._bandit.regret(self.__rewards)
     return dict({self.name: agg_regret})

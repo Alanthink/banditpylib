@@ -13,9 +13,9 @@ A lightweight python library for bandit algorithms
 
 ## Features
 
-* object-oriented
+* object-oriented design
 * multiprocesses support
-* easy to debug
+* friendly runtime info
 
 ## Implemented Policies
 
@@ -48,13 +48,14 @@ A lightweight python library for bandit algorithms
 ### Quick Run
 
 ```shell
-# install required packages under the vitual environment
-# python 3 is used
-python -m venv env
-source env/bin/activate
-pip install -r requirements.txt
+# create vitual environment
+python3 -m virtualenv .env
+# enter virtual environment
+source .env/bin/activate
+pip3 install -r requirements.txt
 # run under `banditpylib` directory
-python main.py
+python3 main.py
+# exit virtual environment
 deactivate
 ```
 

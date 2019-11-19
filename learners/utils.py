@@ -11,6 +11,9 @@ from absl import logging
 
 from bandits import Bandit
 
+__all__ = ['Learner']
+
+
 # for generating random seeds
 def current_time():
   tem_time = time.time()
@@ -58,17 +61,17 @@ class Learner(ABC):
 
   # action suggested by the learner
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
-  def one_trial(self, seed):
+  def _one_trial(self, seed):
     pass
 
   def __init__(self):
     pass
 
-  def init(self, bandit):
+  def _init(self, bandit):
     # time starts from 1
     bandit.init()
     self._bandit = bandit
@@ -77,24 +80,24 @@ class Learner(ABC):
     self._model_init()
     self._learner_init()
 
-  def update(self, context, action, feedback):
+  def _update(self, context, action, feedback):
     self._goal_update(context, action, feedback)
     self._model_update(context, action, feedback)
     self._learner_update(context, action, feedback)
     self._t += 1
 
-  def write_to_file(self, data):
+  def __write_to_file(self, data):
     with open(self._pars['output'], 'a') as f:
       json.dump(data, f)
       f.write('\n')
       f.flush()
 
-  def multi_proc(self):
+  def __multi_proc(self):
     pool = Pool(processes = self._pars['processors'])
 
     for _ in range(self._pars['trials']):
-      result = pool.apply_async(self.one_trial, args=(current_time(), ),
-          callback=self.write_to_file)
+      result = pool.apply_async(self._one_trial, args=(current_time(), ),
+          callback=self.__write_to_file)
       del result
       # for debug purposes
       # result.get()
@@ -112,5 +115,5 @@ class Learner(ABC):
 
     logging.info('run learner %s with goal %s' % (self.name, self.goal))
     start_time = time.time()
-    self.multi_proc()
+    self.__multi_proc()
     logging.info('%.2f seconds elapsed' % (time.time()-start_time))

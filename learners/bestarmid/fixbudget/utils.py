@@ -26,7 +26,7 @@ class FixBudgetBAILearner(Learner):
     pass
 
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
@@ -46,7 +46,7 @@ class FixBudgetBAILearner(Learner):
     return self.__goal
 
   @property
-  def budget(self):
+  def _budget(self):
     return self.__budget
 
   def __init__(self):
@@ -59,7 +59,7 @@ class FixBudgetBAILearner(Learner):
   def _goal_update(self, context, action, feedback):
     pass
 
-  def one_trial(self, seed):
+  def _one_trial(self, seed):
     """
     Input:
       pars["budget"]
@@ -70,18 +70,18 @@ class FixBudgetBAILearner(Learner):
 
     ############################################################################
     # learner initialization
-    self.init(self._bandit)
+    self._init(self._bandit)
     ############################################################################
 
     budget_remain = self.__budget
 
     while True:
       context = self._bandit.context
-      action = self.choice(context)
+      action = self._choice(context)
       if action == 'stop':
         break
       feedback = self._bandit.feed(action)
-      self.update(context, action, feedback)
+      self._update(context, action, feedback)
       if isinstance(action, list):
         budget_remain -= sum([tup[1] for tup in action])
       else:

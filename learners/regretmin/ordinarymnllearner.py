@@ -26,7 +26,7 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
@@ -71,7 +71,7 @@ class ExplorationExploitation(OrdinaryMNLLearner):
   def name(self):
     return self.__name
 
-  def choice(self, context):
+  def _choice(self, context):
     if self.__update_epoch:
       _, best_assort = search_best_assortment(self.__v_ucb,
           self.__revenue, self.__K)

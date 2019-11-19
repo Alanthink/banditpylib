@@ -28,7 +28,7 @@ class OrdinaryLearner(FixBudgetBAILearner):
     pass
 
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
@@ -73,9 +73,9 @@ class Uniform(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
-    if self._t <= self.budget:
+    if self._t <= self._budget:
       return (self._t-1) % self._arm_num
     return 'stop'
 
@@ -99,7 +99,7 @@ class SR(OrdinaryLearner):
     self.__name = 'SR'
 
   def _learner_init(self):
-    self.__simple_mode = (self.budget <= self._arm_num)
+    self.__simple_mode = (self._budget <= self._arm_num)
     if not self.__simple_mode:
       # calculate bar_log_K
       self.__bar_log_K = 0.5
@@ -111,7 +111,7 @@ class SR(OrdinaryLearner):
       nk = [-1]
       for k in range(1, self._arm_num):
         nk.append(math.ceil(
-            1/self.__bar_log_K*(self.budget-self._arm_num)/(self._arm_num+1-k)))
+            1/self.__bar_log_K*(self._budget-self._arm_num)/(self._arm_num+1-k)))
         if k == 1:
           self.__pulls_per_round.append(nk[-1])
         else:
@@ -121,15 +121,15 @@ class SR(OrdinaryLearner):
       self.__k = 0
       self.__active_arms = list(range(self._arm_num))
 
-    self.__budget_left = self.budget
+    self.__budget_left = self._budget
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self.__budget_left <= 0:
       return 'stop'
 
     if self.__simple_mode:
-      if (self.budget < self._arm_num):
+      if (self._budget < self._arm_num):
         self.__best_arm = np.random.randint(self._arm_num)
         return 'stop'
 

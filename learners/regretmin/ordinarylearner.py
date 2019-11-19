@@ -27,7 +27,7 @@ class OrdinaryLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def choice(self, context):
+  def _choice(self, context):
     pass
 
   @abstractmethod
@@ -64,7 +64,7 @@ class Uniform(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     return (self._t-1) % self._arm_num
 
@@ -90,7 +90,7 @@ class EpsGreedy(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
@@ -119,7 +119,7 @@ class UCB(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
@@ -147,14 +147,14 @@ class MOSS(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
     ucb = [arm.em_mean+
            np.sqrt(max(0,
-           np.log(self.horizon/(self._arm_num*arm.pulls)))/arm.pulls)
+           np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
            for arm in self._em_arms]
 
     return np.argmax(ucb)
@@ -177,7 +177,7 @@ class TS(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
@@ -211,7 +211,7 @@ class UCBV(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def choice(self, context):
+  def _choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
