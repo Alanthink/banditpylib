@@ -9,7 +9,7 @@ import numpy as np
 
 from absl import logging
 
-from utils import EmArm
+from arms import EmArm
 from .utils import FixBudgetBAILearner
 
 __all__ = ['Uniform', 'SR']
