@@ -1,8 +1,9 @@
 from absl import logging
 
-from arm import Arm
-from bandits.bandit import Bandit
+from arms import Arm
+from .utils import Bandit
 
+__all__ = ['OrdinaryBandit']
 
 class OrdinaryBandit(Bandit):
   """Ordinary bandit model
@@ -52,16 +53,29 @@ class OrdinaryBandit(Bandit):
     pass
 
   def _take_action(self, action):
-    arm = action
-    del action
-
     best_arm, arms = self._oracle_context
-    self.__max_rewards += best_arm.mean
 
-    if arm not in range(self.arm_num):
-      logging.fatal('Wrong arm index!')
+    is_list = True
+    if not isinstance(action, list):
+      is_list = False
+      action = [(action, 1)]
 
-    return (arms[arm].pull(),)
+    rewards = []
+    for pair in action:
+      arm = pair[0]
+      if arm not in range(self.arm_num):
+        logging.fatal('Wrong arm index!')
+
+      rewards.append(arms[arm].pull(pair[1]))
+      self.__max_rewards += (best_arm.mean * pair[1])
+
+    if not is_list:
+      # rewards[0] is a numpy array with size 1
+      return (rewards[0][0],)
+    return (rewards,)
 
   def regret(self, rewards):
     return self.__max_rewards - rewards
+
+  def best_arm_regret(self, ind):
+    return 1 - (self.__best_arm == ind)

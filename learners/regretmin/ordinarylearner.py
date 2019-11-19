@@ -8,48 +8,10 @@ import numpy as np
 
 from absl import logging
 
-from learners.regretmin.regretmin import RegretMinimizationLearner
+from arms import EmArm
+from .utils import RegretMinimizationLearner
 
-
-# a useful class
-class EmArm:
-  """Class for storing empirical information of an arm"""
-
-  def __init__(self):
-    self.reset()
-
-  @property
-  def pulls(self):
-    return self.__pulls
-
-  @property
-  def rewards(self):
-    return self.__rewards
-
-  @property
-  def em_mean(self):
-    """get empirical mean"""
-    if self.__pulls == 0:
-      logging.fatal('No empirical mean yet!')
-    return self.__rewards / self.__pulls
-
-  @property
-  def em_var(self):
-    """get empirical variance"""
-    if self.__pulls == 0:
-      logging.fatal('No empirical variance yet!')
-    return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
-
-  def reset(self):
-    """clear historical records"""
-    self.__pulls = 0
-    self.__rewards = 0
-    self.__sq_rewards = 0
-
-  def update(self, reward):
-    self.__pulls += 1
-    self.__rewards += reward
-    self.__sq_rewards += reward**2
+__all__ = ['Uniform', 'EpsGreedy', 'UCB', 'MOSS', 'TS', 'UCBV']
 
 
 class OrdinaryLearner(RegretMinimizationLearner):
@@ -112,7 +74,6 @@ class Uniform(OrdinaryLearner):
 
 class EpsGreedy(OrdinaryLearner):
   """Epsilon-Greedy Algorithm
-
   With probability eps/t do uniform sampling and with the left probability,
   pull arm with the maximum empirical mean.
   """

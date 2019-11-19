@@ -43,6 +43,7 @@ A python library for bandit algorithms
 python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
+# run under `banditpylib` directory
 python main.py
 deactivate
 ```
@@ -58,6 +59,8 @@ The output is put to `out/figure.pdf` by default and the output figure is like t
 python main.py --debug
 # generate raw data
 python main.py --do=d
+# run all unit tests
+python -m unittest discover
 ```
 
 ## License

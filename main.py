@@ -11,8 +11,8 @@ from absl import app
 from absl import logging
 from absl import flags
 
-from arm import BernoulliArm
-from bandits.ordinarybandit import OrdinaryBandit
+from arms import BernoulliArm
+from bandits import OrdinaryBandit
 from draw import draw_figure
 from learners.regretmin.ordinarylearner import Uniform, UCB, MOSS, TS
 
@@ -47,15 +47,20 @@ def main(argv):
     arms = [BernoulliArm(mean) for mean in means]
     bandit = OrdinaryBandit(arms)
     learners = [Uniform(), UCB(), MOSS(), TS()]
-    (horizon, mod, trials, processors) = (2000, 20, 200, 40)
+    pars = dict({"output": data_file,
+        "horizon":2000, "mod":20, "trials":200, "processors":40})
     ############################################################################
+
+    # clean file
+    open(data_file, 'w').close()
 
     if FLAGS.debug:
       for learner in learners:
-        learner.play(bandit, data_file)
+        learner.play(bandit, dict({"output": data_file,
+            "horizon":20, "mod":2, "trials":2, "processors":2}))
     else:
       for learner in learners:
-        learner.play(bandit, data_file, horizon, mod, trials, processors)
+        learner.play(bandit, pars)
 
   if FLAGS.do in ['f', 'all']:
     # figure generation

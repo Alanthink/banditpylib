@@ -7,11 +7,13 @@ from absl import logging
 
 import numpy as np
 
-from learners.regretmin.regretmin import RegretMinimizationLearner
-from utils import search_best_assortment
+from bandits import search_best_assortment
+from .utils import RegretMinimizationLearner
+
+__all__ = ['ExplorationExploitation']
 
 
-class MNLLearner(RegretMinimizationLearner):
+class OrdinaryMNLLearner(RegretMinimizationLearner):
   """Base class for learners in the MNL bandit model"""
 
   @property
@@ -44,7 +46,7 @@ class MNLLearner(RegretMinimizationLearner):
     pass
 
 
-class ExplorationExploitation(MNLLearner):
+class ExplorationExploitation(OrdinaryMNLLearner):
   """Exploration-Exploitation algorithm for MNL-Bandit"""
 
   def __init__(self):

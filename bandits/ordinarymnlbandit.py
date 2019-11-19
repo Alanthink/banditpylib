@@ -2,8 +2,9 @@ from absl import logging
 
 import numpy as np
 
-from bandits.bandit import Bandit
-from utils import search_best_assortment
+from .utils import Bandit, search_best_assortment
+
+__all__ = ['OrdinaryMNLBandit']
 
 
 class OrdinaryMNLBandit(Bandit):
