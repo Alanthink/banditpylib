@@ -7,9 +7,12 @@ import time
 from abc import ABC, abstractmethod
 from multiprocessing import Pool
 
+from absl import flags
 from absl import logging
 
 from bandits import Bandit
+
+FLAGS = flags.FLAGS
 
 __all__ = ['Learner']
 
@@ -98,9 +101,9 @@ class Learner(ABC):
     for _ in range(self._pars['trials']):
       result = pool.apply_async(self._one_trial, args=(current_time(), ),
           callback=self.__write_to_file)
-      del result
-      # for debug purposes
-      # result.get()
+      if FLAGS.debug:
+        # for debug purposes
+        result.get()
 
     # can not apply for processes any more
     pool.close()
