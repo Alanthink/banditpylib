@@ -1,0 +1,20 @@
+{
+	"environment": {
+		"arm": {
+			"type": "BernoulliArm",
+			"means": [0.3, 0.5, 0.7]
+		},
+		"bandit": "OrdinaryBandit"
+	},
+	"learner": {
+		"goal": "regretmin",
+		"type": "ordinarylearner",
+		"policy": ["Uniform", "UCB", "MOSS", "TS"]
+	},
+	"parameters": {
+		"horizon":2000,
+		"mod":20,
+		"trials":200,
+		"processors":40
+	}
+}

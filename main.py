@@ -5,19 +5,20 @@ To run, try `python3 main.py` under `banditpylib` root directory.
 The result is output to `out/figure.pdf` by default.
 """
 
+import json
 import os
+
+from importlib import import_module
 
 from absl import app
 from absl import logging
 from absl import flags
 
-from arms import BernoulliArm
-from bandits import OrdinaryBandit
 from draw import draw_figure
-from learners.regretmin.ordinarylearner import Uniform, UCB, MOSS, TS
 
 FLAGS = flags.FLAGS
 
+flags.DEFINE_string('config_filename', 'config.json', 'config filename')
 flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'output data filename')
 flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
@@ -31,6 +32,28 @@ flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
 # DEBUG, INFO, WARN, ERROR, FATAL
 logging.set_verbosity(logging.INFO)
 
+ARM_PKG = 'arms'
+BANDIT_PKG = 'bandits'
+LEARNER_PKG = 'learners'
+
+
+def load_config():
+  with open(FLAGS.config_filename, 'r') as json_file:
+    config = json.load(json_file)
+    means = config['environment']['arm']['means']
+    Arm = getattr(import_module(ARM_PKG),
+        config['environment']['arm']['type'])
+    arms = [Arm(mean) for mean in means]
+    Bandit = getattr(import_module(BANDIT_PKG),
+        config['environment']['bandit'])
+    bandit = Bandit(arms)
+    learner_package = '%s.%s.%s' % \
+        (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
+    learners = [getattr(import_module(learner_package), learner)()
+        for learner in config['learner']['policy']]
+    pars = config['parameters']
+    return learners, bandit, pars
+
 
 def main(argv):
   del argv
@@ -41,26 +64,19 @@ def main(argv):
   if FLAGS.do in ['d', 'all']:
     # data generation
 
-    ############################################################################
-    # to be replaced
-    means = [0.3, 0.5, 0.7]
-    arms = [BernoulliArm(mean) for mean in means]
-    bandit = OrdinaryBandit(arms)
-    learners = [Uniform(), UCB(), MOSS(), TS()]
-    pars = dict({'output': data_file,
-        'horizon':2000, 'mod':20, 'trials':200, 'processors':40})
-    ############################################################################
+    # import config
+    learners, bandit, pars = load_config()
 
     # clean file
     open(data_file, 'w').close()
 
     if FLAGS.debug:
       for learner in learners:
-        learner.play(bandit, dict({'output': data_file,
+        learner.play(bandit, data_file, dict({
             'horizon':20, 'mod':2, 'trials':2, 'processors':2}))
     else:
       for learner in learners:
-        learner.play(bandit, pars)
+        learner.play(bandit, data_file, pars)
 
   if FLAGS.do in ['f', 'all']:
     # figure generation

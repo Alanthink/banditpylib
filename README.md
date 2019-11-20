@@ -45,6 +45,10 @@ A lightweight python library for bandit algorithms
 
 ## Running of the Project
 
+### Setup
+
+See `config.json` for details.
+
 ### Quick Run
 
 ```shell

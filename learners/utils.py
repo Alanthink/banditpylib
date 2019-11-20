@@ -90,7 +90,7 @@ class Learner(ABC):
     self._t += 1
 
   def __write_to_file(self, data):
-    with open(self._pars['output'], 'a') as f:
+    with open(self.__output_file, 'a') as f:
       json.dump(data, f)
       f.write('\n')
       f.flush()
@@ -109,11 +109,12 @@ class Learner(ABC):
     pool.close()
     pool.join()
 
-  def play(self, bandit, pars):
+  def play(self, bandit, output_file, pars):
     if not isinstance(bandit, Bandit):
       logging.fatal('Not a legimate bandit!')
 
     self._bandit = bandit
+    self.__output_file = output_file
     self._pars = pars
 
     logging.info('run learner %s with goal %s' % (self.name, self.goal))
