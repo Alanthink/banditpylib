@@ -13,7 +13,7 @@
 	},
 	"parameters": {
 		"horizon":2000,
-		"mod":20,
+		"feq":20,
 		"trials":200,
 		"processors":40
 	}

@@ -1,90 +1,11 @@
-"""
-Learners under the classic bandit model.
-"""
-
-from abc import abstractmethod
-
 import math
 import numpy as np
 
 from absl import logging
 
-from arms import EmArm
-from .utils import FixBudgetBAILearner
+from .utils import OrdinaryLearner
 
-__all__ = ['Uniform', 'SR']
-
-
-class OrdinaryLearner(FixBudgetBAILearner):
-  """Base class for learners in the classic bandit model"""
-
-  @property
-  @abstractmethod
-  def name(self):
-    pass
-
-  @abstractmethod
-  def _learner_init(self):
-    pass
-
-  @abstractmethod
-  def _choice(self, context):
-    pass
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def _best_arm(self):
-    pass
-
-  def __init__(self):
-    super().__init__()
-
-  def _model_init(self):
-    """local initialization"""
-    if self._bandit.type != 'ordinarybandit':
-      logging.fatal(("(%s) I don't understand",
-                     " the bandit environment!") % self.name)
-    self._arm_num = self._bandit.arm_num
-    # record empirical information for every arm
-    self._em_arms = [EmArm() for ind in range(self._arm_num)]
-
-  def _model_update(self, context, action, feedback):
-    if isinstance(action, list):
-      for (i, tup) in enumerate(action):
-        self._em_arms[tup[0]].update(feedback[0][i], tup[1])
-    else:
-      self._em_arms[action].update(feedback[0])
-
-
-class Uniform(OrdinaryLearner):
-  """Naive uniform algorithm: sample each arm the same number of times"""
-
-  @property
-  def name(self):
-    return self.__name
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'Uniform'
-
-  def _learner_init(self):
-    pass
-
-  def _choice(self, context):
-    """return an arm to pull"""
-    if self._t <= self._budget:
-      return (self._t-1) % self._arm_num
-    return 'stop'
-
-  def _learner_update(self, context, action, feedback):
-    pass
-
-  def _best_arm(self):
-    return max([(ind, arm.em_mean)
-        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
+__all__ = ['SR']
 
 
 class SR(OrdinaryLearner):

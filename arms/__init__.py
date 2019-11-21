@@ -1,2 +1,3 @@
 from .utils import *
-from .basicarm import *
+from .BernoulliArm import *
+from .GaussianArm import *

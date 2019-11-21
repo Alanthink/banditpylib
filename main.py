@@ -73,7 +73,7 @@ def main(argv):
     if FLAGS.debug:
       for learner in learners:
         learner.play(bandit, data_file, dict({
-            'horizon':20, 'mod':2, 'trials':2, 'processors':2}))
+            'horizon':20, 'feq':2, 'trials':2, 'processors':2}))
     else:
       for learner in learners:
         learner.play(bandit, data_file, pars)
