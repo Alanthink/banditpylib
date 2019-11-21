@@ -1,6 +1,6 @@
 from absl import logging
 
-from arms import Arm
+from arms import BernoulliArm
 from .utils import Bandit
 
 __all__ = ['OrdinaryBandit']
@@ -15,8 +15,8 @@ class OrdinaryBandit(Bandit):
     if not isinstance(arms, list):
       logging.fatal('Arms should be given in a list!')
     for arm in arms:
-      if not isinstance(arm, Arm):
-        logging.fatal('Not an arm!')
+      if not isinstance(arm, BernoulliArm):
+        logging.fatal('Not a Bernoulli arm!')
     self.__arms = arms
 
     self.__arm_num = len(arms)

@@ -1,6 +1,5 @@
 from absl.testing import absltest
-from .ordinarymnlbandit import OrdinaryMNLBandit
-from .utils import search, search_best_assortment
+from .ordinarymnlbandit import OrdinaryMNLBandit, search, search_best_assortment
 
 
 class utilsTests(absltest.TestCase):
