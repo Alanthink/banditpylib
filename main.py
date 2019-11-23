@@ -37,22 +37,20 @@ BANDIT_PKG = 'bandits'
 LEARNER_PKG = 'learners'
 
 
-def load_config():
-  with open(FLAGS.config_filename, 'r') as json_file:
-    config = json.load(json_file)
-    means = config['environment']['arm']['means']
-    Arm = getattr(import_module(ARM_PKG),
-        config['environment']['arm']['type'])
-    arms = [Arm(mean) for mean in means]
-    Bandit = getattr(import_module(BANDIT_PKG),
-        config['environment']['bandit'])
-    bandit = Bandit(arms)
-    learner_package = '%s.%s.%s' % \
-        (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
-    learners = [getattr(import_module(learner_package), learner)()
-        for learner in config['learner']['policy']]
-    pars = config['parameters']
-    return learners, bandit, pars
+def parse(config):
+  means = config['environment']['arm']['means']
+  Arm = getattr(import_module(ARM_PKG),
+      config['environment']['arm']['type'])
+  arms = [Arm(mean) for mean in means]
+  Bandit = getattr(import_module(BANDIT_PKG),
+      config['environment']['bandit'])
+  bandit = Bandit(arms)
+  learner_package = '%s.%s.%s' % \
+      (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
+  learners = [getattr(import_module(learner_package), learner)()
+      for learner in config['learner']['policy']]
+  pars = config['parameters']
+  return learners, bandit, pars
 
 
 def main(argv):
@@ -61,11 +59,14 @@ def main(argv):
   data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
   figure_file = os.path.join(FLAGS.dir, FLAGS.figure_filename)
 
+  # load config
+  with open(FLAGS.config_filename, 'r') as json_file:
+    config = json.load(json_file)
+
   if FLAGS.do in ['d', 'all']:
     # data generation
 
-    # import config
-    learners, bandit, pars = load_config()
+    learners, bandit, pars = parse(config)
 
     # clean file
     open(data_file, 'w').close()
@@ -75,7 +76,7 @@ def main(argv):
 
   if FLAGS.do in ['f', 'all']:
     # figure generation
-    draw_figure(data_file, figure_file, FLAGS.novar)
+    draw_figure(data_file, figure_file, config['learner']['goal'], FLAGS.novar)
   if FLAGS.do in ['r', 'all']:
     # remove generated data
     os.remove(data_file)

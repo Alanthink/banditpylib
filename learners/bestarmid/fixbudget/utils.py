@@ -47,7 +47,7 @@ class FixBudgetBAILearner(Learner):
 
   @property
   def _budget(self):
-    return self._pars['budget']
+    return self.__budget
 
   def __init__(self):
     super().__init__()
@@ -61,28 +61,31 @@ class FixBudgetBAILearner(Learner):
 
   def _one_trial(self, seed):
     np.random.seed(seed)
+    results = []
+    for budget in self._pars['budgets']:
+      self.__budget = budget
 
-    ############################################################################
-    # learner initialization
-    self._init(self._bandit)
-    ############################################################################
+      ##########################################################################
+      # learner initialization
+      self._init(self._bandit)
+      ##########################################################################
 
-    budget_remain = self._budget
+      budget_remain = self.__budget
 
-    while True:
-      context = self._bandit.context
-      action = self._choice(context)
-      if action == 'stop':
-        break
-      feedback = self._bandit.feed(action)
-      self._update(context, action, feedback)
-      if isinstance(action, list):
-        budget_remain -= sum([tup[1] for tup in action])
-      else:
-        budget_remain -= 1
-      if budget_remain < 0:
-        logging.fatal('%s uses more than the given budget!' % self.name)
+      while True:
+        context = self._bandit.context
+        action = self._choice(context)
+        if action == 'stop':
+          break
+        feedback = self._bandit.feed(action)
+        self._update(context, action, feedback)
+        if isinstance(action, list):
+          budget_remain -= sum([tup[1] for tup in action])
+        else:
+          budget_remain -= 1
+        if budget_remain < 0:
+          logging.fatal('%s uses more than the given budget!' % self.name)
 
-    regret = self._bandit.best_arm_regret(self._best_arm())
-
-    return dict({self.name: [self._pars['budget'], regret] })
+      regret = self._bandit.best_arm_regret(self._best_arm())
+      results.append(dict({self.name: [self.__budget, regret]}))
+    return results

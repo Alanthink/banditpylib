@@ -101,8 +101,13 @@ class Learner(ABC):
 
   def __write_to_file(self, data):
     with open(self.__output_file, 'a') as f:
-      json.dump(data, f)
-      f.write('\n')
+      if isinstance(data, list):
+        for item in data:
+          json.dump(item, f)
+          f.write('\n')
+      else:
+        json.dump(data, f)
+        f.write('\n')
       f.flush()
 
   def __multi_proc(self):

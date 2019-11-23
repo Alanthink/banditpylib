@@ -78,10 +78,6 @@ python main.py --do=d
 python -m unittest discover
 ```
 
-## TODO
-
-* add figure output for best arm identification
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
