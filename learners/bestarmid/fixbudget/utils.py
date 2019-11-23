@@ -47,7 +47,7 @@ class FixBudgetBAILearner(Learner):
 
   @property
   def _budget(self):
-    return self.__budget
+    return self._pars['budget']
 
   def __init__(self):
     super().__init__()
@@ -60,20 +60,14 @@ class FixBudgetBAILearner(Learner):
     pass
 
   def _one_trial(self, seed):
-    """
-    Input:
-      pars["budget"]
-    """
-
     np.random.seed(seed)
-    self.__budget = self._pars['budget']
 
     ############################################################################
     # learner initialization
     self._init(self._bandit)
     ############################################################################
 
-    budget_remain = self.__budget
+    budget_remain = self._budget
 
     while True:
       context = self._bandit.context
@@ -91,4 +85,4 @@ class FixBudgetBAILearner(Learner):
 
     regret = self._bandit.best_arm_regret(self._best_arm())
 
-    return dict({self.name: [self.__budget, regret] })
+    return dict({self.name: [self._pars['budget'], regret] })

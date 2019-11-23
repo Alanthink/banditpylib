@@ -7,13 +7,12 @@
 		"bandit": "OrdinaryBandit"
 	},
 	"learner": {
-		"goal": "regretmin",
+		"goal": "bestarmid.fixbudget",
 		"type": "ordinarylearner",
-		"policy": ["Uniform", "UCB", "MOSS", "TS"]
+		"policy": ["Uniform", "SR"]
 	},
 	"parameters": {
-		"horizon":2000,
-		"feq":20,
+		"budget":40,
 		"trials":200,
 		"processors":40
 	}

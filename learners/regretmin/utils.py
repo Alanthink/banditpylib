@@ -41,7 +41,12 @@ class RegretMinimizationLearner(Learner):
 
   @property
   def _horizon(self):
-    return self.__horizon
+    return self._pars['horizon']
+
+  @property
+  def __frequency(self):
+    # frequency to record intermediate regret results
+    return self._pars['freq']
 
   def __init__(self):
     super().__init__()
@@ -54,13 +59,7 @@ class RegretMinimizationLearner(Learner):
     self.__rewards += feedback[0]
 
   def _one_trial(self, seed):
-    """
-    Input:
-      pars['horizon']
-      pars['feq']: frequency to record intermediate regret results
-    """
     np.random.seed(seed)
-    self.__horizon = self._pars['horizon']
 
     ############################################################################
     # learner initialization
@@ -68,13 +67,13 @@ class RegretMinimizationLearner(Learner):
     ############################################################################
 
     agg_regret = dict()
-    for t in range(self._pars['horizon'] + 1):
+    for t in range(self._horizon + 1):
       if t > 0:
         # simulation starts from t = 1
         context = self._bandit.context
         action = self._choice(context)
         feedback = self._bandit.feed(action)
         self._update(context, action, feedback)
-      if t % self._pars['feq']:
+      if t % self.__frequency:
         agg_regret[t] = self._bandit.regret(self.__rewards)
     return dict({self.name: agg_regret})

@@ -74,6 +74,16 @@ class Learner(ABC):
   def __init__(self):
     pass
 
+  @property
+  def __trials(self):
+    # # of repetitions of the play
+    return self._pars['trials']
+
+  @property
+  def __processors(self):
+    # maximum number of processors can be used
+    return self._pars['processors']
+
   def _init(self, bandit):
     # time starts from 1
     bandit.init()
@@ -96,13 +106,15 @@ class Learner(ABC):
       f.flush()
 
   def __multi_proc(self):
-    pool = Pool(processes = self._pars['processors'])
+    pool = Pool(processes = self.__processors)
 
-    for _ in range(self._pars['trials']):
+    for _ in range(self.__trials):
       result = pool.apply_async(self._one_trial, args=(current_time(), ),
           callback=self.__write_to_file)
       if FLAGS.debug:
-        # for debug purposes
+        # for debugging purposes
+        # to make sure error info of subprocesses will be reported
+        # this flag could heavily increase the running time
         result.get()
 
     # can not apply for processes any more

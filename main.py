@@ -70,13 +70,8 @@ def main(argv):
     # clean file
     open(data_file, 'w').close()
 
-    if FLAGS.debug:
-      for learner in learners:
-        learner.play(bandit, data_file, dict({
-            'horizon':20, 'feq':2, 'trials':2, 'processors':2}))
-    else:
-      for learner in learners:
-        learner.play(bandit, data_file, pars)
+    for learner in learners:
+      learner.play(bandit, data_file, pars)
 
   if FLAGS.do in ['f', 'all']:
     # figure generation

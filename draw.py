@@ -7,6 +7,8 @@ import os
 
 from absl import logging
 
+from matplotlib.collections import PolyCollection
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns; sns.set()
@@ -71,7 +73,13 @@ def draw_figure(data_file, out_file, novar):
     ci_val = None
   else:
     ci_val = 'sd'
-  sns.lineplot(x='horizon', y='regret', hue='learner', data=results, ci=ci_val)
+
+  ax = sns.lineplot(
+      x='horizon', y='regret', hue='learner', data=results, ci=ci_val)
+
+  # hide edges of filled area
+  for child in ax.findobj(PolyCollection):
+    child.set_linewidth(0.0)
 
   plt.ylabel('regret', fontweight='bold', fontsize=15)
   plt.xlabel('horizon', fontweight='bold', fontsize=15)
