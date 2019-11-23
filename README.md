@@ -43,13 +43,13 @@ A lightweight python library for bandit algorithms
 * Uniform
 * SR [[7]](#AB10)
 
-## Running of the Project
+## Getting Started
 
-### Setup
+### Prerequisites
 
-See `config.json` for details.
+Use `config.json` to set running parameters.
 
-### Quick Run
+### Installing and Running
 
 ```shell
 # create vitual environment
@@ -74,6 +74,11 @@ The output is put to `out/figure.pdf` by default and the output figure is like t
 python main.py --debug
 # generate raw data
 python main.py --do=d
+```
+
+## Running the Tests
+
+```shell
 # run all unit tests
 python -m unittest discover
 ```
