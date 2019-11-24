@@ -61,9 +61,9 @@ def main(argv):
   # load config
   with open(FLAGS.config_filename, 'r') as json_file:
     config = json.load(json_file)
-  learners, bandit, pars = parse(config)
 
   if not FLAGS.fig:
+    learners, bandit, pars = parse(config)
 
     os.makedirs(os.path.dirname(data_file), exist_ok=True)
     prev_files = os.listdir(FLAGS.dir)

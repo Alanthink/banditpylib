@@ -21,8 +21,7 @@ FLAGS = flags.FLAGS
 log.getLogger('matplotlib').setLevel(log.ERROR)
 
 FIG_NAME = 'figure'
-# jpg or pdf
-FIG_FMT = 'jpg'
+FIG_FMT = 'pdf'
 ANA_NAME = 'analysis.txt'
 
 

@@ -21,7 +21,7 @@ class lilUCB_heur(OrdinaryLearner):
 
   def __init__(self):
     super().__init__()
-    self.__name = 'lilUCB'
+    self.__name = 'lilUCB_heur'
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
