@@ -1,3 +1,4 @@
+from learners.bestarmid.fixbudget import STOP
 from .utils import OrdinaryLearner
 
 __all__ = ['Uniform']
@@ -21,7 +22,7 @@ class Uniform(OrdinaryLearner):
     """return an arm to pull"""
     if self._t <= self._budget:
       return (self._t-1) % self._arm_num
-    return 'stop'
+    return STOP
 
   def _learner_update(self, context, action, feedback):
     pass

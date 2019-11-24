@@ -20,17 +20,11 @@ FLAGS = flags.FLAGS
 
 flags.DEFINE_string('config_filename', 'config.json', 'config filename')
 flags.DEFINE_string('dir', 'out', 'output directory')
-flags.DEFINE_string('data_filename', 'data.out', 'output data filename')
-flags.DEFINE_string('figure_filename', 'figure.pdf', 'output figure filename')
+flags.DEFINE_string('data_filename', 'data.out', 'filename for generated data')
 flags.DEFINE_boolean('debug', False, 'run a simple setup for debug')
 flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
-flags.DEFINE_enum('do', 'all', ['all', 'd', 'f', 'r'],
-    ('d:generate the data,',
-     'f:generate the figure,',
-     'r:remove the data, all:do everything'))
-
-# DEBUG, INFO, WARN, ERROR, FATAL
-logging.set_verbosity(logging.INFO)
+flags.DEFINE_boolean('rm', False, 'remove previously generated data')
+flags.DEFINE_boolean('fig', False, 'generate figure only')
 
 ARM_PKG = 'arms'
 BANDIT_PKG = 'bandits'
@@ -56,30 +50,38 @@ def parse(config):
 def main(argv):
   del argv
 
+  if FLAGS.debug:
+    # DEBUG, INFO, WARN, ERROR, FATAL
+    logging.set_verbosity(logging.DEBUG)
+  else:
+    logging.set_verbosity(logging.INFO)
+
   data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
-  figure_file = os.path.join(FLAGS.dir, FLAGS.figure_filename)
 
   # load config
   with open(FLAGS.config_filename, 'r') as json_file:
     config = json.load(json_file)
+  learners, bandit, pars = parse(config)
 
-  if FLAGS.do in ['d', 'all']:
-    # data generation
+  if not FLAGS.fig:
 
-    learners, bandit, pars = parse(config)
-
-    # clean file
-    open(data_file, 'w').close()
+    os.makedirs(os.path.dirname(data_file), exist_ok=True)
+    prev_files = os.listdir(FLAGS.dir)
+    if FLAGS.rm:
+      for file in prev_files:
+        os.remove(os.path.join(FLAGS.dir, file))
+    else:
+      if os.listdir(FLAGS.dir):
+        logging.fatal(('%s is not empty. Make sure you have'
+                       ' archived previously generated data. '
+                       'Try --rm flag which will automatically'
+                       'delete previous data.') % FLAGS.dir)
 
     for learner in learners:
       learner.play(bandit, data_file, pars)
 
-  if FLAGS.do in ['f', 'all']:
-    # figure generation
-    draw_figure(data_file, figure_file, config['learner']['goal'], FLAGS.novar)
-  if FLAGS.do in ['r', 'all']:
-    # remove generated data
-    os.remove(data_file)
+  # figure generation
+  draw_figure(config['learner']['goal'])
 
 
 if __name__ == '__main__':

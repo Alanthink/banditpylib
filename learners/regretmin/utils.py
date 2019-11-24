@@ -74,6 +74,6 @@ class RegretMinimizationLearner(Learner):
         action = self._choice(context)
         feedback = self._bandit.feed(action)
         self._update(context, action, feedback)
-      if t % self.__frequency:
+      if t % self.__frequency == 0:
         agg_regret[t] = self._bandit.regret(self.__rewards)
     return dict({self.name: agg_regret})

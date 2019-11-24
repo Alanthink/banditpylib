@@ -2,17 +2,15 @@ from abc import abstractmethod
 
 import numpy as np
 
-from absl import logging
-
 from learners import Learner
 
-__all__ = ['FixBudgetBAILearner', 'STOP']
+__all__ = ['FixConfBAILearner', 'STOP']
 
 STOP = 'stop'
 
 
-class FixBudgetBAILearner(Learner):
-  """Base class for fixed budget best-arm-identification learners"""
+class FixConfBAILearner(Learner):
+  """Base class for fixed confidence best-arm-identification learners"""
 
   @property
   @abstractmethod
@@ -48,12 +46,12 @@ class FixBudgetBAILearner(Learner):
     return self.__goal
 
   @property
-  def _budget(self):
-    return self.__budget
+  def _fail_prob(self):
+    return self.__fail_prob
 
   def __init__(self):
     super().__init__()
-    self.__goal = 'Fixed Budget Best Arm Identification'
+    self.__goal = 'Fixed Confidence Best Arm Identification'
 
   def _goal_init(self):
     pass
@@ -64,15 +62,15 @@ class FixBudgetBAILearner(Learner):
   def _one_trial(self, seed):
     np.random.seed(seed)
     results = []
-    for budget in self._pars['budgets']:
-      self.__budget = budget
+    for fail_prob in self._pars['fail_probs']:
+      self.__fail_prob = fail_prob
 
       ##########################################################################
       # learner initialization
       self._init(self._bandit)
       ##########################################################################
 
-      budget_remain = self.__budget
+      tot_samples = 0
 
       while True:
         context = self._bandit.context
@@ -82,12 +80,10 @@ class FixBudgetBAILearner(Learner):
         feedback = self._bandit.feed(action)
         self._update(context, action, feedback)
         if isinstance(action, list):
-          budget_remain -= sum([tup[1] for tup in action])
+          tot_samples += sum([tup[1] for tup in action])
         else:
-          budget_remain -= 1
-        if budget_remain < 0:
-          logging.fatal('%s uses more than the given budget!' % self.name)
+          tot_samples += 1
 
       regret = self._bandit.best_arm_regret(self._best_arm())
-      results.append(dict({self.name: [self.__budget, regret]}))
+      results.append(dict({self.name: [self.__fail_prob, tot_samples, regret]}))
     return results

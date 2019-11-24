@@ -43,6 +43,10 @@ A lightweight python library for bandit algorithms
 * Uniform
 * SR [[7]](#AB10)
 
+##### Fixed Confidence
+
+* lilUCB heuristic [[8]](#JMNB14)
+
 ## Getting Started
 
 ### Prerequisites
@@ -56,9 +60,12 @@ Use `config.json` to set running parameters.
 python3 -m virtualenv .env
 # enter virtual environment
 source .env/bin/activate
+# install required packages
 pip3 install -r requirements.txt
 # run under `banditpylib` directory
 python3 main.py
+# run with friendly runtime info (this may heavily increase running time)
+python main.py --debug
 # exit virtual environment
 deactivate
 ```
@@ -66,15 +73,6 @@ deactivate
 The output is put to `out/figure.pdf` by default and the output figure is like the following.
 
 ![output example](figures/example.jpg)
-
-### Other Options
-
-```shell
-# run a simple setup for debug
-python main.py --debug
-# generate raw data
-python main.py --do=d
-```
 
 ## Running the Tests
 
@@ -102,3 +100,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 5. <a name="AMS09"></a> Jean-Yves Audibert, Rémi Munos, and Csaba Szepesvári. Exploration-exploitation tradeoff using variance estimates in multi-armed bandits. Theoretical Computer Science, 410(19):1876–1902, 2009.
 6. <a name="AAGZ19"></a> Shipra Agrawal, Vashist Avadhanula, Vineet Goyal and Assaf Zeevi. MNL-bandit: A dynamic learning approach to assortment selection. Operation Research, 67(5):1453-1485, 2019.
 7. <a name="AB10"></a> Jean-Yves Audibert and Sébastien Bubeck. Best arm identification in multi-armed bandits. In COLT, 2010.
+8. <a name="JMNB14"></a> Kevin Jamieson, Matthew Malloy, Robert Nowak and Sébastien Bubeck. lil’ucb: An optimal exploration algorithm for multi-armed bandits. In COLT, 2014.

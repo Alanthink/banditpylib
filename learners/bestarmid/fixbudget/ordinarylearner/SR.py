@@ -3,6 +3,7 @@ import numpy as np
 
 from absl import logging
 
+from learners.bestarmid.fixbudget import STOP
 from .utils import OrdinaryLearner
 
 __all__ = ['SR']
@@ -47,12 +48,12 @@ class SR(OrdinaryLearner):
   def _choice(self, context):
     """return an arm to pull"""
     if self.__budget_left <= 0:
-      return 'stop'
+      return STOP
 
     if self.__simple_mode:
       if (self._budget < self._arm_num):
         self.__best_arm = np.random.randint(self._arm_num)
-        return 'stop'
+        return STOP
 
       self.__budget_left = 0
       return [(arm, 1) for arm in range(self._arm_num)]
