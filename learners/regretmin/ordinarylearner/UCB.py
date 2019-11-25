@@ -25,7 +25,7 @@ class UCB(OrdinaryLearner):
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
-    ucb = [arm.em_mean+np.sqrt(self.__alpha/arm.pulls*np.log(self._t))
+    ucb = [arm.em_mean+np.sqrt(self.__alpha/arm.pulls*np.log(self._t-1))
         for arm in self._em_arms]
 
     return np.argmax(ucb)
