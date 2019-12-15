@@ -56,21 +56,22 @@ Use `config.json` to set running parameters.
 ### Installing and Running
 
 ```shell
+# run under `banditpylib` directory
 # create vitual environment
 python3 -m virtualenv .env
 # enter virtual environment
 source .env/bin/activate
 # install required packages
 pip3 install -r requirements.txt
-# run under `banditpylib` directory
+# run the project
 python3 main.py
 # run with friendly runtime info (this may heavily increase running time)
-python main.py --debug
+python3 main.py --debug
 # exit virtual environment
 deactivate
 ```
 
-The output is put to `out/figure.pdf` by default and the output figure is like the following.
+The output including figure and other analysis data is put under path `out/` by default. The following figure demonstrates the result of the current config file.
 
 ![output example](figures/example.jpg)
 
