@@ -15,29 +15,9 @@ class RegretMinimizationLearner(Learner):
   def name(self):
     pass
 
-  @abstractmethod
-  def _model_init(self):
-    pass
-
-  @abstractmethod
-  def _learner_init(self):
-    pass
-
-  @abstractmethod
-  def _choice(self, context):
-    pass
-
-  @abstractmethod
-  def _model_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
-    pass
-
   @property
   def goal(self):
-    return self.__goal
+    return 'Regret minimization'
 
   @property
   def _horizon(self):
@@ -48,22 +28,53 @@ class RegretMinimizationLearner(Learner):
     # frequency to record intermediate regret results
     return self._pars['freq']
 
-  def __init__(self):
-    super().__init__()
-    self.__goal = 'Regret minimization'
-
   def _goal_init(self):
     self.__rewards = 0
 
+  @abstractmethod
+  def _model_init(self):
+    pass
+
+  @abstractmethod
+  def _learner_init(self):
+    pass
+
+  @abstractmethod
+  def _learner_choice(self, context):
+    pass
+
   def _goal_update(self, context, action, feedback):
+    del context, action
     self.__rewards += feedback[0]
+
+  @abstractmethod
+  def _model_update(self, context, action, feedback):
+    pass
+
+  @abstractmethod
+  def _learner_update(self, context, action, feedback):
+    pass
+
+  def __init(self):
+    # time starts from 1
+    self._bandit.init()
+    self._t = 1
+    self._goal_init()
+    self._model_init()
+    self._learner_init()
+
+  def __update(self, context, action, feedback):
+    self._goal_update(context, action, feedback)
+    self._model_update(context, action, feedback)
+    self._learner_update(context, action, feedback)
+    self._t += 1
 
   def _one_trial(self, seed):
     np.random.seed(seed)
 
     ############################################################################
-    # learner initialization
-    self._init(self._bandit)
+    # initialization
+    self.__init()
     ############################################################################
 
     agg_regret = dict()
@@ -71,9 +82,9 @@ class RegretMinimizationLearner(Learner):
       if t > 0:
         # simulation starts from t = 1
         context = self._bandit.context
-        action = self._choice(context)
+        action = self._learner_choice(context)
         feedback = self._bandit.feed(action)
-        self._update(context, action, feedback)
+        self.__update(context, action, feedback)
       if t % self.__frequency == 0:
         agg_regret[t] = self._bandit.regret(self.__rewards)
     return dict({self.name: agg_regret})

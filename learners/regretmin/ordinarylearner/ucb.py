@@ -8,19 +8,17 @@ __all__ = ['UCB']
 class UCB(OrdinaryLearner):
   """UCB"""
 
+  def __init__(self, alpha=2):
+    self.__alpha = alpha
+
   @property
   def name(self):
-    return self.__name
-
-  def __init__(self, alpha=2):
-    super().__init__()
-    self.__alpha = alpha
-    self.__name = 'UCB'
+    return 'UCB'
 
   def _learner_init(self):
     pass
 
-  def _choice(self, context):
+  def _learner_choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

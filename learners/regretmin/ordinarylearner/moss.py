@@ -8,18 +8,17 @@ __all__ = ['MOSS']
 class MOSS(OrdinaryLearner):
   """MOSS"""
 
+  def __init__(self):
+    pass
+
   @property
   def name(self):
-    return self.__name
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'MOSS'
+    return 'MOSS'
 
   def _learner_init(self):
     pass
 
-  def _choice(self, context):
+  def _learner_choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

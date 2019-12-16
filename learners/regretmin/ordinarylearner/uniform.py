@@ -6,18 +6,17 @@ __all__ = ['Uniform']
 class Uniform(OrdinaryLearner):
   """Naive uniform algorithm: sample each arm the same number of times"""
 
+  def __init__(self):
+    pass
+
   @property
   def name(self):
-    return self.__name
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'Uniform'
+    return 'Uniform'
 
   def _learner_init(self):
     pass
 
-  def _choice(self, context):
+  def _learner_choice(self, context):
     """return an arm to pull"""
     return (self._t-1) % self._arm_num
 

@@ -19,15 +19,12 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def _choice(self, context):
+  def _learner_choice(self, context):
     pass
 
   @abstractmethod
   def _learner_update(self, context, action, feedback):
     pass
-
-  def __init__(self):
-    super().__init__()
 
   def _model_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
