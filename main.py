@@ -21,7 +21,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('config_filename', 'config.json', 'config filename')
 flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'filename for generated data')
-flags.DEFINE_boolean('debug', False, 'run a simple setup for debug')
+flags.DEFINE_boolean('debug', False, 'output runtime debug info')
 flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 flags.DEFINE_boolean('rm', False, 'remove previously generated data')
 flags.DEFINE_boolean('fig', False, 'generate figure only')
@@ -72,10 +72,10 @@ def main(argv):
         os.remove(os.path.join(FLAGS.dir, file))
     else:
       if os.listdir(FLAGS.dir):
-        logging.fatal(('%s is not empty. Make sure you have'
+        logging.fatal(('%s/ is not empty. Make sure you have'
                        ' archived previously generated data. '
                        'Try --rm flag which will automatically'
-                       'delete previous data.') % FLAGS.dir)
+                       ' delete previous data.') % FLAGS.dir)
 
     for learner in learners:
       learner.play(bandit, data_file, pars)
