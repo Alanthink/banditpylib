@@ -6,9 +6,7 @@ from absl import logging
 
 from learners import Learner
 
-__all__ = ['FixBudgetBAILearner', 'STOP']
-
-STOP = 'stop'
+__all__ = ['FixBudgetBAILearner']
 
 
 class FixBudgetBAILearner(Learner):
@@ -17,6 +15,17 @@ class FixBudgetBAILearner(Learner):
   @property
   @abstractmethod
   def name(self):
+    pass
+
+  @property
+  def goal(self):
+    return 'Fixed Budget Best Arm Identification'
+
+  @property
+  def _budget(self):
+    return self.__budget
+
+  def _goal_init(self):
     pass
 
   @abstractmethod
@@ -28,38 +37,18 @@ class FixBudgetBAILearner(Learner):
     pass
 
   @abstractmethod
-  def _choice(self, context):
-    pass
-
-  @abstractmethod
-  def _model_update(self, context, action, feedback):
-    pass
-
-  @abstractmethod
-  def _learner_update(self, context, action, feedback):
+  def _learner_run(self):
     pass
 
   @abstractmethod
   def _best_arm(self):
     pass
 
-  @property
-  def goal(self):
-    return self.__goal
-
-  @property
-  def _budget(self):
-    return self.__budget
-
-  def __init__(self):
-    super().__init__()
-    self.__goal = 'Fixed Budget Best Arm Identification'
-
-  def _goal_init(self):
-    pass
-
-  def _goal_update(self, context, action, feedback):
-    pass
+  def __init(self):
+    self._bandit.init()
+    self._goal_init()
+    self._model_init()
+    self._learner_init()
 
   def _one_trial(self, seed):
     np.random.seed(seed)
@@ -68,26 +57,14 @@ class FixBudgetBAILearner(Learner):
       self.__budget = budget
 
       ##########################################################################
-      # learner initialization
-      self._init(self._bandit)
+      # initialization
+      self.__init()
       ##########################################################################
 
-      budget_remain = self.__budget
-
-      while True:
-        context = self._bandit.context
-        action = self._choice(context)
-        if action == STOP:
-          break
-        feedback = self._bandit.feed(action)
-        self._update(context, action, feedback)
-        if isinstance(action, list):
-          budget_remain -= sum([tup[1] for tup in action])
-        else:
-          budget_remain -= 1
-        if budget_remain < 0:
-          logging.fatal('%s uses more than the given budget!' % self.name)
+      self._learner_run()
+      if self._bandit.tot_samples > budget:
+        logging.fatal('%s uses more than the given budget!' % self.name)
 
       regret = self._bandit.best_arm_regret(self._best_arm())
-      results.append(dict({self.name: [self.__budget, regret]}))
+      results.append(dict({self.name: [budget, regret]}))
     return results

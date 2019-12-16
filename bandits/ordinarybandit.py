@@ -27,8 +27,6 @@ class OrdinaryBandit(Bandit):
         for tup in enumerate(self.__arms)], key=lambda x:x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
 
-    self.__type = 'ordinarybandit'
-
   @property
   def arm_num(self):
     """return number of arms"""
@@ -36,17 +34,19 @@ class OrdinaryBandit(Bandit):
 
   @property
   def type(self):
-    return self.__type
+    return 'ordinarybandit'
+
+  @property
+  def tot_samples(self):
+    return self.__tot_samples
+
+  def init(self):
+    self.__tot_samples = 0
+    self.__max_rewards = 0
 
   @property
   def context(self):
     return None
-
-  def init(self):
-    self.__max_rewards = 0
-
-  def _update_context(self):
-    pass
 
   def _take_action(self, action):
     is_list = True
@@ -61,12 +61,16 @@ class OrdinaryBandit(Bandit):
         logging.fatal('Wrong arm index!')
 
       rewards.append(self.__arms[ind].pull(tup[1]))
+      self.__tot_samples += tup[1]
       self.__max_rewards += (self.__best_arm.mean * tup[1])
 
     if not is_list:
       # rewards[0] is a numpy array with size 1
       return (rewards[0][0],)
     return (rewards,)
+
+  def _update_context(self):
+    pass
 
   def regret(self, rewards):
     return self.__max_rewards - rewards

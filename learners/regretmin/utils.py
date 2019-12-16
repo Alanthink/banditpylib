@@ -17,7 +17,7 @@ class RegretMinimizationLearner(Learner):
 
   @property
   def goal(self):
-    return 'Regret minimization'
+    return 'Regret Minimization'
 
   @property
   def _horizon(self):

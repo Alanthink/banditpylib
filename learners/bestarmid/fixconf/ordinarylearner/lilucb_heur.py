@@ -4,7 +4,6 @@ import numpy as np
 
 from absl import flags
 
-from learners.bestarmid.fixconf import STOP
 from .utils import OrdinaryLearner
 
 FLAGS = flags.FLAGS
@@ -15,13 +14,12 @@ __all__ = ['lilUCB_heur']
 class lilUCB_heur(OrdinaryLearner):
   """lilUCB heuristic"""
 
+  def __init__(self):
+    pass
+
   @property
   def name(self):
-    return self.__name
-
-  def __init__(self):
-    super().__init__()
-    self.__name = 'lilUCB_heur'
+    return 'lilUCB_heur'
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
@@ -38,24 +36,24 @@ class lilUCB_heur(OrdinaryLearner):
     # total number of pulls used
     self.__t = 0
 
-  def _choice(self, context):
-    """return an arm to pull"""
-    if self.__init_step:
-      self.__init_step = False
-      self.__t = self._arm_num
-      return [(ind, 1) for ind in range(self._arm_num)]
+  def _learner_run(self):
+    # sample each arm once for the initialization step
+    action = [(ind, 1) for ind in range(self._arm_num)]
+    feedback = self._bandit.feed(action)
+    self._model_update(action, feedback)
+    self.__t = self._arm_num
 
-    for arm in self._em_arms:
-      if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
-        return STOP
+    while True:
+      for arm in self._em_arms:
+        if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
+          return
 
-    ucb = np.array([arm.em_mean+self.__bonus(arm.pulls) \
-        for arm in self._em_arms])
-    self.__t += 1
-    return np.argmax(ucb)
-
-  def _learner_update(self, context, action, feedback):
-    pass
+      ucb = np.array([arm.em_mean+self.__bonus(arm.pulls) \
+          for arm in self._em_arms])
+      self.__t += 1
+      action = np.argmax(ucb)
+      feedback = self._bandit.feed(action)
+      self._model_update(action, feedback)
 
   def _best_arm(self):
     return max([(ind, arm.pulls)

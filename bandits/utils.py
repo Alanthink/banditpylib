@@ -11,18 +11,14 @@ class Bandit(ABC):
   def type(self):
     pass
 
-  # current state of the environment
-  @property
-  @abstractmethod
-  def context(self):
-    pass
-
   @abstractmethod
   def init(self):
     pass
 
+  # current state of the environment
+  @property
   @abstractmethod
-  def _update_context(self):
+  def context(self):
     pass
 
   @abstractmethod
@@ -38,7 +34,7 @@ class Bandit(ABC):
     """
 
   @abstractmethod
-  def regret(self, rewards):
+  def _update_context(self):
     pass
 
   def feed(self, action):
@@ -49,3 +45,7 @@ class Bandit(ABC):
     feedback = self._take_action(action)
     self._update_context()
     return feedback
+
+  @abstractmethod
+  def regret(self, rewards):
+    pass
