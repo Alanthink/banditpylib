@@ -1,8 +1,6 @@
 """
-A simple example.
-
 To run, try `python3 main.py` under `banditpylib` root directory.
-The result is output to `out/figure.pdf` by default.
+The results are put under `out/` by default.
 """
 
 import json

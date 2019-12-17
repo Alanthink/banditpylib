@@ -46,6 +46,7 @@ A lightweight python library for bandit algorithms
 ##### Fixed Confidence
 
 * lilUCB heuristic [[8]](#JMNB14)
+* ExpGap [[9]](#KKS13)
 
 ## Getting Started
 
@@ -102,3 +103,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 6. <a name="AAGZ19"></a> Shipra Agrawal, Vashist Avadhanula, Vineet Goyal and Assaf Zeevi. MNL-bandit: A dynamic learning approach to assortment selection. Operation Research, 67(5):1453-1485, 2019.
 7. <a name="AB10"></a> Jean-Yves Audibert and Sébastien Bubeck. Best arm identification in multi-armed bandits. In COLT, 2010.
 8. <a name="JMNB14"></a> Kevin Jamieson, Matthew Malloy, Robert Nowak and Sébastien Bubeck. lil’ucb: An optimal exploration algorithm for multi-armed bandits. In COLT, 2014.
+9. <a name="KKS13"></a> Zohar Karnin, Tomer Koren and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML, 2013.

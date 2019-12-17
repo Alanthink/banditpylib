@@ -32,7 +32,6 @@ class lilUCB_heur(OrdinaryLearner):
     # alg parameters suggested by the paper
     self.__beta = 0.5; self.__a = 1+10/self._arm_num; self.__eps = 0
     self.__delta = self._fail_prob/5
-    self.__init_step = True
     # total number of pulls used
     self.__t = 0
 
