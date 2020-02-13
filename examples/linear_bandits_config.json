@@ -15,9 +15,9 @@
 		"policy": ["Uniform","CUCB","UCB"]
 	},
 	"parameters": {
-		"horizon": 500,
+		"horizon": 2000,
 		"freq": 20,
-		"trials": 50,
+		"trials": 200,
 		"processors": 40
 	}
 }
