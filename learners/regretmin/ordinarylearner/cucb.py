@@ -1,7 +1,7 @@
 import numpy as np
+import cvxpy as cp
 
 from .utils import OrdinaryLearner
-import cvxpy as cp
 
 __all__ = ['CUCB']
 
@@ -11,6 +11,8 @@ class CUCB(OrdinaryLearner):
 
   def __init__(self, alpha=2):
     self.__alpha = alpha
+    self.__th = cp.Variable(dim)
+    self.__obj = cp.Minimize(cp.Constant(0)) # just want to check feasibility of constraints
 
   @property
   def name(self):
@@ -36,15 +38,13 @@ class CUCB(OrdinaryLearner):
     dim = arm_kmax.action.shape[0] # action dimension
 
     # recover confidence set & maximal mu over confidence set
-    th = cp.Variable(dim)
-    obj = cp.Minimize(cp.Constant(0)) # just want to check feasibility of constraints
-    constr = [cp.abs(arm_kmax.action * th  - mu_kmax) <= np.sqrt(2*self.__alpha/n_kmax*np.log(self._t-1)), cp.norm(th, 2) <= 1]
+    constr = [cp.abs(arm_kmax.action * self.__th  - mu_kmax) <= np.sqrt(2*self.__alpha/n_kmax*np.log(self._t-1)), cp.norm(self.__th, 2) <= 1]
 
     noncomp = []
     for k in em_comp:
       arm = self._em_arms[k]
-      problem = cp.Problem(obj, constr+[arm.action * th >= a.action * th for a in self._em_arms])
-      problem.solve(solver=cp.ECOS,warm_start=True)
+      problem = cp.Problem(__obj, constr+[arm.action * self.__th >= a.action * self.__th for kk,a in enumerate(self._em_arms) if k != kk])
+      problem.solve(warm_start=True)
       if problem.value != 0.0:
         noncomp.append(k)
 
