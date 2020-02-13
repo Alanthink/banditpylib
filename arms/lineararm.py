@@ -22,7 +22,6 @@ class LinearArm(Arm):
     return np.dot(self.__a, em_theta)
 
   def cp_mu_theta(self, em_cp_theta):
-    print('yeet')
     return self.__cp_a * em_cp_theta
 
   @property
