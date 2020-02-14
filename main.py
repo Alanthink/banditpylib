@@ -24,19 +24,14 @@ flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 flags.DEFINE_boolean('rm', False, 'remove previously generated data')
 flags.DEFINE_boolean('fig', False, 'generate figure only')
 
-ARM_PKG = 'arms'
 BANDIT_PKG = 'bandits'
 LEARNER_PKG = 'learners'
 
 
 def parse(config):
-  means = config['environment']['arm']['means']
-  Arm = getattr(import_module(ARM_PKG),
-      config['environment']['arm']['type'])
-  arms = [Arm(mean) for mean in means]
-  Bandit = getattr(import_module(BANDIT_PKG),
-      config['environment']['bandit'])
-  bandit = Bandit(arms)
+  bandit_type = config['environment']['type']
+  Bandit = getattr(import_module(BANDIT_PKG), bandit_type)
+  bandit = Bandit(config['environment'][bandit_type])
   learner_package = '%s.%s.%s' % \
       (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
   learners = [getattr(import_module(learner_package), learner)()
