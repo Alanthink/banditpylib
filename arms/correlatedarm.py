@@ -2,11 +2,11 @@ import numpy as np
 import cvxpy as cp
 from .utils import Arm
 
-__all__ = ['LinearArm']
+__all__ = ['CorrelatedArm']
 
 
-class LinearArm(Arm):
-  """Linear arm"""
+class CorrelatedArm(Arm):
+  """Correlated arm"""
 
   def __init__(self, a, theta=1):
     self.__a = np.array(a)

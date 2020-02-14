@@ -16,7 +16,7 @@ from draw import draw_figure
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('config_filename', 'linear_bandits_config.json', 'config filename')
+flags.DEFINE_string('config_filename', 'correlated_bandits_config.json', 'config filename')
 flags.DEFINE_string('dir', 'out', 'output directory')
 flags.DEFINE_string('data_filename', 'data.out', 'filename for generated data')
 flags.DEFINE_boolean('debug', True, 'output runtime debug info')
