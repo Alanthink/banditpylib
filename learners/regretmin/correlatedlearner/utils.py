@@ -5,10 +5,10 @@ from absl import logging
 from arms import EmArm
 from learners.regretmin import RegretMinimizationLearner
 
-__all__ = ['OrdinaryLearner']
+__all__ = ['CorrelatedLearner']
 
 
-class OrdinaryLearner(RegretMinimizationLearner):
+class CorrelatedLearner(RegretMinimizationLearner):
   """Base class for learners in the classic bandit model"""
 
   @property
@@ -30,7 +30,7 @@ class OrdinaryLearner(RegretMinimizationLearner):
 
   def _model_init(self):
     """local initialization"""
-    if self._bandit.type not in ['ordinarybandit', 'correlatedbandit']:
+    if self._bandit.type not in ['correlatedbandit']:
       logging.fatal(("(%s) I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num

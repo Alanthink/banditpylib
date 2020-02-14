@@ -1,12 +1,12 @@
 import numpy as np
 import cvxpy as cp
 
-from .utils import OrdinaryLearner
+from .utils import CorrelatedLearner
 
 __all__ = ['CUCB']
 
 
-class CUCB(OrdinaryLearner):
+class CUCB(CorrelatedLearner):
   """UCB"""
 
   def __init__(self, alpha=2):
@@ -25,7 +25,7 @@ class CUCB(OrdinaryLearner):
       return (self._t-1) % self._arm_num
 
     for k in range(self._arm_num):
-      self._em_arms[k].action = self._bandit.arms[k].action
+      self._em_arms[k].action = self._bandit.actions[k]
 
     em_comp = list(range(self._arm_num)) # arm index
     k_max = np.argmax([arm.pulls for arm in self._em_arms]) # index  of most pulled arm

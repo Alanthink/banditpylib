@@ -1,36 +1,41 @@
+from importlib import import_module
+
 from absl import logging
 import numpy as np
-from arms import BernoulliArm
 from arms import CorrelatedArm
 from .utils import Bandit
 
-__all__ = ['OrdinaryCorrelatedBandit']
+__all__ = ['CorrelatedBandit']
 
-class OrdinaryCorrelatedBandit(Bandit):
-  """Ordinary correlated bandit model
+ARM_PKG = 'arms'
+
+class CorrelatedBandit(Bandit):
+  """Correlated bandit model
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
-  def __init__(self, arms, theta):
-    logging.info('Ordinary correlated bandit model')
-    if not isinstance(arms, list):
-      logging.fatal('Arms should be given in a list!')
-    for arm in arms:
-      if not isinstance(arm, CorrelatedArm):
-        logging.fatal('Not a correlated arm!')
-
-    self.__theta = np.array(theta)
+  def __init__(self, pars):
+    logging.info('Correlated bandit model')
+    if pars['arm']['type'] !=  'CorrelatedArm':
+      logging.fatal('Not a correlated arm!')
+    actions = pars['arm']['means']
+    if not isinstance(actions, list):
+      logging.fatal('Means should be given in a list!')
+    self.__actions = [np.array(action) for action in actions]
+    self.__theta = np.array(pars['param'])
+    Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
+    arms = [Arm(np.dot(action,self.theta)) for action in self.__actions]
     self.__arms = arms
 
-    for idx, arm in enumerate(self.__arms):
-      if arm.action.shape !=self.theta.shape:
+    for idx, action in enumerate(self.__actions):
+      if action.shape !=self.theta.shape:
         logging.fatal('The action and global parameter dimensions are unequal!')
 
     self.__arm_num = len(arms)
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    self.__best_arm_ind = max([(tup[0], np.dot(tup[1].action,self.theta))
+    self.__best_arm_ind = max([(tup[0], tup[1].mean)
         for tup in enumerate(self.__arms)], key=lambda x:x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
 
@@ -45,7 +50,7 @@ class OrdinaryCorrelatedBandit(Bandit):
 
   @property
   def type(self):
-    return 'ordinarycorrelatedbandit'
+    return 'correlatedbandit'
 
   @property
   def tot_samples(self):
@@ -63,6 +68,10 @@ class OrdinaryCorrelatedBandit(Bandit):
   def theta(self):
     return self.__theta
 
+  @property
+  def actions(self):
+    return self.__actions
+
   def _take_action(self, action):
     is_list = True
     if not isinstance(action, list):
@@ -74,7 +83,7 @@ class OrdinaryCorrelatedBandit(Bandit):
       ind = tup[0]
       if ind not in range(self.arm_num):
         logging.fatal('Wrong arm index!')
-      rewards.append(self.__arms[ind].pull(self.theta, tup[1]))
+      rewards.append(self.__arms[ind].pull(tup[1]))
       self.__tot_samples += tup[1]
       self.__max_rewards += (self.__best_arm.mean * tup[1])
 
