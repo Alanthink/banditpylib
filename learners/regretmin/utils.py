@@ -76,7 +76,6 @@ class RegretMinimizationLearner(Learner):
     # initialization
     self.__init()
     ############################################################################
-
     agg_regret = dict()
     for t in range(self._horizon + 1):
       if t > 0:

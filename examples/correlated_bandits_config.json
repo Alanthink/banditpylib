@@ -1,0 +1,23 @@
+{
+	"environment": {
+		"type": "CorrelatedBandit",
+		"CorrelatedBandit": {
+			"arm": {
+				"type": "CorrelatedArm",
+				"means": [[0.3,0.2], [0.5,0.6], [0.7,0.9]]
+			},
+			"param": [0.5,0.5]
+		}
+	},
+	"learner": {
+		"goal": "regretmin",
+		"type": "correlatedlearner",
+		"policy": ["Uniform", "UCB", "CUCB", "TS"]
+	},
+	"parameters": {
+		"horizon": 500,
+		"freq": 20,
+		"trials": 5,
+		"processors": 40
+	}
+}
