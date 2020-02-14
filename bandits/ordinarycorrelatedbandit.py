@@ -1,23 +1,23 @@
 from absl import logging
 import numpy as np
 from arms import BernoulliArm
-from arms import LinearArm
+from arms import CorrelatedArm
 from .utils import Bandit
 
-__all__ = ['OrdinaryLinearBandit']
+__all__ = ['OrdinaryCorrelatedBandit']
 
-class OrdinaryLinearBandit(Bandit):
-  """Ordinary linear bandit model
+class OrdinaryCorrelatedBandit(Bandit):
+  """Ordinary correlated bandit model
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
   def __init__(self, arms, theta):
-    logging.info('Ordinary linear bandit model')
+    logging.info('Ordinary correlated bandit model')
     if not isinstance(arms, list):
       logging.fatal('Arms should be given in a list!')
     for arm in arms:
-      if not isinstance(arm, LinearArm):
-        logging.fatal('Not a linear arm!')
+      if not isinstance(arm, CorrelatedArm):
+        logging.fatal('Not a correlated arm!')
 
     self.__theta = np.array(theta)
     self.__arms = arms
@@ -45,7 +45,7 @@ class OrdinaryLinearBandit(Bandit):
 
   @property
   def type(self):
-    return 'ordinarybandit'
+    return 'ordinarycorrelatedbandit'
 
   @property
   def tot_samples(self):
