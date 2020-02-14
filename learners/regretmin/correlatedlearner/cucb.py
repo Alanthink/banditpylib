@@ -7,7 +7,7 @@ __all__ = ['CUCB']
 
 
 class CUCB(CorrelatedLearner):
-  """UCB"""
+  """CUCB"""
 
   def __init__(self, alpha=2):
     self.__alpha = alpha
