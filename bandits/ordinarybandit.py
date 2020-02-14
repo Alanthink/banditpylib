@@ -1,24 +1,30 @@
+from importlib import import_module
+
 from absl import logging
 
-from arms import BernoulliArm
 from .utils import Bandit
 
 __all__ = ['OrdinaryBandit']
+
+ARM_PKG = 'arms'
+
 
 class OrdinaryBandit(Bandit):
   """Ordinary bandit model
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
-  def __init__(self, arms):
+  def __init__(self, pars):
     logging.info('Ordinary bandit model')
-    if not isinstance(arms, list):
-      logging.fatal('Arms should be given in a list!')
-    for arm in arms:
-      if not isinstance(arm, BernoulliArm):
-        logging.fatal('Not a Bernoulli arm!')
+    # currently only 'BernoulliArm' is supported
+    if pars['arm'] != 'BernoulliArm':
+      logging.fatal('Not a Bernoulli arm!')
+    means = pars['means']
+    if not isinstance(means, list):
+      logging.fatal('Means should be given in a list!')
+    Arm = getattr(import_module(ARM_PKG), pars['arm'])
+    arms = [Arm(mean) for mean in means]
     self.__arms = arms
-
     self.__arm_num = len(arms)
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')

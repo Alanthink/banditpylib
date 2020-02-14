@@ -80,7 +80,7 @@ The output including figure and other analysis data is put under path `out/` by 
 
 ```shell
 # run all unit tests
-python -m unittest discover
+python3 -m unittest discover
 ```
 
 ## License
