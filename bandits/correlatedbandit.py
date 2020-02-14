@@ -24,11 +24,11 @@ class CorrelatedBandit(Bandit):
     self.__actions = [np.array(action) for action in actions]
     self.__theta = np.array(pars['param'])
     Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
-    arms = [Arm(np.dot(action,self.theta)) for action in self.__actions]
+    arms = [Arm(np.dot(action,self.__theta)) for action in self.__actions]
     self.__arms = arms
 
     for idx, action in enumerate(self.__actions):
-      if action.shape !=self.theta.shape:
+      if action.shape != self.__theta.shape:
         logging.fatal('The action and global parameter dimensions are unequal!')
 
     self.__arm_num = len(arms)
@@ -45,10 +45,6 @@ class CorrelatedBandit(Bandit):
     return self.__arm_num
 
   @property
-  def arms(self):
-    return self.__arms
-
-  @property
   def type(self):
     return 'correlatedbandit'
 
@@ -63,10 +59,6 @@ class CorrelatedBandit(Bandit):
   @property
   def context(self):
     return None
-
-  @property
-  def theta(self):
-    return self.__theta
 
   @property
   def actions(self):

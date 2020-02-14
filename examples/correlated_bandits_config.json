@@ -12,7 +12,7 @@
 	"learner": {
 		"goal": "regretmin",
 		"type": "correlatedlearner",
-		"policy": ["Uniform", "UCB", "CUCB"]
+		"policy": ["Uniform", "UCB", "CUCB", "TS"]
 	},
 	"parameters": {
 		"horizon": 500,
