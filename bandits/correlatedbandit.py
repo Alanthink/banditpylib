@@ -2,12 +2,12 @@ from importlib import import_module
 
 from absl import logging
 import numpy as np
-from arms import CorrelatedArm
 from .utils import Bandit
 
 __all__ = ['CorrelatedBandit']
 
 ARM_PKG = 'arms'
+
 
 class CorrelatedBandit(Bandit):
   """Correlated bandit model
@@ -27,7 +27,7 @@ class CorrelatedBandit(Bandit):
     arms = [Arm(np.dot(action,self.__theta)) for action in self.__actions]
     self.__arms = arms
 
-    for idx, action in enumerate(self.__actions):
+    for _, action in enumerate(self.__actions):
       if action.shape != self.__theta.shape:
         logging.fatal('The action and global parameter dimensions are unequal!')
 

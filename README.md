@@ -108,8 +108,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 7. <a name="AB10"></a> Jean-Yves Audibert and Sébastien Bubeck. Best arm identification in multi-armed bandits. In COLT, 2010.
 8. <a name="JMNB14"></a> Kevin Jamieson, Matthew Malloy, Robert Nowak and Sébastien Bubeck. lil’ucb: An optimal exploration algorithm for multi-armed bandits. In COLT, 2014.
 9. <a name="KKS13"></a> Zohar Karnin, Tomer Koren and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML, 2013.
-10. <a name="GCJY18"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi, Osman Yağan. Exploiting correlation in finite-armed structured bandits. 2018.
-11.  <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi, Osman Yağan. Multi-Armed Bandits with Correlated Arms. ARXIV:1911.03959, 2019.
+10. <a name="GCJY18"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Exploiting correlation in finite-armed structured bandits. 2018.
+11. <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Multi-Armed Bandits with Correlated Arms. ARXIV:1911.03959, 2019.
 
 ## Contributors
 
