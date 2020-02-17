@@ -1,0 +1,24 @@
+{
+	"environment": {
+		"type": "OrdinaryBandit",
+		"OrdinaryBandit": {
+			"arm": "BernoulliArm",
+			"means": [0.7, 0.5, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+		},
+		"protocol": "DecentralizedProtocol",
+		"DecentralizedProtocol": {
+			"num_players": 10
+		}
+	},
+	"learner": {
+		"goal": "regretmin",
+		"type": "decentralizedlearner",
+		"policy": ["FUCB", "SUCB", "Uniform"]
+	},
+	"parameters": {
+		"horizon": 1000,
+		"freq": 20,
+		"trials": 100,
+		"processors": 40
+	}
+}

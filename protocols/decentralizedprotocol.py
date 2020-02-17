@@ -1,5 +1,6 @@
 from absl import logging
-from random import choice
+import numpy as np
+from random import randint
 
 from bandits import ordinarybandit
 from .utils import Protocol
@@ -10,54 +11,57 @@ class DecentralizedProtocol(Protocol):
   """Decentralized protocol
   """
 
-  def __init__(self, bandits, players):
-    logging.info('Decentralized communication protocol')
-    if not isinstance(players, list):
-      logging.fatal('Players should be given in a list!')
-	if not isinstance(bandits, list):
-		logging.fatal('bandits shoould be given in a list!')
-	for player in players:
-      if not isinstance(arm, DELIM):
-        logging.fatal('Not a DELIM arm!')
-	if not ((len(bandits) == 1) or len(bandits == len(players)))
-		logging.fatal('number of bandit instances should be one or equal \
-					   to the number of players!')
-
-    self.__bandits = bandits
-    self.__players = players
+  def __init__(self, pars):
+    self.__messages = []
+    self.__num_players = pars['num_players']
 
   @property
   def type(self):
-    return 'decentralizedprotocol'
+    return 'decentralizedprotocol_'+self._player_type
+
+  @property
+  def _num_players(self):
+    return self.__num_players
+
+  @property
+  def _messages(self):
+    return self.__messages
+
+  def _broadcast_message(self, message, player):
+    self.__messages.append(message)
+
+  def __init(self):
+    # time starts from 1
+    for k in range(self._num_players):
+      player = self._players[k]
+      bandit = self._bandits[k]
+      player.init(bandit)
 
   def _one_trial(self, seed):
     np.random.seed(seed)
-
     ############################################################################
     # initialization
     self.__init()
     ############################################################################
-
     agg_regret = dict()
+
     for t in range(self._horizon + 1):
       if t > 0:
-      	_play_round()
-      #if t % self.__frequency == 0:
-      #  agg_regret[t] = self._bandit.regret(self.__rewards)
-    return dict({self.name: agg_regret})
+        self._play_round(t)
+      if t > 0 and t % self._frequency == 0:
+        agg_regret[t] = self.regret()
+    return dict({self.type: agg_regret})
 
+  def _play_round(self, t):
+    # sample player
+    k = randint(0,self._num_players-1)
+    player = self._players[k]
+    bandit = self._bandits[k]
 
-  def _play_round(self):
-  	# sample player
-  	player = choice(self.__players)
+    # play player and broadcast  message
+    message = player._one_decentralized_iteration(self._messages)
+    self._broadcast_message(message, player)
 
-  	# play player
-  	player.
-  	# broadcast messages
-  	pass
-
-  def init(self):
-    pass
-
-  def regret(self, rewards):
-    return self.__max_rewards - rewards
+  def regret(self):
+    return sum([self._players[k]._agg_decentralized_regret() \
+               for k in range(self._num_players)])

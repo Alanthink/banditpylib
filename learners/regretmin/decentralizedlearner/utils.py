@@ -3,12 +3,13 @@ from abc import abstractmethod
 from absl import logging
 
 from arms import EmArm
+from bandits import Bandit
 from learners.regretmin import RegretMinimizationLearner
 
-__all__ = ['OrdinaryLearner']
+__all__ = ['DecentralizedLearner']
 
 
-class OrdinaryLearner(RegretMinimizationLearner):
+class DecentralizedLearner(RegretMinimizationLearner):
   """Base class for learners in the classic bandit model"""
 
   @property
@@ -21,20 +22,23 @@ class OrdinaryLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def _learner_choice(self, context):
+  def _learner_choice(self, context, messages):
     pass
 
   @abstractmethod
-  def _receive_message(self):
-    pass
-
-  @abstractmethod
-  def _make_message(self):
+  def _broadcast_message(self,context, action, feedback):
     pass
 
   @abstractmethod
   def _learner_update(self, context, action, feedback):
     pass
+
+  def init(self, bandit):
+    if not isinstance(bandit, Bandit):
+      logging.fatal('Not a legimate bandit!')
+
+    self._bandit = bandit
+    self._init = False
 
   def _model_init(self):
     """local initialization"""

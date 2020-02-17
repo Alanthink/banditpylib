@@ -26,6 +26,7 @@ flags.DEFINE_boolean('fig', False, 'generate figure only')
 
 BANDIT_PKG = 'bandits'
 LEARNER_PKG = 'learners'
+PROTOCOL_PKG = 'protocols'
 
 
 def parse(config):
@@ -36,8 +37,25 @@ def parse(config):
       (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
   learners = [getattr(import_module(learner_package), learner)()
       for learner in config['learner']['policy']]
+
+  if 'protocol' in config['environment']:
+    protocol_type = config['environment']['protocol']
+    num_players = config['environment'][protocol_type]['num_players']
+    Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
+    protocol = Protocol(config['environment'][protocol_type])
+
+    learners = []
+    for learner in config['learner']['policy']:
+      players = []
+      for _ in range(num_players):
+        players.append(getattr(import_module(learner_package), learner)())
+      learners.append(players)
+    bandit = [Bandit(config['environment'][bandit_type]) for _ in range(num_players)]
+  else:
+    protocol = None
+
   pars = config['parameters']
-  return learners, bandit, pars
+  return learners, bandit, protocol, pars
 
 
 def main(argv):
@@ -56,7 +74,7 @@ def main(argv):
     config = json.load(json_file)
 
   if not FLAGS.fig:
-    learners, bandit, pars = parse(config)
+    learners, bandit, protocol, pars = parse(config)
 
     os.makedirs(os.path.dirname(data_file), exist_ok=True)
     prev_files = os.listdir(FLAGS.dir)
@@ -70,8 +88,12 @@ def main(argv):
                        'Try --rm flag which will automatically'
                        ' delete previous data.') % FLAGS.dir)
 
-    for learner in learners:
-      learner.play(bandit, data_file, pars)
+    if protocol is None: 
+      for learner in learners:
+        learner.play(bandit, data_file, pars)
+    else:
+      for learner in learners:
+        protocol.play(bandit, learner, data_file, pars)
 
   # figure generation
   draw_figure(config['learner']['goal'])
