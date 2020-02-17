@@ -1,5 +1,4 @@
 import numpy as np
-import cvxpy as cp
 from .utils import Arm
 
 __all__ = ['CorrelatedArm']
