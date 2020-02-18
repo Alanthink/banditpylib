@@ -54,22 +54,6 @@ def parse(config):
               for _ in range(num_players)]
   else:
     protocol = None
-    """
-    protocol_type = "SinglePlayerProtocol"
-    num_players = 1
-    Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
-    sp_prot = { 'num_players': 1 }
-    protocol = Protocol(sp_prot)
-
-    learners = []
-    for learner in config['learner']['policy']:
-      players = []
-      for _ in range(num_players):
-        players.append(getattr(import_module(learner_package), learner)())
-      learners.append(players)
-    bandit = [Bandit(config['environment'][bandit_type])
-              for _ in range(num_players)]
-    """
 
   pars = config['parameters']
   return learners, bandit, protocol, pars
