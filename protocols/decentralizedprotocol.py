@@ -7,6 +7,7 @@ from .utils import Protocol
 
 __all__ = ['DecentralizedProtocol']
 
+
 class DecentralizedProtocol(Protocol):
   """Decentralized protocol
   """
@@ -54,7 +55,7 @@ class DecentralizedProtocol(Protocol):
 
   def _play_round(self, t):
     # sample player
-    k = randint(0,self._num_players-1)
+    k = randint(0, self._num_players-1)
     player = self._players[k]
     bandit = self._bandits[k]
 
@@ -63,5 +64,5 @@ class DecentralizedProtocol(Protocol):
     self._broadcast_message(message, player)
 
   def regret(self):
-    return sum([self._players[k]._agg_decentralized_regret() \
+    return sum([self._players[k]._agg_decentralized_regret()
                for k in range(self._num_players)])

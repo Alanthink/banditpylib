@@ -18,7 +18,7 @@ class SUCB(DecentralizedLearner):
   def _learner_init(self):
     pass
 
-  def _broadcast_message(self,context, action, feedback):
+  def _broadcast_message(self, context, action, feedback):
     return None
 
   def _learner_choice(self, context, messages):
@@ -27,7 +27,7 @@ class SUCB(DecentralizedLearner):
       return (self._t-1) % self._arm_num
 
     ucb = [arm.em_mean+np.sqrt(self.__alpha/arm.pulls*np.log(self._t-1))
-        for arm in self._em_arms]
+            for arm in self._em_arms]
     return np.argmax(ucb)
 
   def _learner_update(self, context, action, feedback):

@@ -36,8 +36,9 @@ class FUCB(DecentralizedLearner):
     for i, a in enumerate(arms):
       rew[a] += scores[i]
 
-    ucb = [rew[arm]/pulls[arm]+np.sqrt(self.__alpha/pulls[arm]*np.log(len(arms) - 1))
-        for arm in range(self._arm_num)]
+    ucb = [rew[arm]/pulls[arm]+
+            np.sqrt(self.__alpha/pulls[arm]*np.log(len(arms) - 1))
+            for arm in range(self._arm_num)]
     return np.argmax(ucb)
 
   def _learner_update(self, context, action, feedback):

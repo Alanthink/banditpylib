@@ -12,10 +12,12 @@ from bandits import Bandit
 __all__ = ['Protocol']
 FLAGS = flags.FLAGS
 
+
 # for generating random seeds
 def current_time():
   tem_time = time.time()
   return int((tem_time-int(tem_time))*10000000)
+
 
 class Protocol(ABC):
   """Abstract bandit environment"""
@@ -35,8 +37,8 @@ class Protocol(ABC):
     pass
 
   @abstractmethod
-  def _one_trial(self,seed):
-  	pass
+  def _one_trial(self, seed):
+    pass
 
   @abstractmethod
   def _play_round(self):

@@ -50,7 +50,8 @@ def parse(config):
       for _ in range(num_players):
         players.append(getattr(import_module(learner_package), learner)())
       learners.append(players)
-    bandit = [Bandit(config['environment'][bandit_type]) for _ in range(num_players)]
+    bandit = [Bandit(config['environment'][bandit_type]) 
+              for _ in range(num_players)]
   else:
     protocol = None
 
