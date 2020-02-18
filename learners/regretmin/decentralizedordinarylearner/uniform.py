@@ -1,9 +1,9 @@
-from .utils import DecentralizedLearner
+from .utils import DecentralizedOrdinaryLearner
 
 __all__ = ['Uniform']
 
 
-class Uniform(DecentralizedLearner):
+class Uniform(DecentralizedOrdinaryLearner):
   """Naive uniform algorithm: sample each arm the same number of times"""
 
   def __init__(self):
@@ -17,11 +17,11 @@ class Uniform(DecentralizedLearner):
     pass
 
   def _broadcast_message(self, context, action, feedback):
-    return 0
+    return None
 
   def _learner_choice(self, context, messages):
     """return an arm to pull"""
-    return (self._t-1) % self._arm_num
+    return (self._t - 1) % self._arm_num
 
   def _learner_update(self, context, action, feedback):
     pass

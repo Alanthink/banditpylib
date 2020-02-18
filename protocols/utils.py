@@ -98,7 +98,7 @@ class Protocol(ABC):
       f.flush()
 
   def __multi_proc(self):
-    pool = Pool(processes = self.__processors)
+    pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
       result = pool.apply_async(self._one_trial, args=(current_time(), ),
@@ -127,4 +127,4 @@ class Protocol(ABC):
     logging.info('run protocol %s' % (self.type))
     start_time = time.time()
     self.__multi_proc()
-    logging.info('%.2f seconds elapsed' % (time.time()-start_time))
+    logging.info('%.2f seconds elapsed' % (time.time() - start_time))

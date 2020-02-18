@@ -1,11 +1,11 @@
 import numpy as np
 
-from .utils import DecentralizedLearner
+from .utils import DecentralizedOrdinaryLearner
 
 __all__ = ['FUCB']
 
 
-class FUCB(DecentralizedLearner):
+class FUCB(DecentralizedOrdinaryLearner):
   """Friendly UCB"""
 
   def __init__(self, alpha=2):
@@ -36,8 +36,8 @@ class FUCB(DecentralizedLearner):
     for i, a in enumerate(arms):
       rew[a] += scores[i]
 
-    ucb = [rew[arm]/pulls[arm]+
-            np.sqrt(self.__alpha/pulls[arm]*np.log(len(arms) - 1))
+    ucb = [rew[arm] / pulls[arm] +
+            np.sqrt(self.__alpha / pulls[arm] * np.log(len(arms) - 1))
             for arm in range(self._arm_num)]
     return np.argmax(ucb)
 
