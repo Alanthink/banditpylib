@@ -5,20 +5,25 @@ from random import randint
 from bandits import ordinarybandit
 from .utils import Protocol
 
-__all__ = ['DecentralizedProtocol']
+__all__ = ['SinglePlayerProtocol']
 
 
-class DecentralizedProtocol(Protocol):
+class SinglePlayerProtocol(Protocol):
   """Decentralized protocol
   """
 
   def __init__(self, pars):
     self.__messages = []
+    print(pars)
+    if pars['num_players'] != 1:
+      logging.fatal("SinglePlayerProtocol",
+                     " only supports one player!")
+
     self.__num_players = pars['num_players']
 
   @property
   def type(self):
-    return 'decentralizedprotocol: ' + self._player_type
+    return 'singleplayerprotocol: ' + self._player_type
 
   @property
   def _num_players(self):
@@ -45,7 +50,7 @@ class DecentralizedProtocol(Protocol):
     self.__init()
     ############################################################################
     agg_regret = dict()
-
+  
     for t in range(self._horizon + 1):
       if t > 0:
         self._play_round(t)

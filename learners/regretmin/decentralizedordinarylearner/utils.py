@@ -6,10 +6,10 @@ from arms import EmArm
 from bandits import Bandit
 from learners.regretmin import RegretMinimizationLearner
 
-__all__ = ['DecentralizedLearner']
+__all__ = ['DecentralizedOrdinaryLearner']
 
 
-class DecentralizedLearner(RegretMinimizationLearner):
+class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
   """Base class for learners in the classic bandit model"""
 
   @property

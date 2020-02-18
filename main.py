@@ -38,11 +38,11 @@ def parse(config):
   learners = [getattr(import_module(learner_package), learner)()
       for learner in config['learner']['policy']]
 
-  if 'protocol' in config['environment']:
-    protocol_type = config['environment']['protocol']
-    num_players = config['environment'][protocol_type]['num_players']
+  if 'protocol' in config:
+    protocol_type = config['protocol']['type']
+    num_players = config['protocol'][protocol_type]['num_players']
     Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
-    protocol = Protocol(config['environment'][protocol_type])
+    protocol = Protocol(config['protocol'][protocol_type])
 
     learners = []
     for learner in config['learner']['policy']:
@@ -50,10 +50,26 @@ def parse(config):
       for _ in range(num_players):
         players.append(getattr(import_module(learner_package), learner)())
       learners.append(players)
-    bandit = [Bandit(config['environment'][bandit_type]) 
+    bandit = [Bandit(config['environment'][bandit_type])
               for _ in range(num_players)]
   else:
     protocol = None
+    """
+    protocol_type = "SinglePlayerProtocol"
+    num_players = 1
+    Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
+    sp_prot = { 'num_players': 1 }
+    protocol = Protocol(sp_prot)
+
+    learners = []
+    for learner in config['learner']['policy']:
+      players = []
+      for _ in range(num_players):
+        players.append(getattr(import_module(learner_package), learner)())
+      learners.append(players)
+    bandit = [Bandit(config['environment'][bandit_type])
+              for _ in range(num_players)]
+    """
 
   pars = config['parameters']
   return learners, bandit, protocol, pars
@@ -89,7 +105,7 @@ def main(argv):
                        'Try --rm flag which will automatically'
                        ' delete previous data.') % FLAGS.dir)
 
-    if protocol is None: 
+    if protocol is None:
       for learner in learners:
         learner.play(bandit, data_file, pars)
     else:

@@ -4,15 +4,18 @@
 		"OrdinaryBandit": {
 			"arm": "BernoulliArm",
 			"means": [0.7, 0.5, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
-		},
-		"protocol": "DecentralizedProtocol",
+		}
+
+	},
+	"protocol": { 
+		"type": "DecentralizedProtocol",
 		"DecentralizedProtocol": {
 			"num_players": 10
 		}
 	},
 	"learner": {
 		"goal": "regretmin",
-		"type": "decentralizedlearner",
+		"type": "decentralizedordinarylearner",
 		"policy": ["FUCB", "SUCB", "Uniform"]
 	},
 	"parameters": {
