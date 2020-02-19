@@ -16,7 +16,7 @@ class Uniform(DecentralizedOrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def _broadcast_message(self, context, action, feedback):
+  def broadcast_message(self, context, action, feedback):
     return None
 
   def learner_choice(self, context, messages):

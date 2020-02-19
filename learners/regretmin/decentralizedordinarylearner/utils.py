@@ -21,11 +21,12 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
+  # pylint: disable=arguments-differ
   def learner_choice(self, context, messages):
     pass
 
   @abstractmethod
-  def _broadcast_message(self, context, action, feedback):
+  def broadcast_message(self, context, action, feedback):
     pass
 
   @abstractmethod
