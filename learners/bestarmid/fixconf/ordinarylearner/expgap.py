@@ -60,7 +60,7 @@ class ExpGap(OrdinaryLearner):
       log_delta_ell -= math.log(2)
       ell += 1
 
-  def _learner_run(self):
+  def learner_run(self):
     active_arms = list(range(self._arm_num))
     r = 1; eps_r = 0.25
     while len(active_arms) > 1:
@@ -79,5 +79,5 @@ class ExpGap(OrdinaryLearner):
 
     self.__best_arm = active_arms[0]
 
-  def _best_arm(self):
+  def best_arm(self):
     return self.__best_arm

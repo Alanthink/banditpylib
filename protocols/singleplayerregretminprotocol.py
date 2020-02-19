@@ -12,16 +12,16 @@ from .utils import Protocol, current_time
 
 FLAGS = flags.FLAGS
 
-__all__ = ['SinglePlayerProtocol']
+__all__ = ['SinglePlayerRegretMinProtocol']
 
 
-class SinglePlayerProtocol(Protocol):
-  """Single Player Protocol
+class SinglePlayerRegretMinProtocol(Protocol):
+  """Single Player Regret Minimization Protocol
   """
 
   @property
   def type(self):
-    return 'SinglePlayerProtocol'
+    return 'SinglePlayerRegretMinProtocol'
 
   @property
   def __horizon(self):
@@ -90,6 +90,7 @@ class SinglePlayerProtocol(Protocol):
     pool.close()
     pool.join()
 
+  # pylint: disable=arguments-differ
   def play(self, bandit, player, output_file, pars):
     if not isinstance(bandit, Bandit):
       logging.fatal('Not a legimate bandit!')

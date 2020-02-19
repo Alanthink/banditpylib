@@ -16,9 +16,9 @@ from draw import draw_figure
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('config_filename', 'config.json', 'config filename')
+flags.DEFINE_string('config', 'config.json', 'config file')
 flags.DEFINE_string('dir', 'out', 'output directory')
-flags.DEFINE_string('data_filename', 'data.out', 'filename for generated data')
+flags.DEFINE_string('out', 'data.out', 'file for generated data')
 flags.DEFINE_boolean('debug', False, 'output runtime debug info')
 flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 flags.DEFINE_boolean('rm', False, 'remove previously generated data')
@@ -27,8 +27,6 @@ flags.DEFINE_boolean('fig', False, 'generate figure only')
 BANDIT_PKG = 'bandits'
 LEARNER_PKG = 'learners'
 PROTOCOL_PKG = 'protocols'
-
-DFT_PROTOCOL = 'SinglePlayerProtocol'
 
 
 def parse(config):
@@ -52,7 +50,13 @@ def parse(config):
     bandit = [Bandit(config['environment'][bandit_type])
               for _ in range(num_players)]
   else:
-    protocol_type = DFT_PROTOCOL
+    if config['learner']['goal'] == 'regretmin':
+      protocol_type = 'SinglePlayerRegretMinProtocol'
+    elif config['learner']['goal'] in \
+        ['bestarmid.fixbudget', 'bestarmid.fixconf']:
+      protocol_type = 'SinglePlayerBAIProtocol'
+    else:
+      logging.fatal('No protocol available!')
     Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
     protocol = Protocol()
     bandit = Bandit(config['environment'][bandit_type])
@@ -72,10 +76,10 @@ def main(argv):
   else:
     logging.set_verbosity(logging.INFO)
 
-  data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
+  data_file = os.path.join(FLAGS.dir, FLAGS.out)
 
   # load config
-  with open(FLAGS.config_filename, 'r') as json_file:
+  with open(FLAGS.config, 'r') as json_file:
     config = json.load(json_file)
 
   if not FLAGS.fig:

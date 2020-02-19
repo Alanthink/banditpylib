@@ -12,11 +12,11 @@ from .utils import Protocol, current_time
 
 FLAGS = flags.FLAGS
 
-__all__ = ['DecentralizedProtocol']
+__all__ = ['DecentralizedRegretMinProtocol']
 
 
-class DecentralizedProtocol(Protocol):
-  """Decentralized protocol
+class DecentralizedRegretMinProtocol(Protocol):
+  """Decentralized Regret Minimization Protocol
   """
 
   def __init__(self, pars):
@@ -25,7 +25,7 @@ class DecentralizedProtocol(Protocol):
 
   @property
   def type(self):
-    return 'decentralizedprotocol'
+    return 'DecentralizedRegretMinProtocol'
 
   @property
   def _num_players(self):
@@ -115,6 +115,7 @@ class DecentralizedProtocol(Protocol):
     pool.close()
     pool.join()
 
+  # pylint: disable=arguments-differ
   def play(self, bandits, players, output_file, pars):
     for bandit in bandits:
       if not isinstance(bandit, Bandit):

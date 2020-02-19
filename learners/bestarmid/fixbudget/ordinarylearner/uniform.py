@@ -16,12 +16,12 @@ class Uniform(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def _learner_run(self):
+  def learner_run(self):
     for r in range(self._budget):
       action = r % self._arm_num
       feedback = self._bandit.feed(action)
       self._model_update(action, feedback)
 
-  def _best_arm(self):
+  def best_arm(self):
     return max([(ind, arm.em_mean)
         for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]

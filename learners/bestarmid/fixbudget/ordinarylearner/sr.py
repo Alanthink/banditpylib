@@ -35,7 +35,7 @@ class SR(OrdinaryLearner):
       else:
         self.__pulls_per_round.append(nk[-1]-nk[-2])
 
-  def _learner_run(self):
+  def learner_run(self):
     if (self._budget < self._arm_num):
       # randomly output an arm
       self.__best_arm = np.random.randint(self._arm_num)
@@ -77,5 +77,5 @@ class SR(OrdinaryLearner):
       self.__best_arm = active_arms[1]
     return
 
-  def _best_arm(self):
+  def best_arm(self):
     return self.__best_arm

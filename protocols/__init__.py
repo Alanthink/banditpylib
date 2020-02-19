@@ -1,3 +1,4 @@
 from .utils import *
-from .decentralizedprotocol import *
-from .singleplayerprotocol import *
+from .decentralizedregretminprotocol import *
+from .singleplayerregretminprotocol import *
+from .singleplayerbaiprotocol import *

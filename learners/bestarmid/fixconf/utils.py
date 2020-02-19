@@ -1,14 +1,12 @@
 from abc import abstractmethod
 
-import numpy as np
-
 from learners import Learner
 
 __all__ = ['FixConfBAILearner']
 
 
 class FixConfBAILearner(Learner):
-  """Base class for fixed confidence best-arm-identification learners"""
+  """Base Class for Fixed Confidence Best Arm Identification Learners"""
 
   @property
   @abstractmethod
@@ -17,11 +15,7 @@ class FixConfBAILearner(Learner):
 
   @property
   def goal(self):
-    return 'Fixed Confidence Best Arm Identification'
-
-  @property
-  def _fail_prob(self):
-    return self.__fail_prob
+    return 'FixedConfidenceBAI'
 
   def _goal_init(self):
     pass
@@ -35,33 +29,16 @@ class FixConfBAILearner(Learner):
     pass
 
   @abstractmethod
-  def _learner_run(self):
+  def learner_run(self):
     pass
 
   @abstractmethod
-  def _best_arm(self):
+  def best_arm(self):
     pass
 
-  def __init(self):
-    self._bandit.init()
+  def init(self, bandit, fail_prob):
+    self._bandit = bandit
+    self._fail_prob = fail_prob
     self._goal_init()
     self._model_init()
     self._learner_init()
-
-  def _one_trial(self, seed):
-    np.random.seed(seed)
-    results = []
-    for fail_prob in self._pars['fail_probs']:
-      self.__fail_prob = fail_prob
-
-      ##########################################################################
-      # initialization
-      self.__init()
-      ##########################################################################
-
-      self._learner_run()
-
-      regret = self._bandit.best_arm_regret(self._best_arm())
-      results.append(
-          dict({self.name: [fail_prob, self._bandit.tot_samples, regret]}))
-    return results

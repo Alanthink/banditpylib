@@ -35,9 +35,9 @@ class OrdinaryLearner(FixConfBAILearner):
     pass
 
   @abstractmethod
-  def _learner_run(self):
+  def learner_run(self):
     pass
 
   @abstractmethod
-  def _best_arm(self):
+  def best_arm(self):
     pass
