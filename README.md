@@ -21,22 +21,12 @@ A lightweight python library for bandit algorithms
 
 ### Regret Minimization
 
-#### Ordinary Bandit
-
-* Uniform
-* Epsilon Greedy
-* UCB [[1]](#ACF02)
-* MOSS [[2]](#AB09)
-* Thompson Sampling \[[3](#T33), [4](#KKM12)\]
-* UCBV [[5]](#AMS09)
-
-#### Ordinary MNL Bandit
-
-* Exploration-exploitation [[6]](#AAGZ19)
-
-#### Correlated Bandit
-
-* C-UCB \[[10](#GCJY18), [11](#GCJY19)\]
+| Protocol | Bandit Type | Policies |
+| :---         |     :---      |      :--- |
+| Single Player   | Ordinary Bandit     | Uniform, Epsilon Greedy, UCB [[1]](#ACF02),  MOSS [[2]](#AB09), Thompson Sampling \[[3](#T33), [4](#KKM12)\], UCBV [[5]](#AMS09)  |
+|      | Ordinary MNL Bandit   | Exploration-exploitation [[6]](#AAGZ19)      |
+|      | Correlated Bandit   | C-UCB \[[10](#GCJY18), [11](#GCJY19)\]      |
+|  Decentralized [[12]](FAL18) | Ordinary Bandit   | Uniform, FUCB, SUCB  |
 
 ### Best Arm Identification
 
@@ -44,13 +34,15 @@ A lightweight python library for bandit algorithms
 
 ##### Fixed Budget
 
-* Uniform
-* SR [[7]](#AB10)
+| Protocol | Bandit Type | Policies |
+| :---         |     :---      |      :--- |
+| Single Player   | Ordinary Bandit     | Uniform, SR [[7]](#AB10)  |
 
 ##### Fixed Confidence
 
-* lilUCB heuristic [[8]](#JMNB14)
-* ExpGap [[9]](#KKS13)
+| Protocol | Bandit Type | Policies |
+| :---         |     :---      |      :--- |
+| Single Player   | Ordinary Bandit     | lilUCB heuristic [[8]](#JMNB14), ExpGap [[9]](#KKS13) |
 
 ## Getting Started
 
@@ -115,7 +107,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 8. <a name="JMNB14"></a> Kevin Jamieson, Matthew Malloy, Robert Nowak and Sébastien Bubeck. lil’ucb: An optimal exploration algorithm for multi-armed bandits. In COLT, 2014.
 9. <a name="KKS13"></a> Zohar Karnin, Tomer Koren and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML, 2013.
 10. <a name="GCJY18"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Exploiting correlation in finite-armed structured bandits. 2018.
-11. <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Multi-Armed Bandits with Correlated Arms. ARXIV:1911.03959, 2019.
+11. <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Multi-Armed Bandits with Correlated Arms. arXiv:1911.03959, 2019.
+12. <a name="FAL18"> </a> Raphaël Féraud, Réda Alami, and Romain Laroche. Decentralized Exploration in Multi-Armed Bandits. arXiv:1811.07763, 2018.
 
 ## Contributors
 
