@@ -62,23 +62,3 @@ class RegretMinimizationLearner(Learner):
     self._model_update(context, action, feedback)
     self._learner_update(context, action, feedback)
     self._t += 1
-
-  def _agg_decentralized_regret(self):
-    if not self._init:
-      return 0
-    else:
-      return self._bandit.regret(self.__rewards)
-
-  def _one_decentralized_iteration(self, m):
-    ############################################################################
-    # initialization
-    if not self._init:
-      self.__init()
-    ############################################################################
-    # simulation starts from t = 1
-    context = self._bandit.context
-    action = self._learner_choice(context, m)
-    feedback = self._bandit.feed(action)
-    self.__update(context, action, feedback)
-    message = self._broadcast_message(context, action, feedback)
-    return dict({self.name: message})

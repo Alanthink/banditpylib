@@ -5,9 +5,8 @@
 			"arm": "BernoulliArm",
 			"means": [0.7, 0.5, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 		}
-
 	},
-	"protocol": { 
+	"protocol": {
 		"type": "DecentralizedProtocol",
 		"DecentralizedProtocol": {
 			"num_players": 10

@@ -25,54 +25,11 @@ class DecentralizedProtocol(Protocol):
 
   @property
   def type(self):
-    return 'decentralizedprotocol: ' + self._player_type
+    return 'decentralizedprotocol'
 
   @property
   def _num_players(self):
     return self.__num_players
-
-  @property
-  def _messages(self):
-    return self.__messages
-
-  def _broadcast_message(self, message, player):
-    self.__messages.append(message)
-
-  def __init(self):
-    # time starts from 1
-    for k in range(self._num_players):
-      player = self._players[k]
-      bandit = self._bandits[k]
-      player.init(bandit)
-
-  def _one_trial(self, seed):
-    np.random.seed(seed)
-    ############################################################################
-    # initialization
-    self.__init()
-    ############################################################################
-    agg_regret = dict()
-
-    for t in range(self._horizon + 1):
-      if t > 0:
-        self._play_round(t)
-      if t > 0 and t % self._frequency == 0:
-        agg_regret[t] = self.regret()
-    return dict({self.type: agg_regret})
-
-  def _play_round(self, t):
-    # sample player
-    k = randint(0, self._num_players-1)
-    player = self._players[k]
-    bandit = self._bandits[k]
-
-    # play player and broadcast  message
-    message = player._one_decentralized_iteration(self._messages)
-    self._broadcast_message(message, player)
-
-  def regret(self):
-    return sum([self._players[k]._agg_decentralized_regret()
-               for k in range(self._num_players)])
 
   @property
   def __trials(self):
@@ -85,27 +42,51 @@ class DecentralizedProtocol(Protocol):
     return self._pars['processors']
 
   @property
-  def _horizon(self):
+  def __horizon(self):
     return self._pars['horizon']
 
   @property
-  def _frequency(self):
+  def __frequency(self):
     # frequency to record intermediate regret results
     return self._pars['freq']
 
-  @property
-  def _bandits(self):
-    return self.__bandits
+  def _one_round(self):
+    # sample player
+    k = randint(0, self._num_players-1)
+    player = self._players[k]
+    bandit = self._bandits[k]
 
-  @property
-  def _players(self):
-    # frequency to record intermediate regret results
-    return self.__players
+    # play player and broadcast message
+    context = bandit.context
+    action = player.learner_choice(context, self.__messages)
+    feedback = bandit.feed(action)
+    player.update(context, action, feedback)
+    message = player._broadcast_message(context, action, feedback)
+    self.__messages.append({player.name: message})
 
-  @property
-  def _player_type(self):
-    # frequency to record intermediate regret results
-    return self.__player_type
+  def _one_trial(self, seed):
+    np.random.seed(seed)
+
+    ############################################################################
+    # initialization
+    for k in range(self._num_players):
+      player = self._players[k]
+      bandit = self._bandits[k]
+      bandit.init()
+      player.init(bandit, self.__horizon)
+    ############################################################################
+
+    agg_regret = dict()
+    for t in range(self.__horizon + 1):
+      if t > 0:
+        self._one_round()
+      if t > 0 and t % self.__frequency == 0:
+        agg_regret[t] = self.regret()
+    return dict({self._players[0].name: agg_regret})
+
+  def regret(self):
+    return sum([self._bandits[k].regret(self._players[k].rewards)
+                for k in range(self._num_players)])
 
   def __write_to_file(self, data):
     with open(self.__output_file, 'a') as f:
@@ -135,17 +116,17 @@ class DecentralizedProtocol(Protocol):
     pool.join()
 
   def play(self, bandits, players, output_file, pars):
-    for b in bandits:
-      if not isinstance(b, Bandit):
+    for bandit in bandits:
+      if not isinstance(bandit, Bandit):
         logging.fatal('Not a legimate bandit!')
 
-    self.__bandits = bandits
-    self.__players = players
-    self.__player_type = players[0].name
+    self._bandits = bandits
+    self._players = players
     self.__output_file = output_file
     self._pars = pars
 
-    logging.info('run protocol %s' % (self.type))
+    logging.info('run learner %s with goal %s under protocol %s' %
+        (players[0].name, players[0].goal, self.type))
     start_time = time.time()
     self.__multi_proc()
     logging.info('%.2f seconds elapsed' % (time.time() - start_time))
