@@ -28,15 +28,14 @@ BANDIT_PKG = 'bandits'
 LEARNER_PKG = 'learners'
 PROTOCOL_PKG = 'protocols'
 
+DFT_PROTOCOL = 'SinglePlayerProtocol'
+
 
 def parse(config):
   bandit_type = config['environment']['type']
   Bandit = getattr(import_module(BANDIT_PKG), bandit_type)
-  bandit = Bandit(config['environment'][bandit_type])
   learner_package = '%s.%s.%s' % \
       (LEARNER_PKG, config['learner']['goal'], config['learner']['type'])
-  learners = [getattr(import_module(learner_package), learner)()
-      for learner in config['learner']['policy']]
 
   if 'protocol' in config:
     protocol_type = config['protocol']['type']
@@ -53,7 +52,12 @@ def parse(config):
     bandit = [Bandit(config['environment'][bandit_type])
               for _ in range(num_players)]
   else:
-    protocol = None
+    protocol_type = DFT_PROTOCOL
+    Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
+    protocol = Protocol()
+    bandit = Bandit(config['environment'][bandit_type])
+    learners = [getattr(import_module(learner_package), learner)()
+      for learner in config['learner']['policy']]
 
   pars = config['parameters']
   return learners, bandit, protocol, pars
@@ -89,12 +93,8 @@ def main(argv):
                        'Try --rm flag which will automatically'
                        ' delete previous data.') % FLAGS.dir)
 
-    if protocol is None:
-      for learner in learners:
-        learner.play(bandit, data_file, pars)
-    else:
-      for learner in learners:
-        protocol.play(bandit, learner, data_file, pars)
+    for learner in learners:
+      protocol.play(bandit, learner, data_file, pars)
 
   # figure generation
   draw_figure(config['learner']['goal'])

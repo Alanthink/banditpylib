@@ -21,7 +21,7 @@ class OrdinaryLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def _learner_choice(self, context):
+  def learner_choice(self, context):
     pass
 
   @abstractmethod

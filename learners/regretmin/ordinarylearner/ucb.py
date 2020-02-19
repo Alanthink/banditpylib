@@ -18,7 +18,7 @@ class UCB(OrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def _learner_choice(self, context):
+  def learner_choice(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

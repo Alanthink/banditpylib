@@ -1,73 +1,106 @@
-from absl import logging
-import numpy as np
-from random import randint
+import json
+import time
+from multiprocessing import Pool
 
-from bandits import ordinarybandit
-from .utils import Protocol
+from absl import flags
+from absl import logging
+
+import numpy as np
+
+from bandits import Bandit
+from .utils import Protocol, current_time
+
+FLAGS = flags.FLAGS
 
 __all__ = ['SinglePlayerProtocol']
 
 
 class SinglePlayerProtocol(Protocol):
-  """Decentralized protocol
+  """Single Player Protocol
   """
-
-  def __init__(self, pars):
-    self.__messages = []
-    print(pars)
-    if pars['num_players'] != 1:
-      logging.fatal("SinglePlayerProtocol",
-                     " only supports one player!")
-
-    self.__num_players = pars['num_players']
 
   @property
   def type(self):
-    return 'singleplayerprotocol: ' + self._player_type
+    return 'SinglePlayerProtocol'
 
   @property
-  def _num_players(self):
-    return self.__num_players
+  def __horizon(self):
+    return self._pars['horizon']
 
   @property
-  def _messages(self):
-    return self.__messages
+  def __frequency(self):
+    # frequency to record intermediate regret results
+    return self._pars['freq']
 
-  def _broadcast_message(self, message, player):
-    self.__messages.append(message)
+  @property
+  def __trials(self):
+    # # of repetitions of the play
+    return self._pars['trials']
 
-  def __init(self):
-    # time starts from 1
-    for k in range(self._num_players):
-      player = self._players[k]
-      bandit = self._bandits[k]
-      player.init(bandit)
+  @property
+  def __processors(self):
+    # maximum number of processors can be used
+    return self._pars['processors']
 
   def _one_trial(self, seed):
     np.random.seed(seed)
+
     ############################################################################
     # initialization
-    self.__init()
+    self._bandit.init()
+    self._player.init(self._bandit, self.__horizon)
     ############################################################################
+
     agg_regret = dict()
-  
-    for t in range(self._horizon + 1):
+    for t in range(self.__horizon + 1):
       if t > 0:
-        self._play_round(t)
-      if t > 0 and t % self._frequency == 0:
-        agg_regret[t] = self.regret()
-    return dict({self.type: agg_regret})
+        # simulation starts from t = 1
+        context = self._bandit.context
+        action = self._player.learner_choice(context)
+        feedback = self._bandit.feed(action)
+        self._player.update(context, action, feedback)
+      if t % self.__frequency == 0:
+        agg_regret[t] = self._bandit.regret(self._player.rewards)
+    return dict({self._player.name: agg_regret})
 
-  def _play_round(self, t):
-    # sample player
-    k = randint(0, self._num_players-1)
-    player = self._players[k]
-    bandit = self._bandits[k]
+  def __write_to_file(self, data):
+      with open(self.__output_file, 'a') as f:
+        if isinstance(data, list):
+          for item in data:
+            json.dump(item, f)
+            f.write('\n')
+        else:
+          json.dump(data, f)
+          f.write('\n')
+        f.flush()
 
-    # play player and broadcast  message
-    message = player._one_decentralized_iteration(self._messages)
-    self._broadcast_message(message, player)
+  def __multi_proc(self):
+    pool = Pool(processes = self.__processors)
 
-  def regret(self):
-    return sum([self._players[k]._agg_decentralized_regret()
-               for k in range(self._num_players)])
+    for _ in range(self.__trials):
+      result = pool.apply_async(self._one_trial, args=(current_time(), ),
+          callback=self.__write_to_file)
+      if FLAGS.debug:
+        # for debugging purposes
+        # to make sure error info of subprocesses will be reported
+        # this flag could heavily increase the running time
+        result.get()
+
+    # can not apply for processes any more
+    pool.close()
+    pool.join()
+
+  def play(self, bandit, player, output_file, pars):
+    if not isinstance(bandit, Bandit):
+      logging.fatal('Not a legimate bandit!')
+
+    self._bandit = bandit
+    self._player = player
+    self.__output_file = output_file
+    self._pars = pars
+
+    logging.info('run learner %s with goal %s under protocol %s' %
+        (player.name, player.goal, self.type))
+    start_time = time.time()
+    self.__multi_proc()
+    logging.info('%.2f seconds elapsed' % (time.time()-start_time))

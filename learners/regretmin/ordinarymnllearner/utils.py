@@ -19,7 +19,7 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def _learner_choice(self, context):
+  def learner_choice(self, context):
     pass
 
   @abstractmethod
@@ -29,8 +29,8 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
   def _model_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
       logging.fatal(
-          ("(ExplorationExploitation) I don't",
-           " understand the bandit environment!"))
+          ("(%s) I don't",
+           " understand the bandit environment!") % self.name)
 
   def _model_update(self, context, action, feedback):
     pass

@@ -24,5 +24,5 @@ class Protocol(ABC):
     pass
 
   @abstractmethod
-  def play(self, bandits, players, output_file, pars):
+  def play(self, *args, **kwargs):
     pass
