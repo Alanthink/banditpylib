@@ -30,15 +30,13 @@ A lightweight python library for bandit algorithms
 
 ### Best Arm Identification
 
-#### Ordinary Bandit
-
-##### Fixed Budget
+#### Fixed Budget
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
 | Single Player   | Ordinary Bandit     | Uniform, SR [[7]](#AB10)  |
 
-##### Fixed Confidence
+#### Fixed Confidence
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
