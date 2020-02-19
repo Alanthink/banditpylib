@@ -16,7 +16,6 @@ class Arm(ABC):
   def mean(self):
     pass
 
-
 # a useful class
 class EmArm:
   """Class for storing empirical information of an arm"""

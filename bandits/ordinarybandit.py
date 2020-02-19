@@ -6,16 +6,16 @@ from .utils import Bandit
 
 __all__ = ['OrdinaryBandit']
 
-ARM_PKG = 'arms'
+ARM_PKG = 'bandits.arms'
 
 
 class OrdinaryBandit(Bandit):
-  """Ordinary bandit model
+  """Ordinary Bandit
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
   def __init__(self, pars):
-    logging.info('Ordinary bandit model')
+    logging.info('Ordinary Bandit')
     # currently only 'BernoulliArm' is supported
     if pars['arm'] != 'BernoulliArm':
       logging.fatal('Not a Bernoulli arm!')

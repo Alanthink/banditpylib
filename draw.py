@@ -152,7 +152,7 @@ def draw_fixconfbai(data_file):
 
 
 def draw_figure(goal):
-  data_file = os.path.join(FLAGS.dir, FLAGS.data_filename)
+  data_file = os.path.join(FLAGS.dir, FLAGS.out)
 
   if goal == 'regretmin':
     draw_regretmin(data_file)

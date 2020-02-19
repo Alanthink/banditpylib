@@ -6,16 +6,16 @@ from .utils import Bandit
 
 __all__ = ['CorrelatedBandit']
 
-ARM_PKG = 'arms'
+ARM_PKG = 'bandits.arms'
 
 
 class CorrelatedBandit(Bandit):
-  """Correlated bandit model
+  """Correlated Bandit
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
   def __init__(self, pars):
-    logging.info('Correlated bandit model')
+    logging.info('Correlated Bandit')
     if pars['arm']['type'] !=  'CorrelatedArm':
       logging.fatal('Not a correlated arm!')
     actions = pars['arm']['means']

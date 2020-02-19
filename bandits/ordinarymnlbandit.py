@@ -29,7 +29,7 @@ def search_best_assortment(abspar, revenue, K=np.inf):
 
 class OrdinaryMNLBandit(Bandit):
   def __init__(self, pars):
-    """Ordinary MNL bandit model
+    """Ordinary MNL Bandit
 
     Products are numbered from 1 by default. 0 is for non-purchase.
     It is assumed that the abstraction parameter of non-purchase is 1.
@@ -39,7 +39,7 @@ class OrdinaryMNLBandit(Bandit):
       revenue: revenue of products
       K: the cardinality upper bound of every assortment
     """
-    logging.info('Ordinary MNL bandit model')
+    logging.info('Ordinary MNL Bandit')
     abspar = pars['abspar']
     revenue = pars['revenue']
     if not isinstance(abspar, list) or not isinstance(revenue, list):
