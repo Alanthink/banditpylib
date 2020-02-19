@@ -39,7 +39,6 @@ class OrdinaryMNLBandit(Bandit):
       revenue: revenue of products
       K: the cardinality upper bound of every assortment
     """
-    logging.info('Ordinary MNL Bandit')
     abspar = pars['abspar']
     revenue = pars['revenue']
     if not isinstance(abspar, list) or not isinstance(revenue, list):

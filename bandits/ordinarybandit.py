@@ -15,7 +15,6 @@ class OrdinaryBandit(Bandit):
   """
 
   def __init__(self, pars):
-    logging.info('Ordinary Bandit')
     # currently only 'BernoulliArm' is supported
     if pars['arm'] != 'BernoulliArm':
       logging.fatal('Not a Bernoulli arm!')

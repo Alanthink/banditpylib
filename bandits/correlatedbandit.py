@@ -15,7 +15,6 @@ class CorrelatedBandit(Bandit):
   """
 
   def __init__(self, pars):
-    logging.info('Correlated Bandit')
     if pars['arm']['type'] !=  'CorrelatedArm':
       logging.fatal('Not a correlated arm!')
     actions = pars['arm']['means']
