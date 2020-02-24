@@ -36,6 +36,9 @@ class CorrelatedLearner(RegretMinimizationLearner):
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
+    # initalize em arms repr
+    for k in range(self._arm_num):
+      self._em_arms[k].action = self._bandit.actions[k]
 
   def _model_update(self, context, action, feedback):
     self._em_arms[action].update(feedback[0])

@@ -41,6 +41,7 @@ A lightweight python library for bandit algorithms
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
 | Single Player   | Ordinary Bandit     | lilUCB heuristic [[8]](#JMNB14), ExpGap [[9]](#KKS13) |
+|      | Correlated Bandit   | LinGapE [[13]](#XHS18)      |
 
 ## Getting Started
 
@@ -108,6 +109,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 10. <a name="GCJY18"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Exploiting correlation in finite-armed structured bandits. 2018.
 11. <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Multi-Armed Bandits with Correlated Arms. arXiv:1911.03959, 2019.
 12. <a name="FAL18"> </a> Raphaël Féraud, Réda Alami, and Romain Laroche. Decentralized Exploration in Multi-Armed Bandits. arXiv:1811.07763, 2018.
+13. <a name="XHS18"> </a> Liyuan Xu, Junya Hond, and Masashi Sugiyama. Fully adaptive algorithm for pure exploration in linear bandits. In AISTATS, 2018.
+
 
 ## Contributors
 

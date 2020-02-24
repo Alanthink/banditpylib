@@ -26,11 +26,11 @@ class LinGapE(CorrelatedLearner):
   def _learner_update(self, action, feedback):
     if isinstance(action, list):
       for (i, tup) in enumerate(action):
-        self.__A = self.__A + np.outer(self._em_arms[tup[0]].action, 
+        self.__A = self.__A + np.outer(self._em_arms[tup[0]].action,
                                        self._em_arms[tup[0]].action)
         self.__b = self.__b + feedback[0][i] * self._em_arms[tup[0]].action
     else:
-      self.__A = self.__A + np.outer(self._em_arms[action].action, 
+      self.__A = self.__A + np.outer(self._em_arms[action].action,
                                      self._em_arms[action].action)
       self.__b = self.__b + feedback[0] * self._em_arms[action].action
     self.__th = np.dot(np.linalg.inv(self.__A), self.__b)
@@ -39,22 +39,24 @@ class LinGapE(CorrelatedLearner):
   def __C_n(self):
     # eq 3 from the paper
     return 1 * \
-           np.sqrt(2 * np.log(np.sqrt(np.linalg.det(self.__A)) / 
-                              (np.sqrt(self.__lambda) * 
+           np.sqrt(2 * np.log(np.sqrt(np.linalg.det(self.__A)) /
+                              (np.sqrt(self.__lambda) *
                                self.__delta))) + \
            np.sqrt(self.__lambda) * 1
 
-  def __beta(self, i ,j):
+  def __beta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
     return self.__mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
 
-  def __Delta(self, i ,j):
+  def __Delta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
     return np.dot(x_diff, self.__th)
 
   def __select_direction(self, t):
     i_t = np.argmax([np.dot(a.action, self.__th) for a in self._em_arms])
-    gap_conf = [self.__Delta(j, i_t) + self.__beta(j, i_t) for j in range(self._arm_num)]
+    gap_conf = [self.__Delta(j, i_t) +
+                self.__beta(j, i_t) 
+                for j in range(self._arm_num)]
     j_t = np.argmax(gap_conf)
     B_t = max(gap_conf)
     return i_t, j_t, B_t
@@ -76,10 +78,6 @@ class LinGapE(CorrelatedLearner):
     self.__b = np.zeros(self.__d)
     self.__th = np.zeros(self.__d)
 
-    # initalize em arms repr
-    for k in range(self._arm_num):
-      self._em_arms[k].action = self._bandit.actions[k]
-
   def learner_run(self):
     # sample each arm once for the initialization step
     action = [(ind, 1) for ind in range(self._arm_num)]
@@ -94,7 +92,10 @@ class LinGapE(CorrelatedLearner):
 
       self.__t += 1
       x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
-      greedy = [self.__mat_norm(x_diff, np.linalg.inv(self.__A + np.outer(a.action, a.action))) for a in self._em_arms]
+      greedy = [self.__mat_norm(x_diff, 
+                                np.linalg.inv(self.__A + 
+                                              np.outer(a.action, a.action))) 
+                for a in self._em_arms]
       action = np.argmin(greedy)
       feedback = self._bandit.feed(action)
       self._model_update(action, feedback)
