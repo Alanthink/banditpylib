@@ -20,6 +20,6 @@
 	"parameters": {
 		"fail_probs": [0.01, 0.03, 0.05],
 		"trials": 20,
-		"processors": 10
+		"processors": 1
 	}
 }

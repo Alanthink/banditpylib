@@ -49,11 +49,6 @@ class FlilUCB_heur(DecentralizedOrdinaryLearner):
       if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
         return -1
 
-    # Decentralized UCB using global conf interval
-    #ucb = [rew[arm] / pulls[arm] +
-    #        self.__bonus(pulls[arm])
-    #        for arm in range(self._arm_num)]
-
     # UCB using local conf interval
     ucb = [rew[arm] / pulls[arm] +
            self.__bonus(self._em_arms[arm].pulls)
