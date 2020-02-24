@@ -18,7 +18,7 @@ class FUCB(DecentralizedOrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def broadcast_message(self, context, action, feedback):
+  def _broadcast_message(self, context, action, feedback):
     return [action, feedback[0]]
 
   def learner_choice(self, context, messages):

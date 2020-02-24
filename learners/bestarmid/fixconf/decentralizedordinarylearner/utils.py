@@ -3,12 +3,12 @@ from abc import abstractmethod
 from absl import logging
 
 from bandits.arms import EmArm
-from learners.regretmin import RegretMinimizationLearner
+from learners.bestarmid.fixconf import FixConfBAILearner
 
 __all__ = ['DecentralizedOrdinaryLearner']
 
 
-class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
+class DecentralizedOrdinaryLearner(FixConfBAILearner):
   """Base class for learners in the classic bandit model"""
 
   @property
@@ -22,15 +22,19 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
 
   @abstractmethod
   # pylint: disable=arguments-differ
-  def learner_choice(self, context, messages):
+  def learner_choice(self, messages):
     pass
 
   @abstractmethod
-  def _broadcast_message(self, context, action, feedback):
+  def _broadcast_message(self, action, feedback):
     pass
 
   @abstractmethod
-  def _learner_update(self, context, action, feedback):
+  def learner_run(self):
+    pass
+
+  @abstractmethod
+  def best_arm(self):
     pass
 
   def _model_init(self):
@@ -42,5 +46,13 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
 
-  def _model_update(self, context, action, feedback):
-    self._em_arms[action].update(feedback[0])
+  def _model_update(self, action, feedback):
+    if isinstance(action, list):
+      for (i, tup) in enumerate(action):
+        self._em_arms[tup[0]].update(feedback[0][i], tup[1])
+    else:
+      self._em_arms[action].update(feedback[0])
+
+  def update(self, action, feedback):
+    self._model_update(action, feedback)
+    #self._t += 1
