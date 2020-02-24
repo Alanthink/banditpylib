@@ -16,7 +16,6 @@ def mat_norm(x, A):
 
 class CorrelatedLearner(FixConfBAILearner):
   """Base class for learners in the classic bandit model"""
-
   @property
   @abstractmethod
   def name(self):
