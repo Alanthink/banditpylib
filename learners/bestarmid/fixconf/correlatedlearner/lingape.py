@@ -92,8 +92,8 @@ class LinGapE(CorrelatedLearner):
 
       self.__t += 1
       x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
-      greedy = [self.__mat_norm(x_diff, 
-                                np.linalg.inv(self.__A + np.outer(a.action, 
+      greedy = [self.__mat_norm(x_diff,
+                                np.linalg.inv(self.__A + np.outer(a.action,
                                                                   a.action)))
                 for a in self._em_arms]
       action = np.argmin(greedy)
