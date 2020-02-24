@@ -2,7 +2,7 @@ import numpy as np
 
 from absl import flags
 
-from .utils import CorrelatedLearner
+from .utils import CorrelatedLearner, mat_norm
 
 FLAGS = flags.FLAGS
 
@@ -42,7 +42,7 @@ class LinGapE(CorrelatedLearner):
 
   def __beta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
-    return self._mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
+    return mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
 
   def __Delta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
@@ -85,7 +85,7 @@ class LinGapE(CorrelatedLearner):
 
       self.__t += 1
       x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
-      greedy = [self._mat_norm(x_diff,
+      greedy = [mat_norm(x_diff,
                                 np.linalg.inv(self.__A + np.outer(a.action,
                                                                   a.action)))
                 for a in self._em_arms]
