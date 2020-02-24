@@ -55,14 +55,14 @@ class FlilUCB_heur(DecentralizedOrdinaryLearner):
         return -1
 
     # Decentralized UCB
-    ucb = [rew[arm] / pulls[arm] +
-            self.__bonus(pulls[arm])
-            for arm in range(self._arm_num)]
+    #ucb = [rew[arm] / pulls[arm] +
+    #        self.__bonus(pulls[arm])
+    #        for arm in range(self._arm_num)]
 
     # UCB using local conf interval
-    #ucb = [rew[arm] / pulls[arm] +
-    #        self.__bonus(self._em_arms[arm].pulls)
-    #        for arm in range(self._arm_num)]
+    ucb = [rew[arm] / pulls[arm] +
+            self.__bonus(self._em_arms[arm].pulls)
+            for arm in range(self._arm_num)]
 
     self.__t += 1
     action = np.argmax(ucb)

@@ -9,7 +9,7 @@
 	"protocol": {
 		"type": "DecentralizedBAIProtocol",
 		"DecentralizedBAIProtocol": {
-			"num_players": 5
+			"num_players": 2
 		}
 	},
 	"learner": {
@@ -19,7 +19,7 @@
 	},
 	"parameters": {
 		"fail_probs": [0.1, 0.3, 0.5],
-		"trials": 100,
+		"trials": 20,
 		"processors": 10
 	}
 }

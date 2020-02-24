@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 
 
 from absl import flags
@@ -39,9 +39,7 @@ class DecentralizedBAIProtocol(Protocol):
 
   def _one_round(self):
     # sample player
-    k = randint(0, self._num_players-1)
-    while k not in self.__playable_players:
-      k = randint(0, self._num_players-1)
+    k = choice(self.__playable_players)
     player = self._players[k]
     bandit = self._bandits[k]
 
@@ -80,7 +78,6 @@ class DecentralizedBAIProtocol(Protocol):
           if len(self.__playable_players) == 0:
             break
 
-          #self._player.learner_run()
           res = self._one_round()
 
           if res > -1:
@@ -110,7 +107,6 @@ class DecentralizedBAIProtocol(Protocol):
         if len(self.__playable_players) == 0:
           break
 
-        #self._player.learner_run()
         res = self._one_round()
         if res > -1:
           self.__playable_players.remove(res)
