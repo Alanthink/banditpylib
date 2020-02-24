@@ -1,3 +1,5 @@
+import numpy as np
+
 from abc import abstractmethod
 
 from absl import logging
@@ -13,6 +15,10 @@ class CorrelatedLearner(FixConfBAILearner):
   @abstractmethod
   def name(self):
     pass
+
+
+  def _mat_norm(self, x, A):
+    return np.sqrt(np.dot(np.dot(x, A), x))
 
   def _model_init(self):
     """local initialization"""

@@ -1,10 +1,6 @@
-import math
-
 import numpy as np
 
 from absl import flags
-
-from bandits.arms import EmArm
 
 from .utils import CorrelatedLearner
 
@@ -46,13 +42,13 @@ class LinGapE(CorrelatedLearner):
 
   def __beta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
-    return self.__mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
+    return self._mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
 
   def __Delta(self, i, j):
     x_diff = self._em_arms[i].action - self._em_arms[j].action
     return np.dot(x_diff, self.__th)
 
-  def __select_direction(self, t):
+  def __select_direction(self):
     i_t = np.argmax([np.dot(a.action, self.__th) for a in self._em_arms])
     gap_conf = [self.__Delta(j, i_t) +
                 self.__beta(j, i_t)
@@ -60,9 +56,6 @@ class LinGapE(CorrelatedLearner):
     j_t = np.argmax(gap_conf)
     B_t = max(gap_conf)
     return i_t, j_t, B_t
-
-  def __mat_norm(self, x, A):
-    return np.sqrt(np.dot(np.dot(x, A), x))
 
   def _learner_init(self):
     # alg parameters suggested by the paper
@@ -86,13 +79,13 @@ class LinGapE(CorrelatedLearner):
     self.__t = self._arm_num
 
     while True:
-      i_t, j_t, B_t = self.__select_direction(self.__t)
+      i_t, j_t, B_t = self.__select_direction()
       if B_t <= self.__eps:
         return
 
       self.__t += 1
       x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
-      greedy = [self.__mat_norm(x_diff,
+      greedy = [self._mat_norm(x_diff,
                                 np.linalg.inv(self.__A + np.outer(a.action,
                                                                   a.action)))
                 for a in self._em_arms]
@@ -102,5 +95,5 @@ class LinGapE(CorrelatedLearner):
       self._learner_update(action, feedback)
 
   def best_arm(self):
-    i_t, _, _ = self.__select_direction(self.__t)
+    i_t, _, _ = self.__select_direction()
     return int(i_t)
