@@ -55,7 +55,7 @@ class LinGapE(CorrelatedLearner):
   def __select_direction(self, t):
     i_t = np.argmax([np.dot(a.action, self.__th) for a in self._em_arms])
     gap_conf = [self.__Delta(j, i_t) +
-                self.__beta(j, i_t) 
+                self.__beta(j, i_t)
                 for j in range(self._arm_num)]
     j_t = np.argmax(gap_conf)
     B_t = max(gap_conf)
@@ -67,7 +67,7 @@ class LinGapE(CorrelatedLearner):
   def _learner_init(self):
     # alg parameters suggested by the paper
     self.__lambda = 1.0
-    self.__delta = self._fail_prob/5
+    self.__delta = self._fail_prob / 5
     self.__eps = 0.0
     # total number of pulls used
     self.__t = 0
@@ -93,8 +93,8 @@ class LinGapE(CorrelatedLearner):
       self.__t += 1
       x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
       greedy = [self.__mat_norm(x_diff, 
-                                np.linalg.inv(self.__A + 
-                                              np.outer(a.action, a.action))) 
+                                np.linalg.inv(self.__A + np.outer(a.action, 
+                                                                  a.action)))
                 for a in self._em_arms]
       action = np.argmin(greedy)
       feedback = self._bandit.feed(action)
