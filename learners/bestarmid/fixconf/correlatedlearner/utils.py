@@ -7,6 +7,12 @@ from absl import logging
 from bandits.arms import EmArm
 from learners.bestarmid.fixconf import FixConfBAILearner
 
+__all__ = ['FixConfBAILearner', 'mat_norm']
+
+
+def mat_norm(x, A):
+  return np.sqrt(np.dot(np.dot(x, A), x))
+
 
 class CorrelatedLearner(FixConfBAILearner):
   """Base class for learners in the classic bandit model"""
@@ -15,10 +21,6 @@ class CorrelatedLearner(FixConfBAILearner):
   @abstractmethod
   def name(self):
     pass
-
-
-  def _mat_norm(self, x, A):
-    return np.sqrt(np.dot(np.dot(x, A), x))
 
   def _model_init(self):
     """local initialization"""
