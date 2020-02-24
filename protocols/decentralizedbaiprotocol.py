@@ -63,18 +63,18 @@ class DecentralizedBAIProtocol(Protocol):
         self.__playable_players = list(range(self.__num_players))
         self.__budget = budget
 
-        ############################################################################
+        #######################################################################
         # initialization
         for k in range(self._num_players):
           player = self._players[k]
           bandit = self._bandits[k]
           bandit.init()
           player.init(bandit, self.__budget)
-        ############################################################################
+        #######################################################################
         while True:
           if bandit.tot_samples > budget:
             logging.fatal('%s uses more than the given budget!'
-                % player.name)
+                          % player.name)
           if len(self.__playable_players) == 0:
             break
 
@@ -86,7 +86,7 @@ class DecentralizedBAIProtocol(Protocol):
           regret = self.regret()
           results.append(
             dict({player.name:
-                  [budget, bandit.tot_samples, regret]}))
+                 [budget, bandit.tot_samples, regret]}))
       return results
 
     #  FixedConfidenceBAI
@@ -95,14 +95,14 @@ class DecentralizedBAIProtocol(Protocol):
       self.__playable_players = list(range(self.__num_players))
       self.__fail_prob = fail_prob
 
-      ############################################################################
+      #########################################################################
       # initialization
       for k in range(self._num_players):
         player = self._players[k]
         bandit = self._bandits[k]
         bandit.init()
         player.init(bandit, self.__fail_prob)
-      ############################################################################
+      #########################################################################
       while True:
         if len(self.__playable_players) == 0:
           break

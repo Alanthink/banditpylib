@@ -20,9 +20,9 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
       return math.inf
-    return (1+self.__beta)*(1+math.sqrt(self.__eps))* \
-        math.sqrt(2*(1+self.__eps)* \
-        math.log(math.log((1+self.__eps)*times)/self.__delta)/times)
+    return (1+self.__beta)*(1+math.sqrt(self.__eps)) * \
+            math.sqrt(2*(1+self.__eps) *
+            math.log(math.log((1+self.__eps)*times)/self.__delta)/times)
 
   def _learner_init(self):
     # alg parameters suggested by the paper
@@ -43,8 +43,8 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
       if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
         return -1
 
-    ucb = np.array([arm.em_mean+self.__bonus(arm.pulls) \
-        for arm in self._em_arms])
+    ucb = np.array([arm.em_mean+self.__bonus(arm.pulls)
+                    for arm in self._em_arms])
     self.__t += 1
     action = np.argmax(ucb)
     return action
@@ -54,4 +54,4 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
 
   def best_arm(self):
     return max([(ind, arm.pulls)
-        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
+                for (ind, arm) in enumerate(self._em_arms)], key=lambda x: x[1])[0]
