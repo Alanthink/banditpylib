@@ -55,4 +55,4 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
 
   def update(self, action, feedback):
     self._model_update(action, feedback)
-    #self._t += 1
+    

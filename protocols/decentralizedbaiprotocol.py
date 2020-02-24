@@ -120,4 +120,3 @@ class DecentralizedBAIProtocol(Protocol):
   def regret(self):
     return sum([self._bandits[k].best_arm_regret(self._players[k].best_arm())
                 for k in range(self._num_players)])
-  
