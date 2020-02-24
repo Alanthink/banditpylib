@@ -24,9 +24,6 @@ class CUCB(CorrelatedLearner):
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num
 
-    for k in range(self._arm_num):
-      self._em_arms[k].action = self._bandit.actions[k]
-
     em_comp = list(range(self._arm_num)) # arm index
     # index  of most pulled arm
     k_max = np.argmax([arm.pulls for arm in self._em_arms])
