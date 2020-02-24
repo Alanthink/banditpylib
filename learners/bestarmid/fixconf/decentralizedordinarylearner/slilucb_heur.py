@@ -31,7 +31,7 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
     # total number of pulls used
     self.__t = 0
 
-  def _broadcast_message(self, action, feedback):
+  def broadcast_message(self, action, feedback):
     return None
 
   def learner_choice(self, messages):

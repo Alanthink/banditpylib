@@ -18,7 +18,7 @@ class FUCB(DecentralizedOrdinaryLearner):
   def _learner_init(self):
     pass
 
-  def _broadcast_message(self, context, action, feedback):
+  def broadcast_message(self, context, action, feedback):
     return [action, feedback[0]]
 
   def learner_choice(self, context, messages):
@@ -27,17 +27,12 @@ class FUCB(DecentralizedOrdinaryLearner):
       return (self._t-1) % self._arm_num
 
     messages = [list(m.values())[0] for m in messages]
-    arms = [m[0] for m in messages]
-    scores = [m[1] for m in messages]
-
-    pulls = [arms.count(a) for a in range(self._arm_num)]
-    rew = [0 for _ in range(self._arm_num)]
-
-    for i, a in enumerate(arms):
-      rew[a] += scores[i]
+    arm_scores = np.array(messages).T
+    armids, pulls = np.unique(arm_scores[0], return_counts=True)
+    rew = [arm_scores[1][arm_scores[0] == a].sum() for a in range(self._arm_num)]
 
     ucb = [rew[arm] / pulls[arm] +
-            np.sqrt(self.__alpha / pulls[arm] * np.log(len(arms) - 1))
+            np.sqrt(self.__alpha / pulls[arm] * np.log(len(messages) - 1))
             for arm in range(self._arm_num)]
     return np.argmax(ucb)
 

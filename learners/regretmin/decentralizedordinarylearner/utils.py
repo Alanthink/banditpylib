@@ -26,7 +26,7 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     pass
 
   @abstractmethod
-  def _broadcast_message(self, context, action, feedback):
+  def broadcast_message(self, context, action, feedback):
     pass
 
   @abstractmethod

@@ -18,7 +18,7 @@
 		"policy": ["SlilUCB_heur", "FlilUCB_heur"]
 	},
 	"parameters": {
-		"fail_probs": [0.1, 0.3, 0.5],
+		"fail_probs": [0.01, 0.03, 0.05],
 		"trials": 20,
 		"processors": 10
 	}

@@ -50,7 +50,7 @@ class DecentralizedBAIProtocol(Protocol):
     feedback = bandit.feed(action)
     player.update(action, feedback)
 
-    message = player._broadcast_message(action, feedback)
+    message = player.broadcast_message(action, feedback)
     self.__messages.append({player.name: message})
 
     return -1

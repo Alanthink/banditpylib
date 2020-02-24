@@ -26,7 +26,7 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
     pass
 
   @abstractmethod
-  def _broadcast_message(self, action, feedback):
+  def broadcast_message(self, action, feedback):
     pass
 
   @abstractmethod

@@ -46,7 +46,7 @@ class DecentralizedRegretMinProtocol(Protocol):
     action = player.learner_choice(context, self.__messages)
     feedback = bandit.feed(action)
     player.update(context, action, feedback)
-    message = player._broadcast_message(context, action, feedback)
+    message = player.broadcast_message(context, action, feedback)
     self.__messages.append({player.name: message})
 
   def _one_trial(self, seed):
