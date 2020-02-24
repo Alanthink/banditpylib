@@ -29,7 +29,7 @@ class FUCB(DecentralizedOrdinaryLearner):
     messages = [list(m.values())[0] for m in messages]
     arm_scores = np.array(messages).T
     armids, pulls = np.unique(arm_scores[0], return_counts=True)
-    rew = [arm_scores[1][arm_scores[0] == a].sum() 
+    rew = [arm_scores[1][arm_scores[0] == a].sum()
            for a in range(self._arm_num)]
 
     ucb = [rew[arm] / pulls[arm] +
