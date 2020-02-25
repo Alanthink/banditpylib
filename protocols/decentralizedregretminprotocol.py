@@ -55,10 +55,9 @@ class DecentralizedRegretMinProtocol(Protocol):
     ############################################################################
     # initialization
     for k in range(self._num_players):
-      player = self._players[k]
-      bandit = self._bandits[k]
+      bandit = self._bandits[k]; player = self._players[k]
       bandit.init()
-      player.init(bandit, self.__horizon)
+      player.init(bandit)
     ############################################################################
 
     agg_regret = dict()

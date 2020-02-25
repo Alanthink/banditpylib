@@ -2,12 +2,16 @@
 Abstract learner
 """
 from abc import ABC, abstractmethod
+from absl import logging
 
 __all__ = ['Learner']
 
 
 class Learner(ABC):
   """Abstract class for learners"""
+
+  def __init__(self, pars):
+    self._name = pars['name'] if 'name' in pars else None
 
   # learner goal
   @property
@@ -17,6 +21,7 @@ class Learner(ABC):
 
   # learner name
   @property
-  @abstractmethod
   def name(self):
-    pass
+    if not self._name:
+      logging.fatal('Learner name is not defined!')
+    return self._name

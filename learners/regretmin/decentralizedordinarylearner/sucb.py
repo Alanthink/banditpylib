@@ -1,3 +1,5 @@
+from absl import logging
+
 import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
@@ -8,12 +10,12 @@ __all__ = ['SUCB']
 class SUCB(DecentralizedOrdinaryLearner):
   """Selfish UCB"""
 
-  def __init__(self, alpha=2):
-    self.__alpha = alpha
-
-  @property
-  def name(self):
-    return 'SUCB'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'SUCB'
+    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
+    if self.__alpha <= 0:
+      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def _learner_init(self):
     pass

@@ -6,12 +6,9 @@ __all__ = ['Uniform']
 class Uniform(OrdinaryLearner):
   """Naive uniform algorithm: sample each arm the same number of times"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'Uniform'
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   def _learner_init(self):
     pass

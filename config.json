@@ -1,17 +1,45 @@
 {
 	"environment": {
-		"type": "OrdinaryBandit",
+		"bandit": "OrdinaryBandit",
 		"OrdinaryBandit": {
 			"arm": "BernoulliArm",
 			"means": [0.3, 0.5, 0.7]
 		}
 	},
-	"learner": {
+	"learners": {
 		"goal": "regretmin",
-		"type": "ordinarylearner",
-		"policy": ["Uniform", "UCB", "MOSS", "TS"]
+		"policies": [
+			{
+				"policy": "Uniform",
+				"Uniform": {
+					"type": "ordinarylearner",
+					"name": "Uniform Sampling"
+				}
+			},
+			{
+				"policy": "UCB",
+				"UCB": {
+					"type": "ordinarylearner",
+					"name": "UCB1"
+				}
+			},
+			{
+				"policy": "MOSS",
+				"MOSS": {
+					"type": "ordinarylearner",
+					"horizon": 2000
+				}
+			},
+			{
+				"policy": "TS",
+				"TS": {
+					"type": "ordinarylearner",
+					"name": "Thompson Sampling"
+				}
+			}
+		]
 	},
-	"parameters": {
+	"running_pars": {
 		"horizon": 2000,
 		"freq": 20,
 		"trials": 200,

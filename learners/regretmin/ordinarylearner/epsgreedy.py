@@ -11,12 +11,10 @@ class EpsGreedy(OrdinaryLearner):
   pull arm with the maximum empirical mean.
   """
 
-  def __init__(self, eps=1):
-    self.__eps = eps
-
-  @property
-  def name(self):
-    return 'EpsilonGreedy'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'EpsilonGreedy'
+    self.__eps = float(pars['eps']) if 'eps' in pars else 1
 
   def _learner_init(self):
     pass

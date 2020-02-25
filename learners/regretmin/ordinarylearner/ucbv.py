@@ -1,3 +1,5 @@
+from absl import logging
+
 import numpy as np
 
 from .utils import OrdinaryLearner
@@ -8,13 +10,12 @@ __all__ = ['UCBV']
 class UCBV(OrdinaryLearner):
   """UCB-V algorithm"""
 
-  def __init__(self, eta=1.2):
-    """eta should be greater than 1"""
-    self.__eta = eta
-
-  @property
-  def name(self):
-    return 'UCBV'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'UCBV'
+    self.__eta = float(pars['eta']) if 'eta' in pars else 1.2
+    if self.__eta <= 1:
+      logging.fatal('%s: eta should be greater than 1!' % self._name)
 
   def _learner_init(self):
     pass

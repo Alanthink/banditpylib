@@ -8,12 +8,9 @@ __all__ = ['TS']
 class TS(OrdinaryLearner):
   """Thompson Sampling"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'Thompson Sampling'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'Thompson Sampling'
 
   def _learner_init(self):
     pass

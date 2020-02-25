@@ -1,3 +1,5 @@
+from absl import logging
+
 import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
@@ -6,14 +8,14 @@ __all__ = ['FUCB']
 
 
 class FUCB(DecentralizedOrdinaryLearner):
-  """Friendly UCB"""
+  """friendly UCB"""
 
-  def __init__(self, alpha=2):
-    self.__alpha = alpha
-
-  @property
-  def name(self):
-    return 'FUCB'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'FUCB'
+    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
+    if self.__alpha <= 0:
+      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def _learner_init(self):
     pass
@@ -27,8 +29,8 @@ class FUCB(DecentralizedOrdinaryLearner):
       return (self._t-1) % self._arm_num
 
     messages = [list(m.values())[0] for m in messages]
-    arm_scores = np.array(messages).T
-    armids, pulls = np.unique(arm_scores[0], return_counts=True)
+    arm_scores = np.array(messages).transpose()
+    _, pulls = np.unique(arm_scores[0], return_counts=True)
     rew = [arm_scores[1][arm_scores[0] == a].sum()
            for a in range(self._arm_num)]
 

@@ -11,10 +11,9 @@ __all__ = ['CorrelatedLearner']
 class CorrelatedLearner(RegretMinimizationLearner):
   """Base class for learners in the classic bandit model"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   @abstractmethod
   def _learner_init(self):
