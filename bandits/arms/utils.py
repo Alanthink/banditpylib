@@ -5,7 +5,7 @@ __all__ = ['Arm', 'EmArm']
 
 
 class Arm(ABC):
-  """Base class for an arm"""
+  """base class for an arm"""
 
   @abstractmethod
   def pull(self, pulls=1):
@@ -18,7 +18,7 @@ class Arm(ABC):
 
 # a useful class
 class EmArm:
-  """Class for storing empirical information of an arm"""
+  """class for storing empirical information of an arm"""
 
   def __init__(self):
     self.reset()

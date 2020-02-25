@@ -1,6 +1,8 @@
 from random import randint
 
 from absl import flags
+from absl import logging
+
 import numpy as np
 
 from .utils import Protocol
@@ -11,20 +13,18 @@ __all__ = ['DecentralizedRegretMinProtocol']
 
 
 class DecentralizedRegretMinProtocol(Protocol):
-  """Decentralized Regret Minimization Protocol
+  """decentralized regret minimization protocol
   """
 
   def __init__(self, pars):
     self.__messages = []
+    if 'num_players' not in pars:
+      logging.fatal('%s: number of players is not specified!' % self.type)
     self.__num_players = pars['num_players']
 
   @property
   def type(self):
     return 'DecentralizedRegretMinProtocol'
-
-  @property
-  def _num_players(self):
-    return self.__num_players
 
   @property
   def __horizon(self):
@@ -37,7 +37,7 @@ class DecentralizedRegretMinProtocol(Protocol):
 
   def _one_round(self):
     # sample player
-    k = randint(0, self._num_players-1)
+    k = randint(0, self.__num_players-1)
     player = self._players[k]
     bandit = self._bandits[k]
 
@@ -54,11 +54,10 @@ class DecentralizedRegretMinProtocol(Protocol):
 
     ############################################################################
     # initialization
-    for k in range(self._num_players):
-      player = self._players[k]
-      bandit = self._bandits[k]
+    for k in range(self.__num_players):
+      bandit = self._bandits[k]; player = self._players[k]
       bandit.init()
-      player.init(bandit, self.__horizon)
+      player.init(bandit)
     ############################################################################
 
     agg_regret = dict()
@@ -66,9 +65,9 @@ class DecentralizedRegretMinProtocol(Protocol):
       if t > 0:
         self._one_round()
       if t > 0 and t % self.__frequency == 0:
-        agg_regret[t] = self.regret()
+        agg_regret[t] = self.__regret()
     return dict({self._players[0].name: agg_regret})
 
-  def regret(self):
+  def __regret(self):
     return sum([self._bandits[k].regret(self._players[k].rewards)
                 for k in range(self._num_players)])

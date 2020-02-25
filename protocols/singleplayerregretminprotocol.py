@@ -10,7 +10,7 @@ __all__ = ['SinglePlayerRegretMinProtocol']
 
 
 class SinglePlayerRegretMinProtocol(Protocol):
-  """Single Player Regret Minimization Protocol
+  """single player regret minimization protocol
   """
 
   @property
@@ -32,7 +32,7 @@ class SinglePlayerRegretMinProtocol(Protocol):
     ############################################################################
     # initialization
     self._bandit.init()
-    self._player.init(self._bandit, self.__horizon)
+    self._player.init(self._bandit)
     ############################################################################
 
     agg_regret = dict()

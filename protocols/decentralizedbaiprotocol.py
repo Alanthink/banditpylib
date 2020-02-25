@@ -1,6 +1,5 @@
 from random import choice
 
-
 from absl import flags
 from absl import logging
 
@@ -14,30 +13,20 @@ __all__ = ['DecentralizedBAIProtocol']
 
 
 class DecentralizedBAIProtocol(Protocol):
-  """Decentralized Best Arm Identification Protocol
+  """decentralized best arm identification protocol
   """
 
   def __init__(self, pars):
     self.__messages = []
+    if 'num_players' not in pars:
+      logging.fatal('%s: number of players is not specified!' % self.type)
     self.__num_players = pars['num_players']
 
   @property
   def type(self):
     return 'DecentralizedBAIProtocol'
 
-  @property
-  def _num_players(self):
-    return self.__num_players
-
-  @property
-  def _budget(self):
-    return self.__budget
-
-  @property
-  def _fail_prob(self):
-    return self.__fail_prob
-
-  def _one_round(self):
+  def __one_round(self):
     # sample player
     k = choice(self.__playable_players)
     player = self._players[k]
@@ -49,74 +38,76 @@ class DecentralizedBAIProtocol(Protocol):
       return k
     feedback = bandit.feed(action)
     player.update(action, feedback)
-
     message = player.broadcast_message(action, feedback)
-    self.__messages.append({player.name: message})
+    self.__messages.append({k: message})
 
     return -1
 
   def _one_trial(self, seed):
     np.random.seed(seed)
+
     if self._players[0].goal == 'FixedBudgetBAI':
       results = []
       for budget in self._pars['budgets']:
         self.__playable_players = list(range(self.__num_players))
-        self.__budget = budget
 
-        #######################################################################
+        ########################################################################
         # initialization
-        for k in range(self._num_players):
-          player = self._players[k]
-          bandit = self._bandits[k]
+        for k in range(self.__num_players):
+          player = self._players[k]; bandit = self._bandits[k]
           bandit.init()
-          player.init(bandit, self.__budget)
-        #######################################################################
+          player.init(bandit, budget)
+        ########################################################################
+
+        # round index
+        r = 0
         while True:
-          if bandit.tot_samples > budget:
-            logging.fatal('%s uses more than the given budget!'
-                          % player.name)
+          if r > budget:
+            logging.fatal('%s uses more than the given budget!' %
+                           self._players[0].name)
+          # stop the recursion if there is no playable players available
           if len(self.__playable_players) == 0:
+            regret = self.__regret()
+            results.append(
+                dict({self._players[0].name: [budget, r, regret]}))
             break
-
-          res = self._one_round()
-
+          res = self.__one_round()
           if res > -1:
             self.__playable_players.remove(res)
-
-          regret = self.regret()
-          results.append(
-            dict({player.name:
-                 [budget, bandit.tot_samples, regret]}))
+          r += 1
       return results
 
-    #  FixedConfidenceBAI
+    # FixedConfidenceBAI
     results = []
     for fail_prob in self._pars['fail_probs']:
       self.__playable_players = list(range(self.__num_players))
-      self.__fail_prob = fail_prob
 
-      #########################################################################
+      ##########################################################################
       # initialization
-      for k in range(self._num_players):
-        player = self._players[k]
-        bandit = self._bandits[k]
+      for k in range(self.__num_players):
+        player = self._players[k]; bandit = self._bandits[k]
         bandit.init()
-        player.init(bandit, self.__fail_prob)
-      #########################################################################
+        player.init(bandit, fail_prob)
+      ##########################################################################
+
+      # round index
+      r = 0
       while True:
         if len(self.__playable_players) == 0:
+          regret = self.__regret()
+          results.append(
+              dict({self._players[0].name: [fail_prob, r, regret]}))
           break
 
-        res = self._one_round()
+        res = self.__one_round()
         if res > -1:
+          # no action is returned we should not add r by 1
           self.__playable_players.remove(res)
+        else:
+          r += 1
 
-        regret = self.regret()
-        results.append(
-            dict({player.name:
-                  [fail_prob, bandit.tot_samples, regret]}))
     return results
 
-  def regret(self):
+  def __regret(self):
     return sum([self._bandits[k].best_arm_regret(self._players[k].best_arm())
-                for k in range(self._num_players)])
+                for k in range(self.__num_players)])

@@ -1,23 +1,56 @@
 {
 	"environment": {
-		"type": "OrdinaryBandit",
+		"bandit": "OrdinaryBandit",
 		"OrdinaryBandit": {
 			"arm": "BernoulliArm",
 			"means": [0.7, 0.5, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 		}
 	},
-	"protocol": {
-		"type": "DecentralizedRegretMinProtocol",
-		"DecentralizedRegretMinProtocol": {
-			"num_players": 10
-		}
-	},
-	"learner": {
+	"learners": {
 		"goal": "regretmin",
-		"type": "decentralizedordinarylearner",
-		"policy": ["FUCB", "SUCB", "Uniform"]
+		"policies": [
+			{
+				"policy": "FUCB",
+				"FUCB": {
+					"type": "decentralizedordinarylearner",
+					"name": "Friendly UCB"
+				},
+				"protocol": {
+					"type": "DecentralizedRegretMinProtocol",
+					"DecentralizedRegretMinProtocol": {
+						"num_players": 10
+					}
+				}
+			},
+			{
+				"policy": "SUCB",
+				"SUCB": {
+					"type": "decentralizedordinarylearner",
+					"name": "Selfish UCB"
+				},
+				"protocol": {
+					"type": "DecentralizedRegretMinProtocol",
+					"DecentralizedRegretMinProtocol": {
+						"num_players": 10
+					}
+				}
+			},
+			{
+				"policy": "Uniform",
+				"Uniform": {
+					"type": "decentralizedordinarylearner",
+					"name": "Uniform Sampling"
+				},
+				"protocol": {
+					"type": "DecentralizedRegretMinProtocol",
+					"DecentralizedRegretMinProtocol": {
+						"num_players": 10
+					}
+				}
+			}
+		]
 	},
-	"parameters": {
+	"running_pars": {
 		"horizon": 1000,
 		"freq": 20,
 		"trials": 100,

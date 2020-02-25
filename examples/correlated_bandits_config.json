@@ -1,6 +1,6 @@
 {
 	"environment": {
-		"type": "CorrelatedBandit",
+		"bandit": "CorrelatedBandit",
 		"CorrelatedBandit": {
 			"arm": {
 				"type": "CorrelatedArm",
@@ -9,12 +9,32 @@
 			"param": [0.5,0.5]
 		}
 	},
-	"learner": {
+	"learners": {
 		"goal": "regretmin",
-		"type": "correlatedlearner",
-		"policy": ["Uniform", "UCB", "CUCB"]
+		"policies": [
+			{
+				"policy": "Uniform",
+				"Uniform": {
+					"type": "ordinarylearner",
+					"name": "Uniform Sampling"
+				}
+			},
+			{
+				"policy": "UCB",
+				"UCB": {
+					"type": "ordinarylearner",
+					"name": "UCB1"
+				}
+			},
+			{
+				"policy": "CUCB",
+				"CUCB": {
+					"type": "correlatedlearner"
+				}
+			}
+		]
 	},
-	"parameters": {
+	"running_pars": {
 		"horizon": 500,
 		"freq": 20,
 		"trials": 100,

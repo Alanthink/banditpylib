@@ -9,12 +9,11 @@ __all__ = ['CorrelatedLearner']
 
 
 class CorrelatedLearner(RegretMinimizationLearner):
-  """Base class for learners in the classic bandit model"""
+  """base class for learners in the classic bandit model"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   @abstractmethod
   def _learner_init(self):
@@ -31,7 +30,7 @@ class CorrelatedLearner(RegretMinimizationLearner):
   def _model_init(self):
     """local initialization"""
     if self._bandit.type not in ['correlatedbandit']:
-      logging.fatal(("(%s) I don't understand",
+      logging.fatal(("%s: I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm

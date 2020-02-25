@@ -12,12 +12,9 @@ __all__ = ['LinGapE']
 class LinGapE(CorrelatedLearner):
   """LinGapE"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'LinGapE'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'LinGapE'
 
   def _learner_update(self, action, feedback):
     if isinstance(action, list):

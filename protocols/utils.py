@@ -7,8 +7,6 @@ from abc import ABC, abstractmethod
 from absl import flags
 from absl import logging
 
-from bandits import Bandit
-
 FLAGS = flags.FLAGS
 
 __all__ = ['Protocol', 'current_time']
@@ -21,7 +19,7 @@ def current_time():
 
 
 class Protocol(ABC):
-  """Abstract protocol class"""
+  """abstract protocol class"""
 
   @property
   @abstractmethod
@@ -30,7 +28,7 @@ class Protocol(ABC):
 
   @property
   def __trials(self):
-    # # of repetitions of the play
+    # # of trials of the simulation
     return self._pars['trials']
 
   @property
@@ -69,25 +67,22 @@ class Protocol(ABC):
     pool.close()
     pool.join()
 
-  def play(self, bandit, player, output_file, pars):
+  def play(self, bandit, learner, running_pars, output_file):
     if isinstance(bandit, list):
-      for b in bandit:
-        if not isinstance(b, Bandit):
-          logging.fatal('There exists a non-bandit!')
+      # multiple players
       self._bandits = bandit
-      self._players = player
-      logging.info('run learner %s with goal %s under protocol %s' %
-        (player[0].name, player[0].goal, self.type))
+      self._players = learner
+      logging.info(
+        'run learner %s under protocol %s' % (learner[0].name, self.type))
     else:
-      if not isinstance(bandit, Bandit):
-        logging.fatal('Not a legimate bandit!')
+      # single player
       self._bandit = bandit
-      self._player = player
-      logging.info('run learner %s with goal %s under protocol %s' %
-        (player.name, player.goal, self.type))
+      self._player = learner
+      logging.info(
+        'run learner %s with protocol %s' % (learner.name, self.type))
 
     self.__output_file = output_file
-    self._pars = pars
+    self._pars = running_pars
 
     start_time = time.time()
     self.__multi_proc()

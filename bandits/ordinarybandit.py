@@ -10,7 +10,7 @@ ARM_PKG = 'bandits.arms'
 
 
 class OrdinaryBandit(Bandit):
-  """Ordinary Bandit
+  """ordinary bandit
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 

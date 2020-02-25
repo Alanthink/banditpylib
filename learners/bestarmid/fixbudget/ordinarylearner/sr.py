@@ -9,14 +9,11 @@ __all__ = ['SR']
 
 
 class SR(OrdinaryLearner):
-  """Successive Elimination"""
+  """successive elimination"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'SR'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'SR'
 
   def _learner_init(self):
     # calculate bar_log_K

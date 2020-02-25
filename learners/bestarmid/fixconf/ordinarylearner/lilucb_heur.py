@@ -14,12 +14,9 @@ __all__ = ['lilUCB_heur']
 class lilUCB_heur(OrdinaryLearner):
   """lilUCB heuristic"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'lilUCB_heur'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'lilUCB_heur'
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:

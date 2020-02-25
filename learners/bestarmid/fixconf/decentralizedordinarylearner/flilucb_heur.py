@@ -1,5 +1,7 @@
 import math
 
+from absl import logging
+
 import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
@@ -8,14 +10,14 @@ __all__ = ['FlilUCB_heur']
 
 
 class FlilUCB_heur(DecentralizedOrdinaryLearner):
-  """Friendly lilUCB heuristic"""
+  """friendly lilUCB heuristic"""
 
-  def __init__(self, alpha=2):
-    self.__alpha = alpha
-
-  @property
-  def name(self):
-    return 'FlilUCB_heur'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'FlilUCB_heur'
+    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
+    if self.__alpha <= 0:
+      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
@@ -41,11 +43,11 @@ class FlilUCB_heur(DecentralizedOrdinaryLearner):
       return (self.__t - 1) % self._arm_num
 
     messages = [list(m.values())[0] for m in messages]
-    arm_scores = np.array(messages).T
-    armids, pulls = np.unique(arm_scores[0], return_counts=True)
+    arm_scores = np.array(messages).transpose()
+    _, pulls = np.unique(arm_scores[0], return_counts=True)
     rew = [arm_scores[1][arm_scores[0] == a].sum() for a in range(self._arm_num)]
 
-    for k, arm in enumerate(self._em_arms):
+    for _, arm in enumerate(self._em_arms):
       if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
         return -1
 

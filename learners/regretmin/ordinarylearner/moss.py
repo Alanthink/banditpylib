@@ -1,3 +1,5 @@
+from absl import logging
+
 import numpy as np
 
 from .utils import OrdinaryLearner
@@ -8,12 +10,13 @@ __all__ = ['MOSS']
 class MOSS(OrdinaryLearner):
   """MOSS"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'MOSS'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'MOSS'
+    if 'horizon' not in pars:
+      logging.fatal('%s: I need to know the horizon!' % self._name)
+    else:
+      self.__horizon = pars['horizon']
 
   def _learner_init(self):
     pass
@@ -25,7 +28,7 @@ class MOSS(OrdinaryLearner):
 
     ucb = [arm.em_mean+
            np.sqrt(max(0,
-           np.log(self._horizon/(self._arm_num*arm.pulls)))/arm.pulls)
+           np.log(self.__horizon/(self._arm_num*arm.pulls)))/arm.pulls)
            for arm in self._em_arms]
 
     return np.argmax(ucb)

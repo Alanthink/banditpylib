@@ -1,3 +1,5 @@
+from absl import logging
+
 import numpy as np
 import cvxpy as cp
 
@@ -9,12 +11,12 @@ __all__ = ['CUCB']
 class CUCB(CorrelatedLearner):
   """CUCB"""
 
-  def __init__(self, alpha=2):
-    self.__alpha = alpha
-
-  @property
-  def name(self):
-    return 'CUCB'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'CUCB'
+    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
+    if self.__alpha <= 0:
+      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def _learner_init(self):
     pass

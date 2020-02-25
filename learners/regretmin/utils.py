@@ -6,12 +6,11 @@ __all__ = ['RegretMinimizationLearner']
 
 
 class RegretMinimizationLearner(Learner):
-  """Base class for regret minimization learners"""
+  """base class for regret minimization learners"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   @property
   def goal(self):
@@ -44,10 +43,9 @@ class RegretMinimizationLearner(Learner):
   def rewards(self):
     return self.__rewards
 
-  def init(self, bandit, horizon):
+  def init(self, bandit):
     # time starts from 1
     self._bandit = bandit
-    self._horizon = horizon
     self._t = 1
     self._goal_init()
     self._model_init()
