@@ -17,7 +17,7 @@
 	"parameters": {
 		"horizon": 500,
 		"freq": 20,
-		"trials": 5,
+		"trials": 100,
 		"processors": 40
 	}
 }

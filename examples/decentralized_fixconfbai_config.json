@@ -1,0 +1,25 @@
+{
+	"environment": {
+		"type": "OrdinaryBandit",
+		"OrdinaryBandit": {
+		  "arm": "BernoulliArm",
+		  "means": [0.3, 0.5, 0.7]
+		}
+	},
+	"protocol": {
+		"type": "DecentralizedBAIProtocol",
+		"DecentralizedBAIProtocol": {
+			"num_players": 2
+		}
+	},
+	"learner": {
+		"goal": "bestarmid.fixconf",
+		"type": "decentralizedordinarylearner",
+		"policy": ["SlilUCB_heur", "FlilUCB_heur"]
+	},
+	"parameters": {
+		"fail_probs": [0.01, 0.03, 0.05],
+		"trials": 20,
+		"processors": 1
+	}
+}
