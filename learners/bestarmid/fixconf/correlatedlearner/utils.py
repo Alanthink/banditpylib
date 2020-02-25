@@ -1,3 +1,5 @@
+import numpy as np
+
 from abc import abstractmethod
 
 from absl import logging
@@ -5,10 +7,15 @@ from absl import logging
 from bandits.arms import EmArm
 from learners.bestarmid.fixconf import FixConfBAILearner
 
+__all__ = ['FixConfBAILearner', 'mat_norm']
 
-class OrdinaryLearner(FixConfBAILearner):
+
+def mat_norm(x, A):
+  return np.sqrt(np.dot(np.dot(x, A), x))
+
+
+class CorrelatedLearner(FixConfBAILearner):
   """Base class for learners in the classic bandit model"""
-
   @property
   @abstractmethod
   def name(self):
@@ -16,12 +23,15 @@ class OrdinaryLearner(FixConfBAILearner):
 
   def _model_init(self):
     """local initialization"""
-    if self._bandit.type not in ['ordinarybandit', 'correlatedbandit']:
+    if self._bandit.type != 'correlatedbandit':
       logging.fatal(("(%s) I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
+    # initalize em arms repr
+    for k in range(self._arm_num):
+      self._em_arms[k].action = self._bandit.actions[k]
 
   def _model_update(self, action, feedback):
     if isinstance(action, list):

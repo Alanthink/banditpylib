@@ -1,0 +1,22 @@
+{
+  "environment": {
+    "type": "CorrelatedBandit",
+    "CorrelatedBandit": {
+      "arm": {
+        "type": "CorrelatedArm",
+        "means": [[0.3,0.2], [0.5,0.6], [0.7,0.9]]
+      },
+      "param": [0.5,0.5]
+    }
+  },
+  "learner": {
+    "goal": "bestarmid.fixconf",
+    "type": "correlatedlearner",
+    "policy": ["LinGapE", "ExpGap", "lilUCB_heur"]
+  },
+  "parameters": {
+    "fail_probs": [0.1, 0.3, 0.5],
+    "trials": 200,
+    "processors": 10
+  }
+}
