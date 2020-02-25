@@ -23,10 +23,10 @@ A lightweight python library for bandit algorithms
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
-| Single Player   | Ordinary Bandit     | Uniform, Epsilon Greedy, UCB [[1]](#ACF02),  MOSS [[2]](#AB09), Thompson Sampling \[[3](#T33), [4](#KKM12)\], UCBV [[5]](#AMS09)  |
-|      | Ordinary MNL Bandit   | Exploration-exploitation [[6]](#AAGZ19)      |
-|      | Correlated Bandit   | C-UCB \[[10](#GCJY18), [11](#GCJY19)\]      |
-|  Decentralized [[12]](FAL18) | Ordinary Bandit   | Uniform, FUCB, SUCB  |
+| Single Player   | Ordinary Bandit     | `Uniform`, `EpsGreedy`, `UCB` [[1]](#ACF02),  `MOSS` [[2]](#AB09), `TS` \[[3](#T33), [4](#KKM12)\], `UCBV` [[5]](#AMS09)  |
+|      | Ordinary MNL Bandit   | `ExplorationExploitation` [[6]](#AAGZ19)      |
+|      | Correlated Bandit   | `CUCB` \[[10](#GCJY18), [11](#GCJY19)\]      |
+|  Decentralized [[12]](FAL18) | Ordinary Bandit   | `Uniform`, `FUCB`, `SUCB`  |
 
 ### Best Arm Identification
 
@@ -34,21 +34,21 @@ A lightweight python library for bandit algorithms
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
-| Single Player   | Ordinary Bandit     | Uniform, SR [[7]](#AB10)  |
+| Single Player   | Ordinary Bandit     | `Uniform`, `SR` [[7]](#AB10)  |
 
 #### Fixed Confidence
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
-| Single Player   | Ordinary Bandit     | lilUCB heuristic [[8]](#JMNB14), ExpGap [[9]](#KKS13) |
-|      | Correlated Bandit   | LinGapE [[13]](#XHS18)      |
-|  Decentralized [[12]](FAL18) | Ordinary Bandit   | FlilUCB_heur, SlilUCB_heur  |
+| Single Player   | Ordinary Bandit     | `lilUCB_heur` [[8]](#JMNB14), `ExpGap` [[9]](#KKS13) |
+|      | Correlated Bandit   | `LinGapE` [[13]](#XHS18)      |
+|  Decentralized [[12]](FAL18) | Ordinary Bandit   | `FlilUCB_heur`, `SlilUCB_heur`  |
 
 ## Getting Started
 
-### Prerequisites
+### Configuration
 
-Use `config.json` to set running parameters.
+Use `config.json` or `--config CONFIGFILE` to set up simulation parameters.
 
 ### Installing and Running
 
@@ -109,8 +109,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 9. <a name="KKS13"></a> Zohar Karnin, Tomer Koren and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML, 2013.
 10. <a name="GCJY18"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Exploiting correlation in finite-armed structured bandits. 2018.
 11. <a name="GCJY19"></a> Samarth Gupta, Shreyas Chaudhari, Gauri Joshi and Osman Yağan. Multi-Armed Bandits with Correlated Arms. arXiv:1911.03959, 2019.
-12. <a name="FAL18"> </a> Raphaël Féraud, Réda Alami, and Romain Laroche. Decentralized Exploration in Multi-Armed Bandits. arXiv:1811.07763, 2018.
-13. <a name="XHS18"> </a> Liyuan Xu, Junya Hond, and Masashi Sugiyama. Fully adaptive algorithm for pure exploration in linear bandits. In AISTATS, 2018.
+12. <a name="FAL18"></a> Raphaël Féraud, Réda Alami and Romain Laroche. Decentralized Exploration in Multi-Armed Bandits. arXiv:1811.07763, 2018.
+13. <a name="XHS18"></a> Liyuan Xu, Junya Hond and Masashi Sugiyama. Fully adaptive algorithm for pure exploration in linear bandits. In AISTATS, 2018.
 
 
 ## Contributors
