@@ -15,7 +15,7 @@ class OrdinaryLearner(FixBudgetBAILearner):
   def _model_init(self):
     """local initialization"""
     if self._bandit.type != 'ordinarybandit':
-      logging.fatal(("(%s) I don't understand",
+      logging.fatal(("%s: I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
     self._em_arms = [EmArm() for ind in range(self._arm_num)]

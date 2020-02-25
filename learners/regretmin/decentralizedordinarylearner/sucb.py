@@ -8,7 +8,7 @@ __all__ = ['SUCB']
 
 
 class SUCB(DecentralizedOrdinaryLearner):
-  """Selfish UCB"""
+  """selfish UCB"""
 
   def __init__(self, pars):
     super().__init__(pars)

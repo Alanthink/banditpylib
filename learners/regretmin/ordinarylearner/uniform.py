@@ -4,9 +4,8 @@ __all__ = ['Uniform']
 
 
 class Uniform(OrdinaryLearner):
-  """uniform sampling: sample each arm the same number of times"""
+  """sample each arm the same number of times"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
     self._name = self._name if self._name else 'Uniform'

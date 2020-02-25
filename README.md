@@ -42,7 +42,7 @@ A lightweight python library for bandit algorithms
 | :---         |     :---      |      :--- |
 | Single Player   | Ordinary Bandit     | lilUCB heuristic [[8]](#JMNB14), ExpGap [[9]](#KKS13) |
 |      | Correlated Bandit   | LinGapE [[13]](#XHS18)      |
-|  Decentralized [[12]](FAL18) | Ordinary Bandit   | FlilUCB, SlilUCB  |
+|  Decentralized [[12]](FAL18) | Ordinary Bandit   | FlilUCB_heur, SlilUCB_heur  |
 
 ## Getting Started
 

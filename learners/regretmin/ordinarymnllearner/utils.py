@@ -28,7 +28,7 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
   def _model_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
       logging.fatal(
-          ("(%s) I don't",
+          ("%s: I don't",
            " understand the bandit environment!") % self.name)
 
   def _model_update(self, context, action, feedback):
