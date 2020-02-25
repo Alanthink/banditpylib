@@ -29,7 +29,7 @@ def search_best_assortment(abspar, revenue, K=np.inf):
 
 class OrdinaryMNLBandit(Bandit):
   def __init__(self, pars):
-    """Ordinary MNL Bandit
+    """ordinary MNL bandit
 
     Products are numbered from 1 by default. 0 is for non-purchase.
     It is assumed that the abstraction parameter of non-purchase is 1.

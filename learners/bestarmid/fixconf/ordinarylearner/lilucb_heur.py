@@ -14,8 +14,9 @@ __all__ = ['lilUCB_heur']
 class lilUCB_heur(OrdinaryLearner):
   """lilUCB heuristic"""
 
-  def __init__(self):
-    pass
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'lilUCB_heur'
 
   @property
   def name(self):

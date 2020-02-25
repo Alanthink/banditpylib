@@ -11,7 +11,7 @@ __all__ = ['DecentralizedRegretMinProtocol']
 
 
 class DecentralizedRegretMinProtocol(Protocol):
-  """Decentralized Regret Minimization Protocol
+  """decentralized regret minimization protocol
   """
 
   def __init__(self, pars):

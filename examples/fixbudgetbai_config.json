@@ -1,17 +1,29 @@
 {
   "environment": {
-    "type": "OrdinaryBandit",
+    "bandit": "OrdinaryBandit",
     "OrdinaryBandit": {
       "arm": "BernoulliArm",
       "means": [0.3, 0.5, 0.7]
     }
   },
-  "learner": {
+  "learners": {
     "goal": "bestarmid.fixbudget",
-    "type": "ordinarylearner",
-    "policy": ["Uniform", "SR"]
+    "policies": [
+      {
+        "policy": "Uniform",
+        "Uniform": {
+          "type": "ordinarylearner"
+        }
+      },
+      {
+        "policy": "SR",
+        "SR": {
+          "type": "ordinarylearner"
+        }
+      }
+    ]
   },
-  "parameters": {
+  "running_pars": {
     "budgets": [100, 200, 300],
     "trials": 200,
     "processors": 10

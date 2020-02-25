@@ -14,7 +14,7 @@ __all__ = ['DecentralizedBAIProtocol']
 
 
 class DecentralizedBAIProtocol(Protocol):
-  """Decentralized Best Arm Identification Protocol
+  """decentralized best arm identification protocol
   """
 
   def __init__(self, pars):

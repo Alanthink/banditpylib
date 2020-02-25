@@ -4,7 +4,7 @@ __all__ = ['Bandit']
 
 
 class Bandit(ABC):
-  """Abstract bandit environment"""
+  """abstract bandit environment"""
 
   @property
   @abstractmethod

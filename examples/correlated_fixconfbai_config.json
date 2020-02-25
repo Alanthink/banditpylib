@@ -1,6 +1,6 @@
 {
   "environment": {
-    "type": "CorrelatedBandit",
+    "bandit": "CorrelatedBandit",
     "CorrelatedBandit": {
       "arm": {
         "type": "CorrelatedArm",
@@ -9,13 +9,31 @@
       "param": [0.5,0.5]
     }
   },
-  "learner": {
+  "learners": {
     "goal": "bestarmid.fixconf",
-    "type": "correlatedlearner",
-    "policy": ["LinGapE", "ExpGap", "lilUCB_heur"]
+    "policies": [
+      {
+        "policy": "ExpGap",
+        "ExpGap": {
+          "type": "ordinarylearner"
+        }
+      },
+      {
+        "policy": "lilUCB_heur",
+        "lilUCB_heur": {
+          "type": "ordinarylearner"
+        }
+      },
+      {
+        "policy": "LinGapE",
+        "LinGapE": {
+          "type": "correlatedlearner"
+        }
+      }
+    ]
   },
-  "parameters": {
-    "fail_probs": [0.1, 0.3, 0.5],
+  "running_pars": {
+    "fail_probs": [0.01, 0.03, 0.05],
     "trials": 200,
     "processors": 10
   }

@@ -6,7 +6,7 @@ __all__ = ['BernoulliArm']
 
 
 class BernoulliArm(Arm):
-  """Bernoulli arm"""
+  """bernoulli arm"""
 
   def __init__(self, mean):
     self.__mean = mean

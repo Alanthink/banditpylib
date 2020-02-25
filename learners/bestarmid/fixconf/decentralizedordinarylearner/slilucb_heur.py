@@ -1,5 +1,7 @@
 import math
 
+from absl import logging
+
 import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
@@ -8,14 +10,14 @@ __all__ = ['SlilUCB_heur']
 
 
 class SlilUCB_heur(DecentralizedOrdinaryLearner):
-  """Selfish lilUCB heuristic"""
+  """selfish lilUCB heuristic"""
 
-  def __init__(self, alpha=2):
-    self.__alpha = alpha
-
-  @property
-  def name(self):
-    return 'SlilLUCB_heur'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'SlilLUCB_heur'
+    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
+    if self.__alpha <= 0:
+      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:

@@ -16,12 +16,9 @@ __all__ = ['ExpGap']
 class ExpGap(OrdinaryLearner):
   """Exponential-Gap Elimination"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'ExpGap'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'ExpGap'
 
   def _learner_init(self):
     pass

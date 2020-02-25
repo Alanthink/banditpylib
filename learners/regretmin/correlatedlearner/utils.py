@@ -9,7 +9,7 @@ __all__ = ['CorrelatedLearner']
 
 
 class CorrelatedLearner(RegretMinimizationLearner):
-  """Base class for learners in the classic bandit model"""
+  """base class for learners in the classic bandit model"""
 
   # pylint: disable=I0023, W0235
   def __init__(self, pars):

@@ -6,12 +6,11 @@ from learners.bestarmid.fixbudget import FixBudgetBAILearner
 
 
 class OrdinaryLearner(FixBudgetBAILearner):
-  """Base class for learners in the classic bandit model"""
+  """base class for learners in the classic bandit model"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   def _model_init(self):
     """local initialization"""

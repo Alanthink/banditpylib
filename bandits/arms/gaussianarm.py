@@ -6,7 +6,7 @@ __all__ = ['GaussianArm']
 
 
 class GaussianArm(Arm):
-  """Gaussian arm"""
+  """gaussian arm"""
 
   def __init__(self, mu, sigma):
     self.__mu = mu

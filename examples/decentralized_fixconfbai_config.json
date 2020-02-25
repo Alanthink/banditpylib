@@ -1,23 +1,43 @@
 {
 	"environment": {
-		"type": "OrdinaryBandit",
+		"bandit": "OrdinaryBandit",
 		"OrdinaryBandit": {
 		  "arm": "BernoulliArm",
 		  "means": [0.3, 0.5, 0.7]
 		}
 	},
-	"protocol": {
-		"type": "DecentralizedBAIProtocol",
-		"DecentralizedBAIProtocol": {
-			"num_players": 2
-		}
-	},
-	"learner": {
+	"learners": {
 		"goal": "bestarmid.fixconf",
-		"type": "decentralizedordinarylearner",
-		"policy": ["SlilUCB_heur", "FlilUCB_heur"]
+		"policies": [
+			{
+				"policy": "SlilUCB_heur",
+				"SlilUCB_heur": {
+					"type": "decentralizedordinarylearner",
+					"name": "Selfish lilUCB_heur"
+				},
+				"protocol": {
+					"type": "DecentralizedBAIProtocol",
+					"DecentralizedBAIProtocol": {
+						"num_players": 2
+					}
+				}
+			},
+			{
+				"policy": "FlilUCB_heur",
+				"FlilUCB_heur": {
+					"type": "decentralizedordinarylearner",
+					"name": "Friendly lilUCB_heur"
+				},
+				"protocol": {
+					"type": "DecentralizedBAIProtocol",
+					"DecentralizedBAIProtocol": {
+						"num_players": 2
+					}
+				}
+			}
+		]
 	},
-	"parameters": {
+	"running_pars": {
 		"fail_probs": [0.01, 0.03, 0.05],
 		"trials": 20,
 		"processors": 1

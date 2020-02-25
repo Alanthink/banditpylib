@@ -5,7 +5,7 @@ __all__ = ['CorrelatedArm']
 
 
 class CorrelatedArm(Arm):
-  """Correlated arm"""
+  """correlated arm"""
 
   def __init__(self, mu):
     self.__mu = mu

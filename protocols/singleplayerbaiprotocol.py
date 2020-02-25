@@ -11,7 +11,7 @@ __all__ = ['SinglePlayerBAIProtocol']
 
 
 class SinglePlayerBAIProtocol(Protocol):
-  """Single Player Best Arm Identification Protocol
+  """single player best arm identification protocol
   """
 
   @property

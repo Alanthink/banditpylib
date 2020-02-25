@@ -8,7 +8,7 @@ __all__ = ['Learner']
 
 
 class Learner(ABC):
-  """Abstract class for learners"""
+  """abstract class for learners"""
 
   def __init__(self, pars):
     self._name = pars['name'] if 'name' in pars else None

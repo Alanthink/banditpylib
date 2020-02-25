@@ -6,7 +6,7 @@ __all__ = ['RegretMinimizationLearner']
 
 
 class RegretMinimizationLearner(Learner):
-  """Base class for regret minimization learners"""
+  """base class for regret minimization learners"""
 
   # pylint: disable=I0023, W0235
   def __init__(self, pars):

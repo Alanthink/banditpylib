@@ -10,7 +10,7 @@ __all__ = ['SinglePlayerRegretMinProtocol']
 
 
 class SinglePlayerRegretMinProtocol(Protocol):
-  """Single Player Regret Minimization Protocol
+  """single player regret minimization protocol
   """
 
   @property

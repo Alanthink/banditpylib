@@ -4,14 +4,11 @@ __all__ = ['Uniform']
 
 
 class Uniform(OrdinaryLearner):
-  """Naive uniform algorithm: sample each arm the same number of times"""
+  """uniform sampling: sample each arm the same number of times"""
 
-  def __init__(self):
-    pass
-
-  @property
-  def name(self):
-    return 'Uniform'
+  def __init__(self, pars):
+    super().__init__(pars)
+    self._name = self._name if self._name else 'Uniform'
 
   def _learner_init(self):
     pass

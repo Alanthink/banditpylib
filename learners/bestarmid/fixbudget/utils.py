@@ -6,12 +6,11 @@ __all__ = ['FixBudgetBAILearner']
 
 
 class FixBudgetBAILearner(Learner):
-  """Base Class for Fixed Budget Best Arm Identification Learners"""
+  """base class for fixed budget best arm identification learners"""
 
-  @property
-  @abstractmethod
-  def name(self):
-    pass
+  # pylint: disable=I0023, W0235
+  def __init__(self, pars):
+    super().__init__(pars)
 
   @property
   def goal(self):
