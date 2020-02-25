@@ -40,6 +40,6 @@
 	"running_pars": {
 		"fail_probs": [0.01, 0.03, 0.05],
 		"trials": 20,
-		"processors": 1
+		"processors": 40
 	}
 }

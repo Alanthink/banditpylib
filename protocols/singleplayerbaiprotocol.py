@@ -18,14 +18,6 @@ class SinglePlayerBAIProtocol(Protocol):
   def type(self):
     return 'SinglePlayerBAIProtocol'
 
-  @property
-  def _budget(self):
-    return self.__budget
-
-  @property
-  def _fail_prob(self):
-    return self.__fail_prob
-
   def _one_trial(self, seed):
     np.random.seed(seed)
 
@@ -42,14 +34,13 @@ class SinglePlayerBAIProtocol(Protocol):
 
         self._player.learner_run()
         if self._bandit.tot_samples > budget:
-          logging.fatal('%s uses more than the given budget!'
-              % self._player.name)
-
+          logging.fatal(
+              '%s uses more than the given budget!' % self._player.name)
         regret = self._bandit.best_arm_regret(self._player.best_arm())
         results.append(dict({self._player.name: [budget, regret]}))
       return results
 
-    #  FixedConfidenceBAI
+    # FixedConfidenceBAI
     results = []
     for fail_prob in self._pars['fail_probs']:
       self.__fail_prob = fail_prob
