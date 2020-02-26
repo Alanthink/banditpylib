@@ -10,6 +10,19 @@
 		"goal": "bestarmid.fixconf",
 		"policies": [
 			{
+				"policy": "DECEN",
+				"DECEN": {
+					"type": "decentralizedordinarylearner",
+					"name": "Decentralized Elimination"
+				},
+				"protocol": {
+					"type": "DecentralizedBAIProtocol",
+					"DecentralizedBAIProtocol": {
+						"num_players": 10
+					}
+				}
+			},
+			{
 				"policy": "SlilUCB_heur",
 				"SlilUCB_heur": {
 					"type": "decentralizedordinarylearner",
