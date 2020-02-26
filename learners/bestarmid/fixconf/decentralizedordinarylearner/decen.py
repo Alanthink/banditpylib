@@ -86,8 +86,8 @@ class DECEN(DecentralizedOrdinaryLearner):
                         else 1 for k in range(self._arm_num)]
 
     em_means = np.array([self._em_arms[ind].em_mean for ind in self.__K_local])
-    if (len(self.__K_local) <= 1) or 
-       (np.all(np.isclose(em_means, em_means[0], 
+    if (len(self.__K_local) <= 1) or
+       (np.all(np.isclose(em_means, em_means[0],
                           rtol=1e-05, atol=1e-08))):
       return -1
     else:
