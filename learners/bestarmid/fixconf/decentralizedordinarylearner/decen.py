@@ -1,7 +1,7 @@
 import math
 
 import numpy as np
-import statistics 
+import statistics
 
 from .utils import DecentralizedOrdinaryLearner
 
@@ -39,7 +39,7 @@ class DECEN(DecentralizedOrdinaryLearner):
 
   def __arm_selection(self, arm_set):
     # naive arm selection
-    action = [(ind, int(np.ceil(1/((self.__eps/2)**2) * np.log(3/self.__delta))))
+    action = [(ind, int(np.ceil(1/((self.__eps/2)**2)*np.log(3/self.__delta))))
               for ind in range(self._arm_num)]
     feedback = self._bandit.feed(action)
     self._model_update(action, feedback)
@@ -47,7 +47,7 @@ class DECEN(DecentralizedOrdinaryLearner):
 
     med_arm_val = statistics.median([arm.em_mean for arm in self._em_arms])
 
-    return [ind for (ind, arm) in enumerate(self._em_arms) 
+    return [ind for (ind, arm) in enumerate(self._em_arms)
             if arm.em_mean < med_arm_val]
 
   def learner_choice(self, messages):
@@ -82,12 +82,13 @@ class DECEN(DecentralizedOrdinaryLearner):
       self.__l_local += 1
       self.__K_local = [k for k in self.__K_local if k not in K_local_hat]
 
-      self.__message = [0 if k in K_local_hat 
+      self.__message = [0 if k in K_local_hat
                         else 1 for k in range(self._arm_num)]
 
     em_means = np.array([self._em_arms[ind].em_mean for ind in self.__K_local])
-    if (len(self.__K_local) <= 1) or (np.all(np.isclose(em_means, em_means[0],
-                                                        rtol=1e-05, atol=1e-08))):
+    if (len(self.__K_local) <= 1) or 
+       (np.all(np.isclose(em_means, em_means[0], 
+                          rtol=1e-05, atol=1e-08))):
       return -1
     else:
       return self.best_arm()
