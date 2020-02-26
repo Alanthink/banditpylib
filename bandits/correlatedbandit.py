@@ -15,7 +15,7 @@ class CorrelatedBandit(Bandit):
   """
 
   def __init__(self, pars):
-    if pars['arm']['type'] !=  'CorrelatedArm':
+    if pars['arm']['type'] != 'CorrelatedArm':
       logging.fatal('Not a correlated arm!')
     actions = pars['arm']['means']
     if not isinstance(actions, list):
@@ -23,7 +23,7 @@ class CorrelatedBandit(Bandit):
     self.__actions = [np.array(action) for action in actions]
     self.__theta = np.array(pars['param'])
     Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
-    arms = [Arm(np.dot(action,self.__theta)) for action in self.__actions]
+    arms = [Arm(np.dot(action, self.__theta)) for action in self.__actions]
     self.__arms = arms
 
     for _, action in enumerate(self.__actions):
@@ -34,8 +34,9 @@ class CorrelatedBandit(Bandit):
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    self.__best_arm_ind = max([(tup[0], tup[1].mean)
-        for tup in enumerate(self.__arms)], key=lambda x:x[1])[0]
+    self.__best_arm_ind = max(
+        [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
+        key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
 
   @property

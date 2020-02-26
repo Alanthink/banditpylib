@@ -16,4 +16,4 @@ jobs:
     - name: Lint with pylint
       run: |
         pip install pylint
-        git diff --name-only "$GITHUB_BASE_REF..$GITHUB_SHA" | xargs pylint **/*.py
+        pylint **/*.py

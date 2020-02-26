@@ -26,8 +26,8 @@ class UCBV(OrdinaryLearner):
       return (self._t-1) % self._arm_num
 
     ucbv = [arm.em_mean+
-           np.sqrt(2*self.__eta*arm.em_var/arm.pulls*np.log(self._t))+
-           3*self.__eta*np.log(self._t)/arm.pulls for arm in self._em_arms]
+            np.sqrt(2*self.__eta*arm.em_var/arm.pulls*np.log(self._t))+
+            3*self.__eta*np.log(self._t)/arm.pulls for arm in self._em_arms]
 
     return np.argmax(ucbv)
 

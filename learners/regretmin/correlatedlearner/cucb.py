@@ -46,8 +46,9 @@ class CUCB(CorrelatedLearner):
     noncomp = []
     for k in em_comp:
       arm = self._em_arms[k]
-      problem = cp.Problem(obj, constr+[arm.action * th >= a.action * th
-                           for kk, a in enumerate(self._em_arms) if k != kk])
+      problem = cp.Problem(
+          obj, constr+[arm.action * th >= a.action * th
+                       for kk, a in enumerate(self._em_arms) if k != kk])
       problem.solve(warm_start=True)
 
       # if constraints not satisfied, not competitive arm

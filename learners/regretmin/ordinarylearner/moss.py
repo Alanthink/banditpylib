@@ -27,9 +27,9 @@ class MOSS(OrdinaryLearner):
       return (self._t-1) % self._arm_num
 
     ucb = [arm.em_mean+
-           np.sqrt(max(0,
-           np.log(self.__horizon/(self._arm_num*arm.pulls)))/arm.pulls)
-           for arm in self._em_arms]
+           np.sqrt(
+               max(0, np.log(self.__horizon/(self._arm_num*arm.pulls)))
+               /arm.pulls) for arm in self._em_arms]
 
     return np.argmax(ucb)
 

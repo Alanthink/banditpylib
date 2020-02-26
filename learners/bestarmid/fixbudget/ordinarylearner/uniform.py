@@ -21,4 +21,5 @@ class Uniform(OrdinaryLearner):
 
   def best_arm(self):
     return max([(ind, arm.em_mean)
-        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
+                for (ind, arm) in enumerate(self._em_arms)],
+               key=lambda x: x[1])[0]

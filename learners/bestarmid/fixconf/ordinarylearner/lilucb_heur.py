@@ -27,7 +27,9 @@ class lilUCB_heur(OrdinaryLearner):
 
   def _learner_init(self):
     # alg parameters suggested by the paper
-    self.__beta = 0.5; self.__a = 1+10/self._arm_num; self.__eps = 0
+    self.__beta = 0.5
+    self.__a = 1+10/self._arm_num
+    self.__eps = 0
     self.__delta = self._fail_prob/5
     # total number of pulls used
     self.__t = 0
@@ -53,4 +55,5 @@ class lilUCB_heur(OrdinaryLearner):
 
   def best_arm(self):
     return max([(ind, arm.pulls)
-        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
+                for (ind, arm) in enumerate(self._em_arms)],
+               key=lambda x: x[1])[0]

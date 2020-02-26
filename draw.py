@@ -14,7 +14,8 @@ from tabulate import tabulate
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns; sns.set()
+import seaborn as sns
+sns.set()
 
 FLAGS = flags.FLAGS
 
@@ -43,11 +44,11 @@ def draw_regretmin(data_file):
         col_regrets.append(regrets[horizon])
 
   df = pd.DataFrame({'learner':col_learners, 'horizon':col_horizons,
-      'regret': col_regrets})
+                     'regret': col_regrets})
 
   with open(ana_file, 'w') as f:
-    f.write(tabulate(df.groupby(['learner','horizon']).mean(),
-        headers='keys', tablefmt='psql'))
+    f.write(tabulate(df.groupby(['learner', 'horizon']).mean(),
+                     headers='keys', tablefmt='psql'))
 
   if FLAGS.novar:
     ci_val = None
@@ -89,12 +90,13 @@ def draw_fixbudgetbai(data_file):
       col_budgets.append(int(budget))
       col_regrets.append(regret)
 
-  df = pd.DataFrame({'learner':col_learners, 'budget': col_budgets,
-      'fail_prob': col_regrets})
+  df = pd.DataFrame({'learner':col_learners,
+                     'budget': col_budgets,
+                     'fail_prob': col_regrets})
 
   with open(ana_file, 'w') as f:
-    f.write(tabulate(df.groupby(['learner','budget']).mean(),
-        headers='keys', tablefmt='psql'))
+    f.write(tabulate(df.groupby(['learner', 'budget']).mean(),
+                     headers='keys', tablefmt='psql'))
 
   sns.catplot(x='budget', y='fail_prob', hue='learner', kind='point', data=df)
 
@@ -129,12 +131,13 @@ def draw_fixconfbai(data_file):
       col_regrets.append(regret)
 
   samples_df = pd.DataFrame({'learner':col_learners,
-      'fix_fail_prob':col_fail_prob, 'samples':col_samples,
-      'fail_prob':col_regrets})
+                             'fix_fail_prob':col_fail_prob,
+                             'samples':col_samples,
+                             'fail_prob':col_regrets})
 
   with open(ana_file, 'w') as f:
-    f.write(tabulate(samples_df.groupby(['learner','fix_fail_prob']).mean(),
-        headers='keys', tablefmt='psql'))
+    f.write(tabulate(samples_df.groupby(['learner', 'fix_fail_prob']).mean(),
+                     headers='keys', tablefmt='psql'))
 
   if FLAGS.novar:
     ci_val = None
@@ -142,7 +145,7 @@ def draw_fixconfbai(data_file):
     ci_val = 'sd'
 
   sns.catplot(x='fix_fail_prob', y='samples',
-      hue='learner', kind='bar', ci=ci_val, data=samples_df)
+              hue='learner', kind='bar', ci=ci_val, data=samples_df)
 
   plt.ylabel('samples', fontweight='bold', fontsize=15)
   plt.xlabel('fail probability', fontweight='bold', fontsize=15)

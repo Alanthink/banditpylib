@@ -33,16 +33,17 @@ class SR(OrdinaryLearner):
         self.__pulls_per_round.append(nk[-1]-nk[-2])
 
   def learner_run(self):
-    if (self._budget < self._arm_num):
+    if self._budget < self._arm_num:
       # randomly output an arm
       self.__best_arm = np.random.randint(self._arm_num)
       return
-    if (self._budget == self._arm_num):
+    if self._budget == self._arm_num:
       for ind in range(self._arm_num):
         feedback = self._bandit.feed(ind)
         self._model_update(ind, feedback)
-      self.__best_arm = max([(ind, arm.em_mean)
-        for (ind, arm) in enumerate(self._em_arms)], key=lambda x:x[1])[0]
+      self.__best_arm = max([
+          (ind, arm.em_mean) for (ind, arm) in enumerate(self._em_arms)],
+                            key=lambda x: x[1])[0]
       return
 
     active_arms = list(range(self._arm_num))
@@ -54,8 +55,8 @@ class SR(OrdinaryLearner):
       budget_left -= (self.__pulls_per_round[k]*len(active_arms))
       # remove the arm with the least mean
       arm_to_remove = min([(ind, self._em_arms[ind].em_mean)
-          for ind in active_arms], key=lambda x:x[1])[0]
-      active_arms = [ind for ind in active_arms if (ind != arm_to_remove)]
+                           for ind in active_arms], key=lambda x: x[1])[0]
+      active_arms = [ind for ind in active_arms if ind != arm_to_remove]
 
     # check if there is only two active arms left in the last round
     if len(active_arms) != 2:

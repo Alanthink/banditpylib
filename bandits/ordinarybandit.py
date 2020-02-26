@@ -28,8 +28,9 @@ class OrdinaryBandit(Bandit):
     if self.__arm_num < 2:
       logging.fatal('The number of arms should be at least two!')
 
-    self.__best_arm_ind = max([(tup[0], tup[1].mean)
-        for tup in enumerate(self.__arms)], key=lambda x:x[1])[0]
+    self.__best_arm_ind = max(
+        [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
+        key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
 
   @property

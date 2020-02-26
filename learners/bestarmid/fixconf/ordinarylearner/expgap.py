@@ -39,7 +39,7 @@ class ExpGap(OrdinaryLearner):
         feedback = self._bandit.feed(action)
         self._model_update(action, feedback)
         return max([(ind, self._em_arms[ind].em_mean)
-            for ind in active_arms], key=lambda x:x[1])[0]
+                    for ind in active_arms], key=lambda x: x[1])[0]
 
       t_ell = int(4/(eps_ell**2)*(math.log(3)-log_delta_ell))
       em_arms = [EmArm() for ind in range(self._arm_num)]
@@ -50,7 +50,7 @@ class ExpGap(OrdinaryLearner):
       m_ell = np.median(np.array(
           [em_arms[ind].em_mean for ind in active_arms]))
       active_arms = [ind for ind in active_arms
-          if em_arms[ind].em_mean >= m_ell]
+                     if em_arms[ind].em_mean >= m_ell]
       eps_left -= eps_ell
       delta_left -= math.exp(log_delta_ell)
       eps_ell *= 0.75
@@ -59,7 +59,8 @@ class ExpGap(OrdinaryLearner):
 
   def learner_run(self):
     active_arms = list(range(self._arm_num))
-    r = 1; eps_r = 0.25
+    r = 1
+    eps_r = 0.25
     while len(active_arms) > 1:
       eps_r /= 2
       log_delta_r = math.log(self._fail_prob/50)-3*math.log(r)
@@ -70,8 +71,9 @@ class ExpGap(OrdinaryLearner):
       for (i, tup) in enumerate(action):
         em_arms[tup[0]].update(feedback[0][i], tup[1])
       best_arm_r = self.__median_elimination(active_arms, eps_r/2, log_delta_r)
-      active_arms = [ind for ind in active_arms
-          if em_arms[ind].em_mean >= em_arms[best_arm_r].em_mean-eps_r]
+      active_arms = \
+        [ind for ind in active_arms
+         if em_arms[ind].em_mean >= em_arms[best_arm_r].em_mean-eps_r]
       r += 1
 
     self.__best_arm = active_arms[0]

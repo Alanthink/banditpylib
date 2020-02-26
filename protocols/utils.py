@@ -41,21 +41,22 @@ class Protocol(ABC):
     pass
 
   def __write_to_file(self, data):
-      with open(self.__output_file, 'a') as f:
-        if isinstance(data, list):
-          for item in data:
-            json.dump(item, f)
-            f.write('\n')
-        else:
-          json.dump(data, f)
+    with open(self.__output_file, 'a') as f:
+      if isinstance(data, list):
+        for item in data:
+          json.dump(item, f)
           f.write('\n')
-        f.flush()
+      else:
+        json.dump(data, f)
+        f.write('\n')
+      f.flush()
 
   def __multi_proc(self):
-    pool = Pool(processes = self.__processors)
+    pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
-      result = pool.apply_async(self._one_trial, args=(current_time(), ),
+      result = pool.apply_async(
+          self._one_trial, args=(current_time(), ),
           callback=self.__write_to_file)
       if FLAGS.debug:
         # for debugging purposes
@@ -73,13 +74,13 @@ class Protocol(ABC):
       self._bandits = bandit
       self._players = learner
       logging.info(
-        'run learner %s under protocol %s' % (learner[0].name, self.type))
+          'run learner %s under protocol %s' % (learner[0].name, self.type))
     else:
       # single player
       self._bandit = bandit
       self._player = learner
       logging.info(
-        'run learner %s with protocol %s' % (learner.name, self.type))
+          'run learner %s with protocol %s' % (learner.name, self.type))
 
     self.__output_file = output_file
     self._pars = running_pars

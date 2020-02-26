@@ -21,24 +21,27 @@ def search_best_assortment(abspar, revenue, K=np.inf):
   # non-purchase is assumed to have abstraction par 1
   subsets = []
   search(subsets, len(abspar), 1, [], K)
-  sorted_assort = sorted( [ (sum([abspar[prod]/
-      (sum([abspar[prod] for prod in subset])+1)*revenue[prod]
-      for prod in subset]), subset) for subset in subsets], key=lambda x:x[0] )
+  sorted_assort = sorted(
+      [(sum([abspar[prod]/(sum([abspar[prod] for prod in subset])+1)
+             *revenue[prod] for prod in subset]), subset)
+       for subset in subsets],
+      key=lambda x: x[0])
   return sorted_assort[-1]
 
 
 class OrdinaryMNLBandit(Bandit):
+  """ordinary MNL bandit
+
+  Products are numbered from 1 by default. 0 is for non-purchase.
+  It is assumed that the abstraction parameter of non-purchase is 1.
+
+  Input:
+    abspar: abstraction parameters of products
+    revenue: revenue of products
+    K: the cardinality upper bound of every assortment
+  """
+
   def __init__(self, pars):
-    """ordinary MNL bandit
-
-    Products are numbered from 1 by default. 0 is for non-purchase.
-    It is assumed that the abstraction parameter of non-purchase is 1.
-
-    Input:
-      abspar: abstraction parameters of products
-      revenue: revenue of products
-      K: the cardinality upper bound of every assortment
-    """
     abspar = pars['abspar']
     revenue = pars['revenue']
     if not isinstance(abspar, list) or not isinstance(revenue, list):
@@ -65,7 +68,7 @@ class OrdinaryMNLBandit(Bandit):
     self.__best_rev, self.__best_assort = search_best_assortment(
         self.__abspar, self.__revenue, self.__K)
     logging.info('Assortment %s has best revenue %.3f.' %
-        (self.__best_assort, self.__best_rev))
+                 (self.__best_assort, self.__best_rev))
 
     self.__type = 'ordinarymnlbandit'
 
@@ -113,21 +116,22 @@ class OrdinaryMNLBandit(Bandit):
         logging.fatal('Product index should be an integer!')
       if prod < 1 or prod > self.prod_num:
         logging.fatal('Product index should be between 1 and %d!' %
-            self.prod_num)
+                      self.prod_num)
 
     if len(assortment) > self.card_constraint:
       logging.fatal('The assortment has products more than %d!' %
-          self.card_constraint)
+                    self.card_constraint)
 
     self.__max_revenue += self.__best_rev
 
-    denominator = sum([self.__abspar[prod] for prod in assortment]) + self.__abspar[0]
+    denominator = sum([self.__abspar[prod] for prod in assortment]) + \
+                  self.__abspar[0]
     prob = [self.__abspar[0]/denominator] + \
         [self.__abspar[prod]/denominator for prod in assortment]
     rand = np.random.choice(len(prob), 1, p=prob)[0]
     # feedback = (revenue, purchase observation)
     if rand == 0:
-       return (0, self.__revenue[0])
+      return (0, self.__revenue[0])
     return (self.__revenue[assortment[rand-1]], assortment[rand-1])
 
   def regret(self, rewards):

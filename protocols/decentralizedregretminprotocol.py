@@ -55,7 +55,8 @@ class DecentralizedRegretMinProtocol(Protocol):
     ############################################################################
     # initialization
     for k in range(self.__num_players):
-      bandit = self._bandits[k]; player = self._players[k]
+      bandit = self._bandits[k]
+      player = self._players[k]
       bandit.init()
       player.init(bandit)
     ############################################################################
@@ -70,4 +71,4 @@ class DecentralizedRegretMinProtocol(Protocol):
 
   def __regret(self):
     return sum([self._bandits[k].regret(self._players[k].rewards)
-                for k in range(self._num_players)])
+                for k in range(self.__num_players)])
