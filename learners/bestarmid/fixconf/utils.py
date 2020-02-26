@@ -8,7 +8,6 @@ __all__ = ['FixConfBAILearner']
 class FixConfBAILearner(Learner):
   """Base Class for Fixed Confidence Best Arm Identification Learners"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
 
@@ -25,10 +24,6 @@ class FixConfBAILearner(Learner):
 
   @abstractmethod
   def _learner_init(self):
-    pass
-
-  @abstractmethod
-  def learner_run(self):
     pass
 
   @abstractmethod

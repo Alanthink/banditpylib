@@ -11,7 +11,6 @@ __all__ = ['DecentralizedOrdinaryLearner']
 class DecentralizedOrdinaryLearner(FixConfBAILearner):
   """base class for learners in the classic bandit model"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
 
@@ -20,7 +19,6 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
     pass
 
   @abstractmethod
-  # pylint: disable=arguments-differ
   def learner_choice(self, messages):
     pass
 

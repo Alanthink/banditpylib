@@ -16,7 +16,6 @@ def mat_norm(x, A):
 class CorrelatedLearner(FixConfBAILearner):
   """base class for learners in the classic bandit model"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
 

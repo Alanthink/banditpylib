@@ -8,7 +8,6 @@ __all__ = ['FixBudgetBAILearner']
 class FixBudgetBAILearner(Learner):
   """base class for fixed budget best arm identification learners"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
 

@@ -1,5 +1,5 @@
 pycodestyle:
-    max-line-length: 80
-    ignore:
-        - E111  # indentation is not a multiple of four
-        - E114  # indentation is not a multiple of four (comment)
+  max-line-length: 80
+  ignore:
+    - E111  # indentation is not a multiple of four
+    - E114  # indentation is not a multiple of four (comment)

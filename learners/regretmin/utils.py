@@ -8,7 +8,6 @@ __all__ = ['RegretMinimizationLearner']
 class RegretMinimizationLearner(Learner):
   """base class for regret minimization learners"""
 
-  # pylint: disable=I0023, W0235
   def __init__(self, pars):
     super().__init__(pars)
 

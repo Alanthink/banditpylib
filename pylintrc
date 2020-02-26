@@ -1,0 +1,9 @@
+[MASTER]
+
+max-line-length=80
+
+indent-string='  '
+
+[MESSAGES CONTROL]
+
+disable=attribute-defined-outside-init, useless-super-delegation

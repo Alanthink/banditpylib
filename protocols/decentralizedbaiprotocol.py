@@ -54,7 +54,8 @@ class DecentralizedBAIProtocol(Protocol):
         ########################################################################
         # initialization
         for k in range(self.__num_players):
-          player = self._players[k]; bandit = self._bandits[k]
+          player = self._players[k]
+          bandit = self._bandits[k]
           bandit.init()
           player.init(bandit, budget)
         ########################################################################
@@ -64,7 +65,7 @@ class DecentralizedBAIProtocol(Protocol):
         while True:
           if r > budget:
             logging.fatal('%s uses more than the given budget!' %
-                           self._players[0].name)
+                          self._players[0].name)
           # stop the recursion if there is no playable players available
           if len(self.__playable_players) == 0:
             regret = self.__regret()
@@ -85,7 +86,8 @@ class DecentralizedBAIProtocol(Protocol):
       ##########################################################################
       # initialization
       for k in range(self.__num_players):
-        player = self._players[k]; bandit = self._bandits[k]
+        player = self._players[k]
+        bandit = self._bandits[k]
         bandit.init()
         player.init(bandit, fail_prob)
       ##########################################################################
