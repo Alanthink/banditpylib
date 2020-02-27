@@ -4,9 +4,9 @@
     "CorrelatedBandit": {
       "arm": {
         "type": "CorrelatedArm",
-        "means": [[0.3,0.2], [0.5,0.6], [0.7,0.9]]
-      },
-      "param": [0.5,0.5]
+        "features": [[0.3,0.2], [0.5,0.6], [0.7,0.9]],
+        "theta": [0.5,0.5]
+      }
     }
   },
   "learners": {

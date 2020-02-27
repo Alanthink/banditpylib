@@ -15,25 +15,23 @@ class CorrelatedBandit(Bandit):
   """
 
   def __init__(self, pars):
-    if pars['arm']['type'] != 'CorrelatedArm':
-      logging.fatal('Not a correlated arm!')
-    actions = pars['arm']['means']
-    if not isinstance(actions, list):
-      logging.fatal('Means should be given in a list!')
-    self.__actions = [np.array(action) for action in actions]
-    self.__theta = np.array(pars['param'])
-    Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
-    arms = [Arm(np.dot(action, self.__theta)) for action in self.__actions]
-    self.__arms = arms
-
-    for _, action in enumerate(self.__actions):
-      if action.shape != self.__theta.shape:
-        logging.fatal('The action and global parameter dimensions are unequal!')
-
-    self.__arm_num = len(arms)
-    if self.__arm_num < 2:
+    # currently there is only linear arm
+    if pars['arm']['type'] != 'LinearArm':
+      logging.fatal('Not a linear arm!')
+    features = pars['arm']['features']
+    if len(features) < 2:
       logging.fatal('The number of arms should be at least two!')
-
+    if not isinstance(features, list):
+      logging.fatal('Features should be given in a list!')
+    self.__features = [np.array(feature) for feature in features]
+    self.__theta = np.array(pars['arm']['theta'])
+    for _, feature in enumerate(self.__features):
+      if feature.shape != self.__theta.shape:
+        logging.fatal('The feature and theta dimensions are unequal!')
+    Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
+    arms = [Arm(feature, self.__theta) for feature in self.__features]
+    self.__arms = arms
+    self.__arm_num = len(arms)
     self.__best_arm_ind = max(
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
         key=lambda x: x[1])[0]
@@ -61,8 +59,8 @@ class CorrelatedBandit(Bandit):
     return None
 
   @property
-  def actions(self):
-    return self.__actions
+  def features(self):
+    return self.__features
 
   def _take_action(self, action):
     is_list = True

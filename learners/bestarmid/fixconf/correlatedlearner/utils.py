@@ -29,7 +29,7 @@ class CorrelatedLearner(FixConfBAILearner):
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
     # initalize em arms repr
     for k in range(self._arm_num):
-      self._em_arms[k].action = self._bandit.actions[k]
+      self._em_arms[k].feature = self._bandit.features[k]
 
   def _model_update(self, action, feedback):
     if isinstance(action, list):

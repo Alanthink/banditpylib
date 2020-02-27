@@ -19,13 +19,13 @@ class LinGapE(CorrelatedLearner):
   def _learner_update(self, action, feedback):
     if isinstance(action, list):
       for (i, tup) in enumerate(action):
-        self.__A = self.__A + np.outer(self._em_arms[tup[0]].action,
-                                       self._em_arms[tup[0]].action)
-        self.__b = self.__b + feedback[0][i] * self._em_arms[tup[0]].action
+        self.__A = self.__A + np.outer(self._em_arms[tup[0]].feature,
+                                       self._em_arms[tup[0]].feature)
+        self.__b = self.__b + feedback[0][i] * self._em_arms[tup[0]].feature
     else:
-      self.__A = self.__A + np.outer(self._em_arms[action].action,
-                                     self._em_arms[action].action)
-      self.__b = self.__b + feedback[0] * self._em_arms[action].action
+      self.__A = self.__A + np.outer(self._em_arms[action].feature,
+                                     self._em_arms[action].feature)
+      self.__b = self.__b + feedback[0] * self._em_arms[action].feature
     self.__th = np.dot(np.linalg.inv(self.__A), self.__b)
 
   @property
@@ -38,15 +38,15 @@ class LinGapE(CorrelatedLearner):
            np.sqrt(self.__lambda) * 1
 
   def __beta(self, i, j):
-    x_diff = self._em_arms[i].action - self._em_arms[j].action
+    x_diff = self._em_arms[i].feature - self._em_arms[j].feature
     return mat_norm(x_diff, np.linalg.inv(self.__A)) * self.__C_n
 
   def __Delta(self, i, j):
-    x_diff = self._em_arms[i].action - self._em_arms[j].action
+    x_diff = self._em_arms[i].feature - self._em_arms[j].feature
     return np.dot(x_diff, self.__th)
 
   def __select_direction(self):
-    i_t = np.argmax([np.dot(a.action, self.__th) for a in self._em_arms])
+    i_t = np.argmax([np.dot(a.feature, self.__th) for a in self._em_arms])
     gap_conf = [self.__Delta(j, i_t) +
                 self.__beta(j, i_t)
                 for j in range(self._arm_num)]
@@ -62,7 +62,7 @@ class LinGapE(CorrelatedLearner):
     # total number of pulls used
     self.__t = 0
     # dim of problem
-    self.__d = self._bandit.actions[0].shape[0]
+    self.__d = self._bandit.features[0].shape[0]
     # confidence estimator
     self.__A = self.__lambda * np.eye(self.__d)
     self.__b = np.zeros(self.__d)
@@ -81,10 +81,10 @@ class LinGapE(CorrelatedLearner):
         return
 
       self.__t += 1
-      x_diff = self._em_arms[i_t].action - self._em_arms[j_t].action
+      x_diff = self._em_arms[i_t].feature - self._em_arms[j_t].feature
       greedy = [mat_norm(x_diff,
-                         np.linalg.inv(self.__A + np.outer(a.action,
-                                                           a.action)))
+                         np.linalg.inv(self.__A + np.outer(a.feature,
+                                                           a.feature)))
                 for a in self._em_arms]
       action = np.argmin(greedy)
       feedback = self._bandit.feed(action)
