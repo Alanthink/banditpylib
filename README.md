@@ -84,8 +84,8 @@ python3 main.py --debug
 ## Running the Tests
 
 ```shell
-# run all unit tests
-python3 -m unittest discover
+# run all tests
+pytest -v
 ```
 
 ## License
