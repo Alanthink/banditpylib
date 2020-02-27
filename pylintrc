@@ -6,4 +6,4 @@ indent-string='  '
 
 [MESSAGES CONTROL]
 
-disable=attribute-defined-outside-init, useless-super-delegation, missing-function-docstring, missing-module-docstring, invalid-name, too-many-instance-attributes, too-many-locals, too-few-public-methods, too-many-branches
+disable=attribute-defined-outside-init, useless-super-delegation, missing-function-docstring, missing-module-docstring, invalid-name, too-many-instance-attributes, too-many-locals, too-few-public-methods, too-many-branches, R

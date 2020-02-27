@@ -1,4 +1,5 @@
 absl-py==0.8.1
+attrs==19.3.0
 Click==7.0
 cvxpy==1.0.25
 cycler==0.10.0
@@ -6,13 +7,19 @@ dill==0.3.1.1
 ecos==2.0.7.post1
 future==0.18.2
 glog==0.3.1
+importlib-metadata==1.5.0
 kiwisolver==1.1.0
 matplotlib==3.1.1
+more-itertools==8.2.0
 multiprocess==0.70.9
 numpy==1.17.2
 osqp==0.6.1
+packaging==20.1
 pandas==0.25.1
+pluggy==0.13.1
+py==1.8.1
 pyparsing==2.4.2
+pytest==5.3.5
 python-dateutil==2.8.0
 python-gflags==3.1.2
 pytz==2019.3
@@ -22,3 +29,5 @@ scs==2.1.1.post2
 seaborn==0.9.0
 six==1.12.0
 tabulate==0.8.6
+wcwidth==0.1.8
+zipp==3.0.0
