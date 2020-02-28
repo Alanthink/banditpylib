@@ -45,13 +45,12 @@ class lilUCB_heur(OrdinaryLearner):
       for arm in self._em_arms:
         if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
           return
-
       ucb = np.array([arm.em_mean+self.__bonus(arm.pulls) \
           for arm in self._em_arms])
-      self.__t += 1
       action = np.argmax(ucb)
       feedback = self._bandit.feed(action)
       self._model_update(action, feedback)
+      self.__t += 1
 
   def best_arm(self):
     return max([(ind, arm.pulls)

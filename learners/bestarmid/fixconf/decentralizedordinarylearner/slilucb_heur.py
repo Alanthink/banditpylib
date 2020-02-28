@@ -1,7 +1,5 @@
 import math
 
-from absl import logging
-
 import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
@@ -15,17 +13,13 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
   def __init__(self, pars):
     super().__init__(pars)
     self._name = self._name if self._name else 'SlilLUCB_heur'
-    self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
-    if self.__alpha <= 0:
-      logging.fatal('%s: alpha should be greater than 0!' % self._name)
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
       return math.inf
-    return (1+self.__beta)*(1+math.sqrt(self.__eps)) * \
-            math.sqrt(2*(1+self.__eps) *
-                      math.log(math.log((1+self.__eps)*times)/self.__delta)
-                      /times)
+    return (1+self.__beta)*(1+math.sqrt(self.__eps))* \
+        math.sqrt(2*(1+self.__eps)* \
+        math.log(math.log((1+self.__eps)*times)/self.__delta)/times)
 
   def _learner_init(self):
     # alg parameters suggested by the paper
@@ -36,26 +30,26 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
     # total number of pulls used
     self.__t = 0
 
-  def broadcast_message(self, action, feedback):
+  def broadcast_message(self):
     return None
 
-  def learner_choice(self, messages):
+  def learner_run(self, messages):
     """return an arm to pull"""
-    if self.__t <= self._arm_num:
-      self.__t += 1
-      return (self.__t - 1) % self._arm_num
-    for arm in self._em_arms:
-      if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
-        return -1
-
-    ucb = np.array([arm.em_mean+self.__bonus(arm.pulls)
-                    for arm in self._em_arms])
+    # to avoid naive stop
+    if self.__t > self._arm_num:
+      for arm in self._em_arms:
+        if arm.pulls >= (1+self.__a*(self.__t-arm.pulls)):
+          return -1
+    if self.__t < self._arm_num:
+      action = self.__t % self._arm_num
+    else:
+      ucb = np.array([arm.em_mean+self.__bonus(arm.pulls)
+                      for arm in self._em_arms])
+      action = np.argmax(ucb)
+    feedback = self._bandit.feed(action)
+    self._model_update(action, feedback)
     self.__t += 1
-    action = np.argmax(ucb)
     return action
-
-  def learner_run(self):
-    pass
 
   def best_arm(self):
     return max([(ind, arm.pulls)

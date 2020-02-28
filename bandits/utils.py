@@ -45,7 +45,3 @@ class Bandit(ABC):
     feedback = self._take_action(action)
     self._update_context()
     return feedback
-
-  @abstractmethod
-  def regret(self, rewards):
-    pass

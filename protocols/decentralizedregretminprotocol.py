@@ -5,6 +5,7 @@ from absl import logging
 
 import numpy as np
 
+from bandits.arms import EmArm
 from .utils import Protocol
 
 FLAGS = flags.FLAGS
@@ -47,10 +48,12 @@ class DecentralizedRegretMinProtocol(Protocol):
     feedback = bandit.feed(action)
     player.update(context, action, feedback)
     message = player.broadcast_message(context, action, feedback)
-    self.__messages.append({player.name: message})
+    if message:
+      self.__messages[message[0]].update(message[1])
 
   def _one_trial(self, seed):
     np.random.seed(seed)
+    self.__messages = [EmArm() for ind in range(self._bandits[0].arm_num)]
 
     ############################################################################
     # initialization
@@ -61,14 +64,17 @@ class DecentralizedRegretMinProtocol(Protocol):
       player.init(bandit)
     ############################################################################
 
-    agg_regret = dict()
+    regrets = dict()
     for t in range(self.__horizon + 1):
       if t > 0:
         self._one_round()
       if t > 0 and t % self.__frequency == 0:
-        agg_regret[t] = self.__regret()
-    return dict({self._players[0].name: agg_regret})
+        regrets[t] = self.__regret()
+    return dict({self._players[0].name: regrets})
 
   def __regret(self):
-    return sum([self._bandits[k].regret(self._players[k].rewards)
+    return sum([getattr(
+        self._bandits[k],
+        '_'+type(self._bandits[k]).__name__+'__'+self._regret_def)(
+            self._players[k].reward())
                 for k in range(self.__num_players)])

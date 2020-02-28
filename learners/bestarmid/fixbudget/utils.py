@@ -1,11 +1,11 @@
 from abc import abstractmethod
 
-from learners import Learner
+from learners.bestarmid import BAILearner
 
 __all__ = ['FixBudgetBAILearner']
 
 
-class FixBudgetBAILearner(Learner):
+class FixBudgetBAILearner(BAILearner):
   """base class for fixed budget best arm identification learners"""
 
   def __init__(self, pars):
@@ -13,7 +13,7 @@ class FixBudgetBAILearner(Learner):
 
   @property
   def goal(self):
-    return 'FixedBudgetBAI'
+    return 'FixBudgetBAI'
 
   def _goal_init(self):
     pass

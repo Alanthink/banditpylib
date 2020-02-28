@@ -50,7 +50,7 @@
 			}
 		]
 	},
-	"running_pars": {
+	"running": {
 		"horizon": 1000,
 		"freq": 20,
 		"trials": 100,

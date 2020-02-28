@@ -3,7 +3,7 @@
 		"bandit": "OrdinaryBandit",
 		"OrdinaryBandit": {
 		  "arm": "BernoulliArm",
-		  "means": [0.3, 0.5, 0.7]
+		  "means": [0.3, 0.5, 0.7, 0.9]
 		}
 	},
 	"learners": {
@@ -16,9 +16,9 @@
 					"name": "Selfish lilUCB_heur"
 				},
 				"protocol": {
-					"type": "DecentralizedBAIProtocol",
-					"DecentralizedBAIProtocol": {
-						"num_players": 2
+					"type": "DecentralizedPEProtocol",
+					"DecentralizedPEProtocol": {
+						"num_players": 10
 					}
 				}
 			},
@@ -29,15 +29,15 @@
 					"name": "Friendly lilUCB_heur"
 				},
 				"protocol": {
-					"type": "DecentralizedBAIProtocol",
-					"DecentralizedBAIProtocol": {
-						"num_players": 2
+					"type": "DecentralizedPEProtocol",
+					"DecentralizedPEProtocol": {
+						"num_players": 10
 					}
 				}
 			}
 		]
 	},
-	"running_pars": {
+	"running": {
 		"fail_probs": [0.01, 0.03, 0.05],
 		"trials": 20,
 		"processors": 40

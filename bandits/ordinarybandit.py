@@ -78,8 +78,8 @@ class OrdinaryBandit(Bandit):
   def _update_context(self):
     pass
 
-  def regret(self, rewards):
+  def __regret(self, rewards):
     return self.__max_rewards - rewards
 
-  def best_arm_regret(self, ind):
+  def __best_arm_regret(self, ind):
     return 1 - (self.__best_arm_ind == ind)

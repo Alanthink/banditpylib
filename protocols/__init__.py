@@ -1,5 +1,5 @@
 from .utils import *
 from .decentralizedregretminprotocol import *
-from .decentralizedbaiprotocol import *
+from .decentralizedpsprotocol import *
 from .singleplayerregretminprotocol import *
-from .singleplayerbaiprotocol import *
+from .singleplayerpsprotocol import *

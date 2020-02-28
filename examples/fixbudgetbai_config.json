@@ -23,7 +23,7 @@
       }
     ]
   },
-  "running_pars": {
+  "running": {
     "budgets": [100, 200, 300],
     "trials": 200,
     "processors": 10

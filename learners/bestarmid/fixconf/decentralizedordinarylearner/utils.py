@@ -19,15 +19,11 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
     pass
 
   @abstractmethod
-  def learner_choice(self, messages):
+  def learner_run(self, messages):
     pass
 
   @abstractmethod
-  def broadcast_message(self, action, feedback):
-    pass
-
-  @abstractmethod
-  def learner_run(self):
+  def broadcast_message(self):
     pass
 
   @abstractmethod
@@ -49,6 +45,3 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
         self._em_arms[tup[0]].update(feedback[0][i], tup[1])
     else:
       self._em_arms[action].update(feedback[0])
-
-  def update(self, action, feedback):
-    self._model_update(action, feedback)

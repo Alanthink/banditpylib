@@ -31,4 +31,4 @@ class TestOrdinaryMNLBandit:
     bandit.feed([1])
     bandit.feed([1])
     bandit.feed([1])
-    assert bandit.regret(0) == 2
+    assert getattr(bandit, '_'+type(bandit).__name__+'__regret')(0) == 2

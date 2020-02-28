@@ -48,7 +48,7 @@ def parse(config):
       if learner_goal == 'regretmin':
         protocol_type = 'SinglePlayerRegretMinProtocol'
       elif learner_goal in ['bestarmid.fixbudget', 'bestarmid.fixconf']:
-        protocol_type = 'SinglePlayerBAIProtocol'
+        protocol_type = 'SinglePlayerPEProtocol'
       else:
         logging.fatal('%s: no specified protocol!' % learner_config['policy'])
       Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
@@ -79,7 +79,7 @@ def parse(config):
 
   logging.info('run with goal %s' % goal)
 
-  return setups, config['running_pars']
+  return setups, config['running']
 
 
 def main(argv):

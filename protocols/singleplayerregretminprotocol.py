@@ -35,7 +35,7 @@ class SinglePlayerRegretMinProtocol(Protocol):
     self._player.init(self._bandit)
     ############################################################################
 
-    agg_regret = dict()
+    regrets = dict()
     for t in range(self.__horizon + 1):
       if t > 0:
         # simulation starts from t = 1
@@ -44,5 +44,9 @@ class SinglePlayerRegretMinProtocol(Protocol):
         feedback = self._bandit.feed(action)
         self._player.update(context, action, feedback)
       if t % self.__frequency == 0:
-        agg_regret[t] = self._bandit.regret(self._player.rewards)
-    return dict({self._player.name: agg_regret})
+        # call a private method
+        regrets[t] = getattr(
+            self._bandit,
+            '_'+type(self._bandit).__name__+'__'+self._regret_def)(
+                self._player.reward())
+    return dict({self._player.name: regrets})

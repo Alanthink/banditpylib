@@ -1,19 +1,19 @@
 from abc import abstractmethod
 
-from learners import Learner
+from learners.bestarmid import BAILearner
 
 __all__ = ['FixConfBAILearner']
 
 
-class FixConfBAILearner(Learner):
-  """Base Class for Fixed Confidence Best Arm Identification Learners"""
+class FixConfBAILearner(BAILearner):
+  """base class for fixed confidence best arm identification learners"""
 
   def __init__(self, pars):
     super().__init__(pars)
 
   @property
   def goal(self):
-    return 'FixedConfidenceBAI'
+    return 'FixConfBAI'
 
   def _goal_init(self):
     pass

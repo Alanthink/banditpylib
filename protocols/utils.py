@@ -74,13 +74,16 @@ class Protocol(ABC):
       self._bandits = bandit
       self._players = learner
       logging.info(
-          'run learner %s under protocol %s' % (learner[0].name, self.type))
+          'run learner %s under protocol %s' %
+          (self._players[0].name, self.type))
+      self._regret_def = self._players[0].regret_def
     else:
       # single player
       self._bandit = bandit
       self._player = learner
       logging.info(
           'run learner %s with protocol %s' % (learner.name, self.type))
+      self._regret_def = self._player.regret_def
 
     self.__output_file = output_file
     self._pars = running_pars
