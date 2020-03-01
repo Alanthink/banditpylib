@@ -1,7 +1,7 @@
 {
   "environment": {
-    "bandit": "CorrelatedBandit",
-    "CorrelatedBandit": {
+    "bandit": "LinearBandit",
+    "LinearBandit": {
       "arm": {
         "type": "LinearArm",
         "features": [[0.3,0.2], [0.5,0.6], [0.7,0.9]],
@@ -27,7 +27,7 @@
       {
         "policy": "LinGapE",
         "LinGapE": {
-          "type": "correlatedlearner"
+          "type": "linearlearner"
         }
       }
     ]

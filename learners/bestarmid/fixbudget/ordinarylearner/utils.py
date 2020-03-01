@@ -2,6 +2,7 @@ from abc import abstractmethod
 from absl import logging
 
 from bandits.arms import EmArm
+from bandits import OrdinaryBanditItf
 from learners.bestarmid.fixbudget import FixBudgetBAILearner
 
 
@@ -13,7 +14,7 @@ class OrdinaryLearner(FixBudgetBAILearner):
 
   def _model_init(self):
     """local initialization"""
-    if self._bandit.type != 'ordinarybandit':
+    if not isinstance(self._bandit, OrdinaryBanditItf):
       logging.fatal(("%s: I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num

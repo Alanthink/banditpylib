@@ -2,14 +2,16 @@ from importlib import import_module
 
 from absl import logging
 
-from .utils import Bandit
+from .utils import OrdinaryBanditItf, LinearBanditItf
 
-__all__ = ['OrdinaryBandit']
+__all__ = ['OrdinaryBanditItf', 'OrdinaryBandit']
 
 ARM_PKG = 'bandits.arms'
 
 
-class OrdinaryBandit(Bandit):
+class OrdinaryBandit(
+    OrdinaryBanditItf,
+    LinearBanditItf):
   """ordinary bandit
   Arms are numbered from 0 to len(arms)-1 by default.
   """
@@ -32,6 +34,8 @@ class OrdinaryBandit(Bandit):
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
+    self.__features = [[int(j == i) for j in range(self.__arm_num)]
+                       for i in range(self.__arm_num)]
 
   @property
   def arm_num(self):
@@ -41,6 +45,10 @@ class OrdinaryBandit(Bandit):
   @property
   def type(self):
     return 'ordinarybandit'
+
+  @property
+  def features(self):
+    return self.__features
 
   @property
   def tot_samples(self):

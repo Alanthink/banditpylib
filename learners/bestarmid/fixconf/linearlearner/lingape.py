@@ -2,14 +2,14 @@ import numpy as np
 
 from absl import flags
 
-from .utils import CorrelatedLearner, mat_norm
+from .utils import LinearLearner, mat_norm
 
 FLAGS = flags.FLAGS
 
 __all__ = ['LinGapE']
 
 
-class LinGapE(CorrelatedLearner):
+class LinGapE(LinearLearner):
   """LinGapE"""
 
   def __init__(self, pars):

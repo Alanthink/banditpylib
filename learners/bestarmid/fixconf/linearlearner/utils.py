@@ -4,6 +4,7 @@ from absl import logging
 import numpy as np
 
 from bandits.arms import EmArm
+from bandits import LinearBanditItf
 from learners.bestarmid.fixconf import FixConfBAILearner
 
 __all__ = ['FixConfBAILearner', 'mat_norm']
@@ -13,7 +14,7 @@ def mat_norm(x, A):
   return np.sqrt(np.dot(np.dot(x, A), x))
 
 
-class CorrelatedLearner(FixConfBAILearner):
+class LinearLearner(FixConfBAILearner):
   """base class for learners in the classic bandit model"""
 
   def __init__(self, pars):
@@ -21,7 +22,7 @@ class CorrelatedLearner(FixConfBAILearner):
 
   def _model_init(self):
     """local initialization"""
-    if self._bandit.type != 'correlatedbandit':
+    if not isinstance(self._bandit, LinearBanditItf):
       logging.fatal(("%s: I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num

@@ -1,7 +1,7 @@
 {
 	"environment": {
-		"bandit": "CorrelatedBandit",
-		"CorrelatedBandit": {
+		"bandit": "LinearBandit",
+		"LinearBandit": {
 			"arm": {
 				"type": "LinearArm",
 				"features": [[0.3,0.2], [0.5,0.6], [0.7,0.9]],
@@ -35,9 +35,9 @@
 		]
 	},
 	"running": {
-		"horizon": 500,
-		"freq": 20,
-		"trials": 100,
+		"horizon": 50,
+		"freq": 5,
+		"trials": 5,
 		"processors": 40
 	}
 }

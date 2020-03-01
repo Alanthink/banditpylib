@@ -18,7 +18,7 @@
 				"protocol": {
 					"type": "DecentralizedPEProtocol",
 					"DecentralizedPEProtocol": {
-						"num_players": 10
+						"num_players": 2
 					}
 				}
 			},

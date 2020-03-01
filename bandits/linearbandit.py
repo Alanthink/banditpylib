@@ -2,14 +2,17 @@ from importlib import import_module
 
 from absl import logging
 import numpy as np
-from .utils import Bandit
 
-__all__ = ['CorrelatedBandit']
+from .utils import OrdinaryBanditItf, LinearBanditItf
+
+__all__ = ['LinearBanditItf', 'LinearBandit']
 
 ARM_PKG = 'bandits.arms'
 
 
-class CorrelatedBandit(Bandit):
+class LinearBandit(
+    OrdinaryBanditItf,
+    LinearBanditItf):
   """correlated bandit
   Arms are numbered from 0 to len(arms)-1 by default.
   """
@@ -44,7 +47,7 @@ class CorrelatedBandit(Bandit):
 
   @property
   def type(self):
-    return 'correlatedbandit'
+    return 'linearbandit'
 
   @property
   def tot_samples(self):

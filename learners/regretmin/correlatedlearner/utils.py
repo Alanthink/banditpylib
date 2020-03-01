@@ -3,6 +3,7 @@ from abc import abstractmethod
 from absl import logging
 
 from bandits.arms import EmArm
+from bandits import LinearBanditItf
 from learners.regretmin import RegretMinimizationLearner
 
 __all__ = ['CorrelatedLearner']
@@ -28,7 +29,7 @@ class CorrelatedLearner(RegretMinimizationLearner):
 
   def _model_init(self):
     """local initialization"""
-    if self._bandit.type not in ['correlatedbandit']:
+    if not isinstance(self._bandit, LinearBanditItf):
       logging.fatal(("%s: I don't understand",
                      " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
