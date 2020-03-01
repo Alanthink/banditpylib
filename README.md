@@ -43,7 +43,7 @@ A lightweight python library for bandit algorithms
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
 | Single Player   | Ordinary Bandit     | `lilUCB_heur` [[8]](#JMNB14), `ExpGap` [[9]](#KKS13) |
-|      | Correlated Bandit   | `LinGapE` [[13]](#XHS18)      |
+|      | Linear Bandit   | `LinGapE` [[13]](#XHS18)      |
 |  Decentralized [[12]](FAL18) | Ordinary Bandit   | `FlilUCB_heur`, `SlilUCB_heur`  |
 
 ## Getting Started
