@@ -59,6 +59,11 @@ class OrdinaryBanditItf(Bandit):
 
   @property
   @abstractmethod
+  def arm_type(self):
+    pass
+
+  @property
+  @abstractmethod
   def tot_samples(self):
     pass
 

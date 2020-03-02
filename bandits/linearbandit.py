@@ -39,11 +39,20 @@ class LinearBandit(
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
+    self.__var = 1
 
   @property
   def arm_num(self):
     """return number of arms"""
     return self.__arm_num
+
+  @property
+  def arm_type(self):
+    return 'GaussianArm'
+
+  @property
+  def var(self):
+    return self.__var
 
   @property
   def type(self):

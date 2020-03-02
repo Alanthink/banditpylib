@@ -17,12 +17,18 @@ class OrdinaryBandit(
   """
 
   def __init__(self, pars):
-    # currently only 'BernoulliArm' is supported
-    if pars['arm'] != 'BernoulliArm':
-      logging.fatal('Not a Bernoulli arm!')
+    if pars['arm'] not in ['BernoulliArm', 'GaussianArm']:
+      logging.fatal('Can not setup %s!' % pars['arm'])
+    self.__arm_type = pars['arm']
     means = pars['means']
     if not isinstance(means, list):
       logging.fatal('Means should be given in a list!')
+    if self.__arm_type == 'GaussianArm':
+      if 'var' not in pars['means']:
+        logging.warn('Variance upper bound is set 1!')
+        self.__var = 1
+      else:
+        self.__var = pars['var']
     Arm = getattr(import_module(ARM_PKG), pars['arm'])
     arms = [Arm(mean) for mean in means]
     self.__arms = arms
@@ -34,8 +40,9 @@ class OrdinaryBandit(
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
-    self.__features = [[int(j == i) for j in range(self.__arm_num)]
-                       for i in range(self.__arm_num)]
+    if pars['arm'] == 'GaussianArm':
+      self.__features = [[int(j == i) for j in range(self.__arm_num)]
+                         for i in range(self.__arm_num)]
 
   @property
   def arm_num(self):
@@ -43,11 +50,25 @@ class OrdinaryBandit(
     return self.__arm_num
 
   @property
+  def arm_type(self):
+    return self.__arm_type
+
+  @property
+  def var(self):
+    if self.__arm_type == 'BernoulliArm':
+      logging.warn('You are asking variance of a Bernouli arm!')
+      return 0.25
+    return self.__var
+
+  @property
   def type(self):
     return 'ordinarybandit'
 
   @property
   def features(self):
+    if self.__arm_type == 'BernoulliArm':
+      logging.fatal(['Ordinary bandit with Bernoulli arm ',
+                     'can not be regarded as a linear bandit!'])
     return self.__features
 
   @property
