@@ -54,13 +54,6 @@ class OrdinaryBandit(
     return self.__arm_type
 
   @property
-  def var(self):
-    if self.__arm_type == 'BernoulliArm':
-      logging.warn('You are asking variance of a Bernouli arm!')
-      return 0.25
-    return self.__var
-
-  @property
   def type(self):
     return 'ordinarybandit'
 
@@ -68,7 +61,7 @@ class OrdinaryBandit(
   def features(self):
     if self.__arm_type == 'BernoulliArm':
       logging.fatal(['Ordinary bandit with Bernoulli arm ',
-                     'can not be regarded as a linear bandit!'])
+                     'can not be seen as a linear bandit!'])
     return self.__features
 
   @property

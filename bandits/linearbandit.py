@@ -18,28 +18,30 @@ class LinearBandit(
   """
 
   def __init__(self, pars):
-    # currently there is only linear arm
-    if pars['arm']['type'] != 'LinearArm':
-      logging.fatal('Not a linear arm!')
-    features = pars['arm']['features']
+    features = pars['features']
     if len(features) < 2:
       logging.fatal('The number of arms should be at least two!')
     if not isinstance(features, list):
       logging.fatal('Features should be given in a list!')
     self.__features = [np.array(feature) for feature in features]
-    self.__theta = np.array(pars['arm']['theta'])
+    self.__theta = np.array(pars['theta'])
     for _, feature in enumerate(self.__features):
       if feature.shape != self.__theta.shape:
         logging.fatal('The feature and theta dimensions are unequal!')
-    Arm = getattr(import_module(ARM_PKG), pars['arm']['type'])
-    arms = [Arm(feature, self.__theta) for feature in self.__features]
+    Arm = getattr(import_module(ARM_PKG), 'GaussianArm')
+    if 'var' not in pars:
+      logging.warn('Variance of noise is assumed to be 1!')
+      self.__var = 1
+    else:
+      self.__var = pars['var']
+    arms = [Arm(np.dot(feature, self.__theta),
+                self.__var) for feature in self.__features]
     self.__arms = arms
     self.__arm_num = len(arms)
     self.__best_arm_ind = max(
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_ind]
-    self.__var = 1
 
   @property
   def arm_num(self):
@@ -49,10 +51,6 @@ class LinearBandit(
   @property
   def arm_type(self):
     return 'GaussianArm'
-
-  @property
-  def var(self):
-    return self.__var
 
   @property
   def type(self):
@@ -83,7 +81,7 @@ class LinearBandit(
     rewards = []
     for tup in action:
       ind = tup[0]
-      if ind not in range(self.arm_num):
+      if ind not in range(self.__arm_num):
         logging.fatal('Wrong arm index!')
       rewards.append(self.__arms[ind].pull(tup[1]))
       self.__tot_samples += tup[1]
