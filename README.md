@@ -57,7 +57,7 @@ pip install .
 
 ### Running
 
-![output example](figures/example.jpg)
+![output example](example.jpg)
 
 Please check this [notebook](examples/notebook.ipynb) for more details.
 
