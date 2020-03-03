@@ -1,4 +1,8 @@
 *__pycache__*
 scripts/
-out/
+examples/out/
 *.DS_Store*
+*.egg-info/
+.pytest_cache/
+.vscode/
+.ipynb_checkpoints

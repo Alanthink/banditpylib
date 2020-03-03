@@ -1,7 +1,7 @@
 {
 	"environment": {
 		"bandit": "OrdinaryBandit",
-		"OrdinaryBandit": {
+		"params": {
 			"arm": "BernoulliArm",
 			"means": [0.7, 0.5, 0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 		}
@@ -11,39 +11,39 @@
 		"policies": [
 			{
 				"policy": "FUCB",
-				"FUCB": {
+				"params": {
 					"type": "decentralizedordinarylearner",
 					"name": "Friendly UCB"
 				},
 				"protocol": {
 					"type": "DecentralizedRegretMinProtocol",
-					"DecentralizedRegretMinProtocol": {
+					"params": {
 						"num_players": 10
 					}
 				}
 			},
 			{
 				"policy": "SUCB",
-				"SUCB": {
+				"params": {
 					"type": "decentralizedordinarylearner",
 					"name": "Selfish UCB"
 				},
 				"protocol": {
 					"type": "DecentralizedRegretMinProtocol",
-					"DecentralizedRegretMinProtocol": {
+					"params": {
 						"num_players": 10
 					}
 				}
 			},
 			{
 				"policy": "Uniform",
-				"Uniform": {
+				"params": {
 					"type": "decentralizedordinarylearner",
 					"name": "Uniform Sampling"
 				},
 				"protocol": {
 					"type": "DecentralizedRegretMinProtocol",
-					"DecentralizedRegretMinProtocol": {
+					"params": {
 						"num_players": 10
 					}
 				}

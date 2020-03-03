@@ -1,7 +1,7 @@
 {
   "environment": {
     "bandit": "LinearBandit",
-    "LinearBandit": {
+    "params": {
       "features": [[0.3,0.2], [0.5,0.6], [0.7,0.9]],
       "theta": [0.5,0.5]
     }
@@ -11,19 +11,19 @@
     "policies": [
       {
         "policy": "ExpGap",
-        "ExpGap": {
+        "params": {
           "type": "ordinarylearner"
         }
       },
       {
         "policy": "lilUCB_heur",
-        "lilUCB_heur": {
+        "params": {
           "type": "ordinarylearner"
         }
       },
       {
         "policy": "LinGapE",
-        "LinGapE": {
+        "params": {
           "type": "linearlearner"
         }
       }

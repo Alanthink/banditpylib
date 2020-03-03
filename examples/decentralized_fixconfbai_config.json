@@ -1,7 +1,7 @@
 {
 	"environment": {
 		"bandit": "OrdinaryBandit",
-		"OrdinaryBandit": {
+		"params": {
 		  "arm": "BernoulliArm",
 		  "means": [0.3, 0.5, 0.7, 0.9]
 		}
@@ -11,26 +11,26 @@
 		"policies": [
 			{
 				"policy": "SlilUCB_heur",
-				"SlilUCB_heur": {
+				"params": {
 					"type": "decentralizedordinarylearner",
 					"name": "Selfish lilUCB_heur"
 				},
 				"protocol": {
 					"type": "DecentralizedPEProtocol",
-					"DecentralizedPEProtocol": {
+					"params": {
 						"num_players": 2
 					}
 				}
 			},
 			{
 				"policy": "FlilUCB_heur",
-				"FlilUCB_heur": {
+				"params": {
 					"type": "decentralizedordinarylearner",
 					"name": "Friendly lilUCB_heur"
 				},
 				"protocol": {
 					"type": "DecentralizedPEProtocol",
-					"DecentralizedPEProtocol": {
+					"params": {
 						"num_players": 10
 					}
 				}

@@ -1,7 +1,7 @@
 {
   "environment": {
     "bandit": "OrdinaryBandit",
-    "OrdinaryBandit": {
+    "params": {
       "arm": "BernoulliArm",
       "means": [0.3, 0.5, 0.7]
     }
@@ -11,13 +11,13 @@
     "policies": [
       {
         "policy": "Uniform",
-        "Uniform": {
+        "params": {
           "type": "ordinarylearner"
         }
       },
       {
         "policy": "SR",
-        "SR": {
+        "params": {
           "type": "ordinarylearner"
         }
       }

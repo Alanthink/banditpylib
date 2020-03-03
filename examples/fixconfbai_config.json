@@ -1,7 +1,7 @@
 {
   "environment": {
     "bandit": "OrdinaryBandit",
-    "OrdinaryBandit": {
+    "params": {
       "arm": "BernoulliArm",
       "means": [0.3, 0.5, 0.7]
     }
@@ -11,13 +11,13 @@
     "policies": [
       {
         "policy": "ExpGap",
-        "ExpGap": {
+        "params": {
           "type": "ordinarylearner"
         }
       },
       {
         "policy": "lilUCB_heur",
-        "lilUCB_heur": {
+        "params": {
           "type": "ordinarylearner"
         }
       }
