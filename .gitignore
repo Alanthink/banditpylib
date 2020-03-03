@@ -5,4 +5,4 @@ examples/out/
 *.egg-info/
 .pytest_cache/
 .vscode/
-.ipynb_checkpoints
+*.ipynb_checkpoints*
