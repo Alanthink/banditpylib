@@ -1,12 +1,32 @@
 from importlib import import_module
 
+from abc import abstractmethod
 from absl import logging
 
-from .utils import OrdinaryBanditItf
+from .utils import Bandit
 
 __all__ = ['OrdinaryBanditItf', 'OrdinaryBandit']
 
 ARM_PKG = 'banditpylib.bandits.arms'
+
+
+class OrdinaryBanditItf(Bandit):
+  """ordinary bandit interface"""
+
+  @property
+  @abstractmethod
+  def arm_num(self):
+    pass
+
+  @property
+  @abstractmethod
+  def arm_type(self):
+    pass
+
+  @property
+  @abstractmethod
+  def tot_samples(self):
+    pass
 
 
 class OrdinaryBandit(OrdinaryBanditItf):

@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 
-__all__ = ['Bandit',
-           'OrdinaryBanditItf',
-           'LinearBanditItf']
+__all__ = ['Bandit']
 
 
 class Bandit(ABC):
@@ -47,41 +45,3 @@ class Bandit(ABC):
     feedback = self._take_action(action)
     self._update_context()
     return feedback
-
-
-class OrdinaryBanditItf(Bandit):
-  """ordinary bandit interface"""
-
-  @property
-  @abstractmethod
-  def arm_num(self):
-    pass
-
-  @property
-  @abstractmethod
-  def arm_type(self):
-    pass
-
-  @property
-  @abstractmethod
-  def tot_samples(self):
-    pass
-
-
-class LinearBanditItf(Bandit):
-  """linear bandit interface"""
-
-  @property
-  @abstractmethod
-  def arm_num(self):
-    pass
-
-  @property
-  @abstractmethod
-  def tot_samples(self):
-    pass
-
-  @property
-  @abstractmethod
-  def features(self):
-    pass
