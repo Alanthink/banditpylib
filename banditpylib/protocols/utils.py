@@ -1,3 +1,12 @@
+"""
+Abstract class of the protocol which is used to coordinate the interactions
+between the learner and the specified bandit environment.
+
+For each setup, just call `play` to start simulation. A protocol should
+implement `_one_trial` method to define how to run one trial of experiment.
+
+The protocol will need to hack the bandit environment to ask for regret.
+"""
 import json
 import time
 from multiprocessing import Pool
@@ -24,23 +33,28 @@ class Protocol(ABC):
   @property
   @abstractmethod
   def type(self):
-    pass
+    """type of the protocol"""
 
   @property
   def __trials(self):
-    # # of trials of the simulation
+    """# of trials of the experiment"""
     return self._pars['trials']
 
   @property
   def __processors(self):
-    # maximum number of processors can be used
+    """maximum number of processors can be used"""
     return self._pars['processors']
 
   @abstractmethod
   def _one_trial(self, seed):
-    pass
+    """one trial experiment"""
 
   def __write_to_file(self, data):
+    """write the result of one trial to file
+
+    input:
+      data: the result of one trial
+    """
     with open(self.__output_file, 'a') as f:
       if isinstance(data, list):
         for item in data:
@@ -52,6 +66,7 @@ class Protocol(ABC):
       f.flush()
 
   def __multi_proc(self):
+    """multi-processes helper"""
     pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
@@ -70,6 +85,13 @@ class Protocol(ABC):
     pool.join()
 
   def play(self, bandit, learner, running_pars, output_file):
+    """
+    input:
+      bandit: bandit of the setup
+      learner: learner of the setup
+      running_pars: parameters used for this experiment
+      output_file: file to store the results of the experiment
+    """
     if isinstance(bandit, list):
       # multiple players
       self._bandits = bandit

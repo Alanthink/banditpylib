@@ -1,3 +1,10 @@
+"""
+Base class for a learner with goal best arm identification.
+
+Instead of `learner_choice`, pure exploration learners implement `learner_run`
+method which essentially means a round. The learner has to decide by him/herself
+when to stop.
+"""
 from abc import abstractmethod
 
 from ...learners import Learner
@@ -21,7 +28,7 @@ class BAILearner(Learner):
     pass
 
   @property
-  def reward(self):
+  def rewards_def(self):
     return self.best_arm
 
   @property

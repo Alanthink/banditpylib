@@ -36,7 +36,7 @@ class SinglePlayerPEProtocol(Protocol):
       regret = getattr(
           self._bandit,
           '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-              self._player.reward())
+              self._player.rewards_def())
       results.append(dict({self._player.name: [budget, regret]}))
     return results
 
@@ -55,7 +55,7 @@ class SinglePlayerPEProtocol(Protocol):
       regret = getattr(
           self._bandit,
           '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-              self._player.reward())
+              self._player.rewards_def())
       results.append(
           dict({self._player.name:
                 [fail_prob, self._bandit.tot_samples, regret]}))

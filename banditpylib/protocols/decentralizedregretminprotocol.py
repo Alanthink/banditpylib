@@ -76,5 +76,5 @@ class DecentralizedRegretMinProtocol(Protocol):
     return sum([getattr(
         self._bandits[k],
         '_'+type(self._bandits[k]).__name__+'__'+self._regret_def)(
-            self._players[k].reward())
+            self._players[k].rewards_def())
                 for k in range(self.__num_players)])

@@ -48,5 +48,5 @@ class SinglePlayerRegretMinProtocol(Protocol):
         regrets[t] = getattr(
             self._bandit,
             '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-                self._player.reward())
+                self._player.rewards_def())
     return dict({self._player.name: regrets})
