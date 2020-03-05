@@ -5,6 +5,7 @@ import json
 import os
 
 from importlib import import_module
+import tempfile
 
 from absl import logging
 from absl import flags
@@ -12,7 +13,6 @@ from absl import flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_boolean('debug', False, 'output runtime debug info')
-flags.DEFINE_string('dir', '/tmp/banditpylib', 'output directory')
 flags.DEFINE_string('out', 'data.out', 'file for generated data')
 flags.DEFINE_boolean('novar', False, 'do not show std in the output figure')
 
@@ -89,16 +89,17 @@ def run(config, debug=False):
 
   setups, running_pars = parse(config)
 
-  data_file = os.path.join(FLAGS.dir, FLAGS.out)
-  os.makedirs(os.path.dirname(data_file), exist_ok=True)
-  prev_files = os.listdir(FLAGS.dir)
-  for file in prev_files:
-    os.remove(os.path.join(FLAGS.dir, file))
-  for (bandit, protocol, learner) in setups:
-    protocol.play(bandit, learner, running_pars, data_file)
+  try:
+    temp_dir = tempfile.mkdtemp()
+    data_file = os.path.join(temp_dir, FLAGS.out)
+    for (bandit, protocol, learner) in setups:
+      protocol.play(bandit, learner, running_pars, data_file)
+    data = []
+    with open(data_file, 'r') as file:
+      for line in file:
+        data.append(json.loads(line))
+    os.remove(data_file)
+  finally:
+    os.rmdir(temp_dir)
 
-  data = []
-  with open(data_file, 'r') as file:
-    for line in file:
-      data.append(json.loads(line))
   return data
