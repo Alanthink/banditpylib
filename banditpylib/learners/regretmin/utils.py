@@ -2,7 +2,7 @@
 Base class for a learner with goal regret minimization.
 
 Before each trial is run, a learner must be initialized with `init`. The first
-argument `bandit` is needed since during the initializaiont, a learner may want
+argument `bandit` is needed since during the initialization, a learner may want
 to ask the bandit for basic information. During each time step, `learner_choice`
 is called to ask the learner for choice of the action. `update` is called by the
 protocol when the reward is obtained from the bandit environment.
