@@ -131,6 +131,9 @@ def draw_fixconfbai(data, save_fig):
 def plot(data, goal=None, novar=False, save_fig=None):
   FLAGS.novar = novar
 
+  if not data:
+    logging.fatal('Data is empty!')
+
   if goal == 'regretmin':
     return draw_regretmin(data, save_fig)
   elif goal == 'bestarmid.fixbudget':
@@ -138,4 +141,4 @@ def plot(data, goal=None, novar=False, save_fig=None):
   elif goal == 'bestarmid.fixconf':
     return draw_fixconfbai(data, save_fig)
   else:
-    logging.fatal('No analysis output for this goal!')
+    logging.fatal('Please specify the goal of learners!')
