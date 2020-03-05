@@ -15,6 +15,20 @@ class OrdinaryBanditItf(Bandit):
 
   @property
   @abstractmethod
+  def type(self):
+    pass
+
+  @abstractmethod
+  def init(self):
+    pass
+
+  @property
+  @abstractmethod
+  def context(self):
+    pass
+
+  @property
+  @abstractmethod
   def arm_num(self):
     pass
 
@@ -26,6 +40,14 @@ class OrdinaryBanditItf(Bandit):
   @property
   @abstractmethod
   def tot_samples(self):
+    pass
+
+  @abstractmethod
+  def _take_action(self, action):
+    pass
+
+  @abstractmethod
+  def _update_context(self):
     pass
 
 

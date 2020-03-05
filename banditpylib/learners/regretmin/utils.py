@@ -58,6 +58,7 @@ class RegretMinimizationLearner(Learner):
   def rewards(self):
     return self.__rewards
 
+  # pylint: disable=arguments-differ
   def init(self, bandit):
     # time starts from 1
     self._bandit = bandit

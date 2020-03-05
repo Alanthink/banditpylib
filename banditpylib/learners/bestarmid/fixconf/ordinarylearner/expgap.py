@@ -5,7 +5,7 @@ import numpy as np
 
 from absl import flags
 
-from .....bandits.arms import EmArm
+from banditpylib.bandits.arms import EmArm
 from .utils import OrdinaryLearner
 
 FLAGS = flags.FLAGS

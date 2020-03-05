@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ...bestarmid import BAILearner
+from .. import BAILearner
 
 __all__ = ['FixBudgetBAILearner']
 
@@ -34,6 +34,7 @@ class FixBudgetBAILearner(BAILearner):
   def best_arm(self):
     pass
 
+  # pylint: disable=arguments-differ
   def init(self, bandit, budget):
     self._bandit = bandit
     self._budget = budget

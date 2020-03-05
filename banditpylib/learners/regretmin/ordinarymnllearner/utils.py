@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from absl import logging
 
-from ...regretmin import RegretMinimizationLearner
+from .. import RegretMinimizationLearner
 
 __all__ = ['OrdinaryMNLLearner']
 

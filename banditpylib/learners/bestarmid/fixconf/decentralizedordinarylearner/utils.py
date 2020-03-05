@@ -2,9 +2,9 @@ from abc import abstractmethod
 
 from absl import logging
 
-from .....bandits.arms import EmArm
-from .....bandits import OrdinaryBanditItf
-from ....bestarmid.fixconf import FixConfBAILearner
+from banditpylib.bandits.arms import EmArm
+from banditpylib.bandits import OrdinaryBanditItf
+from .. import FixConfBAILearner
 
 __all__ = ['DecentralizedOrdinaryLearner']
 
@@ -19,6 +19,7 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
   def _learner_init(self):
     pass
 
+  # pylint: disable=arguments-differ
   @abstractmethod
   def learner_run(self, messages):
     pass

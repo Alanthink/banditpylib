@@ -5,7 +5,7 @@ from absl import logging
 
 import numpy as np
 
-from ..bandits.arms import EmArm
+from banditpylib.bandits.arms import EmArm
 from .utils import Protocol
 
 FLAGS = flags.FLAGS

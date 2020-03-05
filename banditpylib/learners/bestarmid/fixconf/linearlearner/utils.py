@@ -3,9 +3,9 @@ from absl import logging
 
 import numpy as np
 
-from .....bandits.arms import EmArm
-from .....bandits import LinearBanditItf
-from ....bestarmid.fixconf import FixConfBAILearner
+from banditpylib.bandits.arms import EmArm
+from banditpylib.bandits import LinearBanditItf
+from .. import FixConfBAILearner
 
 __all__ = ['FixConfBAILearner', 'mat_norm']
 

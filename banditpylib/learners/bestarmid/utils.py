@@ -7,7 +7,7 @@ when to stop.
 """
 from abc import abstractmethod
 
-from ...learners import Learner
+from .. import Learner
 
 __all__ = ['BAILearner']
 
@@ -25,6 +25,14 @@ class BAILearner(Learner):
 
   @abstractmethod
   def best_arm(self):
+    pass
+
+  @abstractmethod
+  def learner_run(self):
+    """one round of running"""
+
+  @abstractmethod
+  def init(self):
     pass
 
   @property

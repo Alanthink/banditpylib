@@ -2,13 +2,13 @@ from abc import abstractmethod
 
 from absl import logging
 
-from .....bandits.arms import EmArm
-from .....bandits import OrdinaryBanditItf
-from ....bestarmid.fixconf import FixConfBAILearner
+from banditpylib.bandits.arms import EmArm
+from banditpylib.bandits import OrdinaryBanditItf
+from .. import FixConfBAILearner
 
 
 class OrdinaryLearner(FixConfBAILearner):
-  """Base class for learners in the classic bandit model"""
+  """base class for learners in the classic bandit model"""
 
   def __init__(self, pars):
     super().__init__(pars)

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from ....learners.bestarmid import BAILearner
+from .. import BAILearner
 
 __all__ = ['FixConfBAILearner']
 
@@ -30,6 +30,7 @@ class FixConfBAILearner(BAILearner):
   def best_arm(self):
     pass
 
+  # pylint: disable=arguments-differ
   def init(self, bandit, fail_prob):
     self._bandit = bandit
     self._fail_prob = fail_prob

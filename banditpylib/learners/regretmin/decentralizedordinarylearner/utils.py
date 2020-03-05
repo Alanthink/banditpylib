@@ -1,9 +1,9 @@
 from abc import abstractmethod
 from absl import logging
 
-from ....bandits.arms import EmArm
-from ....bandits import OrdinaryBanditItf
-from ...regretmin import RegretMinimizationLearner
+from banditpylib.bandits.arms import EmArm
+from banditpylib.bandits import OrdinaryBanditItf
+from .. import RegretMinimizationLearner
 
 __all__ = ['DecentralizedOrdinaryLearner']
 

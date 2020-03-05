@@ -33,6 +33,13 @@ class Learner(ABC):
   def goal(self):
     """a string denoting the goal of the learner"""
 
+  @abstractmethod
+  def init(self):
+    """learner initialization
+
+    This function should be called before the start of each trial of experiment.
+    """
+
   @property
   @abstractmethod
   def rewards_def(self):

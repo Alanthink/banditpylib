@@ -2,9 +2,9 @@ from abc import abstractmethod
 
 from absl import logging
 
-from ....bandits.arms import EmArm
-from ....bandits import LinearBanditItf
-from ...regretmin import RegretMinimizationLearner
+from banditpylib.bandits.arms import EmArm
+from banditpylib.bandits import LinearBanditItf
+from .. import RegretMinimizationLearner
 
 __all__ = ['CorrelatedLearner']
 
