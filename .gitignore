@@ -6,3 +6,5 @@ examples/out/
 .pytest_cache/
 .vscode/
 *.ipynb_checkpoints*
+build/
+dist/
