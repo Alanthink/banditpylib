@@ -9,6 +9,7 @@ The protocol will need to hack the bandit environment to ask for regret.
 """
 import json
 import time
+import multiprocessing
 from multiprocessing import Pool
 
 from abc import ABC, abstractmethod
@@ -43,7 +44,9 @@ class Protocol(ABC):
   @property
   def __processors(self):
     """maximum number of processors can be used"""
-    return self._pars['processors']
+    if 'processors' in self._pars and self._pars['processors'] >= 1:
+      return int(self._pars['processors'])
+    return multiprocessing.cpu_count()
 
   @abstractmethod
   def _one_trial(self, seed):
