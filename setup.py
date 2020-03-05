@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="banditpylib",
-    version="0.0.1",
+    version="0.0.2",
     author="Chester Holtz, Chao Tao",
     author_email="chholtz@eng.ucsd.edu, sdutaochao@gmail.com",
     description="A lightweight python library for bandit algorithms",
@@ -12,13 +12,11 @@ setup(
     install_requires=[
         'absl-py',
         'attrs',
-        'Click',
         'cvxpy',
         'cycler',
         'dill',
         'ecos',
         'future',
-        'glog',
         'importlib-metadata',
         'kiwisolver',
         'matplotlib',
@@ -33,14 +31,12 @@ setup(
         'pyparsing',
         'pytest',
         'python-dateutil',
-        'python-gflags',
         'pytz',
         'PyYAML',
         'scipy',
         'scs',
         'seaborn',
         'six',
-        'tabulate',
         'wcwidth',
         'zipp'
     ],
