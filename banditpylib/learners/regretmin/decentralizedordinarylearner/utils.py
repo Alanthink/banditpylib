@@ -11,6 +11,8 @@ __all__ = ['DecentralizedOrdinaryLearner']
 class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
   """base class for learners in the classic bandit model"""
 
+  protocol = 'DecentralizedRegretMinProtocol'
+
   def __init__(self, pars):
     super().__init__(pars)
 

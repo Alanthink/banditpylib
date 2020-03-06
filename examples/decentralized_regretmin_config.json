@@ -13,39 +13,24 @@
 				"policy": "FUCB",
 				"params": {
 					"type": "decentralizedordinarylearner",
-					"name": "Friendly UCB"
-				},
-				"protocol": {
-					"type": "DecentralizedRegretMinProtocol",
-					"params": {
-						"num_players": 10
-					}
+					"name": "Friendly UCB",
+					"num_players": 10
 				}
 			},
 			{
 				"policy": "SUCB",
 				"params": {
 					"type": "decentralizedordinarylearner",
-					"name": "Selfish UCB"
-				},
-				"protocol": {
-					"type": "DecentralizedRegretMinProtocol",
-					"params": {
-						"num_players": 10
-					}
+					"name": "Selfish UCB",
+					"num_players": 10
 				}
 			},
 			{
 				"policy": "Uniform",
 				"params": {
 					"type": "decentralizedordinarylearner",
-					"name": "Uniform Sampling"
-				},
-				"protocol": {
-					"type": "DecentralizedRegretMinProtocol",
-					"params": {
-						"num_players": 10
-					}
+					"name": "Uniform Sampling",
+					"num_players": 10
 				}
 			}
 		]

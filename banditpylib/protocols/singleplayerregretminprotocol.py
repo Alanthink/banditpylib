@@ -13,6 +13,9 @@ class SinglePlayerRegretMinProtocol(Protocol):
   """single player regret minimization protocol
   """
 
+  def __init__(self, pars):
+    pass
+
   @property
   def type(self):
     return 'SinglePlayerRegretMinProtocol'

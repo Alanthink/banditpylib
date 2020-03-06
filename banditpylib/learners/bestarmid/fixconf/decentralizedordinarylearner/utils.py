@@ -12,6 +12,8 @@ __all__ = ['DecentralizedOrdinaryLearner']
 class DecentralizedOrdinaryLearner(FixConfBAILearner):
   """base class for learners in the classic bandit model"""
 
+  protocol = 'DecentralizedPEProtocol'
+
   def __init__(self, pars):
     super().__init__(pars)
 

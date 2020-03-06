@@ -15,6 +15,8 @@ __all__ = ['BAILearner']
 class BAILearner(Learner):
   """base class for best arm identification learners"""
 
+  protocol = 'SinglePlayerPEProtocol'
+
   def __init__(self, pars):
     super().__init__(pars)
 

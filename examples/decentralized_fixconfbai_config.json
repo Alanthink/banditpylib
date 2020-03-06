@@ -13,26 +13,16 @@
 				"policy": "SlilUCB_heur",
 				"params": {
 					"type": "decentralizedordinarylearner",
-					"name": "Selfish lilUCB_heur"
-				},
-				"protocol": {
-					"type": "DecentralizedPEProtocol",
-					"params": {
-						"num_players": 2
-					}
+					"name": "Selfish lilUCB_heur",
+					"num_players": 2
 				}
 			},
 			{
 				"policy": "FlilUCB_heur",
 				"params": {
 					"type": "decentralizedordinarylearner",
-					"name": "Friendly lilUCB_heur"
-				},
-				"protocol": {
-					"type": "DecentralizedPEProtocol",
-					"params": {
-						"num_players": 10
-					}
+					"name": "Friendly lilUCB_heur",
+					"num_players": 10
 				}
 			}
 		]

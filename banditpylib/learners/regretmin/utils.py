@@ -17,6 +17,8 @@ __all__ = ['RegretMinimizationLearner']
 class RegretMinimizationLearner(Learner):
   """base class for regret minimization learners"""
 
+  protocol = 'SinglePlayerRegretMinProtocol'
+
   def __init__(self, pars):
     super().__init__(pars)
 

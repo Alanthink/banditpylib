@@ -26,54 +26,37 @@ __all__ = ['run']
 def parse(config):
   setups = []
 
-  # initialize bandit
-  bandit_type = config['environment']['bandit']
-  Bandit = getattr(import_module(BANDIT_PKG), bandit_type)
+  bandit_name = config['environment']['bandit']
+  Bandit = getattr(import_module(BANDIT_PKG), bandit_name)
   bandit_pars = config['environment']['params']
-  # initialize learners and their corresponding protocols
   learner_goal = config['learners']['goal']
+  # initialize learners and their corresponding protocols
   for learner_config in config['learners']['policies']:
-    if 'protocol' in learner_config:
-      protocol_type = learner_config['protocol']['type']
-      Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
-      protocol_pars = learner_config['protocol']['params']
-      protocol = Protocol(protocol_pars)
-    else:
-      if learner_goal == 'regretmin':
-        protocol_type = 'SinglePlayerRegretMinProtocol'
-      elif learner_goal in ['bestarmid.fixbudget', 'bestarmid.fixconf']:
-        protocol_type = 'SinglePlayerPEProtocol'
-      else:
-        logging.fatal('%s: no specified protocol!' % learner_config['policy'])
-      Protocol = getattr(import_module(PROTOCOL_PKG), protocol_type)
-      protocol_pars = dict()
-      protocol = Protocol()
-
-    policy = learner_config['policy']
     learner_package = '%s.%s.%s' % \
         (LEARNER_PKG, learner_goal, learner_config['params']['type'])
-    policy_pars = learner_config['params'] \
-        if 'params' in learner_config else dict()
-    Learner = getattr(import_module(learner_package), policy)
+    learner_name = learner_config['policy']
+    Learner = getattr(import_module(learner_package), learner_name)
 
-    if 'SinglePlayer' in protocol_type:
+    Protocol = getattr(import_module(PROTOCOL_PKG), Learner.protocol)
+    protocol = Protocol(learner_config['params'])
+
+    if 'SinglePlayer' in Learner.protocol:
       # single player
       bandit = Bandit(bandit_pars)
-      learner = Learner(policy_pars)
+      learner = Learner(learner_config['params'])
       goal = learner.goal
     else:
       # multiple players
-      if 'num_players' not in protocol_pars:
-        logging.fatal('%s: please specify the number of players!' % policy)
-      num_players = protocol_pars['num_players']
+      if 'num_players' not in learner_config['params']:
+        logging.fatal(
+            '%s: please specify the number of players!' % learner_name)
+      num_players = learner_config['params']['num_players']
       bandit = [Bandit(bandit_pars) for _ in range(num_players)]
-      learner = [Learner(policy_pars) for _ in range(num_players)]
+      learner = [Learner(learner_config['params']) for _ in range(num_players)]
       goal = learner[0].goal
 
     setups.append((bandit, protocol, learner))
-
   logging.info('run with goal %s' % goal)
-
   return setups, config['running']
 
 
