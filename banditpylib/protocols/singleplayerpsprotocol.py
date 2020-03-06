@@ -1,5 +1,4 @@
 from absl import flags
-from absl import logging
 
 import numpy as np
 
@@ -34,7 +33,7 @@ class SinglePlayerPEProtocol(Protocol):
 
       self._player.learner_run()
       if self._bandit.tot_samples > budget:
-        logging.fatal(
+        raise Exception(
             '%s uses more than the given budget!' % self._player.name)
       regret = getattr(
           self._bandit,

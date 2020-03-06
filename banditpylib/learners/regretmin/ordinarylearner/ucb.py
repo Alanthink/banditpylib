@@ -1,5 +1,3 @@
-from absl import logging
-
 import numpy as np
 
 from .utils import OrdinaryLearner
@@ -15,7 +13,7 @@ class UCB(OrdinaryLearner):
     self._name = self._name if self._name else 'UCB'
     self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
     if self.__alpha <= 0:
-      logging.fatal('%s: alpha should be greater than 0!' % self._name)
+      raise Exception('%s: alpha should be greater than 0!' % self._name)
 
   def _learner_init(self):
     pass

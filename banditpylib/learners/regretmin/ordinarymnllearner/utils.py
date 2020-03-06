@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from absl import logging
 
 from .. import RegretMinimizationLearner
 
@@ -26,7 +25,7 @@ class OrdinaryMNLLearner(RegretMinimizationLearner):
 
   def _model_init(self):
     if self._bandit.type != 'ordinarymnlbandit':
-      logging.fatal(
+      raise Exception(
           ("%s: I don't",
            " understand the bandit environment!") % self.name)
 

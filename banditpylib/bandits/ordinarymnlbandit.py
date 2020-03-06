@@ -45,16 +45,16 @@ class OrdinaryMNLBandit(Bandit):
     abspar = pars['abspar']
     revenue = pars['revenue']
     if not isinstance(abspar, list) or not isinstance(revenue, list):
-      logging.fatal('Parameters should be given in a list!')
+      raise Exception('Parameters should be given in a list!')
     if len(abspar) != len(revenue):
-      logging.fatal(
+      raise Exception(
           'Abstract parameter number does not equal to revenue number!')
     for par in abspar:
       if par > 1 or par < 0:
-        logging.fatal('Abstraction parameters are assumed between 0 and 1!')
+        raise Exception('Abstraction parameters are assumed between 0 and 1!')
     for rev in revenue:
       if rev <= 0:
-        logging.fatal('Product revenue should be greater than 0!')
+        raise Exception('Product revenue should be greater than 0!')
 
     self.__abspar = [1]+abspar
     self.__revenue = [0]+revenue
@@ -103,9 +103,9 @@ class OrdinaryMNLBandit(Bandit):
     del action
 
     if not isinstance(assortment, list):
-      logging.fatal('Assortment should be given in a list!')
+      raise Exception('Assortment should be given in a list!')
     if not assortment:
-      logging.fatal('Empty assortment!')
+      raise Exception('Empty assortment!')
 
     assortment = assortment.copy()
     # remove duplicate products if possible
@@ -113,14 +113,14 @@ class OrdinaryMNLBandit(Bandit):
 
     for prod in assortment:
       if not isinstance(prod, int):
-        logging.fatal('Product index should be an integer!')
+        raise Exception('Product index should be an integer!')
       if prod < 1 or prod > self.prod_num:
-        logging.fatal('Product index should be between 1 and %d!' %
-                      self.prod_num)
+        raise Exception('Product index should be between 1 and %d!' %
+                        self.prod_num)
 
     if len(assortment) > self.card_constraint:
-      logging.fatal('The assortment has products more than %d!' %
-                    self.card_constraint)
+      raise Exception('The assortment has products more than %d!' %
+                      self.card_constraint)
 
     self.__max_revenue += self.__best_rev
 

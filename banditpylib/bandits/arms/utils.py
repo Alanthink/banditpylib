@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from absl import logging
 
 __all__ = ['Arm', 'EmArm']
 
@@ -35,14 +34,14 @@ class EmArm:
   def em_mean(self):
     """get empirical mean"""
     if self.__pulls == 0:
-      logging.fatal('No empirical mean yet!')
+      raise Exception('No empirical mean yet!')
     return self.__rewards / self.__pulls
 
   @property
   def em_var(self):
     """get empirical variance"""
     if self.__pulls == 0:
-      logging.fatal('No empirical variance yet!')
+      raise Exception('No empirical variance yet!')
     return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
 
   def reset(self):
@@ -61,4 +60,4 @@ class EmArm:
       self.__rewards += sum(args[0])
       self.__sq_rewards += sum(args[0]**2)
     else:
-      logging.fatal('Update must take 1 or 2 arguments!')
+      raise Exception('Update must take 1 or 2 arguments!')

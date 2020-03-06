@@ -63,14 +63,14 @@ class LinearBandit(
   def __init__(self, pars):
     features = pars['features']
     if len(features) < 2:
-      logging.fatal('The number of arms should be at least two!')
+      raise Exception('The number of arms should be at least two!')
     if not isinstance(features, list):
-      logging.fatal('Features should be given in a list!')
+      raise Exception('Features should be given in a list!')
     self.__features = [np.array(feature) for feature in features]
     self.__theta = np.array(pars['theta'])
     for _, feature in enumerate(self.__features):
       if feature.shape != self.__theta.shape:
-        logging.fatal('The feature and theta dimensions are unequal!')
+        raise Exception('The feature and theta dimensions are unequal!')
     Arm = getattr(import_module(ARM_PKG), 'GaussianArm')
     if 'var' not in pars:
       logging.warn('%s: variance of noise is assumed to be 1!' % self.type)
@@ -125,7 +125,7 @@ class LinearBandit(
     for tup in action:
       ind = tup[0]
       if ind not in range(self.__arm_num):
-        logging.fatal('Wrong arm index!')
+        raise Exception('Wrong arm index!')
       rewards.append(self.__arms[ind].pull(tup[1]))
       self.__tot_samples += tup[1]
       self.__max_rewards += (self.__best_arm.mean * tup[1])

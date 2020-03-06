@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="banditpylib",
-    version="0.0.2",
+    version="0.0.3",
     author="Chester Holtz, Chao Tao",
     author_email="chholtz@eng.ucsd.edu, sdutaochao@gmail.com",
     description="A lightweight python library for bandit algorithms",

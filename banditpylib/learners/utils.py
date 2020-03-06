@@ -11,7 +11,6 @@ knows which function of the learner to call to ask for the empirical rewards.
 bandit for the correct regret.
 """
 from abc import ABC, abstractmethod
-from absl import logging
 
 __all__ = ['Learner']
 
@@ -26,7 +25,7 @@ class Learner(ABC):
   def name(self):
     """name used to plot the final figure"""
     if not self._name:
-      logging.fatal('Learner name is not defined!')
+      raise Exception('Learner name is not defined!')
     return self._name
 
   @property

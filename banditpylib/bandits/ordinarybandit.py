@@ -58,11 +58,11 @@ class OrdinaryBandit(OrdinaryBanditItf):
 
   def __init__(self, pars):
     if pars['arm'] not in ['BernoulliArm', 'GaussianArm']:
-      logging.fatal('Can not setup %s!' % pars['arm'])
+      raise Exception('Can not setup %s!' % pars['arm'])
     self.__arm_type = pars['arm']
     means = pars['means']
     if not isinstance(means, list):
-      logging.fatal('Means should be given in a list!')
+      raise Exception('Means should be given in a list!')
     if self.__arm_type == 'GaussianArm':
       if 'var' not in pars['means']:
         logging.warn('Variance upper bound is set 1!')
@@ -74,7 +74,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     self.__arms = arms
     self.__arm_num = len(arms)
     if self.__arm_num < 2:
-      logging.fatal('The number of arms should be at least two!')
+      raise Exception('The number of arms should be at least two!')
 
     self.__best_arm_ind = max(
         [(tup[0], tup[1].mean) for tup in enumerate(self.__arms)],
@@ -116,7 +116,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     for tup in action:
       ind = tup[0]
       if ind not in range(self.arm_num):
-        logging.fatal('Wrong arm index!')
+        raise Exception('Wrong arm index!')
 
       rewards.append(self.__arms[ind].pull(tup[1]))
       self.__tot_samples += tup[1]

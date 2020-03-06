@@ -1,5 +1,3 @@
-from absl import logging
-
 import numpy as np
 
 from .utils import OrdinaryLearner
@@ -14,7 +12,7 @@ class MOSS(OrdinaryLearner):
     super().__init__(pars)
     self._name = self._name if self._name else 'MOSS'
     if 'horizon' not in pars:
-      logging.fatal('%s: I need to know the horizon!' % self._name)
+      raise Exception('%s: I need to know the horizon!' % self._name)
     else:
       self.__horizon = pars['horizon']
 

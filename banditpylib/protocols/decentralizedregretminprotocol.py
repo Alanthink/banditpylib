@@ -1,7 +1,6 @@
 from random import randint
 
 from absl import flags
-from absl import logging
 
 import numpy as np
 
@@ -20,7 +19,7 @@ class DecentralizedRegretMinProtocol(Protocol):
   def __init__(self, pars):
     self.__messages = []
     if 'num_players' not in pars:
-      logging.fatal('%s: number of players is not specified!' % self.type)
+      raise Exception('%s: number of players is not specified!' % self.type)
     self.__num_players = pars['num_players']
 
   @property

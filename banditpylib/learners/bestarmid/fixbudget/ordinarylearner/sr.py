@@ -1,8 +1,6 @@
 import math
 import numpy as np
 
-from absl import logging
-
 from .utils import OrdinaryLearner
 
 __all__ = ['SR']
@@ -60,7 +58,7 @@ class SR(OrdinaryLearner):
 
     # check if there is only two active arms left in the last round
     if len(active_arms) != 2:
-      logging.fatal('The last round should have only 2 arms!')
+      raise Exception('The last round should have only 2 arms!')
 
     action = [(active_arms[0], budget_left//2)]
     budget_left -= budget_left//2

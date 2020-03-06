@@ -1,7 +1,5 @@
 from abc import abstractmethod
 
-from absl import logging
-
 from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import OrdinaryBanditItf
 from .. import RegretMinimizationLearner
@@ -30,8 +28,8 @@ class OrdinaryLearner(RegretMinimizationLearner):
   def _model_init(self):
     """local initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
-      logging.fatal(("%s: I don't understand",
-                     " the bandit environment!") % self.name)
+      raise Exception(("%s: I don't understand",
+                       " the bandit environment!") % self.name)
     self._arm_num = self._bandit.arm_num
     # record empirical information for every arm
     self._em_arms = [EmArm() for ind in range(self._arm_num)]
