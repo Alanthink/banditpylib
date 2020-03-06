@@ -14,7 +14,7 @@ class SinglePlayerPEProtocol(Protocol):
   """single player pure exploration protocol
   """
 
-  def __init__(self, pars):
+  def __init__(self, pars=None):
     pass
 
   @property
