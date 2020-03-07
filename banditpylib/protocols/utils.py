@@ -73,9 +73,15 @@ class Protocol(ABC):
     pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
-      pool.apply_async(
+      result = pool.apply_async(
           self._one_trial, args=(current_time(), ),
           callback=self.__write_to_file)
+
+      if FLAGS.debug:
+        # for debugging purposes
+        # to make sure error info of subprocesses will be reported
+        # this flag could heavily increase the running time
+        result.get()
 
     # can not apply for processes any more
     pool.close()
