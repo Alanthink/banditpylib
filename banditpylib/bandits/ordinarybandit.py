@@ -130,8 +130,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
   def _update_context(self):
     pass
 
-  def __regret(self, rewards):
+  def regret(self, rewards):
     return self.__max_rewards - rewards
 
-  def __best_arm_regret(self, ind):
+  def best_arm_regret(self, ind):
     return 1 - (self.__best_arm_ind == ind)

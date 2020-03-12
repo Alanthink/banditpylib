@@ -11,10 +11,6 @@ class FixConfBAILearner(BAILearner):
   def __init__(self, pars):
     super().__init__(pars)
 
-  @property
-  def goal(self):
-    return 'FixConfBAI'
-
   def _goal_reset(self):
     pass
 

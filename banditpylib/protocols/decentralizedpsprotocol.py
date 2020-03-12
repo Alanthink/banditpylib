@@ -104,8 +104,6 @@ class DecentralizedPEProtocol(Protocol):
     return self.__one_trial_fixconf()
 
   def __regret(self):
-    return int(sum([getattr(
-        self._bandits[k],
-        '_'+type(self._bandits[k]).__name__+'__'+self._regret_def)(
-            self._players[k].rewards_def())
+    return int(sum([getattr(self._bandits[k], self._regret_funcname)(
+        getattr(self._players[k], self._rewards_funcname)())
                     for k in range(self.__num_players)]) > 0)

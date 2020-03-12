@@ -1,14 +1,8 @@
 """
 Abstract class for a learner.
 
-Before each trial is run, a learner must be initialized with `reset`. The
+Before each trial is run, a learner should be initialized with `reset`. The
 parameters of `reset` may not be the same for different types of learners.
-However, the first argument should always be the bandit instance since during
-the initialization, a learner may want to ask the bandit for some information.
-`rewards_def` should return a function of the learner such that the protocol
-knows which function of the learner to call to ask for the empirical rewards.
-`regret_def` returns a string which will be used by the protocol to ask the
-bandit for the correct regret.
 """
 from abc import ABC, abstractmethod
 
@@ -36,13 +30,3 @@ class Learner(ABC):
 
     This function should be called before the start of each trial of experiment.
     """
-
-  @property
-  @abstractmethod
-  def rewards_def(self):
-    """a function for returning of the empirical reward"""
-
-  @property
-  @abstractmethod
-  def regret_def(self):
-    """a string defining the regret function"""

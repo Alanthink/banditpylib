@@ -35,10 +35,8 @@ class SinglePlayerPEProtocol(Protocol):
       if self._bandit.tot_samples > budget:
         raise Exception(
             '%s uses more than the given budget!' % self._player.name)
-      regret = getattr(
-          self._bandit,
-          '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-              self._player.rewards_def())
+      regret = getattr(self._bandit, self._regret_funcname)(
+          getattr(self._player, self._rewards_funcname)())
       results.append(dict({self._player.name: [budget, regret]}))
     return results
 
@@ -54,10 +52,8 @@ class SinglePlayerPEProtocol(Protocol):
       ##########################################################################
 
       self._player.learner_round()
-      regret = getattr(
-          self._bandit,
-          '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-              self._player.rewards_def())
+      regret = getattr(self._bandit, self._regret_funcname)(
+          getattr(self._player, self._rewards_funcname)())
       results.append(
           dict({self._player.name:
                 [fail_prob, self._bandit.tot_samples, regret]}))

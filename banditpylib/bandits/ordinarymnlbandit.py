@@ -134,7 +134,7 @@ class OrdinaryMNLBandit(Bandit):
       return (0, self.__revenue[0])
     return (self.__revenue[assortment[rand-1]], assortment[rand-1])
 
-  def __regret(self, rewards):
+  def regret(self, rewards):
     revenue = rewards
     del rewards
     return self.__max_revenue - revenue

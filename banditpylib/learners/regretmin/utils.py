@@ -26,14 +26,6 @@ class RegretMinimizationLearner(Learner):
   def goal(self):
     return 'Regret Minimization'
 
-  @property
-  def rewards_def(self):
-    return self.rewards
-
-  @property
-  def regret_def(self):
-    return 'regret'
-
   def _goal_reset(self):
     self.__rewards = 0
 

@@ -4,8 +4,6 @@ between the learner and the specified bandit environment.
 
 For each setup, just call `play` to start simulation. A protocol should
 implement `_one_trial` method to define how to run one trial of experiment.
-
-The protocol will need to hack the bandit environment to ask for regret.
 """
 import json
 import time
@@ -20,6 +18,15 @@ from absl import logging
 FLAGS = flags.FLAGS
 
 __all__ = ['Protocol', 'current_time']
+
+
+def get_funcname_of_regret_rewards(goal):
+  if goal == 'Best Arm Identification':
+    return ('best_arm_regret', 'best_arm')
+  elif goal == 'Regret Minimization':
+    return ('regret', 'rewards')
+  else:
+    raise Exception('Unknown goal!')
 
 
 # for generating random seeds
@@ -102,14 +109,16 @@ class Protocol(ABC):
       logging.info(
           'run %s using protocol %s' %
           (self._players[0].name, self.type))
-      self._regret_def = self._players[0].regret_def
+      self._regret_funcname, self._rewards_funcname = \
+          get_funcname_of_regret_rewards(self._players[0].goal)
     else:
       # single player
       self._bandit = bandit
       self._player = learner
       logging.info(
           'run %s with protocol %s' % (learner.name, self.type))
-      self._regret_def = self._player.regret_def
+      self._regret_funcname, self._rewards_funcname = \
+          get_funcname_of_regret_rewards(self._player.goal)
 
     self.__output_file = output_file
     self._pars = running_pars

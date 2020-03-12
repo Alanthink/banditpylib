@@ -11,10 +11,6 @@ class FixBudgetBAILearner(BAILearner):
   def __init__(self, pars):
     super().__init__(pars)
 
-  @property
-  def goal(self):
-    return 'FixBudgetBAI'
-
   def _goal_reset(self):
     pass
 

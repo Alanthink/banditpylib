@@ -48,8 +48,6 @@ class SinglePlayerRegretMinProtocol(Protocol):
         self._player.update(context, action, feedback)
       if t % self.__frequency == 0:
         # call a private method
-        regrets[t] = getattr(
-            self._bandit,
-            '_'+type(self._bandit).__name__+'__'+self._regret_def)(
-                self._player.rewards_def())
+        regrets[t] = getattr(self._bandit, self._regret_funcname)(
+            getattr(self._player, self._rewards_funcname)())
     return dict({self._player.name: regrets})
