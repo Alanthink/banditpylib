@@ -10,15 +10,20 @@ class UCB(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'UCB'
     self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2
     if self.__alpha <= 0:
-      raise Exception('%s: alpha should be greater than 0!' % self._name)
+      raise Exception('%s: alpha should be greater than 0!' % self.name)
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'UCB'
+
+  def _learner_reset(self):
     pass
 
-  def learner_choice(self, context):
+  def learner_step(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

@@ -91,7 +91,7 @@ class OrdinaryMNLBandit(Bandit):
   def _update_context(self):
     pass
 
-  def init(self):
+  def reset(self):
     self.__max_revenue = 0
 
   def _take_action(self, action):

@@ -14,7 +14,12 @@ class LinGapE(LinearLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'LinGapE'
+
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'LinGapE'
 
   def _learner_update(self, action, feedback):
     if isinstance(action, list):
@@ -54,7 +59,7 @@ class LinGapE(LinearLearner):
     B_t = max(gap_conf)
     return i_t, j_t, B_t
 
-  def _learner_init(self):
+  def _learner_reset(self):
     # alg parameters suggested by the paper
     self.__lambda = 1.0
     self.__delta = self._fail_prob / 5
@@ -68,7 +73,7 @@ class LinGapE(LinearLearner):
     self.__b = np.zeros(self.__d)
     self.__th = np.zeros(self.__d)
 
-  def learner_run(self):
+  def learner_round(self):
     # sample each arm once for the initialization step
     action = [(ind, 1) for ind in range(self._arm_num)]
     feedback = self._bandit.feed(action)

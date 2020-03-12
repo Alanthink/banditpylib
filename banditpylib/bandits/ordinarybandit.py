@@ -19,7 +19,7 @@ class OrdinaryBanditItf(Bandit):
     pass
 
   @abstractmethod
-  def init(self):
+  def reset(self):
     pass
 
   @property
@@ -98,7 +98,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
   def tot_samples(self):
     return self.__tot_samples
 
-  def init(self):
+  def reset(self):
     self.__tot_samples = 0
     self.__max_rewards = 0
 

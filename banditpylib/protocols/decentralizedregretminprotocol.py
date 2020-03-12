@@ -43,7 +43,7 @@ class DecentralizedRegretMinProtocol(Protocol):
 
     # play player and broadcast message
     context = bandit.context
-    action = player.learner_choice(context, self.__messages)
+    action = player.learner_step(context, self.__messages)
     feedback = bandit.feed(action)
     player.update(context, action, feedback)
     message = player.broadcast_message(context, action, feedback)
@@ -59,8 +59,8 @@ class DecentralizedRegretMinProtocol(Protocol):
     for k in range(self.__num_players):
       bandit = self._bandits[k]
       player = self._players[k]
-      bandit.init()
-      player.init(bandit)
+      bandit.reset()
+      player.reset(bandit)
     ############################################################################
 
     regrets = dict()

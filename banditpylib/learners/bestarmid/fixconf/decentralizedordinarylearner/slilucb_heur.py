@@ -12,7 +12,12 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'SlilLUCB_heur'
+
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'SlilLUCB_heur'
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
@@ -21,7 +26,7 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
         math.sqrt(2*(1+self.__eps)* \
         math.log(math.log((1+self.__eps)*times)/self.__delta)/times)
 
-  def _learner_init(self):
+  def _learner_reset(self):
     # alg parameters suggested by the paper
     self.__beta = 0.5
     self.__a = 1+10/self._arm_num
@@ -33,7 +38,7 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
   def broadcast_message(self):
     return None
 
-  def learner_run(self, messages):
+  def learner_round(self, messages):
     """return an arm to pull"""
     # to avoid naive stop
     if self.__t > self._arm_num:

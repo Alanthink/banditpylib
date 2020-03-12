@@ -16,7 +16,12 @@ class lilUCB_heur(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'lilUCB_heur'
+
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'lilUCB_heur'
 
   def __bonus(self, times):
     if (1+self.__eps)*times == 1:
@@ -25,7 +30,7 @@ class lilUCB_heur(OrdinaryLearner):
         math.sqrt(2*(1+self.__eps)* \
         math.log(math.log((1+self.__eps)*times)/self.__delta)/times)
 
-  def _learner_init(self):
+  def _learner_reset(self):
     # alg parameters suggested by the paper
     self.__beta = 0.5
     self.__a = 1+10/self._arm_num
@@ -34,7 +39,7 @@ class lilUCB_heur(OrdinaryLearner):
     # total number of pulls used
     self.__t = 0
 
-  def learner_run(self):
+  def learner_round(self):
     # sample each arm once for the initialization step
     action = [(ind, 1) for ind in range(self._arm_num)]
     feedback = self._bandit.feed(action)

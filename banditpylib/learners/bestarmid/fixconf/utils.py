@@ -15,15 +15,15 @@ class FixConfBAILearner(BAILearner):
   def goal(self):
     return 'FixConfBAI'
 
-  def _goal_init(self):
+  def _goal_reset(self):
     pass
 
   @abstractmethod
-  def _model_init(self):
+  def _model_reset(self):
     pass
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   @abstractmethod
@@ -31,9 +31,9 @@ class FixConfBAILearner(BAILearner):
     pass
 
   # pylint: disable=arguments-differ
-  def init(self, bandit, fail_prob):
+  def reset(self, bandit, fail_prob):
     self._bandit = bandit
     self._fail_prob = fail_prob
-    self._goal_init()
-    self._model_init()
-    self._learner_init()
+    self._goal_reset()
+    self._model_reset()
+    self._learner_reset()

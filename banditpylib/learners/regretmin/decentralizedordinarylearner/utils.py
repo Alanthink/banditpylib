@@ -16,12 +16,12 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     super().__init__(pars)
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   @abstractmethod
   # pylint: disable=arguments-differ
-  def learner_choice(self, context, messages):
+  def learner_step(self, context, messages):
     pass
 
   @abstractmethod
@@ -32,7 +32,7 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
   def _learner_update(self, context, action, feedback):
     pass
 
-  def _model_init(self):
+  def _model_reset(self):
     """local initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
       raise Exception(("%s: I don't understand",

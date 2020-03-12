@@ -18,9 +18,14 @@ class ExpGap(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'ExpGap'
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'ExpGap'
+
+  def _learner_reset(self):
     pass
 
   def __median_elimination(self, active_arms, eps, log_delta):
@@ -57,7 +62,7 @@ class ExpGap(OrdinaryLearner):
       log_delta_ell -= math.log(2)
       ell += 1
 
-  def learner_run(self):
+  def learner_round(self):
     active_arms = list(range(self._arm_num))
     r = 1
     eps_r = 0.25

@@ -32,7 +32,7 @@ class DecentralizedPEProtocol(Protocol):
     player = self._players[k]
 
     # play player and broadcast message
-    state = player.learner_run(self.__messages)
+    state = player.learner_round(self.__messages)
     if state == -1:
       return k
     message = player.broadcast_message()
@@ -50,8 +50,8 @@ class DecentralizedPEProtocol(Protocol):
       for k in range(self.__num_players):
         player = self._players[k]
         bandit = self._bandits[k]
-        bandit.init()
-        player.init(bandit, budget)
+        bandit.reset()
+        player.reset(bandit, budget)
       ##########################################################################
 
       round_ind = 0
@@ -78,8 +78,8 @@ class DecentralizedPEProtocol(Protocol):
       for k in range(self.__num_players):
         player = self._players[k]
         bandit = self._bandits[k]
-        bandit.init()
-        player.init(bandit, fail_prob)
+        bandit.reset()
+        player.reset(bandit, fail_prob)
       ##########################################################################
 
       round_ind = 0

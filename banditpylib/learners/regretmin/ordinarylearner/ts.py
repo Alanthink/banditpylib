@@ -10,12 +10,17 @@ class TS(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'Thompson Sampling'
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'Thompson Sampling'
+
+  def _learner_reset(self):
     pass
 
-  def learner_choice(self, context):
+  def learner_step(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

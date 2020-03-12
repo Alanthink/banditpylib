@@ -34,8 +34,8 @@ class SinglePlayerRegretMinProtocol(Protocol):
 
     ############################################################################
     # initialization
-    self._bandit.init()
-    self._player.init(self._bandit)
+    self._bandit.reset()
+    self._player.reset(self._bandit)
     ############################################################################
 
     regrets = dict()
@@ -43,7 +43,7 @@ class SinglePlayerRegretMinProtocol(Protocol):
       if t > 0:
         # simulation starts from t = 1
         context = self._bandit.context
-        action = self._player.learner_choice(context)
+        action = self._player.learner_step(context)
         feedback = self._bandit.feed(action)
         self._player.update(context, action, feedback)
       if t % self.__frequency == 0:

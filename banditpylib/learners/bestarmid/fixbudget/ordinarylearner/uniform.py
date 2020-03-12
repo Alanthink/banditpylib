@@ -8,12 +8,17 @@ class Uniform(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'Uniform'
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'Uniform'
+
+  def _learner_reset(self):
     pass
 
-  def learner_run(self):
+  def learner_round(self):
     for r in range(self._budget):
       action = r % self._arm_num
       feedback = self._bandit.feed(action)

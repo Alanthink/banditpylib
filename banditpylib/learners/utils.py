@@ -1,8 +1,8 @@
 """
 Abstract class for a learner.
 
-Before each trial is run, a learner must be initialized with `init`. The
-parameters of `init` may not be the same for different types of learners.
+Before each trial is run, a learner must be initialized with `reset`. The
+parameters of `reset` may not be the same for different types of learners.
 However, the first argument should always be the bandit instance since during
 the initialization, a learner may want to ask the bandit for some information.
 `rewards_def` should return a function of the learner such that the protocol
@@ -22,18 +22,16 @@ class Learner(ABC):
     self._name = pars['name'] if 'name' in pars else None
 
   @property
+  @abstractmethod
   def name(self):
-    """name used to plot the final figure"""
-    if not self._name:
-      raise Exception('Learner name is not defined!')
-    return self._name
+    """learner name"""
 
   @property
   def goal(self):
     """a string denoting the goal of the learner"""
 
   @abstractmethod
-  def init(self):
+  def reset(self):
     """learner initialization
 
     This function should be called before the start of each trial of experiment.

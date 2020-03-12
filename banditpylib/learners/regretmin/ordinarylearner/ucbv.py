@@ -10,15 +10,20 @@ class UCBV(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'UCBV'
     self.__eta = float(pars['eta']) if 'eta' in pars else 1.2
     if self.__eta <= 1:
-      raise Exception('%s: eta should be greater than 1!' % self._name)
+      raise Exception('%s: eta should be greater than 1!' % self.name)
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'UCBV'
+
+  def _learner_reset(self):
     pass
 
-  def learner_choice(self, context):
+  def learner_step(self, context):
     """return an arm to pull"""
     if self._t <= self._arm_num:
       return (self._t-1) % self._arm_num

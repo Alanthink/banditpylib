@@ -15,19 +15,19 @@ class FixBudgetBAILearner(BAILearner):
   def goal(self):
     return 'FixBudgetBAI'
 
-  def _goal_init(self):
+  def _goal_reset(self):
     pass
 
   @abstractmethod
-  def _model_init(self):
+  def _model_reset(self):
     pass
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   @abstractmethod
-  def learner_run(self):
+  def learner_round(self):
     pass
 
   @abstractmethod
@@ -35,9 +35,9 @@ class FixBudgetBAILearner(BAILearner):
     pass
 
   # pylint: disable=arguments-differ
-  def init(self, bandit, budget):
+  def reset(self, bandit, budget):
     self._bandit = bandit
     self._budget = budget
-    self._goal_init()
-    self._model_init()
-    self._learner_init()
+    self._goal_reset()
+    self._model_reset()
+    self._learner_reset()

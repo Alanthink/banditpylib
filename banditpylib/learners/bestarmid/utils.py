@@ -1,7 +1,7 @@
 """
 Base class for a learner with goal best arm identification.
 
-Instead of `learner_choice`, pure exploration learners implement `learner_run`
+Instead of `learner_step`, pure exploration learners implement `learner_round`
 method which essentially means a round. The learner has to decide by him/herself
 when to stop.
 """
@@ -30,11 +30,11 @@ class BAILearner(Learner):
     pass
 
   @abstractmethod
-  def learner_run(self):
+  def learner_round(self):
     """one round of running"""
 
   @abstractmethod
-  def init(self):
+  def reset(self):
     pass
 
   @property

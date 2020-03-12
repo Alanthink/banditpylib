@@ -27,11 +27,11 @@ class SinglePlayerPEProtocol(Protocol):
 
       ##########################################################################
       # initialization
-      self._bandit.init()
-      self._player.init(self._bandit, self.__budget)
+      self._bandit.reset()
+      self._player.reset(self._bandit, self.__budget)
       ##########################################################################
 
-      self._player.learner_run()
+      self._player.learner_round()
       if self._bandit.tot_samples > budget:
         raise Exception(
             '%s uses more than the given budget!' % self._player.name)
@@ -49,11 +49,11 @@ class SinglePlayerPEProtocol(Protocol):
 
       ##########################################################################
       # initialization
-      self._bandit.init()
-      self._player.init(self._bandit, self.__fail_prob)
+      self._bandit.reset()
+      self._player.reset(self._bandit, self.__fail_prob)
       ##########################################################################
 
-      self._player.learner_run()
+      self._player.learner_round()
       regret = getattr(
           self._bandit,
           '_'+type(self._bandit).__name__+'__'+self._regret_def)(

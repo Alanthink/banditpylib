@@ -27,7 +27,7 @@ class TestOrdinaryMNLBandit:
         'K': 4
     }
     bandit = OrdinaryMNLBandit(pars)
-    bandit.init()
+    bandit.reset()
     bandit.feed([1])
     bandit.feed([1])
     bandit.feed([1])

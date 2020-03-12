@@ -14,18 +14,18 @@ class CorrelatedLearner(RegretMinimizationLearner):
     super().__init__(pars)
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   @abstractmethod
-  def learner_choice(self, context):
+  def learner_step(self, context):
     pass
 
   @abstractmethod
   def _learner_update(self, context, action, feedback):
     pass
 
-  def _model_init(self):
+  def _model_reset(self):
     """local initialization"""
     if not isinstance(self._bandit, LinearBanditItf):
       raise Exception(("%s: I don't understand",

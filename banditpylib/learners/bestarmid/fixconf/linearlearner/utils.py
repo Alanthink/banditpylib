@@ -19,7 +19,7 @@ class LinearLearner(FixConfBAILearner):
   def __init__(self, pars):
     super().__init__(pars)
 
-  def _model_init(self):
+  def _model_reset(self):
     """local initialization"""
     if not isinstance(self._bandit, LinearBanditItf):
       raise Exception(("%s: I don't understand",
@@ -39,11 +39,11 @@ class LinearLearner(FixConfBAILearner):
       self._em_arms[action].update(feedback[0])
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   @abstractmethod
-  def learner_run(self):
+  def learner_round(self):
     pass
 
   @abstractmethod

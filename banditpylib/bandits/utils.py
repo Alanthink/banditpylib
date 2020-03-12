@@ -1,7 +1,7 @@
 """
 Abstract class for the bandit environment.
 
-Before each trial is run, one has to call `init` function to initialize the
+Before each trial is run, one has to call `reset` function to initialize the
 environment. During each time step, `context` will return the
 current state of the environment. `feed` is used to pass the action to the
 environment for execution. The update of the state of is maintained by the
@@ -23,7 +23,7 @@ class Bandit(ABC):
     """name of the bandit environment"""
 
   @abstractmethod
-  def init(self):
+  def reset(self):
     """function to be called to initialize the environment"""
 
   # current state of the environment

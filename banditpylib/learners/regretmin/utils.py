@@ -3,7 +3,7 @@ Base class for a learner with goal regret minimization.
 
 Before each trial is run, a learner must be initialized with `init`. The first
 argument `bandit` is needed since during the initialization, a learner may want
-to ask the bandit for basic information. During each time step, `learner_choice`
+to ask the bandit for basic information. During each time step, `learner_step`
 is called to ask the learner for choice of the action. `update` is called by the
 protocol when the reward is obtained from the bandit environment.
 """
@@ -34,15 +34,15 @@ class RegretMinimizationLearner(Learner):
   def regret_def(self):
     return 'regret'
 
-  def _goal_init(self):
+  def _goal_reset(self):
     self.__rewards = 0
 
   @abstractmethod
-  def _model_init(self):
+  def _model_reset(self):
     pass
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   def _goal_update(self, context, action, feedback):
@@ -61,16 +61,16 @@ class RegretMinimizationLearner(Learner):
     return self.__rewards
 
   # pylint: disable=arguments-differ
-  def init(self, bandit):
+  def reset(self, bandit):
     # time starts from 1
     self._bandit = bandit
     self._t = 1
-    self._goal_init()
-    self._model_init()
-    self._learner_init()
+    self._goal_reset()
+    self._model_reset()
+    self._learner_reset()
 
   @abstractmethod
-  def learner_choice(self, context):
+  def learner_step(self, context):
     pass
 
   def update(self, context, action, feedback):

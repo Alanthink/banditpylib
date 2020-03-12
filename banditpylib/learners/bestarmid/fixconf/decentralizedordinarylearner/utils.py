@@ -16,12 +16,12 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
     super().__init__(pars)
 
   @abstractmethod
-  def _learner_init(self):
+  def _learner_reset(self):
     pass
 
   # pylint: disable=arguments-differ
   @abstractmethod
-  def learner_run(self, messages):
+  def learner_round(self, messages):
     pass
 
   @abstractmethod
@@ -32,7 +32,7 @@ class DecentralizedOrdinaryLearner(FixConfBAILearner):
   def best_arm(self):
     pass
 
-  def _model_init(self):
+  def _model_reset(self):
     """local initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
       raise Exception(("%s: I don't understand",

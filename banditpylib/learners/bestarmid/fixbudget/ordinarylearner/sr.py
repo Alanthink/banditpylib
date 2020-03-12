@@ -11,9 +11,14 @@ class SR(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    self._name = self._name if self._name else 'SR'
 
-  def _learner_init(self):
+  @property
+  def name(self):
+    if self._name:
+      return self._name
+    return 'SR'
+
+  def _learner_reset(self):
     # calculate bar_log_K
     self.__bar_log_K = 0.5
     for i in range(2, self._arm_num+1):
@@ -30,7 +35,7 @@ class SR(OrdinaryLearner):
       else:
         self.__pulls_per_round.append(nk[-1]-nk[-2])
 
-  def learner_run(self):
+  def learner_round(self):
     if self._budget < self._arm_num:
       # randomly output an arm
       self.__best_arm = np.random.randint(self._arm_num)
