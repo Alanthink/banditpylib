@@ -14,6 +14,7 @@ class Learner(ABC):
 
   def __init__(self, pars):
     self._name = pars['name'] if 'name' in pars else None
+    self.__ind_run = pars['ind_run'] if 'ind_run' in pars else False
 
   @property
   @abstractmethod
@@ -21,8 +22,14 @@ class Learner(ABC):
     """learner name"""
 
   @property
+  @abstractmethod
   def goal(self):
     """a string denoting the goal of the learner"""
+
+  @property
+  def ind_run(self):
+    """if true, all points plotted in figure should be independent"""
+    return self.__ind_run
 
   @abstractmethod
   def reset(self):

@@ -111,6 +111,7 @@ class Protocol(ABC):
           (self._players[0].name, self.type))
       self._regret_funcname, self._rewards_funcname = \
           get_funcname_of_regret_rewards(self._players[0].goal)
+      self._ind_run = self._players[0].ind_run
     else:
       # single player
       self._bandit = bandit
@@ -119,6 +120,7 @@ class Protocol(ABC):
           'run %s with protocol %s' % (learner.name, self.type))
       self._regret_funcname, self._rewards_funcname = \
           get_funcname_of_regret_rewards(self._player.goal)
+      self._ind_run = self._player.ind_run
 
     self.__output_file = output_file
     self._pars = running_pars
