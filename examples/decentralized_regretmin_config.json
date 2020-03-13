@@ -36,7 +36,7 @@
 		]
 	},
 	"running": {
-		"horizon": 100,
+		"horizons": [100],
 		"freq": 20,
 		"trials": 100,
 		"processors": 40

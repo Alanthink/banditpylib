@@ -10,10 +10,6 @@ class MOSS(OrdinaryLearner):
 
   def __init__(self, pars):
     super().__init__(pars)
-    if 'horizon' not in pars:
-      raise Exception('%s: I need to know the horizon!' % self.name)
-    else:
-      self.__horizon = pars['horizon']
 
   @property
   def name(self):
@@ -31,7 +27,7 @@ class MOSS(OrdinaryLearner):
 
     ucb = [arm.em_mean+
            np.sqrt(
-               max(0, np.log(self.__horizon/(self._arm_num*arm.pulls)))
+               max(0, np.log(self._horizon/(self._arm_num*arm.pulls)))
                /arm.pulls) for arm in self._em_arms]
 
     return np.argmax(ucb)

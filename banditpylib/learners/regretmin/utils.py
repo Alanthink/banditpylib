@@ -1,11 +1,11 @@
 """
 Base class for a learner with goal regret minimization.
 
-Before each trial is run, a learner must be initialized with `init`. The first
+Before each game is run, a learner must be initialized with `reset`. The first
 argument `bandit` is needed since during the initialization, a learner may want
 to ask the bandit for basic information. During each time step, `learner_step`
 is called to ask the learner for choice of the action. `update` is called by the
-protocol when the reward is obtained from the bandit environment.
+protocol when the reward is obtained from the environment.
 """
 from abc import abstractmethod
 
@@ -52,9 +52,9 @@ class RegretMinimizationLearner(Learner):
   def rewards(self):
     return self.__rewards
 
-  # pylint: disable=arguments-differ
-  def reset(self, bandit):
+  def reset(self, bandit, stop_cond):
     # time starts from 1
+    self._horizon = stop_cond
     self._bandit = bandit
     self._t = 1
     self._goal_reset()

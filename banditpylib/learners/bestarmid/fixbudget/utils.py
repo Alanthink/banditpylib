@@ -11,6 +11,10 @@ class FixBudgetBAILearner(BAILearner):
   def __init__(self, pars):
     super().__init__(pars)
 
+  @property
+  def goal(self):
+    return 'Fix Budget Best Arm Identification'
+
   def _goal_reset(self):
     pass
 
@@ -30,10 +34,9 @@ class FixBudgetBAILearner(BAILearner):
   def best_arm(self):
     pass
 
-  # pylint: disable=arguments-differ
-  def reset(self, bandit, budget):
+  def reset(self, bandit, stop_cond):
     self._bandit = bandit
-    self._budget = budget
+    self._budget = stop_cond
     self._goal_reset()
     self._model_reset()
     self._learner_reset()

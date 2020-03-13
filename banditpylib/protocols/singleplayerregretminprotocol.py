@@ -20,34 +20,34 @@ class SinglePlayerRegretMinProtocol(Protocol):
   def type(self):
     return 'SinglePlayerRegretMinProtocol'
 
-  @property
-  def __horizon(self):
-    return self._pars['horizon']
 
-  @property
-  def __frequency(self):
-    # frequency to record intermediate regret results
-    return self._pars['freq']
-
-  def _one_trial(self, seed):
+  def _one_trial(self, seed, stop_cond):
+    # stop_cond is horizon
     np.random.seed(seed)
 
     ############################################################################
     # initialization
     self._bandit.reset()
-    self._player.reset(self._bandit)
+    self._player.reset(self._bandit, stop_cond)
     ############################################################################
 
     regrets = dict()
-    for t in range(self.__horizon + 1):
-      if t > 0:
-        # simulation starts from t = 1
-        context = self._bandit.context
-        action = self._player.learner_step(context)
-        feedback = self._bandit.feed(action)
-        self._player.update(context, action, feedback)
-      if t % self.__frequency == 0:
-        # call a private method
+    regrets[0] = 0.0
+
+    if len(self._pars['horizons']) > 1:
+      # when there are multiple horizons, do not record intermedaite regrets
+      freq = stop_cond
+    else:
+      freq = self._pars['freq']
+
+    # simulation starts from t = 1
+    for t in range(1, stop_cond + 1):
+      context = self._bandit.context
+      action = self._player.learner_step(context)
+      feedback = self._bandit.feed(action)
+      self._player.update(context, action, feedback)
+      if t % freq == 0:
+        # record the intermediate regret
         regrets[t] = getattr(self._bandit, self._regret_funcname)(
             getattr(self._player, self._rewards_funcname)())
     return dict({self._player.name: regrets})

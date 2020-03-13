@@ -1,9 +1,9 @@
 """
 Abstract class of the protocol which is used to coordinate the interactions
-between the learner and the specified bandit environment.
+between the learner and the environment.
 
-For each setup, just call `play` to start simulation. A protocol should
-implement `_one_trial` method to define how to run one trial of experiment.
+For each setup, just call `play` to start the game simulation. A protocol should
+implement `_one_trial` method to define how to run one trial of the game.
 """
 import json
 import time
@@ -21,10 +21,21 @@ __all__ = ['Protocol', 'current_time']
 
 
 def get_funcname_of_regret_rewards(goal):
-  if goal == 'Best Arm Identification':
+  if 'Best Arm Identification' in goal:
     return ('best_arm_regret', 'best_arm')
   elif goal == 'Regret Minimization':
     return ('regret', 'rewards')
+  else:
+    raise Exception('Unknown goal!')
+
+
+def get_stop_cond(goal):
+  if goal == 'Fix Budget Best Arm Identification':
+    return 'budgets'
+  elif goal == 'Fix Confidence Best Arm Identification':
+    return 'fail_probs'
+  elif goal == 'Regret Minimization':
+    return 'horizons'
   else:
     raise Exception('Unknown goal!')
 
@@ -45,7 +56,7 @@ class Protocol(ABC):
 
   @property
   def __trials(self):
-    """# of trials of the experiment"""
+    """number of trials of the game"""
     return self._pars['trials']
 
   @property
@@ -56,32 +67,27 @@ class Protocol(ABC):
     return multiprocessing.cpu_count()
 
   @abstractmethod
-  def _one_trial(self, seed):
-    """one trial experiment"""
+  def _one_trial(self, seed, stop_cond):
+    """one trial of the game"""
 
   def __write_to_file(self, data):
     """write the result of one trial to file
 
-    input:
+    Input:
       data: the result of one trial
     """
     with open(self.__output_file, 'a') as f:
-      if isinstance(data, list):
-        for item in data:
-          json.dump(item, f)
-          f.write('\n')
-      else:
-        json.dump(data, f)
-        f.write('\n')
+      json.dump(data, f)
+      f.write('\n')
       f.flush()
 
-  def __multi_proc(self):
+  def __multi_proc(self, stop_cond):
     """multi-processes helper"""
     pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
       result = pool.apply_async(
-          self._one_trial, args=(current_time(), ),
+          self._one_trial, args=(current_time(), stop_cond, ),
           callback=self.__write_to_file)
 
       if FLAGS.debug:
@@ -96,11 +102,11 @@ class Protocol(ABC):
 
   def play(self, bandit, learner, running_pars, output_file):
     """
-    input:
-      bandit: bandit of the setup
-      learner: learner of the setup
-      running_pars: parameters used for this experiment
-      output_file: file to store the results of the experiment
+    Input:
+      bandit: environment
+      learner: learner
+      running_pars: running parameters
+      output_file: file used to store the results
     """
     if isinstance(bandit, list):
       # multiple players
@@ -111,6 +117,7 @@ class Protocol(ABC):
           (self._players[0].name, self.type))
       self._regret_funcname, self._rewards_funcname = \
           get_funcname_of_regret_rewards(self._players[0].goal)
+      self.__stop_cond = running_pars[get_stop_cond(self._players[0].goal)]
     else:
       # single player
       self._bandit = bandit
@@ -119,10 +126,12 @@ class Protocol(ABC):
           'run %s with protocol %s' % (learner.name, self.type))
       self._regret_funcname, self._rewards_funcname = \
           get_funcname_of_regret_rewards(self._player.goal)
+      self.__stop_cond = running_pars[get_stop_cond(self._player.goal)]
 
     self.__output_file = output_file
     self._pars = running_pars
 
     start_time = time.time()
-    self.__multi_proc()
+    for stop_cond in self.__stop_cond:
+      self.__multi_proc(stop_cond)
     logging.info('%.2f seconds elapsed' % (time.time()-start_time))
