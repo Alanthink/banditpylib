@@ -6,6 +6,8 @@ environment. During each time step, `context` will return the
 current state of the environment. `feed` is used to pass the action to the
 environment for execution. The update of the state of is maintained by the
 bandit itself using `_update_context`.
+
+The bandit environment should HIDE the sensitive information from outside.
 """
 from abc import ABC, abstractmethod
 

@@ -29,25 +29,9 @@ class SinglePlayerRegretMinProtocol(Protocol):
     # frequency to record intermediate regret results
     return self._pars['freq']
 
-  def __independent_run(self):
-    regrets = dict()
-    for t in range(self.__horizon + 1):
-      if t % self.__frequency == 0:
-        ########################################################################
-        # initialization
-        self._bandit.reset()
-        self._player.reset(self._bandit)
-        ########################################################################
-        for _ in range(t):
-          context = self._bandit.context
-          action = self._player.learner_step(context)
-          feedback = self._bandit.feed(action)
-          self._player.update(context, action, feedback)
-        regrets[t] = getattr(self._bandit, self._regret_funcname)(
-            getattr(self._player, self._rewards_funcname)())
-    return dict({self._player.name: regrets})
+  def _one_trial(self, seed):
+    np.random.seed(seed)
 
-  def __dependent_run(self):
     ############################################################################
     # initialization
     self._bandit.reset()
@@ -63,12 +47,7 @@ class SinglePlayerRegretMinProtocol(Protocol):
         feedback = self._bandit.feed(action)
         self._player.update(context, action, feedback)
       if t % self.__frequency == 0:
+        # call a private method
         regrets[t] = getattr(self._bandit, self._regret_funcname)(
             getattr(self._player, self._rewards_funcname)())
     return dict({self._player.name: regrets})
-
-  def _one_trial(self, seed):
-    np.random.seed(seed)
-    if self._ind_run:
-      return self.__independent_run()
-    return self.__dependent_run()
