@@ -26,15 +26,6 @@ class DecentralizedRegretMinProtocol(Protocol):
   def type(self):
     return 'DecentralizedRegretMinProtocol'
 
-  @property
-  def __horizon(self):
-    return self._pars['horizon']
-
-  @property
-  def __frequency(self):
-    # frequency to record intermediate regret results
-    return self._pars['freq']
-
   def _one_round(self):
     # sample player
     k = randint(0, self.__num_players-1)
@@ -50,7 +41,7 @@ class DecentralizedRegretMinProtocol(Protocol):
     if message:
       self.__messages[message[0]].update(message[1])
 
-  def _one_trial(self, seed):
+  def _one_trial(self, seed, stop_cond):
     np.random.seed(seed)
     self.__messages = [EmArm() for ind in range(self._bandits[0].arm_num)]
 
@@ -60,14 +51,20 @@ class DecentralizedRegretMinProtocol(Protocol):
       bandit = self._bandits[k]
       player = self._players[k]
       bandit.reset()
-      player.reset(bandit)
+      player.reset(bandit, stop_cond)
     ############################################################################
 
+    if len(self._pars['horizons']) > 1:
+      # when there are multiple horizons, do not record intermedaite regrets
+      freq = stop_cond
+    else:
+      freq = self._pars['freq']
+
     regrets = dict()
-    for t in range(self.__horizon + 1):
-      if t > 0:
-        self._one_round()
-      if t > 0 and t % self.__frequency == 0:
+    regrets[0] = 0.0
+    for t in range(1, stop_cond + 1):
+      self._one_round()
+      if t % freq == 0:
         regrets[t] = self.__regret()
     return dict({self._players[0].name: regrets})
 

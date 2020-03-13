@@ -21,8 +21,9 @@ class BAILearner(Learner):
     super().__init__(pars)
 
   @property
+  @abstractmethod
   def goal(self):
-    return 'Best Arm Identification'
+    pass
 
   @abstractmethod
   def best_arm(self):
@@ -33,5 +34,5 @@ class BAILearner(Learner):
     """one round of running"""
 
   @abstractmethod
-  def reset(self):
+  def reset(self, bandit, stop_cond):
     pass

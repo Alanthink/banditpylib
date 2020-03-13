@@ -1,13 +1,11 @@
 """
 Abstract class for the bandit environment.
 
-Before each trial is run, one has to call `reset` function to initialize the
+Before each game is run, one has to call `reset` function to initialize the
 environment. During each time step, `context` will return the
 current state of the environment. `feed` is used to pass the action to the
 environment for execution. The update of the state of is maintained by the
 bandit itself using `_update_context`.
-
-The bandit environment should HIDE the sensitive information from outside.
 """
 from abc import ABC, abstractmethod
 
@@ -35,12 +33,12 @@ class Bandit(ABC):
   @abstractmethod
   def _take_action(self, action):
     """
-    input:
+    Input:
       action: an integer or a list of two-tuples; if it is a list of two-tuples,
       in each two-tuple, the first item is the arm index; the second item is
       the number of actions to be taken; if it is an integer, it is assumed the
       arm index and will be pulled one time.
-    return:
+    Return:
       reward or a list of rewards
     """
 
@@ -50,9 +48,9 @@ class Bandit(ABC):
 
   def feed(self, action):
     """
-    input:
+    Input:
       action: an integer denoting which action to take
-    return:
+    Return:
       feedback: a tuple and feedback[0] denotes the reward
     """
     feedback = self._take_action(action)

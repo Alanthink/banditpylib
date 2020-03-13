@@ -11,6 +11,10 @@ class FixConfBAILearner(BAILearner):
   def __init__(self, pars):
     super().__init__(pars)
 
+  @property
+  def goal(self):
+    return 'Fix Confidence Best Arm Identification'
+
   def _goal_reset(self):
     pass
 
@@ -26,10 +30,9 @@ class FixConfBAILearner(BAILearner):
   def best_arm(self):
     pass
 
-  # pylint: disable=arguments-differ
-  def reset(self, bandit, fail_prob):
+  def reset(self, bandit, stop_cond):
     self._bandit = bandit
-    self._fail_prob = fail_prob
+    self._fail_prob = stop_cond
     self._goal_reset()
     self._model_reset()
     self._learner_reset()

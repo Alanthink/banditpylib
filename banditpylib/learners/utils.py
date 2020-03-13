@@ -1,8 +1,7 @@
 """
 Abstract class for a learner.
 
-Before each trial is run, a learner should be initialized with `reset`. The
-parameters of `reset` may not be the same for different types of learners.
+Before a game runs, a learner should be initialized with `reset`.
 """
 from abc import ABC, abstractmethod
 
@@ -21,12 +20,13 @@ class Learner(ABC):
     """learner name"""
 
   @property
+  @abstractmethod
   def goal(self):
-    """a string denoting the goal of the learner"""
+    """goal of the learner"""
 
   @abstractmethod
-  def reset(self):
+  def reset(self, bandit, stop_cond):
     """learner initialization
 
-    This function should be called before the start of each trial of experiment.
+    This function should be called before the start of the game.
     """
