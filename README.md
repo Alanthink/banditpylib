@@ -59,7 +59,7 @@ pip install .
 
 ![output example](example.jpg)
 
-Please check this [notebook](examples/notebook.ipynb) for more details.
+Please check this [notebook](examples/use_existing_policies.ipynb) for more details.
 
 ## Running the Tests
 
