@@ -20,9 +20,7 @@ class ExpGap(OrdinaryLearner):
     super().__init__(pars)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'ExpGap'
 
   def _learner_reset(self):

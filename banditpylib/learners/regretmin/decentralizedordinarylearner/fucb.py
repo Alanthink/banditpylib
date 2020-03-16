@@ -15,9 +15,7 @@ class FUCB(DecentralizedOrdinaryLearner):
       raise Exception('%s: alpha should be greater than 0!' % self.name)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'FUCB'
 
   def _learner_reset(self):

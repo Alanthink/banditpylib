@@ -12,12 +12,19 @@ class Learner(ABC):
   """abstract class for learners"""
 
   def __init__(self, pars):
-    self._name = pars['name'] if 'name' in pars else None
+    self.__name = pars['name'] if 'name' in pars else None
+
+  @property
+  def name(self):
+    """learner name"""
+    if self.__name:
+      return self.__name
+    return self._name
 
   @property
   @abstractmethod
-  def name(self):
-    """learner name"""
+  def _name(self):
+    """learner default name"""
 
   @property
   @abstractmethod

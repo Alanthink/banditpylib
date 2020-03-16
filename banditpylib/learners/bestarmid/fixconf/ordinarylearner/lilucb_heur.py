@@ -18,9 +18,7 @@ class lilUCB_heur(OrdinaryLearner):
     super().__init__(pars)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'lilUCB_heur'
 
   def __bonus(self, times):

@@ -16,9 +16,7 @@ class EpsGreedy(OrdinaryLearner):
     self.__eps = float(pars['eps']) if 'eps' in pars else 1
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'EpsilonGreedy'
 
   def _learner_reset(self):

@@ -15,9 +15,7 @@ class UCBV(OrdinaryLearner):
       raise Exception('%s: eta should be greater than 1!' % self.name)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'UCBV'
 
   def _learner_reset(self):

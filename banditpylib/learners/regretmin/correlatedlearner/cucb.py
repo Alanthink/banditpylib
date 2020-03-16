@@ -16,9 +16,7 @@ class CUCB(CorrelatedLearner):
       raise Exception('%s: alpha should be greater than 0!' % self.name)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'CUCB'
 
   def _learner_reset(self):

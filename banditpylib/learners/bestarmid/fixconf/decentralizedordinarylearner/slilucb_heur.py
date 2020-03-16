@@ -14,9 +14,7 @@ class SlilUCB_heur(DecentralizedOrdinaryLearner):
     super().__init__(pars)
 
   @property
-  def name(self):
-    if self._name:
-      return self._name
+  def _name(self):
     return 'SlilLUCB_heur'
 
   def __bonus(self, times):
