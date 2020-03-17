@@ -1,3 +1,5 @@
+import numpy as np
+
 from .utils import OrdinaryLearner
 
 __all__ = ['Uniform']
@@ -17,10 +19,11 @@ class Uniform(OrdinaryLearner):
     pass
 
   def learner_round(self):
-    for r in range(self._budget):
-      action = r % self._arm_num
-      feedback = self._bandit.feed(action)
-      self._model_update(action, feedback)
+    rnd_array = np.random.multinomial(
+        self._budget, np.ones(self._arm_num)/self._arm_num, size=1)[0]
+    action = [(ind, rnd_array[ind]) for ind in range(self._arm_num)]
+    feedback = self._bandit.feed(action)
+    self._model_update(action, feedback)
 
   def best_arm(self):
     return max([(ind, arm.em_mean)

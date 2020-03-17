@@ -36,7 +36,7 @@ A lightweight python library for bandit algorithms
 
 | Protocol | Bandit Type | Policies |
 | :---         |     :---      |      :--- |
-| Single Player   | Ordinary Bandit     | `Uniform`, `SR` [[7]](#AB10)  |
+| Single Player   | Ordinary Bandit     | `Uniform`, `SR` [[7]](#AB10), `SH`  [[9]](#KKS13) |
 
 #### Fixed Confidence
 
