@@ -1,4 +1,4 @@
-from .utils import OrdinaryLearner
+from . import OrdinaryLearner
 
 __all__ = ['Uniform']
 
@@ -17,7 +17,11 @@ class Uniform(OrdinaryLearner):
     pass
 
   def learner_step(self, context):
-    """return an arm to pull"""
+    """return an arm to play at time ``self._t``
+
+    Return:
+      an integer in [0, ``self._arm_num``)
+    """
     return (self._t-1) % self._arm_num
 
   def _learner_update(self, context, action, feedback):
