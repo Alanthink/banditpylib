@@ -50,6 +50,7 @@ class Bandit(ABC):
     """
     Input:
       action: an integer denoting which action to take
+
     Return:
       feedback: a tuple and feedback[0] denotes the reward
     """
