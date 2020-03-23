@@ -31,7 +31,7 @@ LEARNER_PKG = 'banditpylib.learners'
 PROTOCOL_PKG = 'banditpylib.protocols'
 
 
-class Constants():
+class _constants():
   """class for storing modular constants"""
   config = None
   data = None
@@ -39,7 +39,7 @@ class Constants():
   ana_df = None
 
 
-def draw_regretmin(data):
+def _draw_regretmin(data):
   col_learners = []
   col_horizons = []
   col_regrets = []
@@ -74,7 +74,7 @@ def draw_regretmin(data):
   return analysis
 
 
-def draw_fixbudgetbai(data):
+def _draw_fixbudgetbai(data):
   col_learners = []
   col_budgets = []
   col_regrets = []
@@ -107,7 +107,7 @@ def draw_fixbudgetbai(data):
   return analysis
 
 
-def draw_fixconfbai(data):
+def _draw_fixconfbai(data):
   col_learners = []
   col_fail_prob = []
   col_samples = []
@@ -145,22 +145,22 @@ def draw_fixconfbai(data):
 
 def _plot(argv):
   del argv
-  if not Constants.data:
+  if not _constants.data:
     raise Exception('Data is empty!')
   if not FLAGS.goal:
     raise Exception('Please specify the goal of learners!')
   elif FLAGS.goal == 'regretmin':
-    Constants.ana_df = draw_regretmin(Constants.data)
+    _constants.ana_df = _draw_regretmin(_constants.data)
   elif FLAGS.goal == 'bestarmid.fixbudget':
-    Constants.ana_df = draw_fixbudgetbai(Constants.data)
+    _constants.ana_df = _draw_fixbudgetbai(_constants.data)
   elif FLAGS.goal == 'bestarmid.fixconf':
-    Constants.ana_df = draw_fixconfbai(Constants.data)
+    _constants.ana_df = _draw_fixconfbai(_constants.data)
   else:
     raise Exception('No specified goal!')
 
 
 def plot(data, goal='', novar=False, save_fig=''):
-  Constants.data = data
+  _constants.data = data
   if goal:
     FLAGS.goal = goal
   FLAGS.novar = novar
@@ -168,10 +168,10 @@ def plot(data, goal='', novar=False, save_fig=''):
   try:
     app.run(_plot)
   except SystemExit:
-    return Constants.ana_df
+    return _constants.ana_df
 
 
-def parse(config, new_policies):
+def _parse(config, new_policies):
   setups = []
   bandit_name = config['environment']['bandit']
   Bandit = getattr(import_module(BANDIT_PKG), bandit_name)
@@ -232,7 +232,7 @@ def _run(argv):
   else:
     logging.set_verbosity(logging.INFO)
 
-  setups, running_pars = parse(Constants.config, Constants.new_policies)
+  setups, running_pars = _parse(_constants.config, _constants.new_policies)
   try:
     temp_dir = tempfile.mkdtemp()
     data_file = os.path.join(temp_dir, FLAGS.out)
@@ -245,14 +245,14 @@ def _run(argv):
     os.remove(data_file)
   finally:
     os.rmdir(temp_dir)
-  Constants.data = data
+  _constants.data = data
 
 
 def run(config, new_policies=None, debug=False):
-  Constants.config = config
-  Constants.new_policies = new_policies
+  _constants.config = config
+  _constants.new_policies = new_policies
   FLAGS.debug = debug
   try:
     app.run(_run)
   except SystemExit:
-    return Constants.data
+    return _constants.data

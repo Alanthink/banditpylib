@@ -8,7 +8,7 @@ __all__ = ['OrdinaryLearner']
 
 
 class OrdinaryLearner(RegretMinimizationLearner):
-  """base class for learners in the classic bandit model"""
+  """base class for learners in the ordinary multi-armed bandit"""
 
   def __init__(self, pars):
     super().__init__(pars)
@@ -19,14 +19,17 @@ class OrdinaryLearner(RegretMinimizationLearner):
 
   @abstractmethod
   def learner_step(self, context):
-    pass
+    """return an arm to play at time ``self._t``
+
+    Return:
+      an integer in [0, ``self._arm_num``)
+    """
 
   @abstractmethod
   def _learner_update(self, context, action, feedback):
     pass
 
   def _model_reset(self):
-    """local initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
       raise Exception(("%s: I don't understand",
                        " the bandit environment!") % self.name)

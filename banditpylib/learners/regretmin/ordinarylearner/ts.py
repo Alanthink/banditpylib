@@ -6,21 +6,22 @@ __all__ = ['TS']
 
 
 class TS(OrdinaryLearner):
-  """
-  Thompson Sampling policy. Reward should be Bernoulli when Beta prior
-  is chosen.
+  r"""
+  Thompson Sampling policy :cite:`agrawal2017near`.
 
-  At time ``self._t``, sample a virtual mean from the posterior distribution for
-  every arm. Play the arm with the maximum sampled virtual mean.
+  Assume a prior distribution for every arm. At time :math:`t`, sample a
+  virtual mean from the posterior distribution for every arm. Play the arm with
+  the maximum sampled virtual mean.
 
-  See :cite:`agrawal2017near` for more details.
+  .. warning::
+    Reward should be Bernoulli when Beta prior is chosen.
   """
 
   def __init__(self, pars):
     """
     Args:
-      ``pars``: a dictionary. Key ``'prior'`` has value ``'beta'`` or
-       ``'gaussian'``. Default value is ``'beta'``.
+      ``pars``: a dictionary. Key ``'prior'`` (*optional*) has value ``'beta'``
+       or ``'gaussian'``. Default value is ``'beta'``.
     """
     super().__init__(pars)
     # set Beta prior by default
@@ -54,11 +55,6 @@ class TS(OrdinaryLearner):
     return np.argmax(vir_means)
 
   def learner_step(self, context):
-    """return an arm to play at time ``self._t``
-
-    Return:
-      an integer in [0, ``self._arm_num``)
-    """
     if self.__prior == 'beta':
       return self.__beta_prior()
     return self.__gaussian_prior()
