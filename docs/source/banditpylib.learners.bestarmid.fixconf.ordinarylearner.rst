@@ -1,24 +1,17 @@
-banditpylib.learners.bestarmid.fixconf.ordinarylearner
-======================================================
+banditpylib.learners.bestarmid.fixconf.ordinarylearner package
+==============================================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixconf.ordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap
+   banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur
+   banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils

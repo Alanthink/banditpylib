@@ -1,29 +1,18 @@
-banditpylib.learners.regretmin.decentralizedordinarylearner
-===========================================================
+banditpylib.learners.regretmin.decentralizedordinarylearner package
+===================================================================
 
 .. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.fucb
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.sucb
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.uniform
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.regretmin.decentralizedordinarylearner.fucb
+   banditpylib.learners.regretmin.decentralizedordinarylearner.sucb
+   banditpylib.learners.regretmin.decentralizedordinarylearner.uniform
+   banditpylib.learners.regretmin.decentralizedordinarylearner.utils

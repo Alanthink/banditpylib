@@ -1,19 +1,16 @@
-banditpylib.learners.bestarmid.fixconf.linearlearner
-====================================================
+banditpylib.learners.bestarmid.fixconf.linearlearner package
+============================================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixconf.linearlearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.linearlearner.lingape
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.linearlearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.bestarmid.fixconf.linearlearner.lingape
+   banditpylib.learners.bestarmid.fixconf.linearlearner.utils

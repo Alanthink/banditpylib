@@ -1,39 +1,27 @@
-banditpylib.bandits
-===================
+banditpylib.bandits package
+===========================
 
 .. automodule:: banditpylib.bandits
    :members:
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.bandits.arms
 
+Submodules
+----------
 
-.. automodule:: banditpylib.bandits.linearbandit
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.bandits.ordinarybandit
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.bandits.ordinarymnlbandit
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.bandits.ordinarymnlbandit_test
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.bandits.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.bandits.linearbandit
+   banditpylib.bandits.ordinarybandit
+   banditpylib.bandits.ordinarymnlbandit
+   banditpylib.bandits.ordinarymnlbandit_test
+   banditpylib.bandits.utils

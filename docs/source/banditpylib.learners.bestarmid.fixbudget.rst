@@ -1,19 +1,23 @@
-banditpylib.learners.bestarmid.fixbudget
-========================================
+banditpylib.learners.bestarmid.fixbudget package
+================================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixbudget
    :members:
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.learners.bestarmid.fixbudget.ordinarylearner
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.bestarmid.fixbudget.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
+   banditpylib.learners.bestarmid.fixbudget.utils

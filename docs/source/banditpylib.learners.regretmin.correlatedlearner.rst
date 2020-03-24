@@ -1,19 +1,16 @@
-banditpylib.learners.regretmin.correlatedlearner
-================================================
+banditpylib.learners.regretmin.correlatedlearner package
+========================================================
 
 .. automodule:: banditpylib.learners.regretmin.correlatedlearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.regretmin.correlatedlearner.cucb
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.regretmin.correlatedlearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.regretmin.correlatedlearner.cucb
+   banditpylib.learners.regretmin.correlatedlearner.utils

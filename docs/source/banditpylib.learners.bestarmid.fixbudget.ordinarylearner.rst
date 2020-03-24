@@ -1,29 +1,18 @@
-banditpylib.learners.bestarmid.fixbudget.ordinarylearner
-========================================================
+banditpylib.learners.bestarmid.fixbudget.ordinarylearner package
+================================================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh
+   banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr
+   banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform
+   banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils

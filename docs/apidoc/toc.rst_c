@@ -1,0 +1,7 @@
+{{ header | heading }}
+
+.. toctree::
+   :maxdepth: 4
+{% for docname in docnames %}
+   {{ docname }}
+{%- endfor %}

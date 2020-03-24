@@ -7,15 +7,16 @@
 
 {%- macro toctree(docnames) -%}
 .. toctree::
+   :maxdepth: 4
 {% for docname in docnames %}
    {{ docname }}
 {%- endfor %}
 {%- endmacro %}
 
 {%- if is_namespace %}
-{{- [pkgname] | join(" ") | e | heading }}
+{{- [pkgname, "namespace"] | join(" ") | e | heading }}
 {% else %}
-{{- [pkgname] | join(" ") | e | heading }}
+{{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}
 
 {%- if modulefirst and not is_namespace %}
@@ -23,15 +24,22 @@
 {% endif %}
 
 {%- if subpackages %}
+Subpackages
+-----------
 
 {{ toctree(subpackages) }}
 {% endif %}
 
 {%- if submodules %}
+Submodules
+----------
 {% if separatemodules %}
 {{ toctree(submodules) }}
 {%- else %}
 {%- for submodule in submodules %}
+{% if show_headings %}
+{{- [submodule, "module"] | join(" ") | e | heading(2) }}
+{% endif %}
 {{ automodule(submodule, automodule_options) }}
 {% endfor %}
 {%- endif %}

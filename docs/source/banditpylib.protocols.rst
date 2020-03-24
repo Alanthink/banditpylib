@@ -1,34 +1,19 @@
-banditpylib.protocols
-=====================
+banditpylib.protocols package
+=============================
 
 .. automodule:: banditpylib.protocols
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.protocols.decentralizedpsprotocol
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.protocols.decentralizedregretminprotocol
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.protocols.singleplayerpsprotocol
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.protocols.singleplayerregretminprotocol
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.protocols.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.protocols.decentralizedpsprotocol
+   banditpylib.protocols.decentralizedregretminprotocol
+   banditpylib.protocols.singleplayerpsprotocol
+   banditpylib.protocols.singleplayerregretminprotocol
+   banditpylib.protocols.utils

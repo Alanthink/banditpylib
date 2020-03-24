@@ -1,24 +1,17 @@
-banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner
-===================================================================
+banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner package
+===========================================================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur
+   banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur
+   banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils

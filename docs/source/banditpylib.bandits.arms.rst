@@ -1,24 +1,17 @@
-banditpylib.bandits.arms
-========================
+banditpylib.bandits.arms package
+================================
 
 .. automodule:: banditpylib.bandits.arms
    :members:
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
 
-.. automodule:: banditpylib.bandits.arms.bernoulliarm
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: banditpylib.bandits.arms.gaussianarm
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: banditpylib.bandits.arms.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   banditpylib.bandits.arms.bernoulliarm
+   banditpylib.bandits.arms.gaussianarm
+   banditpylib.bandits.arms.utils
