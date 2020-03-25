@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>banditpylib.protocols.utils &mdash; banditpylib 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">banditpylib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../banditpylib.html">banditpylib</a> &raquo;</li>
+        
+      <li>banditpylib.protocols.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for banditpylib.protocols.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Abstract class of the protocol which is used to coordinate the interactions</span>
+<span class="sd">between the learner and the environment.</span>
+
+<span class="sd">For each setup, just call `play` to start the game simulation. A protocol should</span>
+<span class="sd">implement `_one_trial` method to define how to run one trial of the game.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">flags</span>
+<span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">logging</span>
+
+<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">FLAGS</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">,</span> <span class="s1">&#39;current_time&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">get_funcname_of_regret_rewards</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
+  <span class="k">if</span> <span class="s1">&#39;Best Arm Identification&#39;</span> <span class="ow">in</span> <span class="n">goal</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;best_arm_regret&#39;</span><span class="p">,</span> <span class="s1">&#39;best_arm&#39;</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Regret Minimization&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;regret&#39;</span><span class="p">,</span> <span class="s1">&#39;rewards&#39;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown goal!&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_stop_cond</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Fix Budget Best Arm Identification&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;budgets&#39;</span>
+  <span class="k">elif</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Fix Confidence Best Arm Identification&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;fail_probs&#39;</span>
+  <span class="k">elif</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Regret Minimization&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;horizons&#39;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown goal!&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># for generating random seeds</span>
+<div class="viewcode-block" id="current_time"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.current_time">[docs]</a><span class="k">def</span> <span class="nf">current_time</span><span class="p">():</span>
+  <span class="n">tem_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+  <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">tem_time</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">tem_time</span><span class="p">))</span><span class="o">*</span><span class="mi">10000000</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Protocol"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol">[docs]</a><span class="k">class</span> <span class="nc">Protocol</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;abstract protocol class&quot;&quot;&quot;</span>
+
+  <span class="nd">@property</span>
+  <span class="nd">@abstractmethod</span>
+  <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;type of the protocol&quot;&quot;&quot;</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">__trials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;number of trials of the game&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pars</span><span class="p">[</span><span class="s1">&#39;trials&#39;</span><span class="p">]</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">__processors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;maximum number of processors can be used&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;processors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pars</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pars</span><span class="p">[</span><span class="s1">&#39;processors&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pars</span><span class="p">[</span><span class="s1">&#39;processors&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+
+  <span class="nd">@abstractmethod</span>
+  <span class="k">def</span> <span class="nf">_one_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;one trial of the game&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;write the result of one trial to file</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">      data: the result of one trial</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__output_file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">__multi_proc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;multi-processes helper&quot;&quot;&quot;</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__processors</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__trials</span><span class="p">):</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_one_trial</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">current_time</span><span class="p">(),</span> <span class="n">stop_cond</span><span class="p">,</span> <span class="p">),</span>
+          <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__write_to_file</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+        <span class="c1"># for debugging purposes</span>
+        <span class="c1"># to make sure error info of subprocesses will be reported</span>
+        <span class="c1"># this flag could heavily increase the running time</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="c1"># can not apply for processes any more</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Protocol.play"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol.play">[docs]</a>  <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">learner</span><span class="p">,</span> <span class="n">running_pars</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Input:</span>
+<span class="sd">      bandit: environment</span>
+<span class="sd">      learner: learner</span>
+<span class="sd">      running_pars: running parameters</span>
+<span class="sd">      output_file: file used to store the results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bandit</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+      <span class="c1"># multiple players</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_bandits</span> <span class="o">=</span> <span class="n">bandit</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_players</span> <span class="o">=</span> <span class="n">learner</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+          <span class="s1">&#39;run </span><span class="si">%s</span><span class="s1"> using protocol </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+          <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_regret_funcname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rewards_funcname</span> <span class="o">=</span> \
+          <span class="n">get_funcname_of_regret_rewards</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">__stop_cond</span> <span class="o">=</span> <span class="n">running_pars</span><span class="p">[</span><span class="n">get_stop_cond</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># single player</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span> <span class="o">=</span> <span class="n">bandit</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_player</span> <span class="o">=</span> <span class="n">learner</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+          <span class="s1">&#39;run </span><span class="si">%s</span><span class="s1"> with protocol </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">learner</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_regret_funcname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rewards_funcname</span> <span class="o">=</span> \
+          <span class="n">get_funcname_of_regret_rewards</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_player</span><span class="o">.</span><span class="n">goal</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">__stop_cond</span> <span class="o">=</span> <span class="n">running_pars</span><span class="p">[</span><span class="n">get_stop_cond</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_player</span><span class="o">.</span><span class="n">goal</span><span class="p">)]</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">__output_file</span> <span class="o">=</span> <span class="n">output_file</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_pars</span> <span class="o">=</span> <span class="n">running_pars</span>
+
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">stop_cond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stop_cond</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">__multi_proc</span><span class="p">(</span><span class="n">stop_cond</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1"> seconds elapsed&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Chester Holtz, Chao Tao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
