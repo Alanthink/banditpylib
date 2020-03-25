@@ -12,7 +12,8 @@ __all__ = ['lilUCB_heur']
 
 
 class lilUCB_heur(OrdinaryLearner):
-  """lilUCB heuristic"""
+  """lilUCB heuristic policy :cite:`jamieson2014lil`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

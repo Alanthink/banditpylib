@@ -7,7 +7,8 @@ __all__ = ['SH']
 
 
 class SH(OrdinaryLearner):
-  """sequential halving"""
+  """sequential halving policy :cite:`karnin2013almost`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

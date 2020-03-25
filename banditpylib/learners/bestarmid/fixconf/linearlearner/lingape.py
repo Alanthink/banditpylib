@@ -10,7 +10,8 @@ __all__ = ['LinGapE']
 
 
 class LinGapE(LinearLearner):
-  """LinGapE"""
+  """LinGapE policy :cite:`xu2017fully`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

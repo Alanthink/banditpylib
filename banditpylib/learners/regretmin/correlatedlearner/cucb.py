@@ -7,7 +7,8 @@ __all__ = ['CUCB']
 
 
 class CUCB(CorrelatedLearner):
-  """CUCB"""
+  """CUCB policy :cite:`gupta2018exploiting`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

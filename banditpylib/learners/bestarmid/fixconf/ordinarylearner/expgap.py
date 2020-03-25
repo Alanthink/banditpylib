@@ -14,7 +14,9 @@ __all__ = ['ExpGap']
 
 
 class ExpGap(OrdinaryLearner):
-  """Exponential-Gap Elimination"""
+  """Exponential-Gap Elimination policy :cite:`karnin2013almost`,
+  `Gupta2019MultiArmedBW`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

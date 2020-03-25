@@ -13,7 +13,7 @@ __all__ = ['DecentralizedRegretMinProtocol']
 
 
 class DecentralizedRegretMinProtocol(Protocol):
-  """decentralized regret minimization protocol
+  """decentralized regret minimization protocol :cite:`feraud2018decentralized`.
   """
 
   def __init__(self, pars):

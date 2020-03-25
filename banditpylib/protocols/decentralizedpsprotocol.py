@@ -13,7 +13,7 @@ __all__ = ['DecentralizedPEProtocol']
 
 
 class DecentralizedPEProtocol(Protocol):
-  """decentralized pure exploration protocol
+  """decentralized pure exploration protocol :cite:`feraud2018decentralized`.
   """
 
   def __init__(self, pars):

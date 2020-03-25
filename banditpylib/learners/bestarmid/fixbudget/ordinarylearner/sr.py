@@ -7,7 +7,8 @@ __all__ = ['SR']
 
 
 class SR(OrdinaryLearner):
-  """successive elimination"""
+  """successive elimination policy :cite:`audibert2010best`.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)
