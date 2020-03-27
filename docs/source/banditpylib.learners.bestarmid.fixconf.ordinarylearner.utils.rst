@@ -1,6 +1,5 @@
-banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils module
-===================================================================
-
+utils module
+============
 .. automodule:: banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils
    :members:
    :undoc-members:

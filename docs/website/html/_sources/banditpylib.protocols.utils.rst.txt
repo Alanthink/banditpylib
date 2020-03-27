@@ -1,6 +1,5 @@
-banditpylib.protocols.utils module
-==================================
-
+utils module
+============
 .. automodule:: banditpylib.protocols.utils
    :members:
    :undoc-members:

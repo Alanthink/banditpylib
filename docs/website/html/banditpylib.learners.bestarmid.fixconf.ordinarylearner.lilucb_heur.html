@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur module &mdash; banditpylib 0.0.3 documentation</title>
+  <title>lilucb_heur module &mdash; banditpylib 0.0.3 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils module" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html" />
-    <link rel="prev" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap module" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" /> 
+    <link rel="next" title="utils module" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html" />
+    <link rel="prev" title="expgap module" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,12 +85,14 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.html">banditpylib.bandits package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
 </ul>
 </li>
 </ul>
@@ -145,15 +147,15 @@
         
           <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.html">banditpylib.learners package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.bestarmid.html">banditpylib.learners.bestarmid package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.bestarmid.html">bestarmid package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.bestarmid.fixconf.html">banditpylib.learners.bestarmid.fixconf package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.bestarmid.fixconf.html">fixconf package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html">banditpylib.learners.bestarmid.fixconf.ordinarylearner package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html">ordinarylearner package</a> &raquo;</li>
         
-      <li>banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur module</li>
+      <li>lilucb_heur module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -173,7 +175,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur">
-<span id="banditpylib-learners-bestarmid-fixconf-ordinarylearner-lilucb-heur-module"></span><h1>banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur module<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur" title="Permalink to this headline">¶</a></h1>
+<span id="lilucb-heur-module"></span><h1>lilucb_heur module<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur.lilUCB_heur">
 <em class="property">class </em><code class="sig-name descname">lilUCB_heur</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/lilucb_heur.html#lilUCB_heur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur.lilUCB_heur" title="Permalink to this definition">¶</a></dt>
@@ -202,10 +204,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html" class="btn btn-neutral float-right" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html" class="btn btn-neutral float-right" title="utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" class="btn btn-neutral float-left" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" class="btn btn-neutral float-left" title="expgap module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

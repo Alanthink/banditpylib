@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.ordinarylearner.ucbv module
-==========================================================
-
+ucbv module
+===========
 .. automodule:: banditpylib.learners.regretmin.ordinarylearner.ucbv
    :members:
    :undoc-members:

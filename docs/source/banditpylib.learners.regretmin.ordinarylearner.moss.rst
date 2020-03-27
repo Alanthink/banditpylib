@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.ordinarylearner.moss module
-==========================================================
-
+moss module
+===========
 .. automodule:: banditpylib.learners.regretmin.ordinarylearner.moss
    :members:
    :undoc-members:

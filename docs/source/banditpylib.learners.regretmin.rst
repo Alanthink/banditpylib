@@ -1,13 +1,10 @@
-banditpylib.learners.regretmin package
-======================================
+regretmin package
+=================
 
 .. automodule:: banditpylib.learners.regretmin
    :members:
    :undoc-members:
    :show-inheritance:
-
-Subpackages
------------
 
 .. toctree::
    :maxdepth: 4
@@ -17,8 +14,6 @@ Subpackages
    banditpylib.learners.regretmin.ordinarylearner
    banditpylib.learners.regretmin.ordinarymnllearner
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

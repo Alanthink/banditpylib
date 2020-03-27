@@ -1,13 +1,10 @@
-banditpylib.learners.bestarmid package
-======================================
+bestarmid package
+=================
 
 .. automodule:: banditpylib.learners.bestarmid
    :members:
    :undoc-members:
    :show-inheritance:
-
-Subpackages
------------
 
 .. toctree::
    :maxdepth: 4
@@ -15,8 +12,6 @@ Subpackages
    banditpylib.learners.bestarmid.fixbudget
    banditpylib.learners.bestarmid.fixconf
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

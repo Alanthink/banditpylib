@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>banditpylib.bandits package &mdash; banditpylib 0.0.3 documentation</title>
+  <title>bandits package &mdash; banditpylib 0.0.3 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="banditpylib.bandits.arms package" href="banditpylib.bandits.arms.html" />
+    <link rel="next" title="arms package" href="banditpylib.bandits.arms.html" />
     <link rel="prev" title="banditpylib package" href="banditpylib.html" /> 
 </head>
 
@@ -85,12 +85,17 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">banditpylib.bandits package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">bandits package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
 </ul>
 </li>
 </ul>
@@ -145,7 +150,7 @@
         
           <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
         
-      <li>banditpylib.bandits package</li>
+      <li>bandits package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,34 +170,25 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-banditpylib.bandits">
-<span id="banditpylib-bandits-package"></span><h1>banditpylib.bandits package<a class="headerlink" href="#module-banditpylib.bandits" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<span id="bandits-package"></span><h1>bandits package<a class="headerlink" href="#module-banditpylib.bandits" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.arms.html">banditpylib.bandits.arms package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.arms.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.bernoulliarm.html">banditpylib.bandits.arms.bernoulliarm module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.gaussianarm.html">banditpylib.bandits.arms.gaussianarm module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.utils.html">banditpylib.bandits.arms.utils module</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.arms.bernoulliarm.html">bernoulliarm module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.arms.gaussianarm.html">gaussianarm module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.arms.utils.html">utils module</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">banditpylib.bandits.linearbandit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">banditpylib.bandits.ordinarybandit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">banditpylib.bandits.ordinarymnlbandit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">banditpylib.bandits.ordinarymnlbandit_test module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.utils.html">banditpylib.bandits.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
 </ul>
-</div>
 </div>
 </div>
 
@@ -204,7 +200,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.bandits.arms.html" class="btn btn-neutral float-right" title="banditpylib.bandits.arms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.bandits.arms.html" class="btn btn-neutral float-right" title="arms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="banditpylib.html" class="btn btn-neutral float-left" title="banditpylib package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

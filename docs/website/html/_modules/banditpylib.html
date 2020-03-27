@@ -147,19 +147,19 @@
             
   <h1>Source code for banditpylib</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">banditpylib: a lightweight python library for bandit algorithms</span>
+<span class="sd">a lightweight python library for bandit algorithms</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">importlib</span> <span class="k">import</span> <span class="n">import_module</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 
-<span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">logging</span>
-<span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">flags</span>
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">flags</span>
 
-<span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="k">import</span> <span class="n">PolyCollection</span>
+<span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="kn">import</span> <span class="n">PolyCollection</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -308,6 +308,14 @@
 
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../banditpylib.html#banditpylib.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">novar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">save_fig</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Method for plotting the figure.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    data: generated data</span>
+<span class="sd">    goal: goal of the learners</span>
+<span class="sd">    novar: bool. Set it to ``True`` if you also want the std plotted.</span>
+<span class="sd">    save_fig: a string denoting the file where the generated figure is stored.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">_constants</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
   <span class="k">if</span> <span class="n">goal</span><span class="p">:</span>
     <span class="n">FLAGS</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="n">goal</span>
@@ -319,52 +327,54 @@
     <span class="k">return</span> <span class="n">_constants</span><span class="o">.</span><span class="n">ana_df</span></div>
 
 
+<span class="k">def</span> <span class="nf">_parse_setup</span><span class="p">(</span><span class="n">Bandit</span><span class="p">,</span> <span class="n">bandit_pars</span><span class="p">,</span> <span class="n">Learner</span><span class="p">,</span> <span class="n">learner_pars</span><span class="p">):</span>
+  <span class="n">Protocol</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">PROTOCOL_PKG</span><span class="p">),</span> <span class="n">Learner</span><span class="o">.</span><span class="n">protocol</span><span class="p">)</span>
+  <span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">learner_pars</span><span class="p">)</span>
+  <span class="k">if</span> <span class="s1">&#39;SinglePlayer&#39;</span> <span class="ow">in</span> <span class="n">Learner</span><span class="o">.</span><span class="n">protocol</span><span class="p">:</span>
+    <span class="c1"># single player</span>
+    <span class="n">bandit</span> <span class="o">=</span> <span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span>
+    <span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">learner_pars</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="c1"># multiple players</span>
+    <span class="k">if</span> <span class="s1">&#39;num_players&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">learner_pars</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+          <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: please specify the number of players!&#39;</span> <span class="o">%</span>
+          <span class="n">Learner</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="n">num_players</span> <span class="o">=</span> <span class="n">learner_pars</span><span class="p">[</span><span class="s1">&#39;num_players&#39;</span><span class="p">]</span>
+    <span class="n">bandit</span> <span class="o">=</span> <span class="p">[</span><span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">)]</span>
+    <span class="n">learner</span> <span class="o">=</span> <span class="p">[</span><span class="n">Learner</span><span class="p">(</span><span class="n">learner_pars</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">)]</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">bandit</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">learner</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">new_policies</span><span class="p">):</span>
   <span class="n">setups</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">bandit_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;environment&#39;</span><span class="p">][</span><span class="s1">&#39;bandit&#39;</span><span class="p">]</span>
-  <span class="n">Bandit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">BANDIT_PKG</span><span class="p">),</span> <span class="n">bandit_name</span><span class="p">)</span>
+
+  <span class="n">bandit_classname</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;environment&#39;</span><span class="p">][</span><span class="s1">&#39;bandit&#39;</span><span class="p">]</span>
+  <span class="n">Bandit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">BANDIT_PKG</span><span class="p">),</span> <span class="n">bandit_classname</span><span class="p">)</span>
   <span class="n">bandit_pars</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;environment&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
   <span class="n">learner_goal</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;learners&#39;</span><span class="p">][</span><span class="s1">&#39;goal&#39;</span><span class="p">]</span>
   <span class="n">FLAGS</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="n">learner_goal</span>
   <span class="c1"># initialize learners and their corresponding protocols</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;learners&#39;</span><span class="p">][</span><span class="s1">&#39;policies&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Please specify policies in a list!&#39;</span><span class="p">)</span>
   <span class="k">for</span> <span class="n">learner_config</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;learners&#39;</span><span class="p">][</span><span class="s1">&#39;policies&#39;</span><span class="p">]:</span>
+    <span class="n">learner_classname</span> <span class="o">=</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span>
+    <span class="n">learner_pars</span> <span class="o">=</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
     <span class="n">learner_package</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> \
-        <span class="p">(</span><span class="n">LEARNER_PKG</span><span class="p">,</span> <span class="n">learner_goal</span><span class="p">,</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
-    <span class="n">learner_name</span> <span class="o">=</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;policy&#39;</span><span class="p">]</span>
-    <span class="n">Learner</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">learner_package</span><span class="p">),</span> <span class="n">learner_name</span><span class="p">)</span>
-
-    <span class="n">Protocol</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">PROTOCOL_PKG</span><span class="p">),</span> <span class="n">Learner</span><span class="o">.</span><span class="n">protocol</span><span class="p">)</span>
-    <span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span>
-
-    <span class="k">if</span> <span class="s1">&#39;SinglePlayer&#39;</span> <span class="ow">in</span> <span class="n">Learner</span><span class="o">.</span><span class="n">protocol</span><span class="p">:</span>
-      <span class="c1"># single player</span>
-      <span class="n">bandit</span> <span class="o">=</span> <span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span>
-      <span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="c1"># multiple players</span>
-      <span class="k">if</span> <span class="s1">&#39;num_players&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-            <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: please specify the number of players!&#39;</span> <span class="o">%</span> <span class="n">learner_name</span><span class="p">)</span>
-      <span class="n">num_players</span> <span class="o">=</span> <span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="s1">&#39;num_players&#39;</span><span class="p">]</span>
-      <span class="n">bandit</span> <span class="o">=</span> <span class="p">[</span><span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">)]</span>
-      <span class="n">learner</span> <span class="o">=</span> <span class="p">[</span><span class="n">Learner</span><span class="p">(</span><span class="n">learner_config</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">)]</span>
-    <span class="n">setups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bandit</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">learner</span><span class="p">))</span>
+        <span class="p">(</span><span class="n">LEARNER_PKG</span><span class="p">,</span> <span class="n">learner_goal</span><span class="p">,</span> <span class="n">learner_pars</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+    <span class="n">Learner</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">learner_package</span><span class="p">),</span> <span class="n">learner_classname</span><span class="p">)</span>
+    <span class="n">setups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_parse_setup</span><span class="p">(</span><span class="n">Bandit</span><span class="p">,</span> <span class="n">bandit_pars</span><span class="p">,</span> <span class="n">Learner</span><span class="p">,</span> <span class="n">learner_pars</span><span class="p">))</span>
 
   <span class="k">if</span> <span class="n">new_policies</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">learner</span> <span class="ow">in</span> <span class="n">new_policies</span><span class="p">:</span>
-      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learner</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="c1"># multi-players</span>
-        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">learner</span><span class="p">)</span>
-        <span class="n">bandit</span> <span class="o">=</span> <span class="p">[</span><span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">)]</span>
-        <span class="n">Protocol</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">PROTOCOL_PKG</span><span class="p">),</span> <span class="n">learner</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">protocol</span><span class="p">)</span>
-        <span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">({</span><span class="s1">&#39;num_players&#39;</span><span class="p">:</span> <span class="n">num_players</span><span class="p">})</span>
-      <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># single player</span>
-        <span class="n">bandit</span> <span class="o">=</span> <span class="n">Bandit</span><span class="p">(</span><span class="n">bandit_pars</span><span class="p">)</span>
-        <span class="n">protocol</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">import_module</span><span class="p">(</span><span class="n">PROTOCOL_PKG</span><span class="p">),</span> <span class="n">learner</span><span class="o">.</span><span class="n">protocol</span><span class="p">)()</span>
-      <span class="n">setups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bandit</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">learner</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">learner_config</span> <span class="ow">in</span> <span class="n">new_policies</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learner_config</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;New policy should be given in a two-tuple!&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">learner_config</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Two-tuple for the new policy please!&#39;</span><span class="p">)</span>
+      <span class="n">setups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_parse_setup</span><span class="p">(</span>
+          <span class="n">Bandit</span><span class="p">,</span> <span class="n">bandit_pars</span><span class="p">,</span> <span class="n">learner_config</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">learner_config</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
-  <span class="n">goals</span> <span class="o">=</span> <span class="p">[</span><span class="n">setup</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learner</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">setup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span>
+  <span class="n">goals</span> <span class="o">=</span> <span class="p">[</span><span class="n">setup</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">setup</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">setup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">goal</span>
            <span class="k">for</span> <span class="n">setup</span> <span class="ow">in</span> <span class="n">setups</span><span class="p">]</span>
   <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">goal</span> <span class="o">!=</span> <span class="n">goals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">goal</span> <span class="ow">in</span> <span class="n">goals</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Learners must have the same goal!&#39;</span><span class="p">)</span>
@@ -397,6 +407,59 @@
 
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../banditpylib.html#banditpylib.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">new_policies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Method for generating the data.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    config: a dictionary has the following form. Replace ``&quot;&quot;`` by</span>
+<span class="sd">      corresponding strings.</span>
+
+<span class="sd">      .. code-block:: yaml</span>
+
+<span class="sd">        {</span>
+<span class="sd">          &quot;environment&quot;: {</span>
+<span class="sd">            # Class name of the environment. Check `bandits` package for</span>
+<span class="sd">            # supported environments.</span>
+<span class="sd">            &quot;bandit&quot;: &quot;&quot;,</span>
+<span class="sd">            &quot;params&quot;: {</span>
+<span class="sd">              # &quot;name: value&quot; pairs. Parameters for the environment.</span>
+<span class="sd">            }</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;learners&quot;: {</span>
+<span class="sd">            # Goal of the learners. Now we support &quot;regretmin&quot;,</span>
+<span class="sd">            # &quot;bestarmid.fixbudget&quot;, and &quot;bestarmid.fixbudget&quot;.</span>
+<span class="sd">            &quot;goal&quot;: &quot;&quot;,</span>
+<span class="sd">            # a list of policy definitions.</span>
+<span class="sd">            &quot;policies&quot;: [</span>
+<span class="sd">              {</span>
+<span class="sd">                # Class name of the policy</span>
+<span class="sd">                &quot;policy&quot;: &quot;&quot;,</span>
+<span class="sd">                &quot;params&quot;: {</span>
+<span class="sd">                  # Type of the policy which should be the closest package it</span>
+<span class="sd">                  # belongs. For example, the type of banditpylib.learners.</span>
+<span class="sd">                  # regretmin.ordinarylearner.EpsGreedy</span>
+<span class="sd">                  # should be &quot;ordinarylearner&quot;.</span>
+<span class="sd">                  &quot;type&quot;: &quot;&quot;,</span>
+<span class="sd">                  # &quot;name: value&quot; pairs. Other parameters for the policy.</span>
+<span class="sd">                }</span>
+<span class="sd">              },</span>
+<span class="sd">            ]</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;running&quot;: {</span>
+<span class="sd">            # &quot;name: value&quot; pairs. Parameters for running the setup.</span>
+<span class="sd">          }</span>
+<span class="sd">        }</span>
+<span class="sd">    new_policies: a list of two-tuples where for each two-tuple (A, B), A is</span>
+<span class="sd">      the class defined by yourself and B is a dictionary denoting the</span>
+<span class="sd">      parameters of your policy.</span>
+<span class="sd">    debug: bool. Set it to ``True`` to enter the debug mode.</span>
+
+<span class="sd">  .. warning::</span>
+<span class="sd">    The running time of debug mode may be increased heavily compared to the</span>
+<span class="sd">    normal mode. This mode is used to debug errors generated by subprocesses.</span>
+
+<span class="sd">  Return:</span>
+<span class="sd">    A dictionary with generated data.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">_constants</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
   <span class="n">_constants</span><span class="o">.</span><span class="n">new_policies</span> <span class="o">=</span> <span class="n">new_policies</span>
   <span class="n">FLAGS</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>

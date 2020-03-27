@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.ordinarylearner.epsgreedy module
-===============================================================
-
+epsgreedy module
+================
 .. automodule:: banditpylib.learners.regretmin.ordinarylearner.epsgreedy
    :members:
    :undoc-members:

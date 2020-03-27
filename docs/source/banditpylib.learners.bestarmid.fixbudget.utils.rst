@@ -1,6 +1,5 @@
-banditpylib.learners.bestarmid.fixbudget.utils module
-=====================================================
-
+utils module
+============
 .. automodule:: banditpylib.learners.bestarmid.fixbudget.utils
    :members:
    :undoc-members:

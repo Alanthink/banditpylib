@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.decentralizedordinarylearner.sucb module
-=======================================================================
-
+sucb module
+===========
 .. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.sucb
    :members:
    :undoc-members:

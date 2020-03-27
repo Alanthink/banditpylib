@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>banditpylib.learners.bestarmid.fixbudget.ordinarylearner package &mdash; banditpylib 0.0.3 documentation</title>
+  <title>ordinarylearner package &mdash; banditpylib 0.0.3 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh module" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html" />
-    <link rel="prev" title="banditpylib.learners.bestarmid.fixbudget package" href="banditpylib.learners.bestarmid.fixbudget.html" /> 
+    <link rel="next" title="sh module" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html" />
+    <link rel="prev" title="fixbudget package" href="banditpylib.learners.bestarmid.fixbudget.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,12 +85,14 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.html">banditpylib.bandits package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
 </ul>
 </li>
 </ul>
@@ -145,13 +147,13 @@
         
           <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.html">banditpylib.learners package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.bestarmid.html">banditpylib.learners.bestarmid package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.bestarmid.html">bestarmid package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.bestarmid.fixbudget.html">banditpylib.learners.bestarmid.fixbudget package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.bestarmid.fixbudget.html">fixbudget package</a> &raquo;</li>
         
-      <li>banditpylib.learners.bestarmid.fixbudget.ordinarylearner package</li>
+      <li>ordinarylearner package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,17 +173,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-banditpylib.learners.bestarmid.fixbudget.ordinarylearner">
-<span id="banditpylib-learners-bestarmid-fixbudget-ordinarylearner-package"></span><h1>banditpylib.learners.bestarmid.fixbudget.ordinarylearner package<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixbudget.ordinarylearner" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<span id="ordinarylearner-package"></span><h1>ordinarylearner package<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixbudget.ordinarylearner" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.html">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html">sh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.html">sr module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html">uniform module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html">utils module</a></li>
 </ul>
-</div>
 </div>
 </div>
 
@@ -193,10 +192,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html" class="btn btn-neutral float-right" title="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html" class="btn btn-neutral float-right" title="sh module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.bestarmid.fixbudget.html" class="btn btn-neutral float-left" title="banditpylib.learners.bestarmid.fixbudget package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.bestarmid.fixbudget.html" class="btn btn-neutral float-left" title="fixbudget package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

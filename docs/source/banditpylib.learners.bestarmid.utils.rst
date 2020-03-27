@@ -1,6 +1,5 @@
-banditpylib.learners.bestarmid.utils module
-===========================================
-
+utils module
+============
 .. automodule:: banditpylib.learners.bestarmid.utils
    :members:
    :undoc-members:

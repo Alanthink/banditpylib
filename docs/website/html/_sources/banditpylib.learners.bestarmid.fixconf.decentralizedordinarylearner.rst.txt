@@ -1,13 +1,11 @@
-banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner package
-===========================================================================
+decentralizedordinarylearner package
+====================================
 
 .. automodule:: banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

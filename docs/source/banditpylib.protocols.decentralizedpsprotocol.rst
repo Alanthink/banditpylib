@@ -1,6 +1,5 @@
-banditpylib.protocols.decentralizedpsprotocol module
-====================================================
-
+decentralizedpsprotocol module
+==============================
 .. automodule:: banditpylib.protocols.decentralizedpsprotocol
    :members:
    :undoc-members:

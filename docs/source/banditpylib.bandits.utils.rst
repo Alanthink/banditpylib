@@ -1,6 +1,5 @@
-banditpylib.bandits.utils module
-================================
-
+utils module
+============
 .. automodule:: banditpylib.bandits.utils
    :members:
    :undoc-members:

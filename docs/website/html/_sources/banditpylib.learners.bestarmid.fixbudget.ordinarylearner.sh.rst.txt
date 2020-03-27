@@ -1,6 +1,5 @@
-banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh module
-==================================================================
-
+sh module
+=========
 .. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh
    :members:
    :undoc-members:

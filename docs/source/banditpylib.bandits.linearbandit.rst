@@ -1,6 +1,5 @@
-banditpylib.bandits.linearbandit module
-=======================================
-
+linearbandit module
+===================
 .. automodule:: banditpylib.bandits.linearbandit
    :members:
    :undoc-members:

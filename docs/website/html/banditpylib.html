@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="banditpylib.bandits package" href="banditpylib.bandits.html" />
+    <link rel="next" title="bandits package" href="banditpylib.bandits.html" />
     <link rel="prev" title="banditpylib" href="modules.html" /> 
 </head>
 
@@ -85,12 +85,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">banditpylib package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.html">banditpylib.bandits package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
 </ul>
 </li>
 </ul>
@@ -164,72 +161,163 @@
             
   <div class="section" id="module-banditpylib">
 <span id="banditpylib-package"></span><h1>banditpylib package<a class="headerlink" href="#module-banditpylib" title="Permalink to this headline">¶</a></h1>
-<p>banditpylib: a lightweight python library for bandit algorithms</p>
+<p>a lightweight python library for bandit algorithms</p>
 <dl class="function">
 <dt id="banditpylib.plot">
 <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">goal=''</em>, <em class="sig-param">novar=False</em>, <em class="sig-param">save_fig=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method for plotting the figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – generated data</p></li>
+<li><p><strong>goal</strong> – goal of the learners</p></li>
+<li><p><strong>novar</strong> – bool. Set it to <code class="docutils literal notranslate"><span class="pre">True</span></code> if you also want the std plotted.</p></li>
+<li><p><strong>save_fig</strong> – a string denoting the file where the generated figure is stored.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="banditpylib.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">config</em>, <em class="sig-param">new_policies=None</em>, <em class="sig-param">debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method for generating the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> – <p>a dictionary has the following form. Replace <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> by
+corresponding strings.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="s">&quot;environment&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
+    <span class="c1"># Class name of the environment. Check `bandits` package for</span>
+    <span class="c1"># supported environments.</span>
+    <span class="s">&quot;bandit&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
+    <span class="s">&quot;params&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
+      <span class="c1"># &quot;name: value&quot; pairs. Parameters for the environment.</span>
+    <span class="p p-Indicator">}</span>
+  <span class="p p-Indicator">},</span>
+  <span class="s">&quot;learners&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
+    <span class="c1"># Goal of the learners. Now we support &quot;regretmin&quot;,</span>
+    <span class="c1"># &quot;bestarmid.fixbudget&quot;, and &quot;bestarmid.fixbudget&quot;.</span>
+    <span class="s">&quot;goal&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
+    <span class="c1"># a list of policy definitions.</span>
+    <span class="s">&quot;policies&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span>
+      <span class="p p-Indicator">{</span>
+        <span class="c1"># Class name of the policy</span>
+        <span class="s">&quot;policy&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
+        <span class="s">&quot;params&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
+          <span class="c1"># Type of the policy which should be the closest package it</span>
+          <span class="c1"># belongs. For example, the type of banditpylib.learners.</span>
+          <span class="c1"># regretmin.ordinarylearner.EpsGreedy</span>
+          <span class="c1"># should be &quot;ordinarylearner&quot;.</span>
+          <span class="s">&quot;type&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
+          <span class="c1"># &quot;name: value&quot; pairs. Other parameters for the policy.</span>
+        <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">},</span>
+    <span class="p p-Indicator">]</span>
+  <span class="p p-Indicator">},</span>
+  <span class="s">&quot;running&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
+    <span class="c1"># &quot;name: value&quot; pairs. Parameters for running the setup.</span>
+  <span class="p p-Indicator">}</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>new_policies</strong> – a list of two-tuples where for each two-tuple (A, B), A is
+the class defined by yourself and B is a dictionary denoting the
+parameters of your policy.</p></li>
+<li><p><strong>debug</strong> – bool. Set it to <code class="docutils literal notranslate"><span class="pre">True</span></code> to enter the debug mode.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The running time of debug mode may be increased heavily compared to the
+normal mode. This mode is used to debug errors generated by subprocesses.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with generated data.</p>
+</dd>
+</dl>
+</dd></dl>
 
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.html">banditpylib.bandits package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.html">banditpylib.bandits.arms package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.arms.html#submodules">Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.bernoulliarm.html">bernoulliarm module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.gaussianarm.html">gaussianarm module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.arms.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.html">fixbudget package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.html">ordinarylearner package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.html">fixconf package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.html">decentralizedordinarylearner package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html">linearlearner package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html">ordinarylearner package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.html">correlatedlearner package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.cucb.html">cucb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.html">decentralizedordinarylearner package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.fucb.html">fucb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.html">sucb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.html">uniform module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.html">ordinarylearner package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html">epsgreedy module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.moss.html">moss module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ts.html">ts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucb.html">ucb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucbv.html">ucbv module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.uniform.html">uniform module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.html">ordinarymnllearner package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html">explorationexploitation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.decentralizedpsprotocol.html">decentralizedpsprotocol module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.decentralizedregretminprotocol.html">decentralizedregretminprotocol module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.singleplayerpsprotocol.html">singleplayerpsprotocol module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.singleplayerregretminprotocol.html">singleplayerregretminprotocol module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.utils.html">utils module</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.bandits.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">banditpylib.bandits.linearbandit module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">banditpylib.bandits.ordinarybandit module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">banditpylib.bandits.ordinarymnlbandit module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">banditpylib.bandits.ordinarymnlbandit_test module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.utils.html">banditpylib.bandits.utils module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.html">banditpylib.learners.bestarmid package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.regretmin.html">banditpylib.learners.regretmin package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.utils.html">banditpylib.learners.utils module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.protocols.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.decentralizedpsprotocol.html">banditpylib.protocols.decentralizedpsprotocol module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.decentralizedregretminprotocol.html">banditpylib.protocols.decentralizedregretminprotocol module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.singleplayerpsprotocol.html">banditpylib.protocols.singleplayerpsprotocol module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.singleplayerregretminprotocol.html">banditpylib.protocols.singleplayerregretminprotocol module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.utils.html">banditpylib.protocols.utils module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
 </div>
 </div>
 
@@ -241,7 +329,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.bandits.html" class="btn btn-neutral float-right" title="banditpylib.bandits package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.bandits.html" class="btn btn-neutral float-right" title="bandits package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="modules.html" class="btn btn-neutral float-left" title="banditpylib" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

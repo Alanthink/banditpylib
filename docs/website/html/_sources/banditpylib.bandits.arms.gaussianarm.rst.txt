@@ -1,6 +1,5 @@
-banditpylib.bandits.arms.gaussianarm module
-===========================================
-
+gaussianarm module
+==================
 .. automodule:: banditpylib.bandits.arms.gaussianarm
    :members:
    :undoc-members:

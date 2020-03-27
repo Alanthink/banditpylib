@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.correlatedlearner.cucb module
-============================================================
-
+cucb module
+===========
 .. automodule:: banditpylib.learners.regretmin.correlatedlearner.cucb
    :members:
    :undoc-members:

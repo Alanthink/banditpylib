@@ -1,6 +1,5 @@
-banditpylib.protocols.singleplayerregretminprotocol module
-==========================================================
-
+singleplayerregretminprotocol module
+====================================
 .. automodule:: banditpylib.protocols.singleplayerregretminprotocol
    :members:
    :undoc-members:

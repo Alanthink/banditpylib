@@ -1,13 +1,11 @@
-banditpylib.protocols package
-=============================
+protocols package
+=================
 
 .. automodule:: banditpylib.protocols
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

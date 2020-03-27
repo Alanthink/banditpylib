@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.ordinarylearner.ts module
-========================================================
-
+ts module
+=========
 .. automodule:: banditpylib.learners.regretmin.ordinarylearner.ts
    :members:
    :undoc-members:

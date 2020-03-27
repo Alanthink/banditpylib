@@ -40,7 +40,8 @@ extensions = [
   'sphinx.ext.viewcode',
   'sphinx.ext.githubpages',
   'sphinx.ext.napoleon',
-  'sphinxcontrib.bibtex'
+  'sphinxcontrib.bibtex',
+  'recommonmark'
 ]
 
 # The master toctree document.
@@ -59,6 +60,11 @@ pygments_style = 'sphinx'
 
 add_module_names = False
 autoclass_content = 'both'
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
 
 
 # -- Options for HTML output -------------------------------------------------

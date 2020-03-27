@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.decentralizedordinarylearner.uniform module
-==========================================================================
-
+uniform module
+==============
 .. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner.uniform
    :members:
    :undoc-members:

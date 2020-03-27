@@ -1,13 +1,11 @@
-banditpylib.bandits.arms package
-================================
+arms package
+============
 
 .. automodule:: banditpylib.bandits.arms
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

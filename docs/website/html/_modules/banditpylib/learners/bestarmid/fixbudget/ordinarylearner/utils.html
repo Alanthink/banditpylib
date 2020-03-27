@@ -148,17 +148,17 @@
            <div itemprop="articleBody">
             
   <h1>Source code for banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
-<span class="kn">from</span> <span class="nn">banditpylib.bandits.arms</span> <span class="k">import</span> <span class="n">EmArm</span>
-<span class="kn">from</span> <span class="nn">banditpylib.bandits</span> <span class="k">import</span> <span class="n">OrdinaryBanditItf</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">FixBudgetBAILearner</span>
+<span class="kn">from</span> <span class="nn">banditpylib.bandits.arms</span> <span class="kn">import</span> <span class="n">EmArm</span>
+<span class="kn">from</span> <span class="nn">banditpylib.bandits</span> <span class="kn">import</span> <span class="n">OrdinaryBanditItf</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">FixBudgetBAILearner</span>
 
 
 <div class="viewcode-block" id="OrdinaryLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryLearner</span><span class="p">(</span><span class="n">FixBudgetBAILearner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;base class for learners in the classic bandit model&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">_model_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

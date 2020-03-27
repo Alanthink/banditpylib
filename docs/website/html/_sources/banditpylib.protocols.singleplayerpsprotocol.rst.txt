@@ -1,6 +1,5 @@
-banditpylib.protocols.singleplayerpsprotocol module
-===================================================
-
+singleplayerpsprotocol module
+=============================
 .. automodule:: banditpylib.protocols.singleplayerpsprotocol
    :members:
    :undoc-members:

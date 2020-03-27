@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>banditpylib.learners.regretmin.ordinarymnllearner package &mdash; banditpylib 0.0.3 documentation</title>
+  <title>ordinarymnllearner package &mdash; banditpylib 0.0.3 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation module" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" />
-    <link rel="prev" title="banditpylib.learners.regretmin.ordinarylearner.utils module" href="banditpylib.learners.regretmin.ordinarylearner.utils.html" /> 
+    <link rel="next" title="explorationexploitation module" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" />
+    <link rel="prev" title="utils module" href="banditpylib.learners.regretmin.ordinarylearner.utils.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,12 +85,14 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.html">banditpylib.bandits package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.html">banditpylib.learners package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.html">banditpylib.protocols package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
 </ul>
 </li>
 </ul>
@@ -145,11 +147,11 @@
         
           <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.html">banditpylib.learners package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
         
-          <li><a href="banditpylib.learners.regretmin.html">banditpylib.learners.regretmin package</a> &raquo;</li>
+          <li><a href="banditpylib.learners.regretmin.html">regretmin package</a> &raquo;</li>
         
-      <li>banditpylib.learners.regretmin.ordinarymnllearner package</li>
+      <li>ordinarymnllearner package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -169,15 +171,12 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-banditpylib.learners.regretmin.ordinarymnllearner">
-<span id="banditpylib-learners-regretmin-ordinarymnllearner-package"></span><h1>banditpylib.learners.regretmin.ordinarymnllearner package<a class="headerlink" href="#module-banditpylib.learners.regretmin.ordinarymnllearner" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<span id="ordinarymnllearner-package"></span><h1>ordinarymnllearner package<a class="headerlink" href="#module-banditpylib.learners.regretmin.ordinarymnllearner" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html">banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html">banditpylib.learners.regretmin.ordinarymnllearner.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html">explorationexploitation module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html">utils module</a></li>
 </ul>
-</div>
 </div>
 </div>
 
@@ -189,10 +188,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" class="btn btn-neutral float-right" title="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" class="btn btn-neutral float-right" title="explorationexploitation module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.regretmin.ordinarylearner.utils.html" class="btn btn-neutral float-left" title="banditpylib.learners.regretmin.ordinarylearner.utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.regretmin.ordinarylearner.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

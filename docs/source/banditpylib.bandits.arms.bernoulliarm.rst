@@ -1,6 +1,5 @@
-banditpylib.bandits.arms.bernoulliarm module
-============================================
-
+bernoulliarm module
+===================
 .. automodule:: banditpylib.bandits.arms.bernoulliarm
    :members:
    :undoc-members:

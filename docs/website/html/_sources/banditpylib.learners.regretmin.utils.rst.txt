@@ -1,6 +1,5 @@
-banditpylib.learners.regretmin.utils module
-===========================================
-
+utils module
+============
 .. automodule:: banditpylib.learners.regretmin.utils
    :members:
    :undoc-members:

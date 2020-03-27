@@ -1,13 +1,11 @@
-banditpylib.learners.bestarmid.fixbudget.ordinarylearner package
-================================================================
+ordinarylearner package
+=======================
 
 .. automodule:: banditpylib.learners.bestarmid.fixbudget.ordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4

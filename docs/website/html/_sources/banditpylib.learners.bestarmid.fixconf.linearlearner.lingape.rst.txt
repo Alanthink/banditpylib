@@ -1,6 +1,5 @@
-banditpylib.learners.bestarmid.fixconf.linearlearner.lingape module
-===================================================================
-
+lingape module
+==============
 .. automodule:: banditpylib.learners.bestarmid.fixconf.linearlearner.lingape
    :members:
    :undoc-members:

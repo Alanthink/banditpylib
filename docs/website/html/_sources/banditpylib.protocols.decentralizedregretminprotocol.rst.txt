@@ -1,6 +1,5 @@
-banditpylib.protocols.decentralizedregretminprotocol module
-===========================================================
-
+decentralizedregretminprotocol module
+=====================================
 .. automodule:: banditpylib.protocols.decentralizedregretminprotocol
    :members:
    :undoc-members:

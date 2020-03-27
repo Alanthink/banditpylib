@@ -1,13 +1,11 @@
-banditpylib.learners.regretmin.decentralizedordinarylearner package
-===================================================================
+decentralizedordinarylearner package
+====================================
 
 .. automodule:: banditpylib.learners.regretmin.decentralizedordinarylearner
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 .. toctree::
    :maxdepth: 4
