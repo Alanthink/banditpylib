@@ -46,6 +46,8 @@ A lightweight python library for bandit algorithms
 |      | Linear Bandit   | `LinGapE`      |
 |  Decentralized | Ordinary Bandit   | `FlilUCB_heur`, `SlilUCB_heur`  |
 
+For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib/website/html/index.html).
+
 ## Getting Started
 
 ### Installing

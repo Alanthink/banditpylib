@@ -1,5 +1,5 @@
 """
-banditpylib: a lightweight python library for bandit algorithms
+a lightweight python library for bandit algorithms
 """
 import json
 import os
@@ -160,6 +160,14 @@ def _plot(argv):
 
 
 def plot(data, goal='', novar=False, save_fig=''):
+  """Method for plotting the figure.
+
+  Args:
+    data: generated data
+    goal: goal of the learners
+    novar: bool. Set it to ``True`` if you also want the std plotted.
+    save_fig: a string denoting the file where the generated figure is stored.
+  """
   _constants.data = data
   if goal:
     FLAGS.goal = goal
@@ -171,52 +179,54 @@ def plot(data, goal='', novar=False, save_fig=''):
     return _constants.ana_df
 
 
+def _parse_setup(Bandit, bandit_pars, Learner, learner_pars):
+  Protocol = getattr(import_module(PROTOCOL_PKG), Learner.protocol)
+  protocol = Protocol(learner_pars)
+  if 'SinglePlayer' in Learner.protocol:
+    # single player
+    bandit = Bandit(bandit_pars)
+    learner = Learner(learner_pars)
+  else:
+    # multiple players
+    if 'num_players' not in learner_pars:
+      raise Exception(
+          '%s: please specify the number of players!' %
+          Learner.__class__.__name__)
+    num_players = learner_pars['num_players']
+    bandit = [Bandit(bandit_pars) for _ in range(num_players)]
+    learner = [Learner(learner_pars) for _ in range(num_players)]
+  return (bandit, protocol, learner)
+
+
 def _parse(config, new_policies):
   setups = []
-  bandit_name = config['environment']['bandit']
-  Bandit = getattr(import_module(BANDIT_PKG), bandit_name)
+
+  bandit_classname = config['environment']['bandit']
+  Bandit = getattr(import_module(BANDIT_PKG), bandit_classname)
   bandit_pars = config['environment']['params']
   learner_goal = config['learners']['goal']
   FLAGS.goal = learner_goal
   # initialize learners and their corresponding protocols
+  if not isinstance(config['learners']['policies'], list):
+    raise Exception('Please specify policies in a list!')
   for learner_config in config['learners']['policies']:
+    learner_classname = learner_config['policy']
+    learner_pars = learner_config['params']
     learner_package = '%s.%s.%s' % \
-        (LEARNER_PKG, learner_goal, learner_config['params']['type'])
-    learner_name = learner_config['policy']
-    Learner = getattr(import_module(learner_package), learner_name)
-
-    Protocol = getattr(import_module(PROTOCOL_PKG), Learner.protocol)
-    protocol = Protocol(learner_config['params'])
-
-    if 'SinglePlayer' in Learner.protocol:
-      # single player
-      bandit = Bandit(bandit_pars)
-      learner = Learner(learner_config['params'])
-    else:
-      # multiple players
-      if 'num_players' not in learner_config['params']:
-        raise Exception(
-            '%s: please specify the number of players!' % learner_name)
-      num_players = learner_config['params']['num_players']
-      bandit = [Bandit(bandit_pars) for _ in range(num_players)]
-      learner = [Learner(learner_config['params']) for _ in range(num_players)]
-    setups.append((bandit, protocol, learner))
+        (LEARNER_PKG, learner_goal, learner_pars['type'])
+    Learner = getattr(import_module(learner_package), learner_classname)
+    setups.append(_parse_setup(Bandit, bandit_pars, Learner, learner_pars))
 
   if new_policies:
-    for learner in new_policies:
-      if isinstance(learner, list):
-        # multi-players
-        num_players = len(learner)
-        bandit = [Bandit(bandit_pars) for _ in range(num_players)]
-        Protocol = getattr(import_module(PROTOCOL_PKG), learner[0].protocol)
-        protocol = Protocol({'num_players': num_players})
-      else:
-        # single player
-        bandit = Bandit(bandit_pars)
-        protocol = getattr(import_module(PROTOCOL_PKG), learner.protocol)()
-      setups.append((bandit, protocol, learner))
+    for learner_config in new_policies:
+      if not isinstance(learner_config, tuple):
+        raise Exception('New policy should be given in a two-tuple!')
+      if len(learner_config) != 2:
+        raise Exception('Two-tuple for the new policy please!')
+      setups.append(_parse_setup(
+          Bandit, bandit_pars, learner_config[0], learner_config[1]))
 
-  goals = [setup[2][0].goal if isinstance(learner, list) else setup[2].goal
+  goals = [setup[2][0].goal if isinstance(setup[2], list) else setup[2].goal
            for setup in setups]
   if any(goal != goals[0] for goal in goals):
     raise Exception('Learners must have the same goal!')
@@ -249,6 +259,59 @@ def _run(argv):
 
 
 def run(config, new_policies=None, debug=False):
+  """Method for generating the data.
+
+  Args:
+    config: a dictionary has the following form. Replace ``""`` by
+      corresponding strings.
+
+      .. code-block:: yaml
+
+        {
+          "environment": {
+            # Class name of the environment. Check `bandits` package for
+            # supported environments.
+            "bandit": "",
+            "params": {
+              # "name: value" pairs. Parameters for the environment.
+            }
+          },
+          "learners": {
+            # Goal of the learners. Now we support "regretmin",
+            # "bestarmid.fixbudget", and "bestarmid.fixbudget".
+            "goal": "",
+            # a list of policy definitions.
+            "policies": [
+              {
+                # Class name of the policy
+                "policy": "",
+                "params": {
+                  # Type of the policy which should be the closest package it
+                  # belongs. For example, the type of banditpylib.learners.
+                  # regretmin.ordinarylearner.EpsGreedy
+                  # should be "ordinarylearner".
+                  "type": "",
+                  # "name: value" pairs. Other parameters for the policy.
+                }
+              },
+            ]
+          },
+          "running": {
+            # "name: value" pairs. Parameters for running the setup.
+          }
+        }
+    new_policies: a list of two-tuples where for each two-tuple (A, B), A is
+      the class defined by yourself and B is a dictionary denoting the
+      parameters of your policy.
+    debug: bool. Set it to ``True`` to enter the debug mode.
+
+  .. warning::
+    The running time of debug mode may be increased heavily compared to the
+    normal mode. This mode is used to debug errors generated by subprocesses.
+
+  Return:
+    A dictionary with generated data.
+  """
   _constants.config = config
   _constants.new_policies = new_policies
   FLAGS.debug = debug
