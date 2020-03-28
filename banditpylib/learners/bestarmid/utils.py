@@ -1,19 +1,16 @@
-"""
-Base class for a learner with goal best arm identification.
-
-Instead of `learner_step`, pure exploration learners implement `learner_round`
-method which essentially means a round. The learner has to decide by him/herself
-when to stop.
-"""
 from abc import abstractmethod
 
 from .. import Learner
 
-__all__ = ['BAILearner']
-
 
 class BAILearner(Learner):
-  """base class for best arm identification learners"""
+  """
+  Base class for a learner with goal best arm identification.
+
+  Instead of ``learner_step``, pure exploration learners implement
+  `learner_round` method which essentially means a round. The learner
+  has to decide by him/herself when to stop.
+  """
 
   protocol = 'SinglePlayerPEProtocol'
 
@@ -31,7 +28,7 @@ class BAILearner(Learner):
 
   @abstractmethod
   def learner_round(self):
-    """one round of running"""
+    """run one round"""
 
   @abstractmethod
   def reset(self, bandit, stop_cond):

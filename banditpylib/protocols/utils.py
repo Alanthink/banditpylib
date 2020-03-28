@@ -1,10 +1,3 @@
-"""
-Abstract class of the protocol which is used to coordinate the interactions
-between the learner and the environment.
-
-For each setup, just call `play` to start the game simulation. A protocol should
-implement `_one_trial` method to define how to run one trial of the game.
-"""
 import json
 import time
 import multiprocessing
@@ -16,8 +9,6 @@ from absl import flags
 from absl import logging
 
 FLAGS = flags.FLAGS
-
-__all__ = ['Protocol', 'current_time']
 
 
 def get_funcname_of_regret_rewards(goal):
@@ -40,41 +31,51 @@ def get_stop_cond(goal):
     raise Exception('Unknown goal!')
 
 
-# for generating random seeds
 def current_time():
+  """Generate random seed using current time
+
+  Return:
+    int: random seed
+  """
   tem_time = time.time()
   return int((tem_time-int(tem_time))*10000000)
 
 
 class Protocol(ABC):
-  """abstract protocol class"""
+  """
+  Abstract class for the protocol which is used to coordinate the interactions
+  between the learner and the environment.
+
+  For each setup, just call ``play`` to start the game. A protocol should
+  implement ``_one_trial`` method to define how to run one trial of the game.
+  """
 
   @property
   @abstractmethod
   def type(self):
-    """type of the protocol"""
+    """Type of the protocol"""
 
   @property
   def __trials(self):
-    """number of trials of the game"""
+    """Number of trials of the game"""
     return self._pars['trials']
 
   @property
   def __processors(self):
-    """maximum number of processors can be used"""
+    """Maximum number of processors can be used"""
     if 'processors' in self._pars and self._pars['processors'] >= 1:
       return int(self._pars['processors'])
     return multiprocessing.cpu_count()
 
   @abstractmethod
   def _one_trial(self, seed, stop_cond):
-    """one trial of the game"""
+    """One trial of the game"""
 
   def __write_to_file(self, data):
-    """write the result of one trial to file
+    """Write the result of one trial to file
 
-    Input:
-      data: the result of one trial
+    Args:
+      data (dict): the result of one trial
     """
     with open(self.__output_file, 'a') as f:
       json.dump(data, f)
@@ -82,7 +83,7 @@ class Protocol(ABC):
       f.flush()
 
   def __multi_proc(self, stop_cond):
-    """multi-processes helper"""
+    """Multi-processes helper"""
     pool = Pool(processes=self.__processors)
 
     for _ in range(self.__trials):
@@ -101,12 +102,13 @@ class Protocol(ABC):
     pool.join()
 
   def play(self, bandit, learner, running_pars, output_file):
-    """
-    Input:
-      bandit: environment
-      learner: learner
-      running_pars: running parameters
-      output_file: file used to store the results
+    """Start the game
+
+    Args:
+      bandit (object or [object,]): environment
+      learner (object or [object,]): learner
+      running_pars (dict): running parameters
+      output_file (str): file used to store the results
     """
     if isinstance(bandit, list):
       # multiple players

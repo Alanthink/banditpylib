@@ -4,8 +4,6 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['UCBV']
-
 
 class UCBV(OrdinaryLearner):
   r"""UCB1 policy :cite:`audibert2009exploration`.
@@ -23,7 +21,7 @@ class UCBV(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars``: a dictionary. Key ``'b'`` (*optional*) is the upper bound of
+      ``pars`` (dict): Key ``'b'`` (*optional*) is the upper bound of
        reward. Default value is 1.0.
     """
     super().__init__(pars)

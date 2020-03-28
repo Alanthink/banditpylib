@@ -4,8 +4,6 @@ from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import OrdinaryBanditItf
 from .. import FixConfBAILearner
 
-__all__ = ['DecentralizedOrdinaryLearner']
-
 
 class DecentralizedOrdinaryLearner(FixConfBAILearner):
   """base class for learners in the classic bandit model"""

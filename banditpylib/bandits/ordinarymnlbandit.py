@@ -4,8 +4,6 @@ import numpy as np
 
 from .utils import Bandit
 
-__all__ = ['OrdinaryMNLBandit', 'search', 'search_best_assortment']
-
 
 def search(subsets, n, i, path, K=np.inf):
   if i == n:
@@ -30,18 +28,20 @@ def search_best_assortment(abspar, revenue, K=np.inf):
 
 
 class OrdinaryMNLBandit(Bandit):
-  """ordinary MNL bandit
+  """Ordinary MNL bandit
 
   Products are numbered from 1 by default. 0 is for non-purchase.
   It is assumed that the abstraction parameter of non-purchase is 1.
-
-  Input:
-    abspar: abstraction parameters of products
-    revenue: revenue of products
-    K: the cardinality upper bound of every assortment
   """
 
   def __init__(self, pars):
+    """
+    Args:
+      pars (dict):
+        'abspar': abstraction parameters of products
+        'revenue': revenue of products
+        'K': the cardinality upper bound of every assortment
+    """
     abspar = pars['abspar']
     revenue = pars['revenue']
     if not isinstance(abspar, list) or not isinstance(revenue, list):
@@ -96,8 +96,8 @@ class OrdinaryMNLBandit(Bandit):
 
   def _take_action(self, action):
     """
-    Input:
-      action: a list of product indexes
+    Args:
+      action (int or [int, ]): actions to take
     """
     assortment = action
     del action

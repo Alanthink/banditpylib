@@ -1,22 +1,18 @@
-"""
-Base class for a learner with goal regret minimization.
-
-Before each game is run, a learner must be initialized with `reset`. The first
-argument `bandit` is needed since during the initialization, a learner may want
-to ask the bandit for basic information. During each time step, `learner_step`
-is called to ask the learner for choice of the action. `update` is called by the
-protocol when the reward is obtained from the environment.
-"""
 from abc import abstractmethod
 
 from .. import Learner
 
-__all__ = ['RegretMinimizationLearner']
-
 
 class RegretMinimizationLearner(Learner):
-  """base class for regret minimization learners"""
+  """Base class for a learner with goal regret minimization.
 
+  Before a game is run, a learner should be initialized with ``reset``.
+  During each time step, ``learner_step`` is called to ask the learner for the
+  choice of the action. ``update`` is called by the protocol when the reward is
+  revealed from the environment.
+  """
+
+  # default protocol
   protocol = 'SinglePlayerRegretMinProtocol'
 
   def __init__(self, pars):

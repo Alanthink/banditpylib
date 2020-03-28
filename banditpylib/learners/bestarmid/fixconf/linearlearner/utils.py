@@ -6,8 +6,6 @@ from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import LinearBanditItf
 from .. import FixConfBAILearner
 
-__all__ = ['FixConfBAILearner', 'mat_norm']
-
 
 def mat_norm(x, A):
   return np.sqrt(np.dot(np.dot(x, A), x))

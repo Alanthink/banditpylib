@@ -2,8 +2,6 @@ from abc import abstractmethod
 
 from .. import RegretMinimizationLearner
 
-__all__ = ['OrdinaryMNLLearner']
-
 
 class OrdinaryMNLLearner(RegretMinimizationLearner):
   """base class for learners in the MNL bandit model"""

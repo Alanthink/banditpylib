@@ -1,22 +1,28 @@
-"""
-Abstract class for a learner.
-
-Before a game runs, a learner should be initialized with `reset`.
-"""
 from abc import ABC, abstractmethod
-
-__all__ = ['Learner']
 
 
 class Learner(ABC):
-  """abstract class for learners"""
+  """
+  Abstract class for a learner.
+
+  Before a game runs, a learner should be initialized with ``reset``.
+  """
 
   def __init__(self, pars):
+    """
+    Args:
+      pars (dict):
+        ``'name'`` (optional): name appeared in the output figure
+    """
     self.__name = pars['name'] if 'name' in pars else None
 
   @property
   def name(self):
-    """learner name"""
+    """Name of the learner
+
+    Return:
+      str: learner name
+    """
     if self.__name:
       return self.__name
     return self._name
@@ -24,16 +30,23 @@ class Learner(ABC):
   @property
   @abstractmethod
   def _name(self):
-    """learner default name"""
+    """Default name of the learner"""
 
   @property
   @abstractmethod
   def goal(self):
-    """goal of the learner"""
+    """Goal of the learner
+
+    Return:
+      str: goal of the learner
+    """
 
   @abstractmethod
   def reset(self, bandit, stop_cond):
-    """learner initialization
-
+    """Initialize self.
     This function should be called before the start of the game.
+
+    Args:
+      bandit (object): environment
+      stop_cond (dict): stop conditions
     """

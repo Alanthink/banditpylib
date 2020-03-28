@@ -1,45 +1,70 @@
 from abc import ABC, abstractmethod
 
-__all__ = ['Arm', 'EmArm']
-
 
 class Arm(ABC):
-  """base class for an arm"""
+  """Abstract class for an arm"""
 
   @abstractmethod
   def pull(self, pulls=1):
-    pass
+    """
+    Args:
+      pulls (int, optional): number of pulls
+
+    Return:
+      numpy array: stochastic rewards
+    """
 
   @property
   @abstractmethod
   def mean(self):
-    pass
+    """
+    Return:
+      float: mean of arm
+    """
 
-# a useful class
+
 class EmArm:
-  """class for storing empirical information of an arm"""
+  """Class for storing empirical information of an arm"""
 
   def __init__(self):
     self.reset()
 
   @property
   def pulls(self):
+    """total number of pulls
+
+    Return:
+      int: total number of pulls
+    """
     return self.__pulls
 
   @property
   def rewards(self):
+    """total rewards
+
+    Return:
+      float: total rewards
+    """
     return self.__rewards
 
   @property
   def em_mean(self):
-    """get empirical mean"""
+    """empirical mean
+
+    Return:
+      float: empirical mean
+    """
     if self.__pulls == 0:
       raise Exception('No empirical mean yet!')
     return self.__rewards / self.__pulls
 
   @property
   def em_var(self):
-    """get empirical variance"""
+    """empirical variance
+
+    Return:
+      float: empirical variance
+    """
     if self.__pulls == 0:
       raise Exception('No empirical variance yet!')
     return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
@@ -51,6 +76,12 @@ class EmArm:
     self.__sq_rewards = 0
 
   def update(self, *args):
+    """use empirical rewards for update
+
+    Args:
+      args ([float] or [numpy array, int]): the first element is the empirical
+        rewards and second element is the number of pulls (if any)
+    """
     if len(args) == 1:
       self.__pulls += 1
       self.__rewards += args[0]

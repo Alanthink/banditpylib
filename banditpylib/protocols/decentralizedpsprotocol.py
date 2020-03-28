@@ -9,11 +9,9 @@ from .utils import Protocol
 
 FLAGS = flags.FLAGS
 
-__all__ = ['DecentralizedPEProtocol']
-
 
 class DecentralizedPEProtocol(Protocol):
-  """decentralized pure exploration protocol :cite:`feraud2018decentralized`.
+  """Decentralized pure exploration protocol :cite:`feraud2018decentralized`
   """
 
   def __init__(self, pars):

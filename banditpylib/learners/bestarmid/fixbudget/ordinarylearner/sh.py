@@ -3,11 +3,9 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['SH']
-
 
 class SH(OrdinaryLearner):
-  """sequential halving policy :cite:`karnin2013almost`.
+  """Sequential halving policy :cite:`karnin2013almost`
   """
 
   def __init__(self, pars):

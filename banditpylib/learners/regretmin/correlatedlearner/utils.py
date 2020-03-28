@@ -4,8 +4,6 @@ from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import LinearBanditItf
 from .. import RegretMinimizationLearner
 
-__all__ = ['CorrelatedLearner']
-
 
 class CorrelatedLearner(RegretMinimizationLearner):
   """base class for learners in the classic bandit model"""

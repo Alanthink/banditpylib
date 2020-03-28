@@ -1,12 +1,10 @@
 from . import OrdinaryLearner
 
-__all__ = ['Uniform']
-
 
 class Uniform(OrdinaryLearner):
   """Uniform Sampling policy.
 
-  Sample each arm the same number of times.
+  Sample each arm in a round-robin fashion.
   """
 
   def __init__(self, pars):

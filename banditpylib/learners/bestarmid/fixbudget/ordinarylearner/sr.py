@@ -3,11 +3,9 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['SR']
-
 
 class SR(OrdinaryLearner):
-  """successive elimination policy :cite:`audibert2010best`.
+  """Successive elimination policy :cite:`audibert2010best`
   """
 
   def __init__(self, pars):

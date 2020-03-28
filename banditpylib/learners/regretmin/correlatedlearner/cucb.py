@@ -3,8 +3,6 @@ import cvxpy as cp
 
 from .utils import CorrelatedLearner
 
-__all__ = ['CUCB']
-
 
 class CUCB(CorrelatedLearner):
   """CUCB policy :cite:`gupta2018exploiting`.

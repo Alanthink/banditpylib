@@ -9,11 +9,9 @@ from .utils import Protocol
 
 FLAGS = flags.FLAGS
 
-__all__ = ['DecentralizedRegretMinProtocol']
-
 
 class DecentralizedRegretMinProtocol(Protocol):
-  """decentralized regret minimization protocol :cite:`feraud2018decentralized`.
+  """Decentralized regret minimization protocol :cite:`feraud2018decentralized`
   """
 
   def __init__(self, pars):

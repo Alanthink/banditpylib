@@ -4,8 +4,6 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['UCB']
-
 
 class UCB(OrdinaryLearner):
   r"""UCB1 policy :cite:`auer2002finite`.
@@ -23,7 +21,7 @@ class UCB(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars``: a dictionary. Key ``'alpha'`` (*optional*) should be
+      ``pars`` (dict): Key ``'alpha'`` (*optional*) should be
        greater than 0. Default value is 2.0.
     """
     super().__init__(pars)

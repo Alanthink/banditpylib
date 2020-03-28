@@ -2,11 +2,12 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['Uniform']
-
 
 class Uniform(OrdinaryLearner):
-  """sample each arm the same number of times"""
+  """Uniform sampling policy
+
+  Sample each arm in a round-robun fashion.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

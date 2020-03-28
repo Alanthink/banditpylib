@@ -2,8 +2,6 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['TS']
-
 
 class TS(OrdinaryLearner):
   r"""
@@ -20,7 +18,7 @@ class TS(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars``: a dictionary. Key ``'prior'`` (*optional*) has value ``'beta'``
+      ``pars`` (dict): Key ``'prior'`` (*optional*) has value ``'beta'``
        or ``'gaussian'``. Default value is ``'beta'``.
     """
     super().__init__(pars)

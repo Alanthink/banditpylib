@@ -5,13 +5,11 @@ from absl import logging
 
 from .utils import Bandit
 
-__all__ = ['OrdinaryBanditItf', 'OrdinaryBandit']
-
 ARM_PKG = 'banditpylib.bandits.arms'
 
 
 class OrdinaryBanditItf(Bandit):
-  """ordinary bandit interface"""
+  """Ordinary bandit interface"""
 
   @property
   @abstractmethod
@@ -52,7 +50,8 @@ class OrdinaryBanditItf(Bandit):
 
 
 class OrdinaryBandit(OrdinaryBanditItf):
-  """ordinary bandit
+  """Ordinary bandit
+
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 

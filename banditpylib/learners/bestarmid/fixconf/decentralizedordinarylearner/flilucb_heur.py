@@ -4,11 +4,9 @@ import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
 
-__all__ = ['FlilUCB_heur']
-
 
 class FlilUCB_heur(DecentralizedOrdinaryLearner):
-  """friendly lilUCB heuristic"""
+  """Friendly lilUCB heuristic policy"""
 
   def __init__(self, pars):
     super().__init__(pars)

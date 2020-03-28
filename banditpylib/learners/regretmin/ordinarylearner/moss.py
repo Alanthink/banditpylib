@@ -4,8 +4,6 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['MOSS']
-
 
 class MOSS(OrdinaryLearner):
   r"""MOSS policy :cite:`audibert2009minimax`.

@@ -4,11 +4,9 @@ from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import OrdinaryBanditItf
 from .. import RegretMinimizationLearner
 
-__all__ = ['DecentralizedOrdinaryLearner']
-
 
 class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
-  """base class for learners in the classic bandit model"""
+  """Base class for learners in the classic bandit model"""
 
   protocol = 'DecentralizedRegretMinProtocol'
 
@@ -33,7 +31,7 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     pass
 
   def _model_reset(self):
-    """local initialization"""
+    """Local initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
       raise Exception(("%s: I don't understand",
                        " the bandit environment!") % self.name)

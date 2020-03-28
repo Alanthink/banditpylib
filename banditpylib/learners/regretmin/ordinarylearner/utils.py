@@ -4,11 +4,9 @@ from banditpylib.bandits.arms import EmArm
 from banditpylib.bandits import OrdinaryBanditItf
 from .. import RegretMinimizationLearner
 
-__all__ = ['OrdinaryLearner']
-
 
 class OrdinaryLearner(RegretMinimizationLearner):
-  """base class for learners in the ordinary multi-armed bandit"""
+  """Base class for learners in the ordinary multi-armed bandit"""
 
   def __init__(self, pars):
     super().__init__(pars)
@@ -19,10 +17,10 @@ class OrdinaryLearner(RegretMinimizationLearner):
 
   @abstractmethod
   def learner_step(self, context):
-    """return an arm to play at time ``self._t``
+    """Return an arm to play at time ``self._t``
 
     Return:
-      an integer in [0, ``self._arm_num``)
+      int: an integer in [0, ``self._arm_num``)
     """
 
   @abstractmethod

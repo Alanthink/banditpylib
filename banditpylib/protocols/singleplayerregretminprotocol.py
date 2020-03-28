@@ -6,11 +6,9 @@ from .utils import Protocol
 
 FLAGS = flags.FLAGS
 
-__all__ = ['SinglePlayerRegretMinProtocol']
-
 
 class SinglePlayerRegretMinProtocol(Protocol):
-  """single player regret minimization protocol
+  """Single player regret minimization protocol
   """
 
   def __init__(self, pars=None):

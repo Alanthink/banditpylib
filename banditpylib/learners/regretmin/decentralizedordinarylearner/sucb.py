@@ -2,8 +2,6 @@ import numpy as np
 
 from .utils import DecentralizedOrdinaryLearner
 
-__all__ = ['SUCB']
-
 
 class SUCB(DecentralizedOrdinaryLearner):
   """selfish UCB"""

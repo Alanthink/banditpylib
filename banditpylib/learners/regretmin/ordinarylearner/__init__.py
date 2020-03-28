@@ -11,7 +11,6 @@ We introduce notations in the following.
   :math:`\hat{\mu}_i(t)`,  empirical mean of arm :math:`i` before time :math:`t`
   :math:`\hat{V}_i(t)`,empirical variance of arm :math:`i` before time :math:`t`
 """
-
 from .utils import *
 from .epsgreedy import *
 from .moss import *
@@ -19,3 +18,13 @@ from .ts import *
 from .ucb import *
 from .ucbv import *
 from .uniform import *
+
+__all__ = [
+    'OrdinaryLearner',
+    'EpsGreedy',
+    'MOSS',
+    'TS',
+    'UCB',
+    'UCBV',
+    'Uniform'
+]

@@ -6,8 +6,6 @@ from .utils import LinearLearner, mat_norm
 
 FLAGS = flags.FLAGS
 
-__all__ = ['LinGapE']
-
 
 class LinGapE(LinearLearner):
   """LinGapE policy :cite:`xu2017fully`.

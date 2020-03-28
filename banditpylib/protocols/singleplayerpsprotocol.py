@@ -6,11 +6,9 @@ from .utils import Protocol
 
 FLAGS = flags.FLAGS
 
-__all__ = ['SinglePlayerPEProtocol']
-
 
 class SinglePlayerPEProtocol(Protocol):
-  """single player pure exploration protocol
+  """Single player pure exploration protocol
   """
 
   def __init__(self, pars=None):

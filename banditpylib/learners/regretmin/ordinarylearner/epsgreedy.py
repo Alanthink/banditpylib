@@ -4,8 +4,6 @@ import numpy as np
 
 from .utils import OrdinaryLearner
 
-__all__ = ['EpsGreedy']
-
 
 class EpsGreedy(OrdinaryLearner):
   r"""Epsilon-Greedy policy.
@@ -17,7 +15,7 @@ class EpsGreedy(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars``: a dictionary. Key ``'eps'`` (*optional*) should be greater than
+      ``pars`` (dict): Key ``'eps'`` (*optional*) should be greater than
        0. Default value is 1.0.
     """
     super().__init__(pars)

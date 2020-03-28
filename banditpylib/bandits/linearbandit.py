@@ -7,13 +7,11 @@ import numpy as np
 from .ordinarybandit import OrdinaryBanditItf
 from .utils import Bandit
 
-__all__ = ['LinearBanditItf', 'LinearBandit']
-
 ARM_PKG = 'banditpylib.bandits.arms'
 
 
 class LinearBanditItf(Bandit):
-  """linear bandit interface"""
+  """Linear bandit interface"""
 
   @property
   @abstractmethod
@@ -56,16 +54,22 @@ class LinearBanditItf(Bandit):
 class LinearBandit(
     OrdinaryBanditItf,
     LinearBanditItf):
-  """correlated bandit
+  """Correlated bandit
+
   Arms are numbered from 0 to len(arms)-1 by default.
   """
 
   def __init__(self, pars):
+    """
+    Args:
+      pars (dict):
+        ``'features'`` (list): features of the arms
+    """
     features = pars['features']
-    if len(features) < 2:
-      raise Exception('The number of arms should be at least two!')
     if not isinstance(features, list):
       raise Exception('Features should be given in a list!')
+    if len(features) < 2:
+      raise Exception('The number of arms should be at least two!')
     self.__features = [np.array(feature) for feature in features]
     self.__theta = np.array(pars['theta'])
     for _, feature in enumerate(self.__features):

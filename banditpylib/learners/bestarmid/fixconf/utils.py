@@ -2,8 +2,6 @@ from abc import abstractmethod
 
 from .. import BAILearner
 
-__all__ = ['FixConfBAILearner']
-
 
 class FixConfBAILearner(BAILearner):
   """base class for fixed confidence best arm identification learners"""
