@@ -163,7 +163,8 @@ has to decide by him/herself when to stop.</p>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure. Default value
+is <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,7 +183,7 @@ has to decide by him/herself when to stop.</p>
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.utils.BAILearner.reset">
 <em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">stop_cond</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.utils.BAILearner.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.
+<dd><p>Reset self.
 This function should be called before the start of the game.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -197,15 +198,8 @@ This function should be called before the start of the game.</p>
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.utils.BAILearner.goal">
 <em class="property">abstract property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.bestarmid.utils.BAILearner.goal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Goal of the learner</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>goal of the learner</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
+<dd><p>Return:
+str: goal of the learner</p>
 </dd></dl>
 
 <dl class="attribute">

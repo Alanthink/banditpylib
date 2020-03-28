@@ -165,6 +165,23 @@
 <span class="sd">  &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DecentralizedRegretMinProtocol.__init__"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedregretminprotocol.html#banditpylib.protocols.DecentralizedRegretMinProtocol.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">      pars:</span>
+<span class="sd">        ``&quot;num_players&quot;`` (int): number of players.</span>
+<span class="sd">        ``&quot;horizons&quot;`` ([int,]): horizons. When the length is 1,</span>
+<span class="sd">        ``&quot;freq&quot;`` will be used to record the intermedaite regrets and plot the</span>
+<span class="sd">        final figure. Otherwise, run each horizon in ``&quot;horizons&quot;``</span>
+<span class="sd">        independently and use the regrets to plot the final figure.</span>
+<span class="sd">        ``&quot;freq&quot;`` (int, optional): frequency to record intermediate regrets.</span>
+<span class="sd">        ``&quot;trials&quot;`` (int): number of repetitions of the game.</span>
+<span class="sd">        ``&quot;processors&quot;`` (int): maximum number of processors can be used. -1</span>
+<span class="sd">        means trying to make use all available cpus.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">      To ensure the independence between different horizons in the final figure,</span>
+<span class="sd">      make sure ``&quot;horizons&quot;`` is a list of two or more elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__messages</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="s1">&#39;num_players&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pars</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: number of players is not specified!&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>

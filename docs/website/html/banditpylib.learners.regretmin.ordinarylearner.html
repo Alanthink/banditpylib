@@ -187,13 +187,16 @@
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
 <td><p>time horizon</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(T_i(t)\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+<td><p>total number of arms</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(T_i(t)\)</span></p></td>
 <td><p>number of times arm <span class="math notranslate nohighlight">\(i\)</span> is played before time <span class="math notranslate nohighlight">\(t\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\hat{\mu}_i(t)\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\hat{\mu}_i(t)\)</span></p></td>
 <td><p>empirical mean of arm <span class="math notranslate nohighlight">\(i\)</span> before time <span class="math notranslate nohighlight">\(t\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\hat{V}_i(t)\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\hat{V}_i(t)\)</span></p></td>
 <td><p>empirical variance of arm <span class="math notranslate nohighlight">\(i\)</span> before time <span class="math notranslate nohighlight">\(t\)</span></p></td>
 </tr>
 </tbody>
@@ -209,7 +212,8 @@
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure. Default value
+is <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -284,7 +288,8 @@ in [0, 1].</p>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure. Default value
+is <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,7 +393,7 @@ greater than 0.</p>
 <dt id="banditpylib.learners.regretmin.ordinarylearner.UCBV">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">UCBV</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucbv.html#UCBV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCBV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
-<p>UCB1 policy <a class="bibtex reference internal" href="bibliography.html#audibert2009exploration" id="id4">[AMSzepesvari09]</a>.</p>
+<p>UCBV policy <a class="bibtex reference internal" href="bibliography.html#audibert2009exploration" id="id4">[AMSzepesvari09]</a>.</p>
 <p>At time <span class="math notranslate nohighlight">\(t\)</span>, play arm</p>
 <div class="math notranslate nohighlight">
 \[\mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{ 2
@@ -428,7 +433,7 @@ reward. Default value is 1.0. It should be greater than 0.</p>
 <dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/uniform.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.Uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
-<p>Uniform Sampling policy.</p>
+<p>Uniform sampling policy.</p>
 <p>Sample each arm in a round-robin fashion.</p>
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform.__init__">
@@ -436,7 +441,8 @@ reward. Default value is 1.0. It should be greater than 0.</p>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure. Default value
+is <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -181,7 +181,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">pulls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;total number of pulls</span>
+    <span class="sd">&quot;&quot;&quot;Total number of pulls</span>
 
 <span class="sd">    Return:</span>
 <span class="sd">      int: total number of pulls</span>
@@ -190,7 +190,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">rewards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;total rewards</span>
+    <span class="sd">&quot;&quot;&quot;Total rewards obtained sofar</span>
 
 <span class="sd">    Return:</span>
 <span class="sd">      float: total rewards</span>
@@ -199,7 +199,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">em_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;empirical mean</span>
+    <span class="sd">&quot;&quot;&quot;Empirical mean</span>
 
 <span class="sd">    Return:</span>
 <span class="sd">      float: empirical mean</span>
@@ -210,7 +210,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">em_var</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;empirical variance</span>
+    <span class="sd">&quot;&quot;&quot;Empirical variance</span>
 
 <span class="sd">    Return:</span>
 <span class="sd">      float: empirical variance</span>
@@ -220,13 +220,13 @@
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sq_rewards</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span>
 
 <div class="viewcode-block" id="EmArm.reset"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;clear historical records&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Reset self. Clear historical records&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__sq_rewards</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 <div class="viewcode-block" id="EmArm.update"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;use empirical rewards for update</span>
+    <span class="sd">&quot;&quot;&quot;Use empirical rewards for update</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      args ([float] or [numpy array, int]): the first element is the empirical</span>
