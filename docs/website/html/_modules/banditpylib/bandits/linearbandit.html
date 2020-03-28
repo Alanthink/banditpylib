@@ -204,16 +204,17 @@
 <div class="viewcode-block" id="LinearBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit">[docs]</a><span class="k">class</span> <span class="nc">LinearBandit</span><span class="p">(</span>
     <span class="n">OrdinaryBanditItf</span><span class="p">,</span>
     <span class="n">LinearBanditItf</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Correlated bandit</span>
+  <span class="sd">&quot;&quot;&quot;Class for linear bandit.</span>
 
-<span class="sd">  Arms are numbered from 0 to len(arms)-1 by default.</span>
+<span class="sd">  Arms are numbered from 0 to ``self.__arm_num``-1 by default.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="LinearBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">      pars (dict):</span>
-<span class="sd">        ``&#39;features&#39;`` (list): features of the arms</span>
+<span class="sd">        ``&#39;features&#39;`` ([[float,],]): features of the arms,</span>
+<span class="sd">        ``&#39;theta&#39;``: theta</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -242,7 +243,11 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">arm_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;return number of arms&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Number of arms</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">      int: number of arms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span>
 
   <span class="nd">@property</span>

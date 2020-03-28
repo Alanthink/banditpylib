@@ -200,9 +200,9 @@
 
 
 <div class="viewcode-block" id="OrdinaryBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryBandit</span><span class="p">(</span><span class="n">OrdinaryBanditItf</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Ordinary bandit</span>
+  <span class="sd">&quot;&quot;&quot;Class for ordinary bandit.</span>
 
-<span class="sd">  Arms are numbered from 0 to len(arms)-1 by default.</span>
+<span class="sd">  Arms are numbered from 0 to ``self.__arm_num``-1 by default.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="OrdinaryBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
@@ -232,7 +232,11 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">arm_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;return number of arms&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Number of arms</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">      int: number of arms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span>
 
   <span class="nd">@property</span>

@@ -158,7 +158,7 @@
 <span class="sd">  Base class for a learner with goal best arm identification.</span>
 
 <span class="sd">  Instead of ``learner_step``, pure exploration learners implement</span>
-<span class="sd">  `learner_round` method which essentially means a round. The learner</span>
+<span class="sd">  ``learner_round`` method which essentially means a round. The learner</span>
 <span class="sd">  has to decide by him/herself when to stop.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
@@ -178,7 +178,7 @@
 
 <div class="viewcode-block" id="BAILearner.learner_round"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;run one round&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;Run one round&quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="BAILearner.reset"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>

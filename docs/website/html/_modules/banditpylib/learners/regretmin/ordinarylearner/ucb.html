@@ -171,8 +171,9 @@
 <div class="viewcode-block" id="UCB.__init__"><a class="viewcode-back" href="../../../../../banditpylib.learners.regretmin.ordinarylearner.ucb.html#banditpylib.learners.regretmin.ordinarylearner.UCB.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      ``pars`` (dict): Key ``&#39;alpha&#39;`` (*optional*) should be</span>
-<span class="sd">       greater than 0. Default value is 2.0.</span>
+<span class="sd">      pars (dict):</span>
+<span class="sd">        ``&#39;alpha&#39;`` (float, *optional*): default value is 2.0. It should be</span>
+<span class="sd">        greater than 0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">in</span> <span class="n">pars</span> <span class="k">else</span> <span class="mf">2.0</span>

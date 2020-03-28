@@ -181,7 +181,7 @@
     <span class="k">pass</span>
 
   <span class="k">def</span> <span class="nf">_model_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Local initialization&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Model initialization&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span><span class="p">,</span> <span class="n">OrdinaryBanditItf</span><span class="p">):</span>
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">((</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: I don&#39;t understand&quot;</span><span class="p">,</span>
                        <span class="s2">&quot; the bandit environment!&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>

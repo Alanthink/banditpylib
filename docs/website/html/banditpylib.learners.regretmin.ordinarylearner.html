@@ -206,11 +206,12 @@
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/utils.html#OrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args:
-pars (dict):</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
-</div></blockquote>
+<dd><p>Learner initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -241,8 +242,8 @@ left probability play the arm with the maximum empirical mean.</p>
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.EpsGreedy.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'eps'</span></code> (<em>optional</em>) should be greater than
-0. Default value is 1.0.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'eps'</span></code> (float, <em>optional</em>): default value is 1.0. It should be
+greater than 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -280,11 +281,12 @@ in [0, 1].</p>
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.MOSS.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/moss.html#MOSS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.MOSS.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args:
-pars (dict):</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
-</div></blockquote>
+<dd><p>Learner initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -320,8 +322,8 @@ the maximum sampled virtual mean.</p>
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.TS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'prior'</span></code> (<em>optional</em>) has value <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>
-or <code class="docutils literal notranslate"><span class="pre">'gaussian'</span></code>. Default value is <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'prior'</span></code> (str, <em>optional</em>) <code class="docutils literal notranslate"><span class="pre">'beta'</span></code> or <code class="docutils literal notranslate"><span class="pre">'gaussian'</span></code>.
+Default value is <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -360,8 +362,8 @@ or <code class="docutils literal notranslate"><span class="pre">'gaussian'</span
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCB.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'alpha'</span></code> (<em>optional</em>) should be
-greater than 0. Default value is 2.0.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'alpha'</span></code> (float, <em>optional</em>): default value is 2.0. It should be
+greater than 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -400,8 +402,8 @@ greater than 0. Default value is 2.0.</p>
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucbv.html#UCBV.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCBV.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'b'</span></code> (<em>optional</em>) is the upper bound of
-reward. Default value is 1.0.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'b'</span></code> (float, <em>optional</em>) upper bound of
+reward. Default value is 1.0. It should be greater than 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -431,11 +433,12 @@ reward. Default value is 1.0.</p>
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/uniform.html#Uniform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.Uniform.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args:
-pars (dict):</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
-</div></blockquote>
+<dd><p>Learner initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

@@ -175,16 +175,17 @@
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" title="banditpylib.learners.utils.Learner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.utils.Learner</span></code></a></p>
 <p>Base class for a learner with goal best arm identification.</p>
 <p>Instead of <code class="docutils literal notranslate"><span class="pre">learner_step</span></code>, pure exploration learners implement
-<cite>learner_round</cite> method which essentially means a round. The learner
+<code class="docutils literal notranslate"><span class="pre">learner_round</span></code> method which essentially means a round. The learner
 has to decide by him/herself when to stop.</p>
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.BAILearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args:
-pars (dict):</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
-</div></blockquote>
+<dd><p>Learner initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -195,7 +196,7 @@ pars (dict):</p>
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.BAILearner.learner_round">
 <em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.learner_round" title="Permalink to this definition">¶</a></dt>
-<dd><p>run one round</p>
+<dd><p>Run one round</p>
 </dd></dl>
 
 <dl class="method">
