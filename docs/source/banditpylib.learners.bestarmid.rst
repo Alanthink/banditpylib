@@ -11,9 +11,3 @@ bestarmid package
 
    banditpylib.learners.bestarmid.fixbudget
    banditpylib.learners.bestarmid.fixconf
-
-
-.. toctree::
-   :maxdepth: 4
-
-   banditpylib.learners.bestarmid.utils

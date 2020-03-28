@@ -155,20 +155,18 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Bandit</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OrdinaryBanditItf&#39;</span><span class="p">,</span> <span class="s1">&#39;OrdinaryBandit&#39;</span><span class="p">]</span>
-
 <span class="n">ARM_PKG</span> <span class="o">=</span> <span class="s1">&#39;banditpylib.bandits.arms&#39;</span>
 
 
-<div class="viewcode-block" id="OrdinaryBanditItf"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryBanditItf</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;ordinary bandit interface&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OrdinaryBanditItf"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBanditItf">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryBanditItf</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Ordinary bandit interface&quot;&quot;&quot;</span>
 
   <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="OrdinaryBanditItf.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="OrdinaryBanditItf.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBanditItf.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
@@ -201,12 +199,13 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="OrdinaryBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBandit">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryBandit</span><span class="p">(</span><span class="n">OrdinaryBanditItf</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;ordinary bandit</span>
+<div class="viewcode-block" id="OrdinaryBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryBandit</span><span class="p">(</span><span class="n">OrdinaryBanditItf</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Ordinary bandit</span>
+
 <span class="sd">  Arms are numbered from 0 to len(arms)-1 by default.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;arm&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;BernoulliArm&#39;</span><span class="p">,</span> <span class="s1">&#39;GaussianArm&#39;</span><span class="p">]:</span>
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Can not setup </span><span class="si">%s</span><span class="s1">!&#39;</span> <span class="o">%</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;arm&#39;</span><span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__arm_type</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;arm&#39;</span><span class="p">]</span>
@@ -229,7 +228,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_ind</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
         <span class="p">[(</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">)],</span>
         <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_ind</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_ind</span><span class="p">]</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">arm_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -248,7 +247,7 @@
   <span class="k">def</span> <span class="nf">tot_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tot_samples</span>
 
-<div class="viewcode-block" id="OrdinaryBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__tot_samples</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__max_rewards</span> <span class="o">=</span> <span class="mi">0</span></div>
 
@@ -280,10 +279,10 @@
   <span class="k">def</span> <span class="nf">_update_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="OrdinaryBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rewards</span> <span class="o">-</span> <span class="n">rewards</span></div>
 
-<div class="viewcode-block" id="OrdinaryBandit.best_arm_regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBandit.best_arm_regret">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryBandit.best_arm_regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.OrdinaryBandit.best_arm_regret">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_ind</span> <span class="o">==</span> <span class="n">ind</span><span class="p">)</span></div></div>
 </pre></div>
 

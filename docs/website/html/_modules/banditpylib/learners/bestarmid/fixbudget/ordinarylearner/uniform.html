@@ -152,14 +152,15 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">OrdinaryLearner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Uniform&#39;</span><span class="p">]</span>
 
+<div class="viewcode-block" id="Uniform"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform">[docs]</a><span class="k">class</span> <span class="nc">Uniform</span><span class="p">(</span><span class="n">OrdinaryLearner</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Uniform sampling policy</span>
 
-<div class="viewcode-block" id="Uniform"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.Uniform">[docs]</a><span class="k">class</span> <span class="nc">Uniform</span><span class="p">(</span><span class="n">OrdinaryLearner</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;sample each arm the same number of times&quot;&quot;&quot;</span>
+<span class="sd">  Sample each arm in a round-robun fashion.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="Uniform.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -168,14 +169,14 @@
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="Uniform.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.Uniform.learner_round">[docs]</a>  <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Uniform.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform.learner_round">[docs]</a>  <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">rnd_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_budget</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arm_num</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_arm_num</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">action</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ind</span><span class="p">,</span> <span class="n">rnd_array</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arm_num</span><span class="p">)]</span>
     <span class="n">feedback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_model_update</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Uniform.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.Uniform.best_arm">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Uniform.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform.best_arm">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">([(</span><span class="n">ind</span><span class="p">,</span> <span class="n">arm</span><span class="o">.</span><span class="n">em_mean</span><span class="p">)</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">arm</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_em_arms</span><span class="p">)],</span>
                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></div></div>

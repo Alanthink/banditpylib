@@ -152,14 +152,12 @@
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">BAILearner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FixConfBAILearner&#39;</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="FixConfBAILearner"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.FixConfBAILearner">[docs]</a><span class="k">class</span> <span class="nc">FixConfBAILearner</span><span class="p">(</span><span class="n">BAILearner</span><span class="p">):</span>
+<div class="viewcode-block" id="FixConfBAILearner"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner">[docs]</a><span class="k">class</span> <span class="nc">FixConfBAILearner</span><span class="p">(</span><span class="n">BAILearner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;base class for fixed confidence best arm identification learners&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="FixConfBAILearner.__init__"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">goal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -176,11 +174,11 @@
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="FixConfBAILearner.best_arm"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.FixConfBAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FixConfBAILearner.best_arm"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="FixConfBAILearner.reset"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.FixConfBAILearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
+<div class="viewcode-block" id="FixConfBAILearner.reset"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span> <span class="o">=</span> <span class="n">bandit</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_fail_prob</span> <span class="o">=</span> <span class="n">stop_cond</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_goal_reset</span><span class="p">()</span>

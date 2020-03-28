@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="correlatedlearner package" href="banditpylib.learners.regretmin.correlatedlearner.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.bestarmid.utils.html" /> 
+    <link rel="prev" title="ordinarylearner package" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -170,40 +169,82 @@
             
   <div class="section" id="module-banditpylib.learners.regretmin">
 <span id="regretmin-package"></span><h1>regretmin package<a class="headerlink" href="#module-banditpylib.learners.regretmin" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.</code><code class="sig-name descname">RegretMinimizationLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" title="banditpylib.learners.utils.Learner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.utils.Learner</span></code></a></p>
+<p>Base class for a learner with goal regret minimization.</p>
+<p>Before a game is run, a learner should be initialized with <code class="docutils literal notranslate"><span class="pre">reset</span></code>.
+During each time step, <code class="docutils literal notranslate"><span class="pre">learner_step</span></code> is called to ask the learner for the
+choice of the action. <code class="docutils literal notranslate"><span class="pre">update</span></code> is called by the protocol when the reward is
+revealed from the environment.</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.learner_step">
+<em class="property">abstract </em><code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">stop_cond</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.
+This function should be called before the start of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<em>object</em>) – environment</p></li>
+<li><p><strong>stop_cond</strong> (<em>dict</em>) – stop conditions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.rewards">
+<code class="sig-name descname">rewards</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner.rewards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.rewards" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">action</em>, <em class="sig-param">feedback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/utils.html#RegretMinimizationLearner.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.goal">
+<em class="property">property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goal of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>goal of the learner</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="banditpylib.learners.regretmin.RegretMinimizationLearner.protocol">
+<code class="sig-name descname">protocol</code><em class="property"> = 'SinglePlayerRegretMinProtocol'</em><a class="headerlink" href="#banditpylib.learners.regretmin.RegretMinimizationLearner.protocol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.html">correlatedlearner package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.cucb.html">cucb module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.html">decentralizedordinarylearner package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.fucb.html">fucb module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.html">sucb module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.html">ordinarylearner package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html">epsgreedy module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.moss.html">moss module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ts.html">ts module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucb.html">ucb module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucbv.html">ucbv module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.html">ordinarymnllearner package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html">explorationexploitation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html">utils module</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.utils.html">utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.html">correlatedlearner package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.html">decentralizedordinarylearner package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.html">ordinarylearner package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.html">ordinarymnllearner package</a></li>
 </ul>
 </div>
 </div>
@@ -219,7 +260,7 @@
         <a href="banditpylib.learners.regretmin.correlatedlearner.html" class="btn btn-neutral float-right" title="correlatedlearner package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.bestarmid.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html" class="btn btn-neutral float-left" title="ordinarylearner package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

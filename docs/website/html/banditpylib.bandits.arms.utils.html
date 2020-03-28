@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="linearbandit module" href="banditpylib.bandits.linearbandit.html" />
-    <link rel="prev" title="gaussianarm module" href="banditpylib.bandits.arms.gaussianarm.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,24 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -146,14 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.bandits.html">bandits package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.bandits.arms.html">arms package</a> &raquo;</li>
-        
       <li>utils module</li>
     
     
@@ -177,42 +151,44 @@
 <span id="utils-module"></span><h1>utils module<a class="headerlink" href="#module-banditpylib.bandits.arms.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.bandits.arms.utils.Arm">
-<em class="property">class </em><code class="sig-name descname">Arm</code><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#Arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.Arm" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.utils.</code><code class="sig-name descname">Arm</code><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#Arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.Arm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>base class for an arm</p>
-<dl class="method">
-<dt id="banditpylib.bandits.arms.utils.Arm.mean">
-<em class="property">abstract property </em><code class="sig-name descname">mean</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.Arm.mean" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Abstract class for an arm</p>
 <dl class="method">
 <dt id="banditpylib.bandits.arms.utils.Arm.pull">
 <em class="property">abstract </em><code class="sig-name descname">pull</code><span class="sig-paren">(</span><em class="sig-param">pulls=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#Arm.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.Arm.pull" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pulls</strong> (<em>int</em><em>, </em><em>optional</em>) – number of pulls</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>stochastic rewards</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.utils.Arm.mean">
+<em class="property">abstract property </em><code class="sig-name descname">mean</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.Arm.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return:
+float: mean of arm</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="banditpylib.bandits.arms.utils.EmArm">
-<em class="property">class </em><code class="sig-name descname">EmArm</code><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#EmArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.utils.</code><code class="sig-name descname">EmArm</code><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#EmArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>class for storing empirical information of an arm</p>
+<p>Class for storing empirical information of an arm</p>
 <dl class="method">
-<dt id="banditpylib.bandits.arms.utils.EmArm.em_mean">
-<em class="property">property </em><code class="sig-name descname">em_mean</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.em_mean" title="Permalink to this definition">¶</a></dt>
-<dd><p>get empirical mean</p>
+<dt id="banditpylib.bandits.arms.utils.EmArm.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#EmArm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.arms.utils.EmArm.em_var">
-<em class="property">property </em><code class="sig-name descname">em_var</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.em_var" title="Permalink to this definition">¶</a></dt>
-<dd><p>get empirical variance</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.arms.utils.EmArm.pulls">
-<em class="property">property </em><code class="sig-name descname">pulls</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.pulls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="banditpylib.bandits.arms.utils.EmArm.reset">
@@ -221,14 +197,72 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="banditpylib.bandits.arms.utils.EmArm.rewards">
-<em class="property">property </em><code class="sig-name descname">rewards</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.rewards" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="banditpylib.bandits.arms.utils.EmArm.update">
 <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#EmArm.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>use empirical rewards for update</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>[</em><em>float</em><em>] or </em><em>[</em><em>numpy array</em><em>, </em><em>int</em><em>]</em>) – the first element is the empirical
+rewards and second element is the number of pulls (if any)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.utils.EmArm.em_mean">
+<em class="property">property </em><code class="sig-name descname">em_mean</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.em_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>empirical mean</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>empirical mean</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.utils.EmArm.em_var">
+<em class="property">property </em><code class="sig-name descname">em_var</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.em_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>empirical variance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>empirical variance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.utils.EmArm.pulls">
+<em class="property">property </em><code class="sig-name descname">pulls</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.pulls" title="Permalink to this definition">¶</a></dt>
+<dd><p>total number of pulls</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>total number of pulls</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.utils.EmArm.rewards">
+<em class="property">property </em><code class="sig-name descname">rewards</code><a class="headerlink" href="#banditpylib.bandits.arms.utils.EmArm.rewards" title="Permalink to this definition">¶</a></dt>
+<dd><p>total rewards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>total rewards</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -239,15 +273,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.bandits.linearbandit.html" class="btn btn-neutral float-right" title="linearbandit module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.bandits.arms.gaussianarm.html" class="btn btn-neutral float-left" title="gaussianarm module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

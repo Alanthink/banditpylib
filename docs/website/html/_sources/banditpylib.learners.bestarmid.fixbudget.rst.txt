@@ -10,9 +10,3 @@ fixbudget package
    :maxdepth: 4
 
    banditpylib.learners.bestarmid.fixbudget.ordinarylearner
-
-
-.. toctree::
-   :maxdepth: 4
-
-   banditpylib.learners.bestarmid.fixbudget.utils

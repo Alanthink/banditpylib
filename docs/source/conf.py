@@ -58,8 +58,10 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-add_module_names = False
-autoclass_content = 'both'
+autodoc_default_options = {
+    'member-order': 'groupwise',
+    'special-members': '__init__'
+}
 
 source_suffix = {
     '.rst': 'restructuredtext',

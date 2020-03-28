@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ucbv module" href="banditpylib.learners.regretmin.ordinarylearner.ucbv.html" />
-    <link rel="prev" title="ts module" href="banditpylib.learners.regretmin.ordinarylearner.ts.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,21 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -143,16 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.regretmin.html">regretmin package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.regretmin.ordinarylearner.html">ordinarylearner package</a> &raquo;</li>
-        
       <li>ucb module</li>
     
     
@@ -176,7 +151,7 @@
 <span id="ucb-module"></span><h1>ucb module<a class="headerlink" href="#module-banditpylib.learners.regretmin.ordinarylearner.ucb" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.ucb.UCB">
-<em class="property">class </em><code class="sig-name descname">UCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ucb.UCB" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.ucb.</code><code class="sig-name descname">UCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ucb.UCB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
 <p>UCB1 policy <a class="bibtex reference internal" href="bibliography.html#auer2002finite" id="id1">[ACBF02]</a>.</p>
 <p>At time <span class="math notranslate nohighlight">\(t\)</span>, play arm</p>
@@ -187,19 +162,27 @@
 <p class="admonition-title">Note</p>
 <p>Reward has to be bounded in [0, 1].</p>
 </div>
-<dl class="field-list simple">
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.ucb.UCB.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ucb.UCB.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> – a dictionary. Key <code class="docutils literal notranslate"><span class="pre">'alpha'</span></code> (<em>optional</em>) should be
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'alpha'</span></code> (<em>optional</em>) should be
 greater than 0. Default value is 2.0.</p>
 </dd>
 </dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.ucb.UCB.learner_step">
 <code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ucb.UCB.learner_step" title="Permalink to this definition">¶</a></dt>
-<dd><p>return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -213,15 +196,6 @@ greater than 0. Default value is 2.0.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.learners.regretmin.ordinarylearner.ucbv.html" class="btn btn-neutral float-right" title="ucbv module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.learners.regretmin.ordinarylearner.ts.html" class="btn btn-neutral float-left" title="ts module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

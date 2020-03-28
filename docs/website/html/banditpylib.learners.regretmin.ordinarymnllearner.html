@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="explorationexploitation module" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.regretmin.ordinarylearner.utils.html" /> 
+    <link rel="next" title="protocols package" href="banditpylib.protocols.html" />
+    <link rel="prev" title="ordinarylearner package" href="banditpylib.learners.regretmin.ordinarylearner.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -172,12 +171,50 @@
             
   <div class="section" id="module-banditpylib.learners.regretmin.ordinarymnllearner">
 <span id="ordinarymnllearner-package"></span><h1>ordinarymnllearner package<a class="headerlink" href="#module-banditpylib.learners.regretmin.ordinarymnllearner" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html">explorationexploitation module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html">utils module</a></li>
-</ul>
-</div>
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarymnllearner.</code><code class="sig-name descname">OrdinaryMNLLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/utils.html#OrdinaryMNLLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" title="banditpylib.learners.regretmin.utils.RegretMinimizationLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.utils.RegretMinimizationLearner</span></code></a></p>
+<p>base class for learners in the MNL bandit model</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/utils.html#OrdinaryMNLLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner.learner_step">
+<em class="property">abstract </em><code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/utils.html#OrdinaryMNLLearner.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.OrdinaryMNLLearner.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarymnllearner.</code><code class="sig-name descname">ExplorationExploitation</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/explorationexploitation.html#ExplorationExploitation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarymnllearner.utils.html#banditpylib.learners.regretmin.ordinarymnllearner.utils.OrdinaryMNLLearner" title="banditpylib.learners.regretmin.ordinarymnllearner.utils.OrdinaryMNLLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarymnllearner.utils.OrdinaryMNLLearner</span></code></a></p>
+<p>Exploration-Exploitation policy <a class="bibtex reference internal" href="bibliography.html#agrawal2019mnl" id="id1">[AAGZ19]</a>.</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/explorationexploitation.html#ExplorationExploitation.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarymnllearner/explorationexploitation.html#ExplorationExploitation.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarymnllearner.ExplorationExploitation.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -188,10 +225,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.regretmin.ordinarymnllearner.explorationexploitation.html" class="btn btn-neutral float-right" title="explorationexploitation module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.protocols.html" class="btn btn-neutral float-right" title="protocols package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.regretmin.ordinarylearner.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.regretmin.ordinarylearner.html" class="btn btn-neutral float-left" title="ordinarylearner package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

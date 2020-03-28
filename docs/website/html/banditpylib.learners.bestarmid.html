@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">bestarmid package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -170,45 +169,83 @@
             
   <div class="section" id="module-banditpylib.learners.bestarmid">
 <span id="bestarmid-package"></span><h1>bestarmid package<a class="headerlink" href="#module-banditpylib.learners.bestarmid" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.BAILearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.</code><code class="sig-name descname">BAILearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" title="banditpylib.learners.utils.Learner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.utils.Learner</span></code></a></p>
+<p>Base class for a learner with goal best arm identification.</p>
+<p>Instead of <code class="docutils literal notranslate"><span class="pre">learner_step</span></code>, pure exploration learners implement
+<cite>learner_round</cite> method which essentially means a round. The learner
+has to decide by him/herself when to stop.</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.BAILearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.BAILearner.best_arm">
+<em class="property">abstract </em><code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.BAILearner.learner_round">
+<em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.BAILearner.reset">
+<em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">stop_cond</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.
+This function should be called before the start of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<em>object</em>) – environment</p></li>
+<li><p><strong>stop_cond</strong> (<em>dict</em>) – stop conditions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.BAILearner.goal">
+<em class="property">abstract property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goal of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>goal of the learner</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="banditpylib.learners.bestarmid.BAILearner.protocol">
+<code class="sig-name descname">protocol</code><em class="property"> = 'SinglePlayerPEProtocol'</em><a class="headerlink" href="#banditpylib.learners.bestarmid.BAILearner.protocol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.html">fixbudget package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.html">ordinarylearner package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html">sh module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.html">sr module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.utils.html">utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.html">ordinarylearner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.html">fixconf package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.html">decentralizedordinarylearner package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur.html">flilucb_heur module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.html">slilucb_heur module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html">utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.html">decentralizedordinarylearner package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html">linearlearner package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html">ordinarylearner package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html">linearlearner package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.linearlearner.lingape.html">lingape module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.html">ordinarylearner package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html">expgap module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur.html">lilucb_heur module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.utils.html">utils module</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.utils.html">utils module</a></li>
 </ul>
 </div>
 </div>

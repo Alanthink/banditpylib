@@ -13,9 +13,3 @@ regretmin package
    banditpylib.learners.regretmin.decentralizedordinarylearner
    banditpylib.learners.regretmin.ordinarylearner
    banditpylib.learners.regretmin.ordinarymnllearner
-
-
-.. toctree::
-   :maxdepth: 4
-
-   banditpylib.learners.regretmin.utils

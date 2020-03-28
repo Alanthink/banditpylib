@@ -154,31 +154,29 @@
 <span class="kn">from</span> <span class="nn">banditpylib.bandits</span> <span class="kn">import</span> <span class="n">OrdinaryBanditItf</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">FixConfBAILearner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DecentralizedOrdinaryLearner&#39;</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="DecentralizedOrdinaryLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedOrdinaryLearner</span><span class="p">(</span><span class="n">FixConfBAILearner</span><span class="p">):</span>
+<div class="viewcode-block" id="DecentralizedOrdinaryLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedOrdinaryLearner</span><span class="p">(</span><span class="n">FixConfBAILearner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;base class for learners in the classic bandit model&quot;&quot;&quot;</span>
 
   <span class="n">protocol</span> <span class="o">=</span> <span class="s1">&#39;DecentralizedPEProtocol&#39;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="DecentralizedOrdinaryLearner.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
   <span class="c1"># pylint: disable=arguments-differ</span>
-<div class="viewcode-block" id="DecentralizedOrdinaryLearner.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="DecentralizedOrdinaryLearner.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="DecentralizedOrdinaryLearner.broadcast_message"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.broadcast_message">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="DecentralizedOrdinaryLearner.broadcast_message"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.broadcast_message">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">broadcast_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="DecentralizedOrdinaryLearner.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="DecentralizedOrdinaryLearner.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 

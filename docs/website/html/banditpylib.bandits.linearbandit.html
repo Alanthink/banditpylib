@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ordinarybandit module" href="banditpylib.bandits.ordinarybandit.html" />
-    <link rel="prev" title="utils module" href="banditpylib.bandits.arms.utils.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,24 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">linearbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -146,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.bandits.html">bandits package</a> &raquo;</li>
-        
       <li>linearbandit module</li>
     
     
@@ -174,10 +150,90 @@
   <div class="section" id="module-banditpylib.bandits.linearbandit">
 <span id="linearbandit-module"></span><h1>linearbandit module<a class="headerlink" href="#module-banditpylib.bandits.linearbandit" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.linearbandit.</code><code class="sig-name descname">LinearBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a>, <a class="reference internal" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="banditpylib.bandits.linearbandit.LinearBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.linearbandit.LinearBanditItf</span></code></a></p>
+<p>Correlated bandit</p>
+<p>Arms are numbered from 0 to len(arms)-1 by default.</p>
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'features'</span></code> (list): features of the arms</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.best_arm_regret">
+<code class="sig-name descname">best_arm_regret</code><span class="sig-paren">(</span><em class="sig-param">ind</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.best_arm_regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.best_arm_regret" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.regret">
+<code class="sig-name descname">regret</code><span class="sig-paren">(</span><em class="sig-param">rewards</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.regret" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset of the environment</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.arm_num">
+<em class="property">property </em><code class="sig-name descname">arm_num</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.arm_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>return number of arms</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.arm_type">
+<em class="property">property </em><code class="sig-name descname">arm_type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.arm_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.context">
+<em class="property">property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.features">
+<em class="property">property </em><code class="sig-name descname">features</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.tot_samples">
+<em class="property">property </em><code class="sig-name descname">tot_samples</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.tot_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBandit.type">
+<em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of the bandit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>type of the bandit environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf">
-<em class="property">class </em><code class="sig-name descname">LinearBanditItf</code><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.linearbandit.</code><code class="sig-name descname">LinearBanditItf</code><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" title="banditpylib.bandits.utils.Bandit"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.utils.Bandit</span></code></a></p>
-<p>linear bandit interface</p>
+<p>Linear bandit interface</p>
+<dl class="method">
+<dt id="banditpylib.bandits.linearbandit.LinearBanditItf.reset">
+<em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset of the environment</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.arm_num">
 <em class="property">abstract property </em><code class="sig-name descname">arm_num</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.arm_num" title="Permalink to this definition">¶</a></dt>
@@ -194,12 +250,6 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBanditItf.reset">
-<em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>function to be called to initialize the environment</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.tot_samples">
 <em class="property">abstract property </em><code class="sig-name descname">tot_samples</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.tot_samples" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -207,63 +257,15 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.type">
 <em class="property">abstract property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the bandit environment</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit">
-<em class="property">class </em><code class="sig-name descname">LinearBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a>, <a class="reference internal" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="banditpylib.bandits.linearbandit.LinearBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.linearbandit.LinearBanditItf</span></code></a></p>
-<p>correlated bandit
-Arms are numbered from 0 to len(arms)-1 by default.</p>
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.arm_num">
-<em class="property">property </em><code class="sig-name descname">arm_num</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.arm_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>return number of arms</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.arm_type">
-<em class="property">property </em><code class="sig-name descname">arm_type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.arm_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.best_arm_regret">
-<code class="sig-name descname">best_arm_regret</code><span class="sig-paren">(</span><em class="sig-param">ind</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.best_arm_regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.best_arm_regret" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.context">
-<em class="property">property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.context" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.features">
-<em class="property">property </em><code class="sig-name descname">features</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.features" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.regret">
-<code class="sig-name descname">regret</code><span class="sig-paren">(</span><em class="sig-param">rewards</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.regret" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>function to be called to initialize the environment</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.tot_samples">
-<em class="property">property </em><code class="sig-name descname">tot_samples</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.tot_samples" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.linearbandit.LinearBandit.type">
-<em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the bandit environment</p>
+<dd><p>Type of the bandit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>type of the bandit environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -275,15 +277,6 @@ Arms are numbered from 0 to len(arms)-1 by default.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.bandits.ordinarybandit.html" class="btn btn-neutral float-right" title="ordinarybandit module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.bandits.arms.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -11,9 +11,3 @@ learners package
 
    banditpylib.learners.bestarmid
    banditpylib.learners.regretmin
-
-
-.. toctree::
-   :maxdepth: 4
-
-   banditpylib.learners.utils

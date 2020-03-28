@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="learners package" href="banditpylib.learners.html" />
-    <link rel="prev" title="ordinarymnlbandit_test module" href="banditpylib.bandits.ordinarymnlbandit_test.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,24 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit.html">ordinarymnlbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -146,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.bandits.html">bandits package</a> &raquo;</li>
-        
       <li>utils module</li>
     
     
@@ -173,35 +149,28 @@
             
   <div class="section" id="module-banditpylib.bandits.utils">
 <span id="utils-module"></span><h1>utils module<a class="headerlink" href="#module-banditpylib.bandits.utils" title="Permalink to this headline">¶</a></h1>
-<p>Abstract class for the bandit environment.</p>
-<p>Before each game is run, one has to call <cite>reset</cite> function to initialize the
-environment. During each time step, <cite>context</cite> will return the
-current state of the environment. <cite>feed</cite> is used to pass the action to the
-environment for execution. The update of the state of is maintained by the
-bandit itself using <cite>_update_context</cite>.</p>
 <dl class="class">
 <dt id="banditpylib.bandits.utils.Bandit">
-<em class="property">class </em><code class="sig-name descname">Bandit</code><a class="reference internal" href="_modules/banditpylib/bandits/utils.html#Bandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.utils.Bandit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.utils.</code><code class="sig-name descname">Bandit</code><a class="reference internal" href="_modules/banditpylib/bandits/utils.html#Bandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.utils.Bandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>abstract bandit environment</p>
-<dl class="method">
-<dt id="banditpylib.bandits.utils.Bandit.context">
-<em class="property">abstract property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.utils.Bandit.context" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Abstract class for the bandit environment.</p>
+<p>Before a game is run, one has to call <code class="docutils literal notranslate"><span class="pre">reset</span></code> function to initialize the
+environment. During each time step, <code class="docutils literal notranslate"><span class="pre">context</span></code> will return the
+current state of the environment. <code class="docutils literal notranslate"><span class="pre">feed</span></code> is used to pass the action to the
+environment for execution. The update of the state of is maintained by the
+bandit itself using <code class="docutils literal notranslate"><span class="pre">_update_context</span></code>.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.utils.Bandit.feed">
 <code class="sig-name descname">feed</code><span class="sig-paren">(</span><em class="sig-param">action</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/utils.html#Bandit.feed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.utils.Bandit.feed" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Input:</dt><dd><p>action: an integer denoting which action to take</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>actoin</strong> (<em>int</em>) – action to be taken</p>
 </dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a tuple and feedback[0] denotes the reward</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the first element denotes the reward</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>feedback</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(float,)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -209,13 +178,26 @@ bandit itself using <cite>_update_context</cite>.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.utils.Bandit.reset">
 <em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/utils.html#Bandit.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.utils.Bandit.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>function to be called to initialize the environment</p>
+<dd><p>Reset of the environment</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.utils.Bandit.context">
+<em class="property">abstract property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.utils.Bandit.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="banditpylib.bandits.utils.Bandit.type">
 <em class="property">abstract property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.utils.Bandit.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the bandit environment</p>
+<dd><p>Type of the bandit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>type of the bandit environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -227,15 +209,6 @@ bandit itself using <cite>_update_context</cite>.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.learners.html" class="btn btn-neutral float-right" title="learners package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.bandits.ordinarymnlbandit_test.html" class="btn btn-neutral float-left" title="ordinarymnlbandit_test module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="singleplayerregretminprotocol module" href="banditpylib.protocols.singleplayerregretminprotocol.html" />
-    <link rel="prev" title="decentralizedregretminprotocol module" href="banditpylib.protocols.decentralizedregretminprotocol.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,23 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.decentralizedpsprotocol.html">decentralizedpsprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.decentralizedregretminprotocol.html">decentralizedregretminprotocol module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">singleplayerpsprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.singleplayerregretminprotocol.html">singleplayerregretminprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.utils.html">utils module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -145,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.protocols.html">protocols package</a> &raquo;</li>
-        
       <li>singleplayerpsprotocol module</li>
     
     
@@ -174,13 +151,19 @@
 <span id="singleplayerpsprotocol-module"></span><h1>singleplayerpsprotocol module<a class="headerlink" href="#module-banditpylib.protocols.singleplayerpsprotocol" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol">
-<em class="property">class </em><code class="sig-name descname">SinglePlayerPEProtocol</code><span class="sig-paren">(</span><em class="sig-param">pars=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/singleplayerpsprotocol.html#SinglePlayerPEProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.protocols.singleplayerpsprotocol.</code><code class="sig-name descname">SinglePlayerPEProtocol</code><span class="sig-paren">(</span><em class="sig-param">pars=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/singleplayerpsprotocol.html#SinglePlayerPEProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol" title="banditpylib.protocols.utils.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.protocols.utils.Protocol</span></code></a></p>
-<p>single player pure exploration protocol</p>
+<p>Single player pure exploration protocol</p>
+<dl class="method">
+<dt id="banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/singleplayerpsprotocol.html#SinglePlayerPEProtocol.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol.type">
 <em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.protocols.singleplayerpsprotocol.SinglePlayerPEProtocol.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>type of the protocol</p>
+<dd><p>Type of the protocol</p>
 </dd></dl>
 
 </dd></dl>
@@ -192,15 +175,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.protocols.singleplayerregretminprotocol.html" class="btn btn-neutral float-right" title="singleplayerregretminprotocol module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.protocols.decentralizedregretminprotocol.html" class="btn btn-neutral float-left" title="decentralizedregretminprotocol module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

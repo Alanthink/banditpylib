@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="epsgreedy module" href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html" /> 
+    <link rel="next" title="ordinarymnllearner package" href="banditpylib.learners.regretmin.ordinarymnllearner.html" />
+    <link rel="prev" title="decentralizedordinarylearner package" href="banditpylib.learners.regretmin.decentralizedordinarylearner.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -199,17 +198,262 @@
 </tr>
 </tbody>
 </table>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html">epsgreedy module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.moss.html">moss module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ts.html">ts module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucb.html">ucb module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.ucbv.html">ucbv module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html">utils module</a></li>
-</ul>
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">OrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/utils.html#OrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" title="banditpylib.learners.regretmin.utils.RegretMinimizationLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.utils.RegretMinimizationLearner</span></code></a></p>
+<p>Base class for learners in the ordinary multi-armed bandit</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/utils.html#OrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.learner_step">
+<em class="property">abstract </em><code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/utils.html#OrdinaryLearner.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.OrdinaryLearner.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.EpsGreedy">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">EpsGreedy</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.EpsGreedy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>Epsilon-Greedy policy.</p>
+<p>With probability <span class="math notranslate nohighlight">\(\frac{\epsilon}{t}\)</span> do uniform sampling and with the
+left probability play the arm with the maximum empirical mean.</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.EpsGreedy.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.EpsGreedy.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'eps'</span></code> (<em>optional</em>) should be greater than
+0. Default value is 1.0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.EpsGreedy.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.EpsGreedy.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.MOSS">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">MOSS</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/moss.html#MOSS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.MOSS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>MOSS policy <a class="bibtex reference internal" href="bibliography.html#audibert2009minimax" id="id1">[AB09]</a>.</p>
+<p>At time <span class="math notranslate nohighlight">\(t\)</span>, play arm</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{
+\frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MOSS will is using time horizon <code class="docutils literal notranslate"><span class="pre">self._horizon</span></code>. Reward has to be bounded
+in [0, 1].</p>
 </div>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.MOSS.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/moss.html#MOSS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.MOSS.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.MOSS.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/moss.html#MOSS.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.MOSS.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.TS">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">TS</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.TS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>Thompson Sampling policy <a class="bibtex reference internal" href="bibliography.html#agrawal2017near" id="id2">[AG17]</a>.</p>
+<p>Assume a prior distribution for every arm. At time <span class="math notranslate nohighlight">\(t\)</span>, sample a
+virtual mean from the posterior distribution for every arm. Play the arm with
+the maximum sampled virtual mean.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Reward should be Bernoulli when Beta prior is chosen.</p>
+</div>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.TS.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.TS.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'prior'</span></code> (<em>optional</em>) has value <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>
+or <code class="docutils literal notranslate"><span class="pre">'gaussian'</span></code>. Default value is <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.TS.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.TS.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCB">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">UCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>UCB1 policy <a class="bibtex reference internal" href="bibliography.html#auer2002finite" id="id3">[ACBF02]</a>.</p>
+<p>At time <span class="math notranslate nohighlight">\(t\)</span>, play arm</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
+\alpha  \ln(t) }{T_i(t)} } \right\}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Reward has to be bounded in [0, 1].</p>
+</div>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCB.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCB.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'alpha'</span></code> (<em>optional</em>) should be
+greater than 0. Default value is 2.0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCB.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucb.html#UCB.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCB.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCBV">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">UCBV</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucbv.html#UCBV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCBV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>UCB1 policy <a class="bibtex reference internal" href="bibliography.html#audibert2009exploration" id="id4">[AMSzepesvari09]</a>.</p>
+<p>At time <span class="math notranslate nohighlight">\(t\)</span>, play arm</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{ 2
+\hat{V}_i(t) \ln(t) }{T_i(t)} }+ \frac{ b \ln(t) }{T_i(t)} \right\}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Reward has to be bounded in [0, <span class="math notranslate nohighlight">\(b\)</span>].</p>
+</div>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCBV.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucbv.html#UCBV.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCBV.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – Key <code class="docutils literal notranslate"><span class="pre">'b'</span></code> (<em>optional</em>) is the upper bound of
+reward. Default value is 1.0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.UCBV.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ucbv.html#UCBV.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.UCBV.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.</code><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/uniform.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.Uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>Uniform Sampling policy.</p>
+<p>Sample each arm in a round-robin fashion.</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/uniform.html#Uniform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.Uniform.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.ordinarylearner.Uniform.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/uniform.html#Uniform.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.Uniform.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -220,10 +464,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html" class="btn btn-neutral float-right" title="epsgreedy module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.regretmin.ordinarymnllearner.html" class="btn btn-neutral float-right" title="ordinarymnllearner package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.regretmin.decentralizedordinarylearner.html" class="btn btn-neutral float-left" title="decentralizedordinarylearner package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

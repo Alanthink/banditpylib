@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="flilucb_heur module" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur.html" />
+    <link rel="next" title="linearlearner package" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" />
     <link rel="prev" title="fixconf package" href="banditpylib.learners.bestarmid.fixconf.html" /> 
 </head>
 
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -174,13 +173,110 @@
             
   <div class="section" id="module-banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner">
 <span id="decentralizedordinarylearner-package"></span><h1>decentralizedordinarylearner package<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur.html">flilucb_heur module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.html">slilucb_heur module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html">utils module</a></li>
-</ul>
-</div>
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.</code><code class="sig-name descname">DecentralizedOrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" title="banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner</span></code></a></p>
+<p>base class for learners in the classic bandit model</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.best_arm">
+<em class="property">abstract </em><code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.broadcast_message">
+<em class="property">abstract </em><code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.learner_round">
+<em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.protocol">
+<code class="sig-name descname">protocol</code><em class="property"> = 'DecentralizedPEProtocol'</em><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.DecentralizedOrdinaryLearner.protocol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.</code><code class="sig-name descname">SlilUCB_heur</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/slilucb_heur.html#SlilUCB_heur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
+<p>Selfish lilUCB heuristic policy</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/slilucb_heur.html#SlilUCB_heur.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.best_arm">
+<code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/slilucb_heur.html#SlilUCB_heur.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.broadcast_message">
+<code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/slilucb_heur.html#SlilUCB_heur.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.learner_round">
+<code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/slilucb_heur.html#SlilUCB_heur.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.SlilUCB_heur.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>return an arm to pull</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.</code><code class="sig-name descname">FlilUCB_heur</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/flilucb_heur.html#FlilUCB_heur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
+<p>Friendly lilUCB heuristic policy</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/flilucb_heur.html#FlilUCB_heur.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.best_arm">
+<code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/flilucb_heur.html#FlilUCB_heur.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.broadcast_message">
+<code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/flilucb_heur.html#FlilUCB_heur.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.learner_round">
+<code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/flilucb_heur.html#FlilUCB_heur.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.FlilUCB_heur.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>return an arm to pull</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -191,7 +287,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.flilucb_heur.html" class="btn btn-neutral float-right" title="flilucb_heur module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" class="btn btn-neutral float-right" title="linearlearner package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="banditpylib.learners.bestarmid.fixconf.html" class="btn btn-neutral float-left" title="fixconf package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

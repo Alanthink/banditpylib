@@ -148,42 +148,39 @@
            <div itemprop="articleBody">
             
   <h1>Source code for banditpylib.learners.bestarmid.utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Base class for a learner with goal best arm identification.</span>
-
-<span class="sd">Instead of `learner_step`, pure exploration learners implement `learner_round`</span>
-<span class="sd">method which essentially means a round. The learner has to decide by him/herself</span>
-<span class="sd">when to stop.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Learner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BAILearner&#39;</span><span class="p">]</span>
 
+<div class="viewcode-block" id="BAILearner"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner">[docs]</a><span class="k">class</span> <span class="nc">BAILearner</span><span class="p">(</span><span class="n">Learner</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Base class for a learner with goal best arm identification.</span>
 
-<div class="viewcode-block" id="BAILearner"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner">[docs]</a><span class="k">class</span> <span class="nc">BAILearner</span><span class="p">(</span><span class="n">Learner</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;base class for best arm identification learners&quot;&quot;&quot;</span>
+<span class="sd">  Instead of ``learner_step``, pure exploration learners implement</span>
+<span class="sd">  `learner_round` method which essentially means a round. The learner</span>
+<span class="sd">  has to decide by him/herself when to stop.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">protocol</span> <span class="o">=</span> <span class="s1">&#39;SinglePlayerPEProtocol&#39;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="BAILearner.__init__"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">goal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="BAILearner.best_arm"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BAILearner.best_arm"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BAILearner.learner_round"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BAILearner.learner_round"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;one round of running&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;run one round&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="BAILearner.reset"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BAILearner.reset"><a class="viewcode-back" href="../../../../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.BAILearner.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
     <span class="k">pass</span></div></div>
 </pre></div>

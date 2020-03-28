@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="expgap module" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html" /> 
+    <link rel="next" title="regretmin package" href="banditpylib.learners.regretmin.html" />
+    <link rel="prev" title="linearlearner package" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -174,13 +173,91 @@
             
   <div class="section" id="module-banditpylib.learners.bestarmid.fixconf.ordinarylearner">
 <span id="ordinarylearner-package"></span><h1>ordinarylearner package<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixconf.ordinarylearner" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html">expgap module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilucb_heur.html">lilucb_heur module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html">utils module</a></li>
-</ul>
-</div>
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.ordinarylearner.</code><code class="sig-name descname">OrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/utils.html#OrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" title="banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner</span></code></a></p>
+<p>Base class for learners in the classic bandit model</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/utils.html#OrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.best_arm">
+<em class="property">abstract </em><code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/utils.html#OrdinaryLearner.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.learner_round">
+<em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/utils.html#OrdinaryLearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.OrdinaryLearner.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.ordinarylearner.</code><code class="sig-name descname">ExpGap</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/expgap.html#ExpGap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>Exponential-Gap Elimination policy <a class="bibtex reference internal" href="bibliography.html#karnin2013almost" id="id1">[KKS13]</a>,
+<cite>Gupta2019MultiArmedBW</cite>.</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/expgap.html#ExpGap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.best_arm">
+<code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/expgap.html#ExpGap.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.learner_round">
+<code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/expgap.html#ExpGap.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.ExpGap.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.ordinarylearner.</code><code class="sig-name descname">lilUCB_heur</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/lilucb_heur.html#lilUCB_heur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
+<p>lilUCB heuristic policy <a class="bibtex reference internal" href="bibliography.html#jamieson2014lil" id="id2">[JMNB14]</a>.</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/lilucb_heur.html#lilUCB_heur.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.best_arm">
+<code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/lilucb_heur.html#lilUCB_heur.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.learner_round">
+<code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/ordinarylearner/lilucb_heur.html#lilUCB_heur.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.ordinarylearner.lilUCB_heur.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -191,10 +268,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.bestarmid.fixconf.ordinarylearner.expgap.html" class="btn btn-neutral float-right" title="expgap module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.regretmin.html" class="btn btn-neutral float-right" title="regretmin package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" class="btn btn-neutral float-left" title="linearlearner package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

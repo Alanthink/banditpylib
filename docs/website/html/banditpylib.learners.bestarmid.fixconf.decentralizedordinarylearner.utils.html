@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="linearlearner package" href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" />
-    <link rel="prev" title="slilucb_heur module" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,21 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -143,18 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.bestarmid.html">bestarmid package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.bestarmid.fixconf.html">fixconf package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.html">decentralizedordinarylearner package</a> &raquo;</li>
-        
       <li>utils module</li>
     
     
@@ -178,9 +151,19 @@
 <span id="utils-module"></span><h1>utils module<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner">
-<em class="property">class </em><code class="sig-name descname">DecentralizedOrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.</code><code class="sig-name descname">DecentralizedOrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" title="banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner</span></code></a></p>
 <p>base class for learners in the classic bandit model</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.best_arm">
 <em class="property">abstract </em><code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.best_arm" title="Permalink to this definition">¶</a></dt>
@@ -194,7 +177,7 @@
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.learner_round">
 <em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner.learner_round" title="Permalink to this definition">¶</a></dt>
-<dd><p>one round of running</p>
+<dd><p>run one round</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -211,15 +194,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.learners.bestarmid.fixconf.linearlearner.html" class="btn btn-neutral float-right" title="linearlearner package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.html" class="btn btn-neutral float-left" title="slilucb_heur module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -172,20 +171,66 @@
             
   <div class="section" id="module-banditpylib.learners.bestarmid.fixbudget">
 <span id="fixbudget-package"></span><h1>fixbudget package<a class="headerlink" href="#module-banditpylib.learners.bestarmid.fixbudget" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.</code><code class="sig-name descname">FixBudgetBAILearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" title="banditpylib.learners.bestarmid.utils.BAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.utils.BAILearner</span></code></a></p>
+<p>base class for fixed budget best arm identification learners</p>
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.best_arm">
+<em class="property">abstract </em><code class="sig-name descname">best_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner.best_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.learner_round">
+<em class="property">abstract </em><code class="sig-name descname">learner_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner.learner_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.learner_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>run one round</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">stop_cond</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.
+This function should be called before the start of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<em>object</em>) – environment</p></li>
+<li><p><strong>stop_cond</strong> (<em>dict</em>) – stop conditions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.goal">
+<em class="property">property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goal of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>goal of the learner</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.html">ordinarylearner package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html">sh module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.html">sr module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html">utils module</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.utils.html">utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.html">ordinarylearner package</a></li>
 </ul>
 </div>
 </div>

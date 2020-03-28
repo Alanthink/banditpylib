@@ -154,10 +154,8 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Bandit</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OrdinaryMNLBandit&#39;</span><span class="p">,</span> <span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="s1">&#39;search_best_assortment&#39;</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="search"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.search">[docs]</a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">subsets</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<div class="viewcode-block" id="search"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.search">[docs]</a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">subsets</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
   <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
       <span class="n">subsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -167,7 +165,7 @@
   <span class="n">search</span><span class="p">(</span><span class="n">subsets</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="search_best_assortment"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.search_best_assortment">[docs]</a><span class="k">def</span> <span class="nf">search_best_assortment</span><span class="p">(</span><span class="n">abspar</span><span class="p">,</span> <span class="n">revenue</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<div class="viewcode-block" id="search_best_assortment"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.search_best_assortment">[docs]</a><span class="k">def</span> <span class="nf">search_best_assortment</span><span class="p">(</span><span class="n">abspar</span><span class="p">,</span> <span class="n">revenue</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
   <span class="c1"># non-purchase is assumed to have abstraction par 1</span>
   <span class="n">subsets</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="n">search</span><span class="p">(</span><span class="n">subsets</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">abspar</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[],</span> <span class="n">K</span><span class="p">)</span>
@@ -179,19 +177,21 @@
   <span class="k">return</span> <span class="n">sorted_assort</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="OrdinaryMNLBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryMNLBandit</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;ordinary MNL bandit</span>
+<div class="viewcode-block" id="OrdinaryMNLBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.OrdinaryMNLBandit">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryMNLBandit</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Ordinary MNL bandit</span>
 
 <span class="sd">  Products are numbered from 1 by default. 0 is for non-purchase.</span>
 <span class="sd">  It is assumed that the abstraction parameter of non-purchase is 1.</span>
-
-<span class="sd">  Input:</span>
-<span class="sd">    abspar: abstraction parameters of products</span>
-<span class="sd">    revenue: revenue of products</span>
-<span class="sd">    K: the cardinality upper bound of every assortment</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryMNLBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.OrdinaryMNLBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">      pars (dict):</span>
+<span class="sd">        &#39;abspar&#39;: abstraction parameters of products</span>
+<span class="sd">        &#39;revenue&#39;: revenue of products</span>
+<span class="sd">        &#39;K&#39;: the cardinality upper bound of every assortment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">abspar</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;abspar&#39;</span><span class="p">]</span>
     <span class="n">revenue</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">abspar</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">revenue</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -220,7 +220,7 @@
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Assortment </span><span class="si">%s</span><span class="s1"> has best revenue </span><span class="si">%.3f</span><span class="s1">.&#39;</span> <span class="o">%</span>
                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_assort</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__best_rev</span><span class="p">))</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">__type</span> <span class="o">=</span> <span class="s1">&#39;ordinarymnlbandit&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__type</span> <span class="o">=</span> <span class="s1">&#39;ordinarymnlbandit&#39;</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">prod_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -241,13 +241,13 @@
   <span class="k">def</span> <span class="nf">_update_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="OrdinaryMNLBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryMNLBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.OrdinaryMNLBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__max_revenue</span> <span class="o">=</span> <span class="mi">0</span></div>
 
   <span class="k">def</span> <span class="nf">_take_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Input:</span>
-<span class="sd">      action: a list of product indexes</span>
+<span class="sd">    Args:</span>
+<span class="sd">      action (int or [int, ]): actions to take</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">assortment</span> <span class="o">=</span> <span class="n">action</span>
     <span class="k">del</span> <span class="n">action</span>
@@ -284,7 +284,7 @@
       <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__revenue</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__revenue</span><span class="p">[</span><span class="n">assortment</span><span class="p">[</span><span class="n">rand</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">assortment</span><span class="p">[</span><span class="n">rand</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-<div class="viewcode-block" id="OrdinaryMNLBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdinaryMNLBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.OrdinaryMNLBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
     <span class="n">revenue</span> <span class="o">=</span> <span class="n">rewards</span>
     <span class="k">del</span> <span class="n">rewards</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_revenue</span> <span class="o">-</span> <span class="n">revenue</span></div></div>

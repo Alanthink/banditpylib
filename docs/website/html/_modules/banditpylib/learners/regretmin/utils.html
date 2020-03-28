@@ -148,29 +148,25 @@
            <div itemprop="articleBody">
             
   <h1>Source code for banditpylib.learners.regretmin.utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Base class for a learner with goal regret minimization.</span>
-
-<span class="sd">Before each game is run, a learner must be initialized with `reset`. The first</span>
-<span class="sd">argument `bandit` is needed since during the initialization, a learner may want</span>
-<span class="sd">to ask the bandit for basic information. During each time step, `learner_step`</span>
-<span class="sd">is called to ask the learner for choice of the action. `update` is called by the</span>
-<span class="sd">protocol when the reward is obtained from the environment.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Learner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RegretMinimizationLearner&#39;</span><span class="p">]</span>
 
+<div class="viewcode-block" id="RegretMinimizationLearner"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner">[docs]</a><span class="k">class</span> <span class="nc">RegretMinimizationLearner</span><span class="p">(</span><span class="n">Learner</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for a learner with goal regret minimization.</span>
 
-<div class="viewcode-block" id="RegretMinimizationLearner"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner">[docs]</a><span class="k">class</span> <span class="nc">RegretMinimizationLearner</span><span class="p">(</span><span class="n">Learner</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;base class for regret minimization learners&quot;&quot;&quot;</span>
+<span class="sd">  Before a game is run, a learner should be initialized with ``reset``.</span>
+<span class="sd">  During each time step, ``learner_step`` is called to ask the learner for the</span>
+<span class="sd">  choice of the action. ``update`` is called by the protocol when the reward is</span>
+<span class="sd">  revealed from the environment.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
+  <span class="c1"># default protocol</span>
   <span class="n">protocol</span> <span class="o">=</span> <span class="s1">&#39;SinglePlayerRegretMinProtocol&#39;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="RegretMinimizationLearner.__init__"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">goal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -199,10 +195,10 @@
   <span class="k">def</span> <span class="nf">_learner_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="RegretMinimizationLearner.rewards"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner.rewards">[docs]</a>  <span class="k">def</span> <span class="nf">rewards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RegretMinimizationLearner.rewards"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner.rewards">[docs]</a>  <span class="k">def</span> <span class="nf">rewards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span></div>
 
-<div class="viewcode-block" id="RegretMinimizationLearner.reset"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
+<div class="viewcode-block" id="RegretMinimizationLearner.reset"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
     <span class="c1"># time starts from 1</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_horizon</span> <span class="o">=</span> <span class="n">stop_cond</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span> <span class="o">=</span> <span class="n">bandit</span>
@@ -211,11 +207,11 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_model_reset</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_learner_reset</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RegretMinimizationLearner.learner_step"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner.learner_step">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="RegretMinimizationLearner.learner_step"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner.learner_step">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="RegretMinimizationLearner.update"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">):</span>
+<div class="viewcode-block" id="RegretMinimizationLearner.update"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_goal_update</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_model_update</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_learner_update</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">feedback</span><span class="p">)</span>

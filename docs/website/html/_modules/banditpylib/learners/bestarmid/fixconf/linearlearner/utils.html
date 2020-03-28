@@ -156,18 +156,16 @@
 <span class="kn">from</span> <span class="nn">banditpylib.bandits</span> <span class="kn">import</span> <span class="n">LinearBanditItf</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">FixConfBAILearner</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FixConfBAILearner&#39;</span><span class="p">,</span> <span class="s1">&#39;mat_norm&#39;</span><span class="p">]</span>
-
 
 <div class="viewcode-block" id="mat_norm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.mat_norm">[docs]</a><span class="k">def</span> <span class="nf">mat_norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
   <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">),</span> <span class="n">x</span><span class="p">))</span></div>
 
 
-<span class="k">class</span> <span class="nc">LinearLearner</span><span class="p">(</span><span class="n">FixConfBAILearner</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.LinearLearner">[docs]</a><span class="k">class</span> <span class="nc">LinearLearner</span><span class="p">(</span><span class="n">FixConfBAILearner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;base class for learners in the classic bandit model&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
+<div class="viewcode-block" id="LinearLearner.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.LinearLearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="k">def</span> <span class="nf">_model_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;local initialization&quot;&quot;&quot;</span>
@@ -192,13 +190,13 @@
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="LinearLearner.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.LinearLearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="k">pass</span></div>
 
-  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="LinearLearner.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixconf.linearlearner.utils.html#banditpylib.learners.bestarmid.fixconf.linearlearner.utils.LinearLearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="k">pass</span></div></div>
 </pre></div>
 
            </div>

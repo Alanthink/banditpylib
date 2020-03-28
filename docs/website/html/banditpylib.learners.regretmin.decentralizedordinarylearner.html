@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="fucb module" href="banditpylib.learners.regretmin.decentralizedordinarylearner.fucb.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.regretmin.correlatedlearner.utils.html" /> 
+    <link rel="next" title="ordinarylearner package" href="banditpylib.learners.regretmin.ordinarylearner.html" />
+    <link rel="prev" title="correlatedlearner package" href="banditpylib.learners.regretmin.correlatedlearner.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,7 +89,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.utils.html">utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
@@ -172,14 +171,122 @@
             
   <div class="section" id="module-banditpylib.learners.regretmin.decentralizedordinarylearner">
 <span id="decentralizedordinarylearner-package"></span><h1>decentralizedordinarylearner package<a class="headerlink" href="#module-banditpylib.learners.regretmin.decentralizedordinarylearner" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.fucb.html">fucb module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.html">sucb module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.html">uniform module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html">utils module</a></li>
-</ul>
-</div>
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.</code><code class="sig-name descname">DecentralizedOrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" title="banditpylib.learners.regretmin.utils.RegretMinimizationLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.utils.RegretMinimizationLearner</span></code></a></p>
+<p>Base class for learners in the classic bandit model</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.broadcast_message">
+<em class="property">abstract </em><code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">action</em>, <em class="sig-param">feedback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.learner_step">
+<em class="property">abstract </em><code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/utils.html#DecentralizedOrdinaryLearner.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.protocol">
+<code class="sig-name descname">protocol</code><em class="property"> = 'DecentralizedRegretMinProtocol'</em><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.DecentralizedOrdinaryLearner.protocol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.</code><code class="sig-name descname">FUCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/fucb.html#FUCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
+<p>friendly UCB</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/fucb.html#FUCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.broadcast_message">
+<code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">action</em>, <em class="sig-param">feedback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/fucb.html#FUCB.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/fucb.html#FUCB.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.FUCB.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>return an arm to pull</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.</code><code class="sig-name descname">SUCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
+<p>selfish UCB</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.broadcast_message">
+<code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">action</em>, <em class="sig-param">feedback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.SUCB.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>return an arm to pull</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.</code><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
+<p>sample each arm the same number of times</p>
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Args:
+pars (dict):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.broadcast_message">
+<code class="sig-name descname">broadcast_message</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">action</em>, <em class="sig-param">feedback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform.broadcast_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.broadcast_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.learner_step">
+<code class="sig-name descname">learner_step</code><span class="sig-paren">(</span><em class="sig-param">context</em>, <em class="sig-param">messages</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform.learner_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.Uniform.learner_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>return an arm to pull</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -190,10 +297,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="banditpylib.learners.regretmin.decentralizedordinarylearner.fucb.html" class="btn btn-neutral float-right" title="fucb module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="banditpylib.learners.regretmin.ordinarylearner.html" class="btn btn-neutral float-right" title="ordinarylearner package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="banditpylib.learners.regretmin.correlatedlearner.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="banditpylib.learners.regretmin.correlatedlearner.html" class="btn btn-neutral float-left" title="correlatedlearner package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

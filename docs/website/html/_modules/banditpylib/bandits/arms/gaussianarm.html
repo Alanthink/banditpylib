@@ -153,16 +153,19 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Arm</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GaussianArm&#39;</span><span class="p">]</span>
 
+<div class="viewcode-block" id="GaussianArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.GaussianArm">[docs]</a><span class="k">class</span> <span class="nc">GaussianArm</span><span class="p">(</span><span class="n">Arm</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Class for Gaussian arm&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GaussianArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.gaussianarm.GaussianArm">[docs]</a><span class="k">class</span> <span class="nc">GaussianArm</span><span class="p">(</span><span class="n">Arm</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;gaussian arm&quot;&quot;&quot;</span>
-
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianArm.__init__"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.GaussianArm.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">      mu (float): mean</span>
+<span class="sd">      var (float): variance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__mu</span> <span class="o">=</span> <span class="n">mu</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__var</span> <span class="o">=</span> <span class="n">var</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__std</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__std</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -170,10 +173,14 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;variance of the arm</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">      float: variance of the arm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__var</span>
 
-<div class="viewcode-block" id="GaussianArm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.gaussianarm.GaussianArm.pull">[docs]</a>  <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulls</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;return a numpy array of stochastic rewards&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GaussianArm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.GaussianArm.pull">[docs]</a>  <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulls</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__std</span><span class="p">,</span> <span class="n">pulls</span><span class="p">)</span></div></div>
 </pre></div>
 

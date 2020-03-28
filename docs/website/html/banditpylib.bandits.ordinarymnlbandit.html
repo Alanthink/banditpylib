@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ordinarymnlbandit_test module" href="banditpylib.bandits.ordinarymnlbandit_test.html" />
-    <link rel="prev" title="ordinarybandit module" href="banditpylib.bandits.ordinarybandit.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,24 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.arms.html">arms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.linearbandit.html">linearbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarybandit.html">ordinarybandit module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">ordinarymnlbandit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.ordinarymnlbandit_test.html">ordinarymnlbandit_test module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.bandits.utils.html">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -146,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.bandits.html">bandits package</a> &raquo;</li>
-        
       <li>ordinarymnlbandit module</li>
     
     
@@ -175,17 +151,34 @@
 <span id="ordinarymnlbandit-module"></span><h1>ordinarymnlbandit module<a class="headerlink" href="#module-banditpylib.bandits.ordinarymnlbandit" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit">
-<em class="property">class </em><code class="sig-name descname">OrdinaryMNLBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.ordinarymnlbandit.</code><code class="sig-name descname">OrdinaryMNLBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" title="banditpylib.bandits.utils.Bandit"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.utils.Bandit</span></code></a></p>
-<p>ordinary MNL bandit</p>
+<p>Ordinary MNL bandit</p>
 <p>Products are numbered from 1 by default. 0 is for non-purchase.
 It is assumed that the abstraction parameter of non-purchase is 1.</p>
-<dl class="simple">
-<dt>Input:</dt><dd><p>abspar: abstraction parameters of products
-revenue: revenue of products
-K: the cardinality upper bound of every assortment</p>
+<dl class="method">
+<dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – ‘abspar’: abstraction parameters of products
+‘revenue’: revenue of products
+‘K’: the cardinality upper bound of every assortment</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.regret">
+<code class="sig-name descname">regret</code><span class="sig-paren">(</span><em class="sig-param">rewards</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.regret" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset of the environment</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.card_constraint">
 <em class="property">property </em><code class="sig-name descname">card_constraint</code><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.card_constraint" title="Permalink to this definition">¶</a></dt>
@@ -202,32 +195,29 @@ K: the cardinality upper bound of every assortment</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.regret">
-<code class="sig-name descname">regret</code><span class="sig-paren">(</span><em class="sig-param">rewards</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.regret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.regret" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>function to be called to initialize the environment</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.type">
 <em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the bandit environment</p>
+<dd><p>Type of the bandit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>type of the bandit environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="banditpylib.bandits.ordinarymnlbandit.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param">subsets</em>, <em class="sig-param">n</em>, <em class="sig-param">i</em>, <em class="sig-param">path</em>, <em class="sig-param">K=inf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.search" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">banditpylib.bandits.ordinarymnlbandit.</code><code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param">subsets</em>, <em class="sig-param">n</em>, <em class="sig-param">i</em>, <em class="sig-param">path</em>, <em class="sig-param">K=inf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.search" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="banditpylib.bandits.ordinarymnlbandit.search_best_assortment">
-<code class="sig-name descname">search_best_assortment</code><span class="sig-paren">(</span><em class="sig-param">abspar</em>, <em class="sig-param">revenue</em>, <em class="sig-param">K=inf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#search_best_assortment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.search_best_assortment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">banditpylib.bandits.ordinarymnlbandit.</code><code class="sig-name descname">search_best_assortment</code><span class="sig-paren">(</span><em class="sig-param">abspar</em>, <em class="sig-param">revenue</em>, <em class="sig-param">K=inf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#search_best_assortment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.search_best_assortment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -237,15 +227,6 @@ K: the cardinality upper bound of every assortment</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.bandits.ordinarymnlbandit_test.html" class="btn btn-neutral float-right" title="ordinarymnlbandit_test module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.bandits.ordinarybandit.html" class="btn btn-neutral float-left" title="ordinarybandit module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

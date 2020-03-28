@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="protocols package" href="banditpylib.protocols.html" />
-    <link rel="prev" title="utils module" href="banditpylib.learners.regretmin.utils.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,21 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html">learners package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.bestarmid.html">bestarmid package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.regretmin.html">regretmin package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">utils module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -143,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.learners.html">learners package</a> &raquo;</li>
-        
       <li>utils module</li>
     
     
@@ -170,30 +149,63 @@
             
   <div class="section" id="module-banditpylib.learners.utils">
 <span id="utils-module"></span><h1>utils module<a class="headerlink" href="#module-banditpylib.learners.utils" title="Permalink to this headline">¶</a></h1>
-<p>Abstract class for a learner.</p>
-<p>Before a game runs, a learner should be initialized with <cite>reset</cite>.</p>
 <dl class="class">
 <dt id="banditpylib.learners.utils.Learner">
-<em class="property">class </em><code class="sig-name descname">Learner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.utils.Learner" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.utils.</code><code class="sig-name descname">Learner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.utils.Learner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>abstract class for learners</p>
+<p>Abstract class for a learner.</p>
+<p>Before a game runs, a learner should be initialized with <code class="docutils literal notranslate"><span class="pre">reset</span></code>.</p>
 <dl class="method">
-<dt id="banditpylib.learners.utils.Learner.goal">
-<em class="property">abstract property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.utils.Learner.goal" title="Permalink to this definition">¶</a></dt>
-<dd><p>goal of the learner</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="banditpylib.learners.utils.Learner.name">
-<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#banditpylib.learners.utils.Learner.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>learner name</p>
+<dt id="banditpylib.learners.utils.Learner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.utils.Learner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="banditpylib.learners.utils.Learner.reset">
 <em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">stop_cond</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.utils.Learner.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>learner initialization</p>
-<p>This function should be called before the start of the game.</p>
+<dd><p>Initialize self.
+This function should be called before the start of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<em>object</em>) – environment</p></li>
+<li><p><strong>stop_cond</strong> (<em>dict</em>) – stop conditions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.utils.Learner.goal">
+<em class="property">abstract property </em><code class="sig-name descname">goal</code><a class="headerlink" href="#banditpylib.learners.utils.Learner.goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goal of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>goal of the learner</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.learners.utils.Learner.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#banditpylib.learners.utils.Learner.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>learner name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -205,15 +217,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="banditpylib.protocols.html" class="btn btn-neutral float-right" title="protocols package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.learners.regretmin.utils.html" class="btn btn-neutral float-left" title="utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

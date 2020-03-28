@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bibliography" href="bibliography.html" />
-    <link rel="prev" title="singleplayerregretminprotocol module" href="banditpylib.protocols.singleplayerregretminprotocol.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,23 +80,8 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">banditpylib</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html">banditpylib package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html">bandits package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html">learners package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.protocols.html">protocols package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.decentralizedpsprotocol.html">decentralizedpsprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.decentralizedregretminprotocol.html">decentralizedregretminprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.singleplayerpsprotocol.html">singleplayerpsprotocol module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="banditpylib.protocols.singleplayerregretminprotocol.html">singleplayerregretminprotocol module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">utils module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">banditpylib</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -145,12 +128,6 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">banditpylib</a> &raquo;</li>
-        
-          <li><a href="banditpylib.html">banditpylib package</a> &raquo;</li>
-        
-          <li><a href="banditpylib.protocols.html">protocols package</a> &raquo;</li>
-        
       <li>utils module</li>
     
     
@@ -172,23 +149,26 @@
             
   <div class="section" id="module-banditpylib.protocols.utils">
 <span id="utils-module"></span><h1>utils module<a class="headerlink" href="#module-banditpylib.protocols.utils" title="Permalink to this headline">¶</a></h1>
-<p>Abstract class of the protocol which is used to coordinate the interactions
-between the learner and the environment.</p>
-<p>For each setup, just call <cite>play</cite> to start the game simulation. A protocol should
-implement <cite>_one_trial</cite> method to define how to run one trial of the game.</p>
 <dl class="class">
 <dt id="banditpylib.protocols.utils.Protocol">
-<em class="property">class </em><code class="sig-name descname">Protocol</code><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#Protocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.Protocol" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.protocols.utils.</code><code class="sig-name descname">Protocol</code><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#Protocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.Protocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>abstract protocol class</p>
+<p>Abstract class for the protocol which is used to coordinate the interactions
+between the learner and the environment.</p>
+<p>For each setup, just call <code class="docutils literal notranslate"><span class="pre">play</span></code> to start the game. A protocol should
+implement <code class="docutils literal notranslate"><span class="pre">_one_trial</span></code> method to define how to run one trial of the game.</p>
 <dl class="method">
 <dt id="banditpylib.protocols.utils.Protocol.play">
 <code class="sig-name descname">play</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">learner</em>, <em class="sig-param">running_pars</em>, <em class="sig-param">output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#Protocol.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.Protocol.play" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Input:</dt><dd><p>bandit: environment
-learner: learner
-running_pars: running parameters
-output_file: file used to store the results</p>
+<dd><p>Start the game</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<em>object</em><em> or </em><em>[</em><em>object</em><em>,</em><em>]</em>) – environment</p></li>
+<li><p><strong>learner</strong> (<em>object</em><em> or </em><em>[</em><em>object</em><em>,</em><em>]</em>) – learner</p></li>
+<li><p><strong>running_pars</strong> (<em>dict</em>) – running parameters</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – file used to store the results</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -196,14 +176,33 @@ output_file: file used to store the results</p>
 <dl class="method">
 <dt id="banditpylib.protocols.utils.Protocol.type">
 <em class="property">abstract property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.protocols.utils.Protocol.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>type of the protocol</p>
+<dd><p>Type of the protocol</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="banditpylib.protocols.utils.current_time">
-<code class="sig-name descname">current_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#current_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.current_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">banditpylib.protocols.utils.</code><code class="sig-name descname">current_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#current_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.current_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate random seed using current time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>random seed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="banditpylib.protocols.utils.get_funcname_of_regret_rewards">
+<code class="sig-prename descclassname">banditpylib.protocols.utils.</code><code class="sig-name descname">get_funcname_of_regret_rewards</code><span class="sig-paren">(</span><em class="sig-param">goal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#get_funcname_of_regret_rewards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.get_funcname_of_regret_rewards" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="banditpylib.protocols.utils.get_stop_cond">
+<code class="sig-prename descclassname">banditpylib.protocols.utils.</code><code class="sig-name descname">get_stop_cond</code><span class="sig-paren">(</span><em class="sig-param">goal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#get_stop_cond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.get_stop_cond" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -213,15 +212,6 @@ output_file: file used to store the results</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="bibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="banditpylib.protocols.singleplayerregretminprotocol.html" class="btn btn-neutral float-left" title="singleplayerregretminprotocol module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
