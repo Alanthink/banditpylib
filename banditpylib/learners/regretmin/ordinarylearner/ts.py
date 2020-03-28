@@ -18,8 +18,9 @@ class TS(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars`` (dict): Key ``'prior'`` (*optional*) has value ``'beta'``
-       or ``'gaussian'``. Default value is ``'beta'``.
+      pars (dict):
+        ``'prior'`` (str, *optional*) ``'beta'`` or ``'gaussian'``.
+        Default value is ``'beta'``.
     """
     super().__init__(pars)
     # set Beta prior by default

@@ -54,16 +54,17 @@ class LinearBanditItf(Bandit):
 class LinearBandit(
     OrdinaryBanditItf,
     LinearBanditItf):
-  """Correlated bandit
+  """Class for linear bandit.
 
-  Arms are numbered from 0 to len(arms)-1 by default.
+  Arms are numbered from 0 to ``self.__arm_num``-1 by default.
   """
 
   def __init__(self, pars):
     """
     Args:
       pars (dict):
-        ``'features'`` (list): features of the arms
+        ``'features'`` ([[float,],]): features of the arms,
+        ``'theta'``: theta
     """
     features = pars['features']
     if not isinstance(features, list):
@@ -92,7 +93,11 @@ class LinearBandit(
 
   @property
   def arm_num(self):
-    """return number of arms"""
+    """Number of arms
+
+    Return:
+      int: number of arms
+    """
     return self.__arm_num
 
   @property

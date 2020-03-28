@@ -53,7 +53,11 @@ class Protocol(ABC):
   @property
   @abstractmethod
   def type(self):
-    """Type of the protocol"""
+    """Type of the protocol
+
+    Return:
+      str: type of the protocol
+    """
 
   @property
   def __trials(self):

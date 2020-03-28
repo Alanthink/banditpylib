@@ -1,5 +1,5 @@
 """
-a lightweight python library for bandit algorithms
+A lightweight python library for bandit algorithms
 """
 import json
 import os
@@ -30,16 +30,21 @@ BANDIT_PKG = 'banditpylib.bandits'
 LEARNER_PKG = 'banditpylib.learners'
 PROTOCOL_PKG = 'banditpylib.protocols'
 
+__all__ = [
+    'plot',
+    'run'
+]
 
-class _constants():
-  """class for storing modular constants"""
+
+class Constants():
+  """Class for storing modular constants"""
   config = None
   data = None
   new_policies = None
   ana_df = None
 
 
-def _draw_regretmin(data):
+def draw_regretmin(data):
   col_learners = []
   col_horizons = []
   col_regrets = []
@@ -74,7 +79,7 @@ def _draw_regretmin(data):
   return analysis
 
 
-def _draw_fixbudgetbai(data):
+def draw_fixbudgetbai(data):
   col_learners = []
   col_budgets = []
   col_regrets = []
@@ -107,7 +112,7 @@ def _draw_fixbudgetbai(data):
   return analysis
 
 
-def _draw_fixconfbai(data):
+def draw_fixconfbai(data):
   col_learners = []
   col_fail_prob = []
   col_samples = []
@@ -145,30 +150,30 @@ def _draw_fixconfbai(data):
 
 def _plot(argv):
   del argv
-  if not _constants.data:
+  if not Constants.data:
     raise Exception('Data is empty!')
   if not FLAGS.goal:
     raise Exception('Please specify the goal of learners!')
   elif FLAGS.goal == 'regretmin':
-    _constants.ana_df = _draw_regretmin(_constants.data)
+    Constants.ana_df = draw_regretmin(Constants.data)
   elif FLAGS.goal == 'bestarmid.fixbudget':
-    _constants.ana_df = _draw_fixbudgetbai(_constants.data)
+    Constants.ana_df = draw_fixbudgetbai(Constants.data)
   elif FLAGS.goal == 'bestarmid.fixconf':
-    _constants.ana_df = _draw_fixconfbai(_constants.data)
+    Constants.ana_df = draw_fixconfbai(Constants.data)
   else:
     raise Exception('No specified goal!')
 
 
 def plot(data, goal='', novar=False, save_fig=''):
-  """Method for plotting the figure.
+  """Method for plotting the figure
 
   Args:
     data (dict): generated data
     goal (str): goal of the learners
-    novar (bool): Set it to ``True`` if you also want the std plotted.
-    save_fig (str): file where the generated figure is stored.
+    novar (bool): set it to ``True`` if you also want the std plotted
+    save_fig (str): file where the generated figure is stored
   """
-  _constants.data = data
+  Constants.data = data
   if goal:
     FLAGS.goal = goal
   FLAGS.novar = novar
@@ -176,10 +181,10 @@ def plot(data, goal='', novar=False, save_fig=''):
   try:
     app.run(_plot)
   except SystemExit:
-    return _constants.ana_df
+    return Constants.ana_df
 
 
-def _parse_setup(Bandit, bandit_pars, Learner, learner_pars):
+def parse_setup(Bandit, bandit_pars, Learner, learner_pars):
   Protocol = getattr(import_module(PROTOCOL_PKG), Learner.protocol)
   protocol = Protocol(learner_pars)
   if 'SinglePlayer' in Learner.protocol:
@@ -198,7 +203,7 @@ def _parse_setup(Bandit, bandit_pars, Learner, learner_pars):
   return (bandit, protocol, learner)
 
 
-def _parse(config, new_policies):
+def parse(config, new_policies):
   setups = []
 
   bandit_classname = config['environment']['bandit']
@@ -215,7 +220,7 @@ def _parse(config, new_policies):
     learner_package = '%s.%s.%s' % \
         (LEARNER_PKG, learner_goal, learner_pars['type'])
     Learner = getattr(import_module(learner_package), learner_classname)
-    setups.append(_parse_setup(Bandit, bandit_pars, Learner, learner_pars))
+    setups.append(parse_setup(Bandit, bandit_pars, Learner, learner_pars))
 
   if new_policies:
     for learner_config in new_policies:
@@ -223,7 +228,7 @@ def _parse(config, new_policies):
         raise Exception('New policy should be given in a two-tuple!')
       if len(learner_config) != 2:
         raise Exception('Two-tuple for the new policy please!')
-      setups.append(_parse_setup(
+      setups.append(parse_setup(
           Bandit, bandit_pars, learner_config[0], learner_config[1]))
 
   goals = [setup[2][0].goal if isinstance(setup[2], list) else setup[2].goal
@@ -242,7 +247,7 @@ def _run(argv):
   else:
     logging.set_verbosity(logging.INFO)
 
-  setups, running_pars = _parse(_constants.config, _constants.new_policies)
+  setups, running_pars = parse(Constants.config, Constants.new_policies)
   try:
     temp_dir = tempfile.mkdtemp()
     data_file = os.path.join(temp_dir, FLAGS.out)
@@ -255,11 +260,11 @@ def _run(argv):
     os.remove(data_file)
   finally:
     os.rmdir(temp_dir)
-  _constants.data = data
+  Constants.data = data
 
 
 def run(config, new_policies=None, debug=False):
-  """Method for generating the data.
+  """Method for playing the game
 
   Args:
     config (dict): config should comply with the following form.
@@ -302,19 +307,19 @@ def run(config, new_policies=None, debug=False):
     new_policies ([(class, dict),]): for each two-tuple (A, B),
       A is the class defined by yourself and B denotes the
       parameters of your policy.
-    debug (bool): Set it to ``True`` to enter the debug mode.
+    debug (bool): set it to ``True`` to enter the debug mode.
 
   .. warning::
     The running time of debug mode may be increased heavily compared to the
     normal mode. This mode is used to debug errors generated by subprocesses.
 
   Return:
-    dict: A dictionary storing generated data.
+    dict: generated data.
   """
-  _constants.config = config
-  _constants.new_policies = new_policies
+  Constants.config = config
+  Constants.new_policies = new_policies
   FLAGS.debug = debug
   try:
     app.run(_run)
   except SystemExit:
-    return _constants.data
+    return Constants.data

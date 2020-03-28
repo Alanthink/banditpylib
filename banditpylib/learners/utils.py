@@ -9,7 +9,8 @@ class Learner(ABC):
   """
 
   def __init__(self, pars):
-    """
+    """Learner initialization
+
     Args:
       pars (dict):
         ``'name'`` (optional): name appeared in the output figure

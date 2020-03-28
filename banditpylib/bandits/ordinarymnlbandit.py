@@ -28,7 +28,7 @@ def search_best_assortment(abspar, revenue, K=np.inf):
 
 
 class OrdinaryMNLBandit(Bandit):
-  """Ordinary MNL bandit
+  """Class for ordinary MNL bandit.
 
   Products are numbered from 1 by default. 0 is for non-purchase.
   It is assumed that the abstraction parameter of non-purchase is 1.
@@ -38,9 +38,9 @@ class OrdinaryMNLBandit(Bandit):
     """
     Args:
       pars (dict):
-        'abspar': abstraction parameters of products
-        'revenue': revenue of products
-        'K': the cardinality upper bound of every assortment
+        ``'abspar'``: abstraction parameters of products,
+        ``'revenue'``: revenue of products,
+        ``'K'``: the cardinality upper bound for every assortment
     """
     abspar = pars['abspar']
     revenue = pars['revenue']

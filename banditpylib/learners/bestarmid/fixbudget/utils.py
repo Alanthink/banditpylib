@@ -4,7 +4,7 @@ from .. import BAILearner
 
 
 class FixBudgetBAILearner(BAILearner):
-  """base class for fixed budget best arm identification learners"""
+  """Base class for fixed budget best arm identification learners"""
 
   def __init__(self, pars):
     super().__init__(pars)

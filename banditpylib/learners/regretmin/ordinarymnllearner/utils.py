@@ -4,7 +4,7 @@ from .. import RegretMinimizationLearner
 
 
 class OrdinaryMNLLearner(RegretMinimizationLearner):
-  """base class for learners in the MNL bandit model"""
+  """Base class for learners in the MNL bandit model"""
 
   def __init__(self, pars):
     super().__init__(pars)

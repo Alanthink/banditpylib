@@ -15,8 +15,9 @@ class EpsGreedy(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars`` (dict): Key ``'eps'`` (*optional*) should be greater than
-       0. Default value is 1.0.
+      pars (dict):
+        ``'eps'`` (float, *optional*): default value is 1.0. It should be
+        greater than 0.
     """
     super().__init__(pars)
     self.__eps = float(pars['eps']) if 'eps' in pars else 1.0

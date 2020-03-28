@@ -31,7 +31,7 @@ class DecentralizedOrdinaryLearner(RegretMinimizationLearner):
     pass
 
   def _model_reset(self):
-    """Local initialization"""
+    """Model initialization"""
     if not isinstance(self._bandit, OrdinaryBanditItf):
       raise Exception(("%s: I don't understand",
                        " the bandit environment!") % self.name)

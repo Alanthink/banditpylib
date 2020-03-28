@@ -4,7 +4,7 @@ from .utils import DecentralizedOrdinaryLearner
 
 
 class SUCB(DecentralizedOrdinaryLearner):
-  """selfish UCB"""
+  """Selfish UCB policy"""
 
   def __init__(self, pars):
     super().__init__(pars)

@@ -2,7 +2,7 @@ from .ordinarymnlbandit import OrdinaryMNLBandit, search, search_best_assortment
 
 
 class TestOrdinaryMNLBandit:
-  """tests in ordinary mnl bandit"""
+  """Tests in ordinary mnl bandit"""
 
   def test_search_unrestricted(self):
     results = []

@@ -21,8 +21,9 @@ class UCBV(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars`` (dict): Key ``'b'`` (*optional*) is the upper bound of
-       reward. Default value is 1.0.
+      pars (dict):
+        ``'b'`` (float, *optional*) upper bound of
+        reward. Default value is 1.0. It should be greater than 0.
     """
     super().__init__(pars)
     self.__b = float(pars['b']) if 'b' in pars else 1.0

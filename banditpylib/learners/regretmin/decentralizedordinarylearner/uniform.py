@@ -4,7 +4,10 @@ __all__ = ['Uniform']
 
 
 class Uniform(DecentralizedOrdinaryLearner):
-  """sample each arm the same number of times"""
+  """Uniform sampling policy.
+
+  Sample each arm in a round-robin fashion.
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

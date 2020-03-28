@@ -5,7 +5,7 @@ from .utils import CorrelatedLearner
 
 
 class CUCB(CorrelatedLearner):
-  """CUCB policy :cite:`gupta2018exploiting`.
+  """CUCB policy :cite:`gupta2018exploiting`
   """
 
   def __init__(self, pars):

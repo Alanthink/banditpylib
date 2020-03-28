@@ -21,8 +21,9 @@ class UCB(OrdinaryLearner):
   def __init__(self, pars):
     """
     Args:
-      ``pars`` (dict): Key ``'alpha'`` (*optional*) should be
-       greater than 0. Default value is 2.0.
+      pars (dict):
+        ``'alpha'`` (float, *optional*): default value is 2.0. It should be
+        greater than 0.
     """
     super().__init__(pars)
     self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2.0
