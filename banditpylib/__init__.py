@@ -277,17 +277,18 @@ def run(config, new_policies=None, debug=False):
             # supported environments.
             "bandit": "",
             "params": {
-              # "name: value" pairs. Parameters for the environment.
+              # "name: value" pairs. Parameters for the environment. Check
+              # environment *__init__* method for parameters.
             }
           },
           "learners": {
-            # Goal of the learners. Now we support "regretmin",
+            # Goal of the learners. Now we only support "regretmin",
             # "bestarmid.fixbudget", and "bestarmid.fixbudget".
             "goal": "",
-            # A list of policy definitions
+            # A list of policy configurations
             "policies": [
               {
-                # Class name of the policy
+                # Class name for the policy
                 "policy": "",
                 "params": {
                   # Type of the policy which should be the closest package it
@@ -295,13 +296,16 @@ def run(config, new_policies=None, debug=False):
                   # regretmin.ordinarylearner.EpsGreedy
                   # should be "ordinarylearner".
                   "type": "",
-                  # "name: value" pairs. Other parameters for the policy.
+                  # "name: value" pairs. Other parameters for the policy. Check
+                  # learner class *__init__* method for parameters.
                 }
               },
             ]
           },
           "running": {
-            # "name: value" pairs. Parameters for running the setup.
+            # "name: value" pairs. Parameters for running the setup. These
+            # parameters will be passed to prorotol for running the setup. Check
+            # protocol *__init__* method for parameters.
           }
         }
     new_policies ([(class, dict),]): for each two-tuple (A, B),

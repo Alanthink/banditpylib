@@ -15,6 +15,16 @@ class DecentralizedPEProtocol(Protocol):
   """
 
   def __init__(self, pars):
+    """
+    Args:
+      pars:
+        ``"num_players"`` (int): number of players.
+        ``"fail_probs"`` ([float,], optional): fail probabilities.
+        ``"budgets"`` ([int,], optional): budgets.
+        ``"trials"`` (int): number of repetitions of the game.
+        ``"processors"`` (int): maximum number of processors can be used. -1
+        means trying to make use all available cpus.
+    """
     self.__messages = []
     if 'num_players' not in pars:
       raise Exception('%s: number of players is not specified!' % self.type)

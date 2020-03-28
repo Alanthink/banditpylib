@@ -12,7 +12,15 @@ class SinglePlayerPEProtocol(Protocol):
   """
 
   def __init__(self, pars=None):
-    pass
+    """
+    Args:
+      pars:
+        ``"fail_probs"`` ([float,], optional): fail probabilities.
+        ``"budgets"`` ([int,], optional): budgets.
+        ``"trials"`` (int): number of repetitions of the game.
+        ``"processors"`` (int): maximum number of processors can be used. -1
+        means trying to make use all available cpus.
+    """
 
   @property
   def type(self):

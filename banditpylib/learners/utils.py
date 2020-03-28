@@ -20,8 +20,7 @@ class Learner(ABC):
 
   @property
   def name(self):
-    """Name of the learner
-
+    """
     Return:
       str: learner name
     """
@@ -37,8 +36,7 @@ class Learner(ABC):
   @property
   @abstractmethod
   def goal(self):
-    """Goal of the learner
-
+    """
     Return:
       str: goal of the learner
     """
