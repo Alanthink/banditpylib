@@ -13,7 +13,8 @@ class Learner(ABC):
 
     Args:
       pars (dict):
-        ``'name'`` (optional): name appeared in the output figure
+        ``'name'`` (optional): name appeared in the output figure. Default value
+        is ``self._name``.
     """
     self.__name = pars['name'] if 'name' in pars else None
 
@@ -44,7 +45,7 @@ class Learner(ABC):
 
   @abstractmethod
   def reset(self, bandit, stop_cond):
-    """Initialize self.
+    """Reset self.
     This function should be called before the start of the game.
 
     Args:

@@ -31,7 +31,7 @@ class EmArm:
 
   @property
   def pulls(self):
-    """total number of pulls
+    """Total number of pulls
 
     Return:
       int: total number of pulls
@@ -40,7 +40,7 @@ class EmArm:
 
   @property
   def rewards(self):
-    """total rewards
+    """Total rewards obtained sofar
 
     Return:
       float: total rewards
@@ -49,7 +49,7 @@ class EmArm:
 
   @property
   def em_mean(self):
-    """empirical mean
+    """Empirical mean
 
     Return:
       float: empirical mean
@@ -60,7 +60,7 @@ class EmArm:
 
   @property
   def em_var(self):
-    """empirical variance
+    """Empirical variance
 
     Return:
       float: empirical variance
@@ -70,13 +70,13 @@ class EmArm:
     return (self.__sq_rewards-self.__rewards**2/self.__pulls)/self.__pulls
 
   def reset(self):
-    """clear historical records"""
+    """Reset self. Clear historical records"""
     self.__pulls = 0
     self.__rewards = 0
     self.__sq_rewards = 0
 
   def update(self, *args):
-    """use empirical rewards for update
+    """Use empirical rewards for update
 
     Args:
       args ([float] or [numpy array, int]): the first element is the empirical

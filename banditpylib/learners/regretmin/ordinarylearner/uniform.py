@@ -2,7 +2,7 @@ from . import OrdinaryLearner
 
 
 class Uniform(OrdinaryLearner):
-  """Uniform Sampling policy.
+  """Uniform sampling policy.
 
   Sample each arm in a round-robin fashion.
   """

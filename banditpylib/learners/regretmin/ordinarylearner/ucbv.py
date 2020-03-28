@@ -6,7 +6,7 @@ from .utils import OrdinaryLearner
 
 
 class UCBV(OrdinaryLearner):
-  r"""UCB1 policy :cite:`audibert2009exploration`.
+  r"""UCBV policy :cite:`audibert2009exploration`.
 
   At time :math:`t`, play arm
 
