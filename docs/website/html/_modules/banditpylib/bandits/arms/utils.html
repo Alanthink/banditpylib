@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -167,10 +167,7 @@
   <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return:</span>
-<span class="sd">      float: mean of arm</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;float: mean of arm&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="EmArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm">[docs]</a><span class="k">class</span> <span class="nc">EmArm</span><span class="p">:</span>
@@ -181,28 +178,18 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">pulls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Total number of pulls</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">      int: total number of pulls</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;int: total number of pulls&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">rewards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Total rewards obtained sofar</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">      float: total rewards</span>
+    <span class="sd">&quot;&quot;&quot;float: total rewards obtained so far</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">em_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Empirical mean</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">      float: empirical mean</span>
+    <span class="sd">&quot;&quot;&quot;float: empirical mean</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No empirical mean yet!&#39;</span><span class="p">)</span>
@@ -210,10 +197,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">em_var</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Empirical variance</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">      float: empirical variance</span>
+    <span class="sd">&quot;&quot;&quot;float: empirical variance</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No empirical variance yet!&#39;</span><span class="p">)</span>
@@ -226,7 +210,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">__sq_rewards</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 <div class="viewcode-block" id="EmArm.update"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Use empirical rewards for update</span>
+    <span class="sd">&quot;&quot;&quot;Update</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      args ([float] or [numpy array, int]): the first element is the empirical</span>

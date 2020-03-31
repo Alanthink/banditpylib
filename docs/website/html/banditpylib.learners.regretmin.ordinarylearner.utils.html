@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -160,8 +160,15 @@
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'name'</span></code> (optional): name appeared in the output figure. Default value
-is <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="c1"># Name appeared in the output figure. Default</span>
+  <span class="c1"># value `self._name`.</span>
+  <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -172,10 +179,7 @@ is <code class="docutils literal notranslate"><span class="pre">self._name</span
 <dd><p>Return an arm to play at time <code class="docutils literal notranslate"><span class="pre">self._t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
+<dd class="field-odd"><p><em>int</em> – an integer in [0, <code class="docutils literal notranslate"><span class="pre">self._arm_num</span></code>)</p>
 </dd>
 </dl>
 </dd></dl>

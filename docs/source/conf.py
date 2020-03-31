@@ -44,6 +44,8 @@ extensions = [
   'recommonmark'
 ]
 
+napoleon_use_rtype = False
+
 # The master toctree document.
 master_doc = 'index'
 

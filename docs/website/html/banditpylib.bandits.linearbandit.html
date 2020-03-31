@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -154,14 +154,21 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.linearbandit.</code><code class="sig-name descname">LinearBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a>, <a class="reference internal" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="banditpylib.bandits.linearbandit.LinearBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.linearbandit.LinearBanditItf</span></code></a></p>
 <p>Class for linear bandit.</p>
-<p>Arms are numbered from 0 to <code class="docutils literal notranslate"><span class="pre">self.__arm_num</span></code>-1 by default.</p>
+<p>Arms are indexed from 0 by default.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'features'</span></code> ([[float,],]): features of the arms,
-<code class="docutils literal notranslate"><span class="pre">'theta'</span></code>: theta</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="c1"># features of the arms</span>
+  <span class="s">&quot;features&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span> <span class="p p-Indicator">],</span>
+  <span class="s">&quot;theta&quot;</span><span class="p p-Indicator">:</span> <span class="nv">float</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -185,13 +192,10 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.arm_num">
 <em class="property">property </em><code class="sig-name descname">arm_num</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.arm_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of arms</p>
+<dd><p>number of arms</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>number of arms</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,7 +208,8 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.context">
 <em class="property">property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.context" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Current state of the environment</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.features">
@@ -219,13 +224,10 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.type">
 <em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Type of the bandit</p>
+<dd><p>type of the bandit environment</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>type of the bandit environment</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,7 +253,8 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.context">
 <em class="property">abstract property </em><code class="sig-name descname">context</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.context" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Current state of the environment</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.features">
@@ -266,13 +269,10 @@
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.type">
 <em class="property">abstract property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Type of the bandit</p>
+<dd><p>type of the bandit environment</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>type of the bandit environment</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -165,14 +165,14 @@
 <dl class="function">
 <dt id="banditpylib.plot">
 <code class="sig-prename descclassname">banditpylib.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">goal=''</em>, <em class="sig-param">novar=False</em>, <em class="sig-param">save_fig=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method for plotting the figure</p>
+<dd><p>Plot figure</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>dict</em>) – generated data</p></li>
 <li><p><strong>goal</strong> (<em>str</em>) – goal of the learners</p></li>
-<li><p><strong>novar</strong> (<em>bool</em>) – set it to <code class="docutils literal notranslate"><span class="pre">True</span></code> if you also want the std plotted</p></li>
-<li><p><strong>save_fig</strong> (<em>str</em>) – file where the generated figure is stored</p></li>
+<li><p><strong>novar</strong> (<em>bool</em>) – set it to <code class="docutils literal notranslate"><span class="pre">True</span></code> if you also want the <em>std</em> plotted</p></li>
+<li><p><strong>save_fig</strong> (<em>str</em>) – file path to store the generated figure</p></li>
 </ul>
 </dd>
 </dl>
@@ -181,52 +181,49 @@
 <dl class="function">
 <dt id="banditpylib.run">
 <code class="sig-prename descclassname">banditpylib.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">config</em>, <em class="sig-param">new_policies=None</em>, <em class="sig-param">debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method for playing the game</p>
+<dd><p>Play the game</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>dict</em>) – <p>config should comply with the following form.</p>
+<li><p><strong>config</strong> (<em>dict</em>) – <p>has form of:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="s">&quot;environment&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
     <span class="c1"># Class name of the environment. Check `bandits` package for</span>
     <span class="c1"># supported environments.</span>
-    <span class="s">&quot;bandit&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
-    <span class="s">&quot;params&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
-      <span class="c1"># &quot;name: value&quot; pairs. Parameters for the environment. Check</span>
-      <span class="c1"># environment *__init__* method for parameters.</span>
-    <span class="p p-Indicator">}</span>
+    <span class="s">&quot;bandit&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
+    <span class="c1"># Parameters for the environment. Check environment&#39;s `__init__`</span>
+    <span class="c1"># signature for options.</span>
+    <span class="s">&quot;params&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{}</span>
   <span class="p p-Indicator">},</span>
   <span class="s">&quot;learners&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
     <span class="c1"># Goal of the learners. Now we only support &quot;regretmin&quot;,</span>
     <span class="c1"># &quot;bestarmid.fixbudget&quot;, and &quot;bestarmid.fixbudget&quot;.</span>
-    <span class="s">&quot;goal&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
-    <span class="c1"># A list of policy configurations</span>
+    <span class="s">&quot;goal&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
+    <span class="c1"># Configurations of policies</span>
     <span class="s">&quot;policies&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span>
       <span class="p p-Indicator">{</span>
-        <span class="c1"># Class name for the policy</span>
-        <span class="s">&quot;policy&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
+        <span class="c1"># Class name of the policy</span>
+        <span class="s">&quot;policy&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
         <span class="s">&quot;params&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
           <span class="c1"># Type of the policy which should be the closest package it</span>
-          <span class="c1"># belongs. For example, the type of banditpylib.learners.</span>
-          <span class="c1"># regretmin.ordinarylearner.EpsGreedy</span>
+          <span class="c1"># belongs to. For example, the type of policy banditpylib.</span>
+          <span class="c1"># learners.regretmin.ordinarylearner.EpsGreedy</span>
           <span class="c1"># should be &quot;ordinarylearner&quot;.</span>
-          <span class="s">&quot;type&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;&quot;</span><span class="p p-Indicator">,</span>
-          <span class="c1"># &quot;name: value&quot; pairs. Other parameters for the policy. Check</span>
-          <span class="c1"># learner class *__init__* method for parameters.</span>
+          <span class="s">&quot;type&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
+          <span class="c1"># Check learner class `__init__` signature for other options.</span>
         <span class="p p-Indicator">}</span>
       <span class="p p-Indicator">},</span>
     <span class="p p-Indicator">]</span>
   <span class="p p-Indicator">},</span>
-  <span class="s">&quot;running&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span>
-    <span class="c1"># &quot;name: value&quot; pairs. Parameters for running the setup. These</span>
-    <span class="c1"># parameters will be passed to prorotol for running the setup. Check</span>
-    <span class="c1"># protocol *__init__* method for parameters.</span>
-  <span class="p p-Indicator">}</span>
+  <span class="c1"># Parameters for running the setup. These</span>
+  <span class="c1"># parameters will be passed to prototol for running the setup. Check</span>
+  <span class="c1"># protocol `__init__` signature for options.</span>
+  <span class="s">&quot;running&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{}</span>
 <span class="p p-Indicator">}</span>
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>new_policies</strong> (<em>[</em><em>(</em><em>class</em><em>, </em><em>dict</em><em>)</em><em>,</em><em>]</em>) – for each two-tuple (A, B),
+<li><p><strong>new_policies</strong> (<em>[</em><em>(</em><em>class</em><em>, </em><em>dict</em><em>)</em><em>, </em><em>]</em>) – for each two-tuple (A, B),
 A is the class defined by yourself and B denotes the
 parameters of your policy.</p></li>
 <li><p><strong>debug</strong> (<em>bool</em>) – set it to <code class="docutils literal notranslate"><span class="pre">True</span></code> to enter the debug mode</p></li>
@@ -240,10 +237,7 @@ normal mode. This mode is used to debug errors generated by subprocesses.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>generated data</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-odd"><p><em>dict</em> – generated data</p>
 </dd>
 </dl>
 </dd></dl>

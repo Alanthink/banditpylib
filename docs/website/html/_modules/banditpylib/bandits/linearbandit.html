@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -206,15 +206,21 @@
     <span class="n">LinearBanditItf</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Class for linear bandit.</span>
 
-<span class="sd">  Arms are numbered from 0 to ``self.__arm_num``-1 by default.</span>
+<span class="sd">  Arms are indexed from 0 by default.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="LinearBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      pars (dict):</span>
-<span class="sd">        ``&#39;features&#39;`` ([[float,],]): features of the arms,</span>
-<span class="sd">        ``&#39;theta&#39;``: theta</span>
+<span class="sd">      pars (dict): has form of</span>
+
+<span class="sd">        .. code-block:: yaml</span>
+
+<span class="sd">          {</span>
+<span class="sd">            # features of the arms</span>
+<span class="sd">            &quot;features&quot;: [[float, ], ],</span>
+<span class="sd">            &quot;theta&quot;: float</span>
+<span class="sd">          }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -243,11 +249,7 @@
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">arm_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of arms</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">      int: number of arms</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;int: number of arms&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span>
 
   <span class="nd">@property</span>

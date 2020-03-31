@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -156,10 +156,10 @@
 <div class="viewcode-block" id="RegretMinimizationLearner"><a class="viewcode-back" href="../../../../banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.RegretMinimizationLearner">[docs]</a><span class="k">class</span> <span class="nc">RegretMinimizationLearner</span><span class="p">(</span><span class="n">Learner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for a learner with goal regret minimization.</span>
 
-<span class="sd">  Before a game is run, a learner should be initialized with ``reset``.</span>
-<span class="sd">  During each time step, ``learner_step`` is called to ask the learner for the</span>
-<span class="sd">  choice of the action. ``update`` is called by the protocol when the reward is</span>
-<span class="sd">  revealed from the environment.</span>
+<span class="sd">  Before a game is run, a learner should be initialized with :func:`reset`.</span>
+<span class="sd">  During each time step, :func:`learner_step` is called to ask the learner for</span>
+<span class="sd">   the choice of the action. :func:`update` is called by the protocol when the</span>
+<span class="sd">  reward is revealed from the environment.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c1"># default protocol</span>

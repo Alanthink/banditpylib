@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -313,13 +313,13 @@
 
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../banditpylib.html#banditpylib.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">novar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">save_fig</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Method for plotting the figure</span>
+  <span class="sd">&quot;&quot;&quot;Plot figure</span>
 
 <span class="sd">  Args:</span>
 <span class="sd">    data (dict): generated data</span>
 <span class="sd">    goal (str): goal of the learners</span>
-<span class="sd">    novar (bool): set it to ``True`` if you also want the std plotted</span>
-<span class="sd">    save_fig (str): file where the generated figure is stored</span>
+<span class="sd">    novar (bool): set it to ``True`` if you also want the *std* plotted</span>
+<span class="sd">    save_fig (str): file path to store the generated figure</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">Constants</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
   <span class="k">if</span> <span class="n">goal</span><span class="p">:</span>
@@ -412,10 +412,10 @@
 
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../banditpylib.html#banditpylib.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">new_policies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Method for playing the game</span>
+  <span class="sd">&quot;&quot;&quot;Play the game</span>
 
 <span class="sd">  Args:</span>
-<span class="sd">    config (dict): config should comply with the following form.</span>
+<span class="sd">    config (dict): has form of:</span>
 
 <span class="sd">      .. code-block:: yaml</span>
 
@@ -423,40 +423,38 @@
 <span class="sd">          &quot;environment&quot;: {</span>
 <span class="sd">            # Class name of the environment. Check `bandits` package for</span>
 <span class="sd">            # supported environments.</span>
-<span class="sd">            &quot;bandit&quot;: &quot;&quot;,</span>
-<span class="sd">            &quot;params&quot;: {</span>
-<span class="sd">              # &quot;name: value&quot; pairs. Parameters for the environment. Check</span>
-<span class="sd">              # environment *__init__* method for parameters.</span>
-<span class="sd">            }</span>
+<span class="sd">            &quot;bandit&quot;: string,</span>
+<span class="sd">            # Parameters for the environment. Check environment&#39;s `__init__`</span>
+<span class="sd">            # signature for options.</span>
+<span class="sd">            &quot;params&quot;: {}</span>
 <span class="sd">          },</span>
 <span class="sd">          &quot;learners&quot;: {</span>
 <span class="sd">            # Goal of the learners. Now we only support &quot;regretmin&quot;,</span>
 <span class="sd">            # &quot;bestarmid.fixbudget&quot;, and &quot;bestarmid.fixbudget&quot;.</span>
-<span class="sd">            &quot;goal&quot;: &quot;&quot;,</span>
-<span class="sd">            # A list of policy configurations</span>
+<span class="sd">            &quot;goal&quot;: string,</span>
+<span class="sd">            # Configurations of policies</span>
 <span class="sd">            &quot;policies&quot;: [</span>
 <span class="sd">              {</span>
-<span class="sd">                # Class name for the policy</span>
-<span class="sd">                &quot;policy&quot;: &quot;&quot;,</span>
+<span class="sd">                # Class name of the policy</span>
+<span class="sd">                &quot;policy&quot;: string,</span>
 <span class="sd">                &quot;params&quot;: {</span>
 <span class="sd">                  # Type of the policy which should be the closest package it</span>
-<span class="sd">                  # belongs. For example, the type of banditpylib.learners.</span>
-<span class="sd">                  # regretmin.ordinarylearner.EpsGreedy</span>
+<span class="sd">                  # belongs to. For example, the type of policy banditpylib.</span>
+<span class="sd">                  # learners.regretmin.ordinarylearner.EpsGreedy</span>
 <span class="sd">                  # should be &quot;ordinarylearner&quot;.</span>
-<span class="sd">                  &quot;type&quot;: &quot;&quot;,</span>
-<span class="sd">                  # &quot;name: value&quot; pairs. Other parameters for the policy. Check</span>
-<span class="sd">                  # learner class *__init__* method for parameters.</span>
+<span class="sd">                  &quot;type&quot;: string,</span>
+<span class="sd">                  # Check learner class `__init__` signature for other options.</span>
 <span class="sd">                }</span>
 <span class="sd">              },</span>
 <span class="sd">            ]</span>
 <span class="sd">          },</span>
-<span class="sd">          &quot;running&quot;: {</span>
-<span class="sd">            # &quot;name: value&quot; pairs. Parameters for running the setup. These</span>
-<span class="sd">            # parameters will be passed to prorotol for running the setup. Check</span>
-<span class="sd">            # protocol *__init__* method for parameters.</span>
-<span class="sd">          }</span>
+<span class="sd">          # Parameters for running the setup. These</span>
+<span class="sd">          # parameters will be passed to prototol for running the setup. Check</span>
+<span class="sd">          # protocol `__init__` signature for options.</span>
+<span class="sd">          &quot;running&quot;: {}</span>
 <span class="sd">        }</span>
-<span class="sd">    new_policies ([(class, dict),]): for each two-tuple (A, B),</span>
+
+<span class="sd">    new_policies ([(class, dict), ]): for each two-tuple (A, B),</span>
 <span class="sd">      A is the class defined by yourself and B denotes the</span>
 <span class="sd">      parameters of your policy.</span>
 <span class="sd">    debug (bool): set it to ``True`` to enter the debug mode</span>

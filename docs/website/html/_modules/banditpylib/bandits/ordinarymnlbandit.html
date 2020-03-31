@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -187,10 +187,18 @@
 <div class="viewcode-block" id="OrdinaryMNLBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.OrdinaryMNLBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      pars (dict):</span>
-<span class="sd">        ``&#39;abspar&#39;``: abstraction parameters of products,</span>
-<span class="sd">        ``&#39;revenue&#39;``: revenue of products,</span>
-<span class="sd">        ``&#39;K&#39;``: the cardinality upper bound for every assortment</span>
+<span class="sd">      pars (dict): has form of</span>
+
+<span class="sd">        .. code-block:: yaml</span>
+
+<span class="sd">            {</span>
+<span class="sd">              # abstraction parameters of products</span>
+<span class="sd">              &quot;abspar&quot;: [float, ],</span>
+<span class="sd">              # revenue of products</span>
+<span class="sd">              &quot;revenue&quot;: [float, ],</span>
+<span class="sd">              # cardinality upper bound for every assortment</span>
+<span class="sd">              &quot;K&quot;: int</span>
+<span class="sd">            }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">abspar</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;abspar&#39;</span><span class="p">]</span>
     <span class="n">revenue</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;revenue&#39;</span><span class="p">]</span>
