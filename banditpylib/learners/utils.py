@@ -5,25 +5,28 @@ class Learner(ABC):
   """
   Abstract class for a learner.
 
-  Before a game runs, a learner should be initialized with ``reset``.
+  Before a game runs, a learner should be initialized with :func:`reset`.
   """
 
   def __init__(self, pars):
     """Learner initialization
 
     Args:
-      pars (dict):
-        ``'name'`` (optional): name appeared in the output figure. Default value
-        is ``self._name``.
+      pars (dict): has form of
+
+        .. code-block:: yaml
+
+          {
+            # Name appeared in the output figure. Default
+            # value `self._name`.
+            "name": string,
+          }
     """
     self.__name = pars['name'] if 'name' in pars else None
 
   @property
   def name(self):
-    """
-    Return:
-      str: learner name
-    """
+    """str: learner name"""
     if self.__name:
       return self.__name
     return self._name
@@ -36,10 +39,7 @@ class Learner(ABC):
   @property
   @abstractmethod
   def goal(self):
-    """
-    Return:
-      str: goal of the learner
-    """
+    """str: goal of the learner"""
 
   @abstractmethod
   def reset(self, bandit, stop_cond):

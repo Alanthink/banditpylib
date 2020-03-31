@@ -17,10 +17,7 @@ class Arm(ABC):
   @property
   @abstractmethod
   def mean(self):
-    """
-    Return:
-      float: mean of arm
-    """
+    """float: mean of arm"""
 
 
 class EmArm:
@@ -31,28 +28,18 @@ class EmArm:
 
   @property
   def pulls(self):
-    """Total number of pulls
-
-    Return:
-      int: total number of pulls
-    """
+    """int: total number of pulls"""
     return self.__pulls
 
   @property
   def rewards(self):
-    """Total rewards obtained sofar
-
-    Return:
-      float: total rewards
+    """float: total rewards obtained so far
     """
     return self.__rewards
 
   @property
   def em_mean(self):
-    """Empirical mean
-
-    Return:
-      float: empirical mean
+    """float: empirical mean
     """
     if self.__pulls == 0:
       raise Exception('No empirical mean yet!')
@@ -60,10 +47,7 @@ class EmArm:
 
   @property
   def em_var(self):
-    """Empirical variance
-
-    Return:
-      float: empirical variance
+    """float: empirical variance
     """
     if self.__pulls == 0:
       raise Exception('No empirical variance yet!')
@@ -76,7 +60,7 @@ class EmArm:
     self.__sq_rewards = 0
 
   def update(self, *args):
-    """Use empirical rewards for update
+    """Update
 
     Args:
       args ([float] or [numpy array, int]): the first element is the empirical

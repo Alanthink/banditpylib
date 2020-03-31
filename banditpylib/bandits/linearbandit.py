@@ -56,15 +56,21 @@ class LinearBandit(
     LinearBanditItf):
   """Class for linear bandit.
 
-  Arms are numbered from 0 to ``self.__arm_num``-1 by default.
+  Arms are indexed from 0 by default.
   """
 
   def __init__(self, pars):
     """
     Args:
-      pars (dict):
-        ``'features'`` ([[float,],]): features of the arms,
-        ``'theta'``: theta
+      pars (dict): has form of
+
+        .. code-block:: yaml
+
+          {
+            # features of the arms
+            "features": [[float, ], ],
+            "theta": float
+          }
     """
     features = pars['features']
     if not isinstance(features, list):
@@ -93,11 +99,7 @@ class LinearBandit(
 
   @property
   def arm_num(self):
-    """Number of arms
-
-    Return:
-      int: number of arms
-    """
+    """int: number of arms"""
     return self.__arm_num
 
   @property

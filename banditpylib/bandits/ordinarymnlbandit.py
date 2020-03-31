@@ -37,10 +37,18 @@ class OrdinaryMNLBandit(Bandit):
   def __init__(self, pars):
     """
     Args:
-      pars (dict):
-        ``'abspar'``: abstraction parameters of products,
-        ``'revenue'``: revenue of products,
-        ``'K'``: the cardinality upper bound for every assortment
+      pars (dict): has form of
+
+        .. code-block:: yaml
+
+            {
+              # abstraction parameters of products
+              "abspar": [float, ],
+              # revenue of products
+              "revenue": [float, ],
+              # cardinality upper bound for every assortment
+              "K": int
+            }
     """
     abspar = pars['abspar']
     revenue = pars['revenue']

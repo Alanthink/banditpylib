@@ -165,13 +165,13 @@ def _plot(argv):
 
 
 def plot(data, goal='', novar=False, save_fig=''):
-  """Method for plotting the figure
+  """Plot figure
 
   Args:
     data (dict): generated data
     goal (str): goal of the learners
-    novar (bool): set it to ``True`` if you also want the std plotted
-    save_fig (str): file where the generated figure is stored
+    novar (bool): set it to ``True`` if you also want the *std* plotted
+    save_fig (str): file path to store the generated figure
   """
   Constants.data = data
   if goal:
@@ -264,10 +264,10 @@ def _run(argv):
 
 
 def run(config, new_policies=None, debug=False):
-  """Method for playing the game
+  """Play the game
 
   Args:
-    config (dict): config should comply with the following form.
+    config (dict): has form of:
 
       .. code-block:: yaml
 
@@ -275,40 +275,38 @@ def run(config, new_policies=None, debug=False):
           "environment": {
             # Class name of the environment. Check `bandits` package for
             # supported environments.
-            "bandit": "",
-            "params": {
-              # "name: value" pairs. Parameters for the environment. Check
-              # environment *__init__* method for parameters.
-            }
+            "bandit": string,
+            # Parameters for the environment. Check environment's `__init__`
+            # signature for options.
+            "params": {}
           },
           "learners": {
             # Goal of the learners. Now we only support "regretmin",
             # "bestarmid.fixbudget", and "bestarmid.fixbudget".
-            "goal": "",
-            # A list of policy configurations
+            "goal": string,
+            # Configurations of policies
             "policies": [
               {
-                # Class name for the policy
-                "policy": "",
+                # Class name of the policy
+                "policy": string,
                 "params": {
                   # Type of the policy which should be the closest package it
-                  # belongs. For example, the type of banditpylib.learners.
-                  # regretmin.ordinarylearner.EpsGreedy
+                  # belongs to. For example, the type of policy banditpylib.
+                  # learners.regretmin.ordinarylearner.EpsGreedy
                   # should be "ordinarylearner".
-                  "type": "",
-                  # "name: value" pairs. Other parameters for the policy. Check
-                  # learner class *__init__* method for parameters.
+                  "type": string,
+                  # Check learner class `__init__` signature for other options.
                 }
               },
             ]
           },
-          "running": {
-            # "name: value" pairs. Parameters for running the setup. These
-            # parameters will be passed to prorotol for running the setup. Check
-            # protocol *__init__* method for parameters.
-          }
+          # Parameters for running the setup. These
+          # parameters will be passed to prototol for running the setup. Check
+          # protocol `__init__` signature for options.
+          "running": {}
         }
-    new_policies ([(class, dict),]): for each two-tuple (A, B),
+
+    new_policies ([(class, dict), ]): for each two-tuple (A, B),
       A is the class defined by yourself and B denotes the
       parameters of your policy.
     debug (bool): set it to ``True`` to enter the debug mode

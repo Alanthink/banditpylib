@@ -23,10 +23,7 @@ class GaussianArm(Arm):
 
   @property
   def var(self):
-    """Variance of the arm
-
-    Return:
-      float: variance of the arm
+    """float: variance of the arm
     """
     return self.__var
 

@@ -9,7 +9,7 @@ class BernoulliArm(Arm):
   def __init__(self, mean):
     """
     Args:
-      mu (float): mean
+      mean (float): mean
     """
     self.__mean = mean
 

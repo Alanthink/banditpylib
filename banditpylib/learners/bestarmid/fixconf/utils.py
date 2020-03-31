@@ -4,7 +4,7 @@ from .. import BAILearner
 
 
 class FixConfBAILearner(BAILearner):
-  """base class for fixed confidence best arm identification learners"""
+  """Base class for fixed confidence best arm identification learners"""
 
   def __init__(self, pars):
     super().__init__(pars)

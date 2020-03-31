@@ -6,10 +6,10 @@ from .. import Learner
 class RegretMinimizationLearner(Learner):
   """Base class for a learner with goal regret minimization.
 
-  Before a game is run, a learner should be initialized with ``reset``.
-  During each time step, ``learner_step`` is called to ask the learner for the
-  choice of the action. ``update`` is called by the protocol when the reward is
-  revealed from the environment.
+  Before a game is run, a learner should be initialized with :func:`reset`.
+  During each time step, :func:`learner_step` is called to ask the learner for
+   the choice of the action. :func:`update` is called by the protocol when the
+  reward is revealed from the environment.
   """
 
   # default protocol

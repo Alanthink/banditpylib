@@ -52,7 +52,7 @@ class OrdinaryBanditItf(Bandit):
 class OrdinaryBandit(OrdinaryBanditItf):
   """Class for ordinary bandit.
 
-  Arms are numbered from 0 to ``self.__arm_num``-1 by default.
+  Arms are indexed from 0 by default.
   """
 
   def __init__(self, pars):
@@ -82,11 +82,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
 
   @property
   def arm_num(self):
-    """Number of arms
-
-    Return:
-      int: number of arms
-    """
+    """int: number of arms"""
     return self.__arm_num
 
   @property
