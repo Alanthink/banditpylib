@@ -6,7 +6,11 @@ from .. import FixConfBAILearner
 
 
 class DecentralizedOrdinaryLearner(FixConfBAILearner):
-  """base class for learners in the classic bandit model"""
+  """Base class for learners in the classic bandit model
+
+  .. inheritance-diagram:: DecentralizedOrdinaryLearner
+    :parts: 1
+  """
 
   protocol = 'DecentralizedPEProtocol'
 

@@ -267,7 +267,7 @@ def run(config, new_policies=None, debug=False):
   """Play the game
 
   Args:
-    config (dict): has form of:
+    config (dict):
 
       .. code-block:: yaml
 

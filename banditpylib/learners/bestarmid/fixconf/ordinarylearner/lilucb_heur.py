@@ -12,7 +12,10 @@ __all__ = ['lilUCB_heur']
 
 
 class lilUCB_heur(OrdinaryLearner):
-  """lilUCB heuristic policy :cite:`jamieson2014lil`.
+  """lilUCB heuristic policy :cite:`jamieson2014lil`
+
+  .. inheritance-diagram:: lilUCB_heur
+    :parts: 1
   """
 
   def __init__(self, pars):

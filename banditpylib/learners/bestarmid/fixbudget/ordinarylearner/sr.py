@@ -6,6 +6,9 @@ from .utils import OrdinaryLearner
 
 class SR(OrdinaryLearner):
   """Successive elimination policy :cite:`audibert2010best`
+
+  .. inheritance-diagram:: SR
+    :parts: 1
   """
 
   def __init__(self, pars):

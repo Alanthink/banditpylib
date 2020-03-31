@@ -11,7 +11,11 @@ ARM_PKG = 'banditpylib.bandits.arms'
 
 
 class LinearBanditItf(Bandit):
-  """Linear bandit interface"""
+  """Linear bandit interface
+
+  .. inheritance-diagram:: LinearBanditItf
+    :parts: 1
+  """
 
   @property
   @abstractmethod
@@ -56,13 +60,16 @@ class LinearBandit(
     LinearBanditItf):
   """Class for linear bandit.
 
+  .. inheritance-diagram:: LinearBandit
+    :parts: 1
+
   Arms are indexed from 0 by default.
   """
 
   def __init__(self, pars):
     """
     Args:
-      pars (dict): has form of
+      pars (dict):
 
         .. code-block:: yaml
 

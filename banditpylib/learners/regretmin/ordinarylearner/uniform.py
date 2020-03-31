@@ -4,6 +4,9 @@ from . import OrdinaryLearner
 class Uniform(OrdinaryLearner):
   """Uniform sampling policy.
 
+  .. inheritance-diagram:: Uniform
+    :parts: 1
+
   Sample each arm in a round-robin fashion.
   """
 

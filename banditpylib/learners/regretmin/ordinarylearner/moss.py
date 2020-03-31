@@ -8,6 +8,9 @@ from .utils import OrdinaryLearner
 class MOSS(OrdinaryLearner):
   r"""MOSS policy :cite:`audibert2009minimax`.
 
+  .. inheritance-diagram:: MOSS
+    :parts: 1
+
   At time :math:`t`, play arm
 
   .. math::

@@ -8,6 +8,9 @@ from .utils import OrdinaryLearner
 class EpsGreedy(OrdinaryLearner):
   r"""Epsilon-Greedy policy.
 
+  .. inheritance-diagram:: EpsGreedy
+    :parts: 1
+
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   left probability play the arm with the maximum empirical mean.
   """
@@ -16,8 +19,13 @@ class EpsGreedy(OrdinaryLearner):
     """
     Args:
       pars (dict):
-        ``'eps'`` (float, *optional*): default value is 1.0. It should be
-        greater than 0.
+
+        .. code-block:: yaml
+
+          {
+            # It should be greater than 0. Default value is 1.0.
+            "eps": 1.0,
+          }
     """
     super().__init__(pars)
     self.__eps = float(pars['eps']) if 'eps' in pars else 1.0

@@ -2,7 +2,11 @@ from abc import ABC, abstractmethod
 
 
 class Arm(ABC):
-  """Abstract class for an arm"""
+  """Abstract class for an arm
+
+  .. inheritance-diagram:: Arm
+    :parts: 1
+  """
 
   @abstractmethod
   def pull(self, pulls=1):

@@ -46,17 +46,18 @@ class Protocol(ABC):
   Abstract class for the protocol which is used to coordinate the interactions
   between the learner and the environment.
 
-  For each setup, just call ``play`` to start the game. A protocol should
-  implement ``_one_trial`` method to define how to run one trial of the game.
+  .. inheritance-diagram:: Protocol
+    :parts: 1
+
+  For each setup, just call :func:`play` to start the game. A protocol should
+  implement :func:`_one_trial` method to define how to run one trial of the
+  game.
   """
 
   @property
   @abstractmethod
   def type(self):
-    """
-    Return:
-      str: type of the protocol
-    """
+    """str: type of the protocol"""
 
   @property
   def __trials(self):

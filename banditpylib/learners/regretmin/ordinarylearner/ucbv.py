@@ -8,6 +8,9 @@ from .utils import OrdinaryLearner
 class UCBV(OrdinaryLearner):
   r"""UCBV policy :cite:`audibert2009exploration`.
 
+  .. inheritance-diagram:: UCBV
+    :parts: 1
+
   At time :math:`t`, play arm
 
   .. math::
@@ -22,8 +25,14 @@ class UCBV(OrdinaryLearner):
     """
     Args:
       pars (dict):
-        ``'b'`` (float, *optional*) upper bound of
-        reward. Default value is 1.0. It should be greater than 0.
+
+        .. code-block:: yaml
+
+          {
+            # Upper bound of reward. It should be greater than 0.
+            # Default value is 1.0.
+            "b": 1.0,
+          }
     """
     super().__init__(pars)
     self.__b = float(pars['b']) if 'b' in pars else 1.0

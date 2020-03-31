@@ -5,7 +5,11 @@ from .utils import Arm
 
 
 class GaussianArm(Arm):
-  """Class for Gaussian arm"""
+  """Class for Gaussian arm
+
+  .. inheritance-diagram:: GaussianArm
+    :parts: 1
+  """
 
   def __init__(self, mu, var):
     """

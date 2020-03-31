@@ -6,6 +6,9 @@ from .utils import OrdinaryLearner
 
 class SH(OrdinaryLearner):
   """Sequential halving policy :cite:`karnin2013almost`
+
+  .. inheritance-diagram:: SH
+    :parts: 1
   """
 
   def __init__(self, pars):

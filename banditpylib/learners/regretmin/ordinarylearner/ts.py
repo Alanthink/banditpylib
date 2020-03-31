@@ -7,6 +7,9 @@ class TS(OrdinaryLearner):
   r"""
   Thompson Sampling policy :cite:`agrawal2017near`.
 
+  .. inheritance-diagram:: TS
+    :parts: 1
+
   Assume a prior distribution for every arm. At time :math:`t`, sample a
   virtual mean from the posterior distribution for every arm. Play the arm with
   the maximum sampled virtual mean.
@@ -19,8 +22,13 @@ class TS(OrdinaryLearner):
     """
     Args:
       pars (dict):
-        ``'prior'`` (str, *optional*) ``'beta'`` or ``'gaussian'``.
-        Default value is ``'beta'``.
+
+        .. code-block:: yaml
+
+          {
+            # "beta" or "gaussian". Default is "beta".
+            "prior": "beta",
+          }
     """
     super().__init__(pars)
     # set Beta prior by default

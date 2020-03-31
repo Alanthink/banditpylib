@@ -6,7 +6,11 @@ from .. import RegretMinimizationLearner
 
 
 class CorrelatedLearner(RegretMinimizationLearner):
-  """Base class for learners in the classic bandit model"""
+  """Base class for learners in the classic bandit model
+
+  .. inheritance-diagram:: CorrelatedLearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

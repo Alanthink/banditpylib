@@ -4,7 +4,11 @@ from .utils import DecentralizedOrdinaryLearner
 
 
 class SUCB(DecentralizedOrdinaryLearner):
-  """Selfish UCB policy"""
+  """Selfish UCB policy
+
+  .. inheritance-diagram:: SUCB
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

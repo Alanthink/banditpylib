@@ -5,6 +5,9 @@ class Learner(ABC):
   """
   Abstract class for a learner.
 
+  .. inheritance-diagram:: Learner
+    :parts: 1
+
   Before a game runs, a learner should be initialized with :func:`reset`.
   """
 
@@ -12,7 +15,7 @@ class Learner(ABC):
     """Learner initialization
 
     Args:
-      pars (dict): has form of
+      pars (dict):
 
         .. code-block:: yaml
 

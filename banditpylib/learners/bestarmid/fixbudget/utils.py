@@ -4,7 +4,11 @@ from .. import BAILearner
 
 
 class FixBudgetBAILearner(BAILearner):
-  """Base class for fixed budget best arm identification learners"""
+  """Base class for fixed budget best arm identification learners
+
+  .. inheritance-diagram:: FixBudgetBAILearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

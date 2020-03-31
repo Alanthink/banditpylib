@@ -6,7 +6,11 @@ from .. import RegretMinimizationLearner
 
 
 class OrdinaryLearner(RegretMinimizationLearner):
-  """Base class for learners in the ordinary multi-armed bandit"""
+  """Base class for learners in the ordinary multi-armed bandit
+
+  .. inheritance-diagram:: OrdinaryLearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

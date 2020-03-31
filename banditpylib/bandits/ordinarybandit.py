@@ -9,7 +9,11 @@ ARM_PKG = 'banditpylib.bandits.arms'
 
 
 class OrdinaryBanditItf(Bandit):
-  """Ordinary bandit interface"""
+  """Ordinary bandit interface
+
+  .. inheritance-diagram:: OrdinaryBanditItf
+    :parts: 1
+  """
 
   @property
   @abstractmethod
@@ -50,7 +54,10 @@ class OrdinaryBanditItf(Bandit):
 
 
 class OrdinaryBandit(OrdinaryBanditItf):
-  """Class for ordinary bandit.
+  """Class for ordinary bandit
+
+  .. inheritance-diagram:: OrdinaryBandit
+    :parts: 1
 
   Arms are indexed from 0 by default.
   """

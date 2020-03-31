@@ -6,7 +6,11 @@ from .. import FixBudgetBAILearner
 
 
 class OrdinaryLearner(FixBudgetBAILearner):
-  """base class for learners in the classic bandit model"""
+  """Base class for learners in the classic bandit model
+
+  .. inheritance-diagram:: OrdinaryLearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

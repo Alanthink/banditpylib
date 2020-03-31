@@ -8,6 +8,9 @@ from .utils import OrdinaryLearner
 class UCB(OrdinaryLearner):
   r"""UCB1 policy :cite:`auer2002finite`.
 
+  .. inheritance-diagram:: UCB
+    :parts: 1
+
   At time :math:`t`, play arm
 
   .. math::
@@ -22,8 +25,13 @@ class UCB(OrdinaryLearner):
     """
     Args:
       pars (dict):
-        ``'alpha'`` (float, *optional*): default value is 2.0. It should be
-        greater than 0.
+
+        .. code-block:: yaml
+
+            {
+              # It should be greater than 0. Default value is 2.0.
+              "alpha": 2.0,
+            }
     """
     super().__init__(pars)
     self.__alpha = float(pars['alpha']) if 'alpha' in pars else 2.0

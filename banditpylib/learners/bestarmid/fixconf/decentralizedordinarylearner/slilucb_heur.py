@@ -6,7 +6,11 @@ from .utils import DecentralizedOrdinaryLearner
 
 
 class SlilUCB_heur(DecentralizedOrdinaryLearner):
-  """Selfish lilUCB heuristic policy"""
+  """Selfish lilUCB heuristic policy
+
+  .. inheritance-diagram:: SlilUCB_heur
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

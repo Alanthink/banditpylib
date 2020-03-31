@@ -12,18 +12,31 @@ FLAGS = flags.FLAGS
 
 class DecentralizedPEProtocol(Protocol):
   """Decentralized pure exploration protocol :cite:`feraud2018decentralized`
+
+  .. inheritance-diagram:: DecentralizedPEProtocol
+    :parts: 1
   """
 
   def __init__(self, pars):
     """
     Args:
-      pars:
-        ``"num_players"`` (int): number of players.
-        ``"fail_probs"`` ([float,], optional): fail probabilities.
-        ``"budgets"`` ([int,], optional): budgets.
-        ``"trials"`` (int): number of repetitions of the game.
-        ``"processors"`` (int): maximum number of processors can be used. -1
-        means trying to make use all available cpus.
+      pars (dict):
+
+        .. code-block:: yaml
+
+          {
+            # number of players
+            "num_players": int,
+            # optional
+            "fail_probs": [float, ],
+            # optional
+            "budgets": [int, ],
+            # number of repetitions of the game
+            "trials": int,
+            # maximum number of processors can be used. -1 means trying
+            # to make use all available cpus.
+            "processors": int
+          }
     """
     self.__messages = []
     if 'num_players' not in pars:

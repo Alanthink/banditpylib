@@ -6,6 +6,9 @@ from .utils import CorrelatedLearner
 
 class CUCB(CorrelatedLearner):
   """CUCB policy :cite:`gupta2018exploiting`
+
+  .. inheritance-diagram:: CUCB
+    :parts: 1
   """
 
   def __init__(self, pars):

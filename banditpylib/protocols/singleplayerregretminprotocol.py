@@ -9,20 +9,32 @@ FLAGS = flags.FLAGS
 
 class SinglePlayerRegretMinProtocol(Protocol):
   """Single player regret minimization protocol
+
+  .. inheritance-diagram:: SinglePlayerRegretMinProtocol
+    :parts: 1
   """
 
   def __init__(self, pars=None):
     """
     Args:
-      pars:
-        ``"horizons"`` ([int,]): horizons. When the length is 1,
-        ``"freq"`` will be used to record the intermedaite regrets and plot the
-        final figure. Otherwise, run each horizon in ``"horizons"``
-        independently and use the regrets to plot the final figure.
-        ``"freq"`` (int, optional): frequency to record intermediate regrets.
-        ``"trials"`` (int): number of repetitions of the game.
-        ``"processors"`` (int): maximum number of processors can be used. -1
-        means trying to make use all available cpus.
+      pars (dict):
+
+        .. code-block:: yaml
+
+          {
+            # When length is 1, "freq" will be used to record the intermedaite
+            # regrets and plot the final figure. Otherwise, run each horizon in
+            # "horizons" independently and use the regrets to plot the final
+            # figure.
+            "horizons": [int, ],
+            # frequency to record intermediate regrets
+            "freq": [int, ],
+            # number of repetitions of the game
+            "trials": int,
+            # maximum number of processors can be used. -1 means trying
+            # to make use all available cpus.
+            "processors": int
+          }
 
     .. warning::
       To ensure the independence between different horizons in the final figure,

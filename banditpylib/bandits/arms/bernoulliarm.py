@@ -4,7 +4,11 @@ from .utils import Arm
 
 
 class BernoulliArm(Arm):
-  """Class for Bernoulli arm"""
+  """Class for Bernoulli arm
+
+  .. inheritance-diagram:: BernoulliArm
+    :parts: 1
+  """
 
   def __init__(self, mean):
     """

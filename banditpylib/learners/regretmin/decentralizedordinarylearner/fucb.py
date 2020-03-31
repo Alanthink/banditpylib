@@ -4,7 +4,11 @@ from .utils import DecentralizedOrdinaryLearner
 
 
 class FUCB(DecentralizedOrdinaryLearner):
-  """Friendly UCB policy"""
+  """Friendly UCB policy
+
+  .. inheritance-diagram:: FUCB
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

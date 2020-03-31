@@ -4,7 +4,11 @@ from .. import BAILearner
 
 
 class FixConfBAILearner(BAILearner):
-  """Base class for fixed confidence best arm identification learners"""
+  """Base class for fixed confidence best arm identification learners
+
+  .. inheritance-diagram:: FixConfBAILearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

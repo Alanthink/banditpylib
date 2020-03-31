@@ -16,6 +16,9 @@ __all__ = ['ExpGap']
 class ExpGap(OrdinaryLearner):
   """Exponential-Gap Elimination policy :cite:`karnin2013almost`,
   `Gupta2019MultiArmedBW`.
+
+  .. inheritance-diagram:: ExpGap
+    :parts: 1
   """
 
   def __init__(self, pars):

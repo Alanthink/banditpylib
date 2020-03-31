@@ -7,6 +7,9 @@ class BAILearner(Learner):
   """
   Base class for a learner with goal best arm identification.
 
+  .. inheritance-diagram:: BAILearner
+    :parts: 1
+
   Instead of :func:`learner_step`, pure exploration learners implement
   :func:`learner_round` method which essentially means a round. The learner
   has to decide by him/herself when to stop.

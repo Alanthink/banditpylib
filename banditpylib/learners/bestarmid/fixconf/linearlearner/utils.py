@@ -12,7 +12,11 @@ def mat_norm(x, A):
 
 
 class LinearLearner(FixConfBAILearner):
-  """Base class for learners in the classic bandit model"""
+  """Base class for learners in the classic bandit model
+
+  .. inheritance-diagram:: LinearLearner
+    :parts: 1
+  """
 
   def __init__(self, pars):
     super().__init__(pars)

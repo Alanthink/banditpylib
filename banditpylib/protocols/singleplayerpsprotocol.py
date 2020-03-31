@@ -9,17 +9,29 @@ FLAGS = flags.FLAGS
 
 class SinglePlayerPEProtocol(Protocol):
   """Single player pure exploration protocol
+
+  .. inheritance-diagram:: SinglePlayerPEProtocol
+    :parts: 1
   """
 
   def __init__(self, pars=None):
     """
     Args:
-      pars:
-        ``"fail_probs"`` ([float,], optional): fail probabilities.
-        ``"budgets"`` ([int,], optional): budgets.
-        ``"trials"`` (int): number of repetitions of the game.
-        ``"processors"`` (int): maximum number of processors can be used. -1
-        means trying to make use all available cpus.
+      pars (dict):
+
+        .. code-block:: yaml
+
+          {
+            # optional
+            "fail_probs": [float, ],
+            # optional
+            "budgets": [int, ],
+            # number of repetitions of the game
+            "trials": int,
+            # maximum number of processors can be used. -1 means trying
+            # to make use all available cpus.
+            "processors": int
+          }
     """
 
   @property

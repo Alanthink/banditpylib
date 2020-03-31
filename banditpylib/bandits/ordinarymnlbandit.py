@@ -28,7 +28,10 @@ def search_best_assortment(abspar, revenue, K=np.inf):
 
 
 class OrdinaryMNLBandit(Bandit):
-  """Class for ordinary MNL bandit.
+  """Class for ordinary MNL bandit
+
+  .. inheritance-diagram:: OrdinaryMNLBandit
+    :parts: 1
 
   Products are numbered from 1 by default. 0 is for non-purchase.
   It is assumed that the abstraction parameter of non-purchase is 1.
@@ -37,7 +40,7 @@ class OrdinaryMNLBandit(Bandit):
   def __init__(self, pars):
     """
     Args:
-      pars (dict): has form of
+      pars (dict):
 
         .. code-block:: yaml
 

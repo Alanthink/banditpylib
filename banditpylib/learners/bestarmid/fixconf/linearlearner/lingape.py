@@ -8,7 +8,10 @@ FLAGS = flags.FLAGS
 
 
 class LinGapE(LinearLearner):
-  """LinGapE policy :cite:`xu2017fully`.
+  """LinGapE policy :cite:`xu2017fully`
+
+  .. inheritance-diagram:: LinGapE
+    :parts: 1
   """
 
   def __init__(self, pars):
