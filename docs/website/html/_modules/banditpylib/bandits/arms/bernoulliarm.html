@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -153,10 +154,14 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Arm</span>
 
 
-<div class="viewcode-block" id="BernoulliArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.BernoulliArm">[docs]</a><span class="k">class</span> <span class="nc">BernoulliArm</span><span class="p">(</span><span class="n">Arm</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Class for Bernoulli arm&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BernoulliArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.bernoulliarm.BernoulliArm">[docs]</a><span class="k">class</span> <span class="nc">BernoulliArm</span><span class="p">(</span><span class="n">Arm</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Class for Bernoulli arm</span>
 
-<div class="viewcode-block" id="BernoulliArm.__init__"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.BernoulliArm.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
+<span class="sd">  .. inheritance-diagram:: BernoulliArm</span>
+<span class="sd">    :parts: 1</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BernoulliArm.__init__"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.bernoulliarm.BernoulliArm.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">      mean (float): mean</span>
@@ -167,7 +172,7 @@
   <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span>
 
-<div class="viewcode-block" id="BernoulliArm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.BernoulliArm.pull">[docs]</a>  <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulls</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="BernoulliArm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.bernoulliarm.BernoulliArm.pull">[docs]</a>  <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulls</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="p">,</span> <span class="n">pulls</span><span class="p">)</span></div></div>
 </pre></div>
 

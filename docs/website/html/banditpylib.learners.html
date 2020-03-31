@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="bestarmid package" href="banditpylib.learners.bestarmid.html" />
@@ -172,15 +173,17 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.</code><code class="sig-name descname">Learner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.Learner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class for a learner.</p>
-<p>Before a game runs, a learner should be initialized with <a class="reference internal" href="#banditpylib.learners.Learner.reset" title="banditpylib.learners.Learner.reset"><code class="xref py py-func docutils literal notranslate"><span class="pre">reset()</span></code></a>.</p>
+<div class="graphviz"><img src="_images/inheritance-a443f0f6e03664c6527aa87416cefc94d067f8d9.png" alt="Inheritance diagram of Learner" usemap="#inheritanced4a169dbd2" class="inheritance graphviz" /></div>
+<map id="inheritanced4a169dbd2" name="inheritanced4a169dbd2">
+<area shape="rect" id="node2" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="5,84,96,115"/>
+</map><p>Before a game runs, a learner should be initialized with <a class="reference internal" href="#banditpylib.learners.Learner.reset" title="banditpylib.learners.Learner.reset"><code class="xref py py-func docutils literal notranslate"><span class="pre">reset()</span></code></a>.</p>
 <dl class="method">
 <dt id="banditpylib.learners.Learner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/utils.html#Learner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.Learner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -160,23 +161,36 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 
-<div class="viewcode-block" id="DecentralizedRegretMinProtocol"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedregretminprotocol.html#banditpylib.protocols.DecentralizedRegretMinProtocol">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedRegretMinProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<div class="viewcode-block" id="DecentralizedRegretMinProtocol"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedregretminprotocol.html#banditpylib.protocols.decentralizedregretminprotocol.DecentralizedRegretMinProtocol">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedRegretMinProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Decentralized regret minimization protocol :cite:`feraud2018decentralized`</span>
+
+<span class="sd">  .. inheritance-diagram:: DecentralizedRegretMinProtocol</span>
+<span class="sd">    :parts: 1</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DecentralizedRegretMinProtocol.__init__"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedregretminprotocol.html#banditpylib.protocols.DecentralizedRegretMinProtocol.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="DecentralizedRegretMinProtocol.__init__"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedregretminprotocol.html#banditpylib.protocols.decentralizedregretminprotocol.DecentralizedRegretMinProtocol.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      pars:</span>
-<span class="sd">        ``&quot;num_players&quot;`` (int): number of players.</span>
-<span class="sd">        ``&quot;horizons&quot;`` ([int,]): horizons. When the length is 1,</span>
-<span class="sd">        ``&quot;freq&quot;`` will be used to record the intermedaite regrets and plot the</span>
-<span class="sd">        final figure. Otherwise, run each horizon in ``&quot;horizons&quot;``</span>
-<span class="sd">        independently and use the regrets to plot the final figure.</span>
-<span class="sd">        ``&quot;freq&quot;`` (int, optional): frequency to record intermediate regrets.</span>
-<span class="sd">        ``&quot;trials&quot;`` (int): number of repetitions of the game.</span>
-<span class="sd">        ``&quot;processors&quot;`` (int): maximum number of processors can be used. -1</span>
-<span class="sd">        means trying to make use all available cpus.</span>
+<span class="sd">      pars (dict):</span>
+
+<span class="sd">        .. code-block:: yaml</span>
+
+<span class="sd">          {</span>
+<span class="sd">            # number of players</span>
+<span class="sd">            &quot;num_players&quot;: int,</span>
+<span class="sd">            # When length is 1, &quot;freq&quot; will be used to record the intermedaite</span>
+<span class="sd">            # regrets and plot the final figure. Otherwise, run each horizon in</span>
+<span class="sd">            # &quot;horizons&quot; independently and use the regrets to plot the final</span>
+<span class="sd">            # figure.</span>
+<span class="sd">            &quot;horizons&quot;: [int, ],</span>
+<span class="sd">            # frequency to record intermediate regrets</span>
+<span class="sd">            &quot;freq&quot;: [int, ],</span>
+<span class="sd">            # number of repetitions of the game</span>
+<span class="sd">            &quot;trials&quot;: int,</span>
+<span class="sd">            # maximum number of processors can be used. -1 means trying</span>
+<span class="sd">            # to make use all available cpus.</span>
+<span class="sd">            &quot;processors&quot;: int</span>
+<span class="sd">          }</span>
 
 <span class="sd">    .. warning::</span>
 <span class="sd">      To ensure the independence between different horizons in the final figure,</span>

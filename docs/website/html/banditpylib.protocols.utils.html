@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -155,8 +156,12 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class for the protocol which is used to coordinate the interactions
 between the learner and the environment.</p>
-<p>For each setup, just call <code class="docutils literal notranslate"><span class="pre">play</span></code> to start the game. A protocol should
-implement <code class="docutils literal notranslate"><span class="pre">_one_trial</span></code> method to define how to run one trial of the game.</p>
+<div class="graphviz"><img src="_images/inheritance-e797b4c9f8b550e1adc6f8c3a7ea45b9903fc6d8.png" alt="Inheritance diagram of Protocol" usemap="#inheritance10c0d73dd3" class="inheritance graphviz" /></div>
+<map id="inheritance10c0d73dd3" name="inheritance10c0d73dd3">
+<area shape="rect" id="node2" href="#banditpylib.protocols.utils.Protocol" target="_top" title="Abstract class for the protocol which is used to coordinate the interactions" alt="" coords="5,84,100,115"/>
+</map><p>For each setup, just call <a class="reference internal" href="#banditpylib.protocols.utils.Protocol.play" title="banditpylib.protocols.utils.Protocol.play"><code class="xref py py-func docutils literal notranslate"><span class="pre">play()</span></code></a> to start the game. A protocol should
+implement <code class="xref py py-func docutils literal notranslate"><span class="pre">_one_trial()</span></code> method to define how to run one trial of the
+game.</p>
 <dl class="method">
 <dt id="banditpylib.protocols.utils.Protocol.play">
 <code class="sig-name descname">play</code><span class="sig-paren">(</span><em class="sig-param">bandit</em>, <em class="sig-param">learner</em>, <em class="sig-param">running_pars</em>, <em class="sig-param">output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/utils.html#Protocol.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.utils.Protocol.play" title="Permalink to this definition">¶</a></dt>
@@ -176,8 +181,12 @@ implement <code class="docutils literal notranslate"><span class="pre">_one_tria
 <dl class="method">
 <dt id="banditpylib.protocols.utils.Protocol.type">
 <em class="property">abstract property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.protocols.utils.Protocol.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return:
-str: type of the protocol</p>
+<dd><p>type of the protocol</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

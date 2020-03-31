@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,7 +155,11 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.utils.</code><code class="sig-name descname">BAILearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/utils.html#BAILearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.utils.BAILearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" title="banditpylib.learners.utils.Learner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.utils.Learner</span></code></a></p>
 <p>Base class for a learner with goal best arm identification.</p>
-<p>Instead of <code class="xref py py-func docutils literal notranslate"><span class="pre">learner_step()</span></code>, pure exploration learners implement
+<div class="graphviz"><img src="_images/inheritance-d8aaf156505186db777719a914bef10a8e8316f7.png" alt="Inheritance diagram of BAILearner" usemap="#inheritancecaea5c2eee" class="inheritance graphviz" /></div>
+<map id="inheritancecaea5c2eee" name="inheritancecaea5c2eee">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="21,84,112,115"/>
+<area shape="rect" id="node2" href="#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="5,163,128,193"/>
+</map><p>Instead of <code class="xref py py-func docutils literal notranslate"><span class="pre">learner_step()</span></code>, pure exploration learners implement
 <a class="reference internal" href="#banditpylib.learners.bestarmid.utils.BAILearner.learner_round" title="banditpylib.learners.bestarmid.utils.BAILearner.learner_round"><code class="xref py py-func docutils literal notranslate"><span class="pre">learner_round()</span></code></a> method which essentially means a round. The learner
 has to decide by him/herself when to stop.</p>
 <dl class="method">
@@ -163,8 +168,7 @@ has to decide by him/herself when to stop.</p>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

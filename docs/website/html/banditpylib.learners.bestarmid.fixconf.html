@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="decentralizedordinarylearner package" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.html" />
@@ -176,14 +177,18 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixconf.</code><code class="sig-name descname">FixConfBAILearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/utils.html#FixConfBAILearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" title="banditpylib.learners.bestarmid.utils.BAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.utils.BAILearner</span></code></a></p>
 <p>Base class for fixed confidence best arm identification learners</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-c02805d078459aa42f3907921ff7204e5e6fbf5d.png" alt="Inheritance diagram of FixConfBAILearner" usemap="#inheritance1fe9bd4027" class="inheritance graphviz" /></div>
+<map id="inheritance1fe9bd4027" name="inheritance1fe9bd4027">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="56,84,146,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="40,163,162,193"/>
+<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" target="_top" title="Base class for fixed confidence best arm identification learners" alt="" coords="5,241,197,272"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixconf.FixConfBAILearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixconf/utils.html#FixConfBAILearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixconf.FixConfBAILearner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

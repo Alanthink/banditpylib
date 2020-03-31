@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,14 +155,19 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.</code><code class="sig-name descname">SUCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.SUCB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
 <p>Selfish UCB policy</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-130ed72705c913ef749bc4f653701acfd7db2040.png" alt="Inheritance diagram of SUCB" usemap="#inheritance97812cb23c" class="inheritance graphviz" /></div>
+<map id="inheritance97812cb23c" name="inheritance97812cb23c">
+<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="105,84,195,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="5,241,295,272"/>
+<area shape="rect" id="node5" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.SUCB" target="_top" title="Selfish UCB policy" alt="" coords="112,320,188,351"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="19,163,281,193"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.SUCB.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/sucb.html#SUCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.sucb.SUCB.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

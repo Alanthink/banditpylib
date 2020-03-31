@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" /> 
 </head>
@@ -154,11 +155,14 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">OrdinaryLearner</span>
 
 
-<div class="viewcode-block" id="SH"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH">[docs]</a><span class="k">class</span> <span class="nc">SH</span><span class="p">(</span><span class="n">OrdinaryLearner</span><span class="p">):</span>
+<div class="viewcode-block" id="SH"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH">[docs]</a><span class="k">class</span> <span class="nc">SH</span><span class="p">(</span><span class="n">OrdinaryLearner</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Sequential halving policy :cite:`karnin2013almost`</span>
+
+<span class="sd">  .. inheritance-diagram:: SH</span>
+<span class="sd">    :parts: 1</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SH.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="SH.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__T0</span> <span class="o">=</span> <span class="n">pars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;T0&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
@@ -166,7 +170,7 @@
   <span class="k">def</span> <span class="nf">_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;SH&#39;</span>
 
-<div class="viewcode-block" id="SH.uniform_sampling"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.uniform_sampling">[docs]</a>  <span class="k">def</span> <span class="nf">uniform_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_arms</span><span class="p">,</span> <span class="n">budget_left</span><span class="p">):</span>
+<div class="viewcode-block" id="SH.uniform_sampling"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH.uniform_sampling">[docs]</a>  <span class="k">def</span> <span class="nf">uniform_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_arms</span><span class="p">,</span> <span class="n">budget_left</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">active_arms</span><span class="p">)</span>
     <span class="n">rnd_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">budget_left</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">action</span> <span class="o">=</span> <span class="p">[(</span><span class="n">active_arms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rnd_array</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -180,7 +184,7 @@
     <span class="c1"># calculate total number of rounds</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arm_num</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-<div class="viewcode-block" id="SH.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.learner_round">[docs]</a>  <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SH.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH.learner_round">[docs]</a>  <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1"># situation when budget is no greater than the number of arms</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_budget</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arm_num</span><span class="p">:</span>
       <span class="c1"># randomly output an arm</span>
@@ -219,7 +223,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span> <span class="o">=</span> <span class="n">active_arms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span></div>
 
-<div class="viewcode-block" id="SH.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.best_arm">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SH.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH.best_arm">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span></div></div>
 </pre></div>
 

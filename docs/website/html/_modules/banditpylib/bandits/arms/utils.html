@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -151,10 +152,14 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 
-<div class="viewcode-block" id="Arm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.Arm">[docs]</a><span class="k">class</span> <span class="nc">Arm</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Abstract class for an arm&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Arm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm">[docs]</a><span class="k">class</span> <span class="nc">Arm</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Abstract class for an arm</span>
 
-<div class="viewcode-block" id="Arm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.Arm.pull">[docs]</a>  <span class="nd">@abstractmethod</span>
+<span class="sd">  .. inheritance-diagram:: Arm</span>
+<span class="sd">    :parts: 1</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Arm.pull"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm.pull">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulls</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
@@ -170,10 +175,10 @@
     <span class="sd">&quot;&quot;&quot;float: mean of arm&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="EmArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm">[docs]</a><span class="k">class</span> <span class="nc">EmArm</span><span class="p">:</span>
+<div class="viewcode-block" id="EmArm"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.EmArm">[docs]</a><span class="k">class</span> <span class="nc">EmArm</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Class for storing empirical information of an arm&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EmArm.__init__"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmArm.__init__"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.EmArm.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
 
   <span class="nd">@property</span>
@@ -203,13 +208,13 @@
       <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No empirical variance yet!&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sq_rewards</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span>
 
-<div class="viewcode-block" id="EmArm.reset"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmArm.reset"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.EmArm.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reset self. Clear historical records&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__pulls</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__rewards</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__sq_rewards</span> <span class="o">=</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="EmArm.update"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.EmArm.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="EmArm.update"><a class="viewcode-back" href="../../../../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.EmArm.update">[docs]</a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update</span>
 
 <span class="sd">    Args:</span>

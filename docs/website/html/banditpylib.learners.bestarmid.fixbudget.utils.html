@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,14 +155,18 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.utils.</code><code class="sig-name descname">FixBudgetBAILearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" title="banditpylib.learners.bestarmid.utils.BAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.utils.BAILearner</span></code></a></p>
 <p>Base class for fixed budget best arm identification learners</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-ce26e4e669672d35ee44c9b6ac56c504c898bc01.png" alt="Inheritance diagram of FixBudgetBAILearner" usemap="#inheritancef2efc173db" class="inheritance graphviz" /></div>
+<map id="inheritancef2efc173db" name="inheritancef2efc173db">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="66,84,157,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="50,163,173,193"/>
+<area shape="rect" id="node4" href="#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" target="_top" title="Base class for fixed budget best arm identification learners" alt="" coords="5,241,218,272"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/utils.html#FixBudgetBAILearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

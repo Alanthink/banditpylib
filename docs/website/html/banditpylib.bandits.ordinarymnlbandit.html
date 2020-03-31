@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -153,16 +154,19 @@
 <dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.ordinarymnlbandit.</code><code class="sig-name descname">OrdinaryMNLBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" title="banditpylib.bandits.utils.Bandit"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.utils.Bandit</span></code></a></p>
-<p>Class for ordinary MNL bandit.</p>
-<p>Products are numbered from 1 by default. 0 is for non-purchase.
+<p>Class for ordinary MNL bandit</p>
+<div class="graphviz"><img src="_images/inheritance-f450d476e4319923af5b8e1a87dcf1e9ba4d538f.png" alt="Inheritance diagram of OrdinaryMNLBandit" usemap="#inheritanceb430cad8df" class="inheritance graphviz" /></div>
+<map id="inheritanceb430cad8df" name="inheritanceb430cad8df">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="65,84,143,115"/>
+<area shape="rect" id="node3" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit" target="_top" title="Class for ordinary MNL bandit" alt="" coords="5,163,202,193"/>
+</map><p>Products are numbered from 1 by default. 0 is for non-purchase.
 It is assumed that the abstraction parameter of non-purchase is 1.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># abstraction parameters of products</span>
   <span class="s">&quot;abspar&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span>
   <span class="c1"># revenue of products</span>

@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="learners package" href="banditpylib.learners.html" />
@@ -173,7 +174,10 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.</code><code class="sig-name descname">Arm</code><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#Arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.Arm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class for an arm</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-a795aa102ad39b6642de88e09aaec2b639dbdc62.png" alt="Inheritance diagram of Arm" usemap="#inheritanceb8abc7797d" class="inheritance graphviz" /></div>
+<map id="inheritanceb8abc7797d" name="inheritanceb8abc7797d">
+<area shape="rect" id="node2" href="banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" target="_top" title="Abstract class for an arm" alt="" coords="5,84,77,115"/>
+</map><dl class="method">
 <dt id="banditpylib.bandits.arms.Arm.pull">
 <em class="property">abstract </em><code class="sig-name descname">pull</code><span class="sig-paren">(</span><em class="sig-param">pulls=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/utils.html#Arm.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.Arm.pull" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -279,7 +283,11 @@ rewards and second element is the number of pulls (if any)</p>
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.</code><code class="sig-name descname">BernoulliArm</code><span class="sig-paren">(</span><em class="sig-param">mean</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/bernoulliarm.html#BernoulliArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.BernoulliArm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" title="banditpylib.bandits.arms.utils.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.arms.utils.Arm</span></code></a></p>
 <p>Class for Bernoulli arm</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-de354e9a34cf2e396eb5dcb0d5f8b81938bdf142.png" alt="Inheritance diagram of BernoulliArm" usemap="#inheritance37a7807338" class="inheritance graphviz" /></div>
+<map id="inheritance37a7807338" name="inheritance37a7807338">
+<area shape="rect" id="node2" href="banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" target="_top" title="Abstract class for an arm" alt="" coords="37,84,109,115"/>
+<area shape="rect" id="node3" href="banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.bernoulliarm.BernoulliArm" target="_top" title="Class for Bernoulli arm" alt="" coords="5,163,141,193"/>
+</map><dl class="method">
 <dt id="banditpylib.bandits.arms.BernoulliArm.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">mean</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/bernoulliarm.html#BernoulliArm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.BernoulliArm.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -320,7 +328,11 @@ rewards and second element is the number of pulls (if any)</p>
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.</code><code class="sig-name descname">GaussianArm</code><span class="sig-paren">(</span><em class="sig-param">mu</em>, <em class="sig-param">var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/gaussianarm.html#GaussianArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.GaussianArm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" title="banditpylib.bandits.arms.utils.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.arms.utils.Arm</span></code></a></p>
 <p>Class for Gaussian arm</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-f30cd77d96fb4a503efe52d1ddbfd985b8c9baa5.png" alt="Inheritance diagram of GaussianArm" usemap="#inheritancecb339ca1cd" class="inheritance graphviz" /></div>
+<map id="inheritancecb339ca1cd" name="inheritancecb339ca1cd">
+<area shape="rect" id="node2" href="banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" target="_top" title="Abstract class for an arm" alt="" coords="41,84,113,115"/>
+<area shape="rect" id="node3" href="banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.gaussianarm.GaussianArm" target="_top" title="Class for Gaussian arm" alt="" coords="5,163,148,193"/>
+</map><dl class="method">
 <dt id="banditpylib.bandits.arms.GaussianArm.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">mu</em>, <em class="sig-param">var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/arms/gaussianarm.html#GaussianArm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.GaussianArm.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">

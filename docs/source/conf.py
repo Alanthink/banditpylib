@@ -41,8 +41,13 @@ extensions = [
   'sphinx.ext.githubpages',
   'sphinx.ext.napoleon',
   'sphinxcontrib.bibtex',
+  'sphinx.ext.inheritance_diagram',
+  'sphinx.ext.graphviz',
   'recommonmark'
 ]
+
+inheritance_graph_attrs = dict(rankdir="TB", size='""')
+inheritance_node_attrs = dict(fontsize=15, color='lightgray', style='filled')
 
 napoleon_use_rtype = False
 

@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -160,15 +161,19 @@
 <span class="n">ARM_PKG</span> <span class="o">=</span> <span class="s1">&#39;banditpylib.bandits.arms&#39;</span>
 
 
-<div class="viewcode-block" id="LinearBanditItf"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBanditItf">[docs]</a><span class="k">class</span> <span class="nc">LinearBanditItf</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Linear bandit interface&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LinearBanditItf"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBanditItf">[docs]</a><span class="k">class</span> <span class="nc">LinearBanditItf</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Linear bandit interface</span>
+
+<span class="sd">  .. inheritance-diagram:: LinearBanditItf</span>
+<span class="sd">    :parts: 1</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="LinearBanditItf.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBanditItf.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="LinearBanditItf.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBanditItf.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
@@ -201,18 +206,21 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="LinearBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit">[docs]</a><span class="k">class</span> <span class="nc">LinearBandit</span><span class="p">(</span>
+<div class="viewcode-block" id="LinearBandit"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit">[docs]</a><span class="k">class</span> <span class="nc">LinearBandit</span><span class="p">(</span>
     <span class="n">OrdinaryBanditItf</span><span class="p">,</span>
     <span class="n">LinearBanditItf</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Class for linear bandit.</span>
 
+<span class="sd">  .. inheritance-diagram:: LinearBandit</span>
+<span class="sd">    :parts: 1</span>
+
 <span class="sd">  Arms are indexed from 0 by default.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LinearBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearBandit.__init__"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      pars (dict): has form of</span>
+<span class="sd">      pars (dict):</span>
 
 <span class="sd">        .. code-block:: yaml</span>
 
@@ -264,7 +272,7 @@
   <span class="k">def</span> <span class="nf">tot_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tot_samples</span>
 
-<div class="viewcode-block" id="LinearBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearBandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__tot_samples</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__max_rewards</span> <span class="o">=</span> <span class="mi">0</span></div>
 
@@ -299,10 +307,10 @@
   <span class="k">def</span> <span class="nf">_update_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="LinearBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearBandit.regret"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rewards</span> <span class="o">-</span> <span class="n">rewards</span></div>
 
-<div class="viewcode-block" id="LinearBandit.best_arm_regret"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.LinearBandit.best_arm_regret">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearBandit.best_arm_regret"><a class="viewcode-back" href="../../../banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit.best_arm_regret">[docs]</a>  <span class="k">def</span> <span class="nf">best_arm_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_ind</span> <span class="o">==</span> <span class="n">ind</span><span class="p">)</span></div></div>
 </pre></div>
 

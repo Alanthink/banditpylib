@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -161,7 +162,7 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 
-<div class="viewcode-block" id="get_funcname_of_regret_rewards"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.get_funcname_of_regret_rewards">[docs]</a><span class="k">def</span> <span class="nf">get_funcname_of_regret_rewards</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
+<div class="viewcode-block" id="get_funcname_of_regret_rewards"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.get_funcname_of_regret_rewards">[docs]</a><span class="k">def</span> <span class="nf">get_funcname_of_regret_rewards</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
   <span class="k">if</span> <span class="s1">&#39;Best Arm Identification&#39;</span> <span class="ow">in</span> <span class="n">goal</span><span class="p">:</span>
     <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;best_arm_regret&#39;</span><span class="p">,</span> <span class="s1">&#39;best_arm&#39;</span><span class="p">)</span>
   <span class="k">elif</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Regret Minimization&#39;</span><span class="p">:</span>
@@ -170,7 +171,7 @@
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown goal!&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_stop_cond"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.get_stop_cond">[docs]</a><span class="k">def</span> <span class="nf">get_stop_cond</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
+<div class="viewcode-block" id="get_stop_cond"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.get_stop_cond">[docs]</a><span class="k">def</span> <span class="nf">get_stop_cond</span><span class="p">(</span><span class="n">goal</span><span class="p">):</span>
   <span class="k">if</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Fix Budget Best Arm Identification&#39;</span><span class="p">:</span>
     <span class="k">return</span> <span class="s1">&#39;budgets&#39;</span>
   <span class="k">elif</span> <span class="n">goal</span> <span class="o">==</span> <span class="s1">&#39;Fix Confidence Best Arm Identification&#39;</span><span class="p">:</span>
@@ -181,7 +182,7 @@
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown goal!&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="current_time"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.current_time">[docs]</a><span class="k">def</span> <span class="nf">current_time</span><span class="p">():</span>
+<div class="viewcode-block" id="current_time"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.current_time">[docs]</a><span class="k">def</span> <span class="nf">current_time</span><span class="p">():</span>
   <span class="sd">&quot;&quot;&quot;Generate random seed using current time</span>
 
 <span class="sd">  Return:</span>
@@ -191,22 +192,23 @@
   <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">tem_time</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">tem_time</span><span class="p">))</span><span class="o">*</span><span class="mi">10000000</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Protocol"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.Protocol">[docs]</a><span class="k">class</span> <span class="nc">Protocol</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Protocol"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol">[docs]</a><span class="k">class</span> <span class="nc">Protocol</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Abstract class for the protocol which is used to coordinate the interactions</span>
 <span class="sd">  between the learner and the environment.</span>
 
-<span class="sd">  For each setup, just call ``play`` to start the game. A protocol should</span>
-<span class="sd">  implement ``_one_trial`` method to define how to run one trial of the game.</span>
+<span class="sd">  .. inheritance-diagram:: Protocol</span>
+<span class="sd">    :parts: 1</span>
+
+<span class="sd">  For each setup, just call :func:`play` to start the game. A protocol should</span>
+<span class="sd">  implement :func:`_one_trial` method to define how to run one trial of the</span>
+<span class="sd">  game.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return:</span>
-<span class="sd">      str: type of the protocol</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;str: type of the protocol&quot;&quot;&quot;</span>
 
   <span class="nd">@property</span>
   <span class="k">def</span> <span class="nf">__trials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -254,7 +256,7 @@
     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Protocol.play"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.Protocol.play">[docs]</a>  <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">learner</span><span class="p">,</span> <span class="n">running_pars</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+<div class="viewcode-block" id="Protocol.play"><a class="viewcode-back" href="../../../banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol.play">[docs]</a>  <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">learner</span><span class="p">,</span> <span class="n">running_pars</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Start the game</span>
 
 <span class="sd">    Args:</span>

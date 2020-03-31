@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,14 +155,19 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.linearbandit.</code><code class="sig-name descname">LinearBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a>, <a class="reference internal" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="banditpylib.bandits.linearbandit.LinearBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.linearbandit.LinearBanditItf</span></code></a></p>
 <p>Class for linear bandit.</p>
-<p>Arms are indexed from 0 by default.</p>
+<div class="graphviz"><img src="_images/inheritance-a00208d6a402db1c53ec2893f8b9c6e9a78704c0.png" alt="Inheritance diagram of LinearBandit" usemap="#inheritance52e20804b9" class="inheritance graphviz" /></div>
+<map id="inheritance52e20804b9" name="inheritance52e20804b9">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="144,84,222,115"/>
+<area shape="rect" id="node4" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" target="_top" title="Ordinary bandit interface" alt="" coords="5,163,177,193"/>
+<area shape="rect" id="node5" href="#banditpylib.bandits.linearbandit.LinearBanditItf" target="_top" title="Linear bandit interface" alt="" coords="201,163,352,193"/>
+<area shape="rect" id="node3" href="#banditpylib.bandits.linearbandit.LinearBandit" target="_top" title="Class for linear bandit." alt="" coords="116,241,250,272"/>
+</map><p>Arms are indexed from 0 by default.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBandit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># features of the arms</span>
   <span class="s">&quot;features&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span> <span class="p p-Indicator">],</span>
   <span class="s">&quot;theta&quot;</span><span class="p p-Indicator">:</span> <span class="nv">float</span>
@@ -239,7 +245,11 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.linearbandit.</code><code class="sig-name descname">LinearBanditItf</code><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" title="banditpylib.bandits.utils.Bandit"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.utils.Bandit</span></code></a></p>
 <p>Linear bandit interface</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-9fe6fb5a8b675e8ca674140a11574b92abddcac4.png" alt="Inheritance diagram of LinearBanditItf" usemap="#inheritance4e60737a69" class="inheritance graphviz" /></div>
+<map id="inheritance4e60737a69" name="inheritance4e60737a69">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="41,84,120,115"/>
+<area shape="rect" id="node3" href="#banditpylib.bandits.linearbandit.LinearBanditItf" target="_top" title="Linear bandit interface" alt="" coords="5,163,156,193"/>
+</map><dl class="method">
 <dt id="banditpylib.bandits.linearbandit.LinearBanditItf.reset">
 <em class="property">abstract </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBanditItf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.linearbandit.LinearBanditItf.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset of the environment</p>

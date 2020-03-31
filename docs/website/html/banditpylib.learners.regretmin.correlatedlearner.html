@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="decentralizedordinarylearner package" href="banditpylib.learners.regretmin.decentralizedordinarylearner.html" />
@@ -176,14 +177,18 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.correlatedlearner.</code><code class="sig-name descname">CorrelatedLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/correlatedlearner/utils.html#CorrelatedLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.correlatedlearner.CorrelatedLearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" title="banditpylib.learners.regretmin.utils.RegretMinimizationLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.utils.RegretMinimizationLearner</span></code></a></p>
 <p>Base class for learners in the classic bandit model</p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-8d3223737fefc1a2c45a8e3550c8b6cde06795d6.png" alt="Inheritance diagram of CorrelatedLearner" usemap="#inheritance609f6db13a" class="inheritance graphviz" /></div>
+<map id="inheritance609f6db13a" name="inheritance609f6db13a">
+<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.regretmin.correlatedlearner.utils.html#banditpylib.learners.regretmin.correlatedlearner.utils.CorrelatedLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="44,241,228,272"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.regretmin.correlatedlearner.CorrelatedLearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/correlatedlearner/utils.html#CorrelatedLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.correlatedlearner.CorrelatedLearner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
@@ -207,14 +212,19 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.correlatedlearner.</code><code class="sig-name descname">CUCB</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/correlatedlearner/cucb.html#CUCB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.correlatedlearner.CUCB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.correlatedlearner.utils.html#banditpylib.learners.regretmin.correlatedlearner.utils.CorrelatedLearner" title="banditpylib.learners.regretmin.correlatedlearner.utils.CorrelatedLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.correlatedlearner.utils.CorrelatedLearner</span></code></a></p>
 <p>CUCB policy <a class="bibtex reference internal" href="bibliography.html#gupta2018exploiting" id="id1">[GCJYaugan18]</a></p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-7460bbc785aafa252425c9cc859cedef867a4520.png" alt="Inheritance diagram of CUCB" usemap="#inheritanced512bb2a97" class="inheritance graphviz" /></div>
+<map id="inheritanced512bb2a97" name="inheritanced512bb2a97">
+<area shape="rect" id="node5" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.regretmin.correlatedlearner.cucb.html#banditpylib.learners.regretmin.correlatedlearner.cucb.CUCB" target="_top" title="CUCB policy :cite:`gupta2018exploiting`" alt="" coords="97,320,175,351"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.correlatedlearner.utils.html#banditpylib.learners.regretmin.correlatedlearner.utils.CorrelatedLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="44,241,228,272"/>
+<area shape="rect" id="node4" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.regretmin.correlatedlearner.CUCB.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/correlatedlearner/cucb.html#CUCB.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.correlatedlearner.CUCB.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

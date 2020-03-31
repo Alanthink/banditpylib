@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -160,20 +161,33 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 
-<div class="viewcode-block" id="DecentralizedPEProtocol"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedpsprotocol.html#banditpylib.protocols.DecentralizedPEProtocol">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedPEProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<div class="viewcode-block" id="DecentralizedPEProtocol"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedpsprotocol.html#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol">[docs]</a><span class="k">class</span> <span class="nc">DecentralizedPEProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Decentralized pure exploration protocol :cite:`feraud2018decentralized`</span>
+
+<span class="sd">  .. inheritance-diagram:: DecentralizedPEProtocol</span>
+<span class="sd">    :parts: 1</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DecentralizedPEProtocol.__init__"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedpsprotocol.html#banditpylib.protocols.DecentralizedPEProtocol.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<div class="viewcode-block" id="DecentralizedPEProtocol.__init__"><a class="viewcode-back" href="../../../banditpylib.protocols.decentralizedpsprotocol.html#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">      pars:</span>
-<span class="sd">        ``&quot;num_players&quot;`` (int): number of players.</span>
-<span class="sd">        ``&quot;fail_probs&quot;`` ([float,], optional): fail probabilities.</span>
-<span class="sd">        ``&quot;budgets&quot;`` ([int,], optional): budgets.</span>
-<span class="sd">        ``&quot;trials&quot;`` (int): number of repetitions of the game.</span>
-<span class="sd">        ``&quot;processors&quot;`` (int): maximum number of processors can be used. -1</span>
-<span class="sd">        means trying to make use all available cpus.</span>
+<span class="sd">      pars (dict):</span>
+
+<span class="sd">        .. code-block:: yaml</span>
+
+<span class="sd">          {</span>
+<span class="sd">            # number of players</span>
+<span class="sd">            &quot;num_players&quot;: int,</span>
+<span class="sd">            # optional</span>
+<span class="sd">            &quot;fail_probs&quot;: [float, ],</span>
+<span class="sd">            # optional</span>
+<span class="sd">            &quot;budgets&quot;: [int, ],</span>
+<span class="sd">            # number of repetitions of the game</span>
+<span class="sd">            &quot;trials&quot;: int,</span>
+<span class="sd">            # maximum number of processors can be used. -1 means trying</span>
+<span class="sd">            # to make use all available cpus.</span>
+<span class="sd">            &quot;processors&quot;: int</span>
+<span class="sd">          }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__messages</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="s1">&#39;num_players&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pars</span><span class="p">:</span>

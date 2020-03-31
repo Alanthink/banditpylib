@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,7 +155,13 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.ts.</code><code class="sig-name descname">TS</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ts.TS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
 <p>Thompson Sampling policy <a class="bibtex reference internal" href="bibliography.html#agrawal2017near" id="id1">[AG17]</a>.</p>
-<p>Assume a prior distribution for every arm. At time <span class="math notranslate nohighlight">\(t\)</span>, sample a
+<div class="graphviz"><img src="_images/inheritance-c76a2dd1506fbd9c663823caa2460603a8d08ff6.png" alt="Inheritance diagram of TS" usemap="#inheritance858566b2df" class="inheritance graphviz" /></div>
+<map id="inheritance858566b2df" name="inheritance858566b2df">
+<area shape="rect" id="node2" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node4" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the ordinary multi&#45;armed bandit" alt="" coords="53,241,220,272"/>
+<area shape="rect" id="node5" href="#banditpylib.learners.regretmin.ordinarylearner.ts.TS" target="_top" title="Thompson Sampling policy :cite:`agrawal2017near`." alt="" coords="100,320,172,351"/>
+</map><p>Assume a prior distribution for every arm. At time <span class="math notranslate nohighlight">\(t\)</span>, sample a
 virtual mean from the posterior distribution for every arm. Play the arm with
 the maximum sampled virtual mean.</p>
 <div class="admonition warning">
@@ -166,8 +173,13 @@ the maximum sampled virtual mean.</p>
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/ts.html#TS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.ts.TS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'prior'</span></code> (str, <em>optional</em>) <code class="docutils literal notranslate"><span class="pre">'beta'</span></code> or <code class="docutils literal notranslate"><span class="pre">'gaussian'</span></code>.
-Default value is <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="c1"># &quot;beta&quot; or &quot;gaussian&quot;. Default is &quot;beta&quot;.</span>
+  <span class="s">&quot;prior&quot;</span><span class="p p-Indicator">:</span> <span class="s">&quot;beta&quot;</span><span class="p p-Indicator">,</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GaussianArm &mdash; banditpylib 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">banditpylib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>GaussianArm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/banditpylib.bandits.arms.gaussianarm.GaussianArm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gaussianarm">
+<h1>GaussianArm<a class="headerlink" href="#gaussianarm" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="banditpylib.bandits.arms.gaussianarm.GaussianArm">
+<em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.arms.gaussianarm.</code><code class="sig-name descname">GaussianArm</code><span class="sig-paren">(</span><em class="sig-param">mu</em>, <em class="sig-param">var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/bandits/arms/gaussianarm.html#GaussianArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.gaussianarm.GaussianArm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" title="banditpylib.bandits.arms.utils.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.arms.utils.Arm</span></code></a></p>
+<p>Class for Gaussian arm</p>
+<div class="graphviz"><img src="../_images/inheritance-6f5275e565b4cb190925405a094d9b2e8d91480a.png" alt="Inheritance diagram of GaussianArm" usemap="#inheritancecb339ca1cd" class="inheritance graphviz" /></div>
+<map id="inheritancecb339ca1cd" name="inheritancecb339ca1cd">
+<area shape="rect" id="node2" href="../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" target="_top" title="Abstract class for an arm" alt="" coords="41,84,113,115"/>
+<area shape="rect" id="node3" href="../banditpylib.bandits.arms.gaussianarm.html#banditpylib.bandits.arms.gaussianarm.GaussianArm" target="_top" title="Class for Gaussian arm" alt="" coords="5,163,148,193"/>
+</map><p class="rubric">Attributes Summary</p>
+<p class="rubric">Methods Summary</p>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="banditpylib.bandits.arms.gaussianarm.GaussianArm.mean">
+<code class="sig-name descname">mean</code><a class="headerlink" href="#banditpylib.bandits.arms.gaussianarm.GaussianArm.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>mean of arm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="banditpylib.bandits.arms.gaussianarm.GaussianArm.var">
+<code class="sig-name descname">var</code><a class="headerlink" href="#banditpylib.bandits.arms.gaussianarm.GaussianArm.var" title="Permalink to this definition">¶</a></dt>
+<dd><p>variance of the arm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="banditpylib.bandits.arms.gaussianarm.GaussianArm.pull">
+<code class="sig-name descname">pull</code><span class="sig-paren">(</span><em class="sig-param">pulls=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/bandits/arms/gaussianarm.html#GaussianArm.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.gaussianarm.GaussianArm.pull" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pulls</strong> (<em>int</em><em>, </em><em>optional</em>) – number of pulls</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>numpy array</em> – stochastic rewards</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="banditpylib.bandits.arms.gaussianarm.GaussianArm.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">mu</em>, <em class="sig-param">var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/bandits/arms/gaussianarm.html#GaussianArm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.arms.gaussianarm.GaussianArm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> (<em>float</em>) – mean</p></li>
+<li><p><strong>var</strong> (<em>float</em>) – variance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Chester Holtz, Chao Tao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

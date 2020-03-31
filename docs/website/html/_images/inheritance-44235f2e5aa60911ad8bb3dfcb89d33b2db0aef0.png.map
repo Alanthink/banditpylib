@@ -1,0 +1,5 @@
+<map id="inheritance3436747eb1" name="inheritance3436747eb1">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="100,5,172,36"/>
+<area shape="rect" id="node2" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+</map>

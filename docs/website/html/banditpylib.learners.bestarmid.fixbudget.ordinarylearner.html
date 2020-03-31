@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="fixconf package" href="banditpylib.learners.bestarmid.fixconf.html" />
@@ -177,15 +178,20 @@
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.</code><code class="sig-name descname">OrdinaryLearner</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/utils.html#OrdinaryLearner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" title="banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner</span></code></a></p>
-<p>base class for learners in the classic bandit model</p>
-<dl class="method">
+<p>Base class for learners in the classic bandit model</p>
+<div class="graphviz"><img src="_images/inheritance-8592a591f1c9525ec4d524c9acd2a393e51aefb6.png" alt="Inheritance diagram of OrdinaryLearner" usemap="#inheritancef28bb0b7ac" class="inheritance graphviz" /></div>
+<map id="inheritancef28bb0b7ac" name="inheritancef28bb0b7ac">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="66,84,157,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="50,163,173,193"/>
+<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" target="_top" title="Base class for fixed budget best arm identification learners" alt="" coords="5,241,218,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="28,320,195,351"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/utils.html#OrdinaryLearner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
@@ -215,14 +221,20 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.</code><code class="sig-name descname">SH</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/sh.html#SH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
 <p>Sequential halving policy <a class="bibtex reference internal" href="bibliography.html#karnin2013almost" id="id1">[KKS13]</a></p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-a9ccc3719ea70ab7eb9f1c608a64147420b27b49.png" alt="Inheritance diagram of SH" usemap="#inheritance4a5e88472f" class="inheritance graphviz" /></div>
+<map id="inheritance4a5e88472f" name="inheritance4a5e88472f">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="66,84,157,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="50,163,173,193"/>
+<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" target="_top" title="Base class for fixed budget best arm identification learners" alt="" coords="5,241,218,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="28,320,195,351"/>
+<area shape="rect" id="node6" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sh.SH" target="_top" title="Sequential halving policy :cite:`karnin2013almost`" alt="" coords="76,399,148,429"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/sh.html#SH.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SH.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
@@ -257,14 +269,20 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.</code><code class="sig-name descname">SR</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/sr.html#SR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
 <p>Successive elimination policy <a class="bibtex reference internal" href="bibliography.html#audibert2010best" id="id2">[AB10]</a></p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-e1994baa0865d0da10da274549b3c64d2a006241.png" alt="Inheritance diagram of SR" usemap="#inheritance76302b6b31" class="inheritance graphviz" /></div>
+<map id="inheritance76302b6b31" name="inheritance76302b6b31">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="66,84,157,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="50,163,173,193"/>
+<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" target="_top" title="Base class for fixed budget best arm identification learners" alt="" coords="5,241,218,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="28,320,195,351"/>
+<area shape="rect" id="node6" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.sr.SR" target="_top" title="Successive elimination policy :cite:`audibert2010best`" alt="" coords="76,399,148,429"/>
+</map><dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SR.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/sr.html#SR.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.SR.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>
@@ -293,16 +311,22 @@
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.</code><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/uniform.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
-<p>Uniform sampling policy.</p>
-<p>Sample each arm in a round-robun fashion.</p>
+<p>Uniform sampling policy</p>
+<div class="graphviz"><img src="_images/inheritance-24dad1286bc910900d39dffe8c767bc7dc090f9a.png" alt="Inheritance diagram of Uniform" usemap="#inheritance41aced8c18" class="inheritance graphviz" /></div>
+<map id="inheritance41aced8c18" name="inheritance41aced8c18">
+<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="66,84,157,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="50,163,173,193"/>
+<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner" target="_top" title="Base class for fixed budget best arm identification learners" alt="" coords="5,241,218,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="28,320,195,351"/>
+<area shape="rect" id="node6" href="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.uniform.Uniform" target="_top" title="Uniform sampling policy" alt="" coords="66,399,157,429"/>
+</map><p>Sample each arm in a round-robun fashion.</p>
 <dl class="method">
 <dt id="banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/bestarmid/fixbudget/ordinarylearner/uniform.html#Uniform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.Uniform.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

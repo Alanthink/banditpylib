@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,17 +155,31 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.protocols.decentralizedpsprotocol.</code><code class="sig-name descname">DecentralizedPEProtocol</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/decentralizedpsprotocol.html#DecentralizedPEProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol" title="banditpylib.protocols.utils.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.protocols.utils.Protocol</span></code></a></p>
 <p>Decentralized pure exploration protocol <a class="bibtex reference internal" href="bibliography.html#feraud2018decentralized" id="id1">[FeraudAL18]</a></p>
-<dl class="method">
+<div class="graphviz"><img src="_images/inheritance-158003e85fb0888725e99fad8c1b28b100b38ec5.png" alt="Inheritance diagram of DecentralizedPEProtocol" usemap="#inheritancea161d04534" class="inheritance graphviz" /></div>
+<map id="inheritancea161d04534" name="inheritancea161d04534">
+<area shape="rect" id="node3" href="banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol" target="_top" title="Abstract class for the protocol which is used to coordinate the interactions" alt="" coords="80,84,175,115"/>
+<area shape="rect" id="node2" href="#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol" target="_top" title="Decentralized pure exploration protocol :cite:`feraud2018decentralized`" alt="" coords="5,163,249,193"/>
+</map><dl class="method">
 <dt id="banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/protocols/decentralizedpsprotocol.html#DecentralizedPEProtocol.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> – <code class="docutils literal notranslate"><span class="pre">&quot;num_players&quot;</span></code> (int): number of players.
-<code class="docutils literal notranslate"><span class="pre">&quot;fail_probs&quot;</span></code> ([float,], optional): fail probabilities.
-<code class="docutils literal notranslate"><span class="pre">&quot;budgets&quot;</span></code> ([int,], optional): budgets.
-<code class="docutils literal notranslate"><span class="pre">&quot;trials&quot;</span></code> (int): number of repetitions of the game.
-<code class="docutils literal notranslate"><span class="pre">&quot;processors&quot;</span></code> (int): maximum number of processors can be used. -1
-means trying to make use all available cpus.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="c1"># number of players</span>
+  <span class="s">&quot;num_players&quot;</span><span class="p p-Indicator">:</span> <span class="nv">int</span><span class="p p-Indicator">,</span>
+  <span class="c1"># optional</span>
+  <span class="s">&quot;fail_probs&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span>
+  <span class="c1"># optional</span>
+  <span class="s">&quot;budgets&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">int</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span>
+  <span class="c1"># number of repetitions of the game</span>
+  <span class="s">&quot;trials&quot;</span><span class="p p-Indicator">:</span> <span class="nv">int</span><span class="p p-Indicator">,</span>
+  <span class="c1"># maximum number of processors can be used. -1 means trying</span>
+  <span class="c1"># to make use all available cpus.</span>
+  <span class="s">&quot;processors&quot;</span><span class="p p-Indicator">:</span> <span class="nv">int</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -172,8 +187,12 @@ means trying to make use all available cpus.</p>
 <dl class="method">
 <dt id="banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol.type">
 <em class="property">property </em><code class="sig-name descname">type</code><a class="headerlink" href="#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return:
-str: type of the protocol</p>
+<dd><p>type of the protocol</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

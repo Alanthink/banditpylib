@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="arms package" href="banditpylib.bandits.arms.html" />
@@ -218,8 +219,13 @@ bandit itself.</p>
 <dt id="banditpylib.bandits.OrdinaryBandit">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.</code><code class="sig-name descname">OrdinaryBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarybandit.html#OrdinaryBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.OrdinaryBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a></p>
-<p>Class for ordinary bandit.</p>
-<p>Arms are indexed from 0 by default.</p>
+<p>Class for ordinary bandit</p>
+<div class="graphviz"><img src="_images/inheritance-efb366aae0cedecaed0713463a0f05804cd28c9e.png" alt="Inheritance diagram of OrdinaryBandit" usemap="#inheritanceab48258f43" class="inheritance graphviz" /></div>
+<map id="inheritanceab48258f43" name="inheritanceab48258f43">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="52,84,130,115"/>
+<area shape="rect" id="node4" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" target="_top" title="Ordinary bandit interface" alt="" coords="5,163,177,193"/>
+<area shape="rect" id="node3" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBandit" target="_top" title="Class for ordinary bandit" alt="" coords="14,241,168,272"/>
+</map><p>Arms are indexed from 0 by default.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.OrdinaryBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarybandit.html#OrdinaryBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.OrdinaryBandit.__init__" title="Permalink to this definition">¶</a></dt>
@@ -286,16 +292,19 @@ bandit itself.</p>
 <dt id="banditpylib.bandits.OrdinaryMNLBandit">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.</code><code class="sig-name descname">OrdinaryMNLBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.OrdinaryMNLBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" title="banditpylib.bandits.utils.Bandit"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.utils.Bandit</span></code></a></p>
-<p>Class for ordinary MNL bandit.</p>
-<p>Products are numbered from 1 by default. 0 is for non-purchase.
+<p>Class for ordinary MNL bandit</p>
+<div class="graphviz"><img src="_images/inheritance-2d3bdfc9ddfe57e6e5978c2e6be1a3855a543dd4.png" alt="Inheritance diagram of OrdinaryMNLBandit" usemap="#inheritanceb430cad8df" class="inheritance graphviz" /></div>
+<map id="inheritanceb430cad8df" name="inheritanceb430cad8df">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="65,84,143,115"/>
+<area shape="rect" id="node3" href="banditpylib.bandits.ordinarymnlbandit.html#banditpylib.bandits.ordinarymnlbandit.OrdinaryMNLBandit" target="_top" title="Class for ordinary MNL bandit" alt="" coords="5,163,202,193"/>
+</map><p>Products are numbered from 1 by default. 0 is for non-purchase.
 It is assumed that the abstraction parameter of non-purchase is 1.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.OrdinaryMNLBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/ordinarymnlbandit.html#OrdinaryMNLBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.OrdinaryMNLBandit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># abstraction parameters of products</span>
   <span class="s">&quot;abspar&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span>
   <span class="c1"># revenue of products</span>
@@ -355,14 +364,19 @@ It is assumed that the abstraction parameter of non-purchase is 1.</p>
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.bandits.</code><code class="sig-name descname">LinearBandit</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.LinearBandit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" title="banditpylib.bandits.ordinarybandit.OrdinaryBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.ordinarybandit.OrdinaryBanditItf</span></code></a>, <a class="reference internal" href="banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBanditItf" title="banditpylib.bandits.linearbandit.LinearBanditItf"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.bandits.linearbandit.LinearBanditItf</span></code></a></p>
 <p>Class for linear bandit.</p>
-<p>Arms are indexed from 0 by default.</p>
+<div class="graphviz"><img src="_images/inheritance-84889a6153a9e938e2f194e37ba1fe9f1b7e9eb2.png" alt="Inheritance diagram of LinearBandit" usemap="#inheritance52e20804b9" class="inheritance graphviz" /></div>
+<map id="inheritance52e20804b9" name="inheritance52e20804b9">
+<area shape="rect" id="node2" href="banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit" target="_top" title="Abstract class for the bandit environment." alt="" coords="144,84,222,115"/>
+<area shape="rect" id="node4" href="banditpylib.bandits.ordinarybandit.html#banditpylib.bandits.ordinarybandit.OrdinaryBanditItf" target="_top" title="Ordinary bandit interface" alt="" coords="5,163,177,193"/>
+<area shape="rect" id="node5" href="banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBanditItf" target="_top" title="Linear bandit interface" alt="" coords="201,163,352,193"/>
+<area shape="rect" id="node3" href="banditpylib.bandits.linearbandit.html#banditpylib.bandits.linearbandit.LinearBandit" target="_top" title="Class for linear bandit." alt="" coords="116,241,250,272"/>
+</map><p>Arms are indexed from 0 by default.</p>
 <dl class="method">
 <dt id="banditpylib.bandits.LinearBandit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/bandits/linearbandit.html#LinearBandit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.bandits.LinearBandit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># features of the arms</span>
   <span class="s">&quot;features&quot;</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[[</span><span class="nv">float</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">],</span> <span class="p p-Indicator">],</span>
   <span class="s">&quot;theta&quot;</span><span class="p p-Indicator">:</span> <span class="nv">float</span>

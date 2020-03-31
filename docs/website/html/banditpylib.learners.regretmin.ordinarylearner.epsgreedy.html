@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -154,15 +155,26 @@
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.ordinarylearner.epsgreedy.</code><code class="sig-name descname">EpsGreedy</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.epsgreedy.EpsGreedy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" title="banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner</span></code></a></p>
 <p>Epsilon-Greedy policy.</p>
-<p>With probability <span class="math notranslate nohighlight">\(\frac{\epsilon}{t}\)</span> do uniform sampling and with the
+<div class="graphviz"><img src="_images/inheritance-5128165c91d17b82a0af4304e08dcdb33d8687cd.png" alt="Inheritance diagram of EpsGreedy" usemap="#inheritancea66095a0ad" class="inheritance graphviz" /></div>
+<map id="inheritancea66095a0ad" name="inheritancea66095a0ad">
+<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node2" href="#banditpylib.learners.regretmin.ordinarylearner.epsgreedy.EpsGreedy" target="_top" title="Epsilon&#45;Greedy policy." alt="" coords="75,320,197,351"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the ordinary multi&#45;armed bandit" alt="" coords="53,241,220,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+</map><p>With probability <span class="math notranslate nohighlight">\(\frac{\epsilon}{t}\)</span> do uniform sampling and with the
 left probability play the arm with the maximum empirical mean.</p>
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.EpsGreedy.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/ordinarylearner/epsgreedy.html#EpsGreedy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.ordinarylearner.epsgreedy.EpsGreedy.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">'eps'</span></code> (float, <em>optional</em>): default value is 1.0. It should be
-greater than 0.</p>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+  <span class="c1"># It should be greater than 0. Default value is 1.0.</span>
+  <span class="s">&quot;eps&quot;</span><span class="p p-Indicator">:</span> <span class="nv">1.0</span><span class="p p-Indicator">,</span>
+<span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</p>
 </dd>
 </dl>
 </dd></dl>

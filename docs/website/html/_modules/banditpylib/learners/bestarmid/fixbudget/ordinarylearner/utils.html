@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" /> 
 </head>
@@ -155,10 +156,14 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">FixBudgetBAILearner</span>
 
 
-<div class="viewcode-block" id="OrdinaryLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryLearner</span><span class="p">(</span><span class="n">FixBudgetBAILearner</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;base class for learners in the classic bandit model&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OrdinaryLearner"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryLearner</span><span class="p">(</span><span class="n">FixBudgetBAILearner</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for learners in the classic bandit model</span>
 
-<div class="viewcode-block" id="OrdinaryLearner.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<span class="sd">  .. inheritance-diagram:: OrdinaryLearner</span>
+<span class="sd">    :parts: 1</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OrdinaryLearner.__init__"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="k">def</span> <span class="nf">_model_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -180,11 +185,11 @@
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="OrdinaryLearner.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="OrdinaryLearner.learner_round"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OrdinaryLearner.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.OrdinaryLearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="OrdinaryLearner.best_arm"><a class="viewcode-back" href="../../../../../../banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixbudget.ordinarylearner.utils.OrdinaryLearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div></div>
 </pre></div>

@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -153,16 +154,21 @@
 <dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.Uniform">
 <em class="property">class </em><code class="sig-prename descclassname">banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.</code><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.Uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" title="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner</span></code></a></p>
-<p>Uniform sampling policy.</p>
-<p>Sample each arm in a round-robin fashion.</p>
+<p>Uniform sampling policy</p>
+<div class="graphviz"><img src="_images/inheritance-4368bdc82577ff6b7514b511ee170276bca47b76.png" alt="Inheritance diagram of Uniform" usemap="#inheritance41aced8c18" class="inheritance graphviz" /></div>
+<map id="inheritance41aced8c18" name="inheritance41aced8c18">
+<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="105,84,195,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.regretmin.decentralizedordinarylearner.utils.html#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="5,241,295,272"/>
+<area shape="rect" id="node5" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.Uniform" target="_top" title="Uniform sampling policy" alt="" coords="104,320,196,351"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="19,163,281,193"/>
+</map><p>Sample each arm in a round-robin fashion.</p>
 <dl class="method">
 <dt id="banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.Uniform.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">pars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banditpylib/learners/regretmin/decentralizedordinarylearner/uniform.html#Uniform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.uniform.Uniform.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Learner initialization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <p>has form of</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
+<dd class="field-odd"><p><strong>pars</strong> (<em>dict</em>) – <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{</span>
   <span class="c1"># Name appeared in the output figure. Default</span>
   <span class="c1"># value `self._name`.</span>
   <span class="s">&quot;name&quot;</span><span class="p p-Indicator">:</span> <span class="nv">string</span><span class="p p-Indicator">,</span>

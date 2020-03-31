@@ -1,0 +1,7 @@
+<map id="inheritancea66095a0ad" name="inheritancea66095a0ad">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="100,5,172,36"/>
+<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="91,84,181,115"/>
+<area shape="rect" id="node2" href="banditpylib.learners.regretmin.ordinarylearner.epsgreedy.html#banditpylib.learners.regretmin.ordinarylearner.epsgreedy.EpsGreedy" target="_top" title="Epsilon&#45;Greedy policy." alt="" coords="75,320,197,351"/>
+<area shape="rect" id="node3" href="banditpylib.learners.regretmin.ordinarylearner.utils.html#banditpylib.learners.regretmin.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the ordinary multi&#45;armed bandit" alt="" coords="53,241,220,272"/>
+<area shape="rect" id="node5" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="5,163,267,193"/>
+</map>

@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
 </head>
@@ -153,10 +154,14 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">BAILearner</span>
 
 
-<div class="viewcode-block" id="FixBudgetBAILearner"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner">[docs]</a><span class="k">class</span> <span class="nc">FixBudgetBAILearner</span><span class="p">(</span><span class="n">BAILearner</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Base class for fixed budget best arm identification learners&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FixBudgetBAILearner"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner">[docs]</a><span class="k">class</span> <span class="nc">FixBudgetBAILearner</span><span class="p">(</span><span class="n">BAILearner</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for fixed budget best arm identification learners</span>
 
-<div class="viewcode-block" id="FixBudgetBAILearner.__init__"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
+<span class="sd">  .. inheritance-diagram:: FixBudgetBAILearner</span>
+<span class="sd">    :parts: 1</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FixBudgetBAILearner.__init__"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.__init__">[docs]</a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pars</span><span class="p">)</span></div>
 
   <span class="nd">@property</span>
@@ -174,15 +179,15 @@
   <span class="k">def</span> <span class="nf">_learner_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="FixBudgetBAILearner.learner_round"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FixBudgetBAILearner.learner_round"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.learner_round">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">learner_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="FixBudgetBAILearner.best_arm"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FixBudgetBAILearner.best_arm"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.best_arm">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">best_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="FixBudgetBAILearner.reset"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.FixBudgetBAILearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
+<div class="viewcode-block" id="FixBudgetBAILearner.reset"><a class="viewcode-back" href="../../../../../banditpylib.learners.bestarmid.fixbudget.utils.html#banditpylib.learners.bestarmid.fixbudget.utils.FixBudgetBAILearner.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">,</span> <span class="n">stop_cond</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bandit</span> <span class="o">=</span> <span class="n">bandit</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_budget</span> <span class="o">=</span> <span class="n">stop_cond</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_goal_reset</span><span class="p">()</span>

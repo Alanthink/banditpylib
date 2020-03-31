@@ -1,0 +1,5 @@
+<map id="inheritancea161d04534" name="inheritancea161d04534">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="91,5,163,36"/>
+<area shape="rect" id="node3" href="banditpylib.protocols.utils.html#banditpylib.protocols.utils.Protocol" target="_top" title="Abstract class for the protocol which is used to coordinate the interactions" alt="" coords="80,84,175,115"/>
+<area shape="rect" id="node2" href="banditpylib.protocols.decentralizedpsprotocol.html#banditpylib.protocols.decentralizedpsprotocol.DecentralizedPEProtocol" target="_top" title="Decentralized pure exploration protocol :cite:`feraud2018decentralized`" alt="" coords="5,163,249,193"/>
+</map>

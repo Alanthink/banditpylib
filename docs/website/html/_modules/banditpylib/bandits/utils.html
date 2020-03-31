@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -151,7 +152,7 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 
-<div class="viewcode-block" id="Bandit"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.Bandit">[docs]</a><span class="k">class</span> <span class="nc">Bandit</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Bandit"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit">[docs]</a><span class="k">class</span> <span class="nc">Bandit</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Abstract class for the bandit environment.</span>
 
@@ -167,7 +168,7 @@
   <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;str: type of the bandit environment&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Bandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.Bandit.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Bandit.reset"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit.reset">[docs]</a>  <span class="nd">@abstractmethod</span>
   <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reset of the environment&quot;&quot;&quot;</span></div>
 
@@ -194,7 +195,7 @@
   <span class="k">def</span> <span class="nf">_update_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<div class="viewcode-block" id="Bandit.feed"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.Bandit.feed">[docs]</a>  <span class="k">def</span> <span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+<div class="viewcode-block" id="Bandit.feed"><a class="viewcode-back" href="../../../banditpylib.bandits.utils.html#banditpylib.bandits.utils.Bandit.feed">[docs]</a>  <span class="k">def</span> <span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">      actoin (int): action to take</span>
