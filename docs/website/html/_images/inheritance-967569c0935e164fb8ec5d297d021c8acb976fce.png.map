@@ -1,7 +1,0 @@
-<map id="inheritancef28bb0b7ac" name="inheritancef28bb0b7ac">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="65,5,137,36"/>
-<area shape="rect" id="node3" href="../banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="56,84,146,115"/>
-<area shape="rect" id="node2" href="../banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="40,163,162,193"/>
-<area shape="rect" id="node4" href="../banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" target="_top" title="Base class for fixed confidence best arm identification learners" alt="" coords="5,241,197,272"/>
-<area shape="rect" id="node5" href="../banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.ordinarylearner.utils.OrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="18,320,185,351"/>
-</map>

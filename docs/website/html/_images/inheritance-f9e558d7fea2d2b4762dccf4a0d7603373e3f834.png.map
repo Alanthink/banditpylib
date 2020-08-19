@@ -1,5 +1,0 @@
-<map id="inheritance37a7807338" name="inheritance37a7807338">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="37,5,109,36"/>
-<area shape="rect" id="node2" href="../banditpylib.bandits.arms.utils.html#banditpylib.bandits.arms.utils.Arm" target="_top" title="Abstract class for an arm" alt="" coords="37,84,109,115"/>
-<area shape="rect" id="node3" href="../banditpylib.bandits.arms.bernoulliarm.html#banditpylib.bandits.arms.bernoulliarm.BernoulliArm" target="_top" title="Class for Bernoulli arm" alt="" coords="5,163,141,193"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="inheritancebbd9511b5e" name="inheritancebbd9511b5e">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="114,5,186,36"/>
-<area shape="rect" id="node4" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="105,84,195,115"/>
-<area shape="rect" id="node2" href="#banditpylib.learners.regretmin.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="5,241,295,272"/>
-<area shape="rect" id="node3" href="banditpylib.learners.regretmin.utils.html#banditpylib.learners.regretmin.utils.RegretMinimizationLearner" target="_top" title="Base class for a learner with goal regret minimization." alt="" coords="19,163,281,193"/>
-</map>

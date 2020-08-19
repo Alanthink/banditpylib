@@ -1,8 +1,0 @@
-<map id="inheritance53d7f4df7b" name="inheritance53d7f4df7b">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="114,5,186,36"/>
-<area shape="rect" id="node3" href="banditpylib.learners.utils.html#banditpylib.learners.utils.Learner" target="_top" title="Abstract class for a learner." alt="" coords="105,84,195,115"/>
-<area shape="rect" id="node2" href="banditpylib.learners.bestarmid.utils.html#banditpylib.learners.bestarmid.utils.BAILearner" target="_top" title="Base class for a learner with goal best arm identification." alt="" coords="89,163,211,193"/>
-<area shape="rect" id="node5" href="banditpylib.learners.bestarmid.fixconf.utils.html#banditpylib.learners.bestarmid.fixconf.utils.FixConfBAILearner" target="_top" title="Base class for fixed confidence best arm identification learners" alt="" coords="54,241,246,272"/>
-<area shape="rect" id="node4" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.utils.DecentralizedOrdinaryLearner" target="_top" title="Base class for learners in the classic bandit model" alt="" coords="5,320,295,351"/>
-<area shape="rect" id="node6" href="banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.html#banditpylib.learners.bestarmid.fixconf.decentralizedordinarylearner.slilucb_heur.SlilUCB_heur" target="_top" title="Selfish lilUCB heuristic policy" alt="" coords="79,399,221,429"/>
-</map>
