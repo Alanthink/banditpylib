@@ -2,7 +2,7 @@ from typing import List, Tuple
 
 import numpy as np
 
-from arms import Arm
+from banditpylib.arms import Arm
 from .ordinary_bandit_itf import OrdinaryBanditItf
 
 

@@ -1,8 +1,8 @@
 import tempfile
 
-from arms import BernoulliArm
-from bandits import OrdinaryBandit
-from learners.ordinary_learner import EpsGreedy
+from banditpylib.arms import BernoulliArm
+from banditpylib.bandits import OrdinaryBandit
+from banditpylib.learners.ordinary_learner import EpsGreedy
 from .single_player import SinglePlayerProtocol
 
 

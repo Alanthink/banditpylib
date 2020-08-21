@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from arms import PseudoArm
+from banditpylib.arms import PseudoArm
 from .utils import OrdinaryLearner
 
 
@@ -37,6 +37,7 @@ class EpsGreedy(OrdinaryLearner):
     self.__time = 1
 
   def actions(self, context=None):
+    del context
     if self.__time > self.__horizon:
       self.__last_actions = None
       return self.__last_actions

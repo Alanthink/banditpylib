@@ -1,11 +1,11 @@
 .env/
 *__pycache__*
-scripts/
-examples/out/
-*.DS_Store*
+tests/
+*.DS_Store
 *.egg-info/
-.pytest_cache/
-.vscode/
+*.pytest_cache/*
+*.vscode/*
 *.ipynb_checkpoints*
 build/
 dist/
+*pytest.log
