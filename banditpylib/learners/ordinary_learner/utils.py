@@ -1,5 +1,6 @@
 from abc import abstractmethod
-from learners import Learner
+
+from banditpylib.learners import Learner
 
 
 class OrdinaryLearner(Learner):

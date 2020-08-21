@@ -2,7 +2,7 @@ from typing import List, Tuple
 
 import numpy as np
 
-from arms import GaussianArm
+from banditpylib.arms import GaussianArm
 from .ordinary_bandit_itf import OrdinaryBanditItf
 from .linear_bandit_itf import LinearBanditItf
 

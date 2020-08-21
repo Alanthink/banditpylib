@@ -8,9 +8,13 @@ from .linear_bandit_itf import *
 
 __all__ = [
     'Bandit',
-    'OrdinaryBanditItf',
-    'LinearBanditItf',
     'OrdinaryBandit',
-    'OrdinaryMNLBandit',
+    'OrdinaryBanditItf',
     'LinearBandit',
+    'LinearBanditItf',
+    'Reward',
+    'MeanReward',
+    'CvarReward',
+    'search_best_assortment',
+    'OrdinaryMNLBandit',
 ]

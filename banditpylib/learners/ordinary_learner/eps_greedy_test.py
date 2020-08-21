@@ -1,5 +1,5 @@
-from arms import BernoulliArm
-from bandits import OrdinaryBandit
+from banditpylib.arms import BernoulliArm
+from banditpylib.bandits import OrdinaryBandit
 from .eps_greedy import EpsGreedy
 
 

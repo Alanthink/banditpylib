@@ -1,4 +1,4 @@
-from arms import BernoulliArm
+from banditpylib.arms import BernoulliArm
 from .ordinary_bandit import OrdinaryBandit
 
 
