@@ -33,7 +33,7 @@ class EpsGreedy(OrdinaryLearner):
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.__arm_num)]
-    self.__total_rewards = 0.0
+    # current time step
     self.__time = 1
 
   def actions(self, context=None):
@@ -58,8 +58,4 @@ class EpsGreedy(OrdinaryLearner):
 
   def update(self, feedback):
     self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
-    self.__total_rewards += sum(feedback[0][0])
     self.__time += 1
-
-  def _total_rewards(self):
-    return self.__total_rewards

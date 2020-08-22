@@ -11,6 +11,6 @@ class TestOrdinaryBandit:
     ordinary_bandit = OrdinaryBandit(arms)
     ordinary_bandit.reset()
     # pull arm 0 for 100 times
-    rewards = sum(ordinary_bandit.feed([(0, 100)])[0][0])
-    assert ordinary_bandit.regret(rewards) == 100
+    ordinary_bandit.feed([(0, 100)])
+    assert ordinary_bandit.regret() == 100
     assert ordinary_bandit.best_arm_regret(1) == 0

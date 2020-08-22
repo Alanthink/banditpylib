@@ -41,7 +41,10 @@ class OrdinaryBandit(OrdinaryBanditItf):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
     self.__total_pulls += pulls
-    return (self.__arms[arm_id].pull(pulls), None)
+    # empirical rewards when arm `arm_id` is pulled for `pulls` times
+    em_rewards = self.__arms[arm_id].pull(pulls)
+    self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
+    return (em_rewards, None)
 
   def feed(self, actions: List[Tuple[int, int]]) -> \
       List[Tuple[np.ndarray, None]]:
@@ -64,6 +67,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
 
   def reset(self):
     self.__total_pulls = 0
+    self.__regret = 0.0
 
   def context(self):
     return None
@@ -74,15 +78,12 @@ class OrdinaryBandit(OrdinaryBanditItf):
   def total_pulls(self) -> int:
     return self.__total_pulls
 
-  def regret(self, rewards):
+  def regret(self) -> float:
     """
-    Args:
-      rewards: empirical rewards obtained by the learner
-
     Return:
       regret compared with the optimal policy
     """
-    return self.__best_arm.mean * self.__total_pulls - rewards
+    return self.__regret
 
   def best_arm_regret(self, arm_id: int):
     """
