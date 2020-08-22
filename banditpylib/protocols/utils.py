@@ -1,8 +1,9 @@
 import json
+import logging
 import multiprocessing
 from multiprocessing import Pool
 import time
-from typing import Dict
+from typing import List, Dict
 
 from abc import ABC, abstractmethod
 
@@ -60,15 +61,20 @@ class Protocol(ABC):
       result in dictionary
     """
 
-  def __write_to_file(self, data: Dict):
+  def __write_to_file(self, data: Dict or List[Dict]):
     """Write the result of one trial to file
 
     Args:
       data: the result of one trial
     """
     with open(self.__output_filename, 'a') as f:
-      json.dump(data, f)
-      f.write('\n')
+      if isinstance(data, List):
+        for data_point in data:
+          json.dump(data_point, f)
+          f.write('\n')
+      else:
+        json.dump(data, f)
+        f.write('\n')
       f.flush()
 
   def play(self, trials: int, output_filename: str, processes=-1, debug=False):
@@ -80,21 +86,23 @@ class Protocol(ABC):
       processes: maximum number of processes to run. -1 means no limit
       debug: play the game in debugging mode
     """
+    start_time = time.time()
     self.__output_filename = output_filename
     pool = Pool(processes=(
         multiprocessing.cpu_count() if processes < 0 else processes))
 
     for _ in range(trials):
-      results = pool.apply_async(self._one_trial,
-                                 args=(
-                                     # bandit
-                                     self.__bandit,
-                                     # learner
-                                     self.__learner,
-                                     # random_seed
-                                     time_seed(),
-                                 ),
-                                 callback=self.__write_to_file)
+      results = pool.apply_async(
+          self._one_trial,
+          args=(
+              # bandit
+              self.__bandit,
+              # learner
+              self.__learner,
+              # random_seed
+              time_seed(),
+          ),
+          callback=self.__write_to_file)
 
       # for debugging purpose
       if debug:
@@ -103,3 +111,6 @@ class Protocol(ABC):
     # can not apply for processes any more
     pool.close()
     pool.join()
+    logging.info('%s\'s play with %s runs %.2f seconds!', self.__learner.name,
+                 self.__bandit.name,
+                 time.time() - start_time)

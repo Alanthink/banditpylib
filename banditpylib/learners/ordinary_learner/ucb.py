@@ -4,19 +4,19 @@ from banditpylib.arms import PseudoArm
 from .utils import OrdinaryLearner
 
 
-class EpsGreedy(OrdinaryLearner):
-  r"""Epsilon-Greedy policy
+class UCB(OrdinaryLearner):
+  r"""Upper confidence bound policy
 
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability play the arm with the maximum empirical mean.
   """
-  def __init__(self, arm_num: int, horizon: int, eps=1.0, name=None):
-    self.__name = name if name else 'epsilon_greedy'
+  def __init__(self, arm_num: int, horizon: int, alpha=2.0, name=None):
+    self.__name = name if name else 'ucb'
     super().__init__(arm_num, horizon)
-    if eps <= 0:
-      raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
-          (eps, self.__name))
-    self.__eps = eps
+    if alpha <= 0:
+      raise Exception('Alpha %.2f in %s is no greater than 0!' %
+                      (alpha, self.__name))
+    self.__alpha = alpha
 
   @property
   def name(self):
@@ -26,6 +26,18 @@ class EpsGreedy(OrdinaryLearner):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # current time step
     self.__time = 1
+
+  def UCB(self) -> np.ndarray:
+    """
+    Return:
+      optimistic estimate of arms' real means
+    """
+    ucb = [
+        arm.em_mean() +
+        np.sqrt(self.__alpha * np.log(self.__time) / arm.total_pulls())
+        for arm in self.__pseudo_arms
+    ]
+    return ucb
 
   def actions(self, context=None):
     del context
@@ -37,15 +49,7 @@ class EpsGreedy(OrdinaryLearner):
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
       return self.__last_actions
 
-    # pylint: disable=E1101
-    # with probability eps/t, randomly select an arm to pull
-    if np.random.random() <= self.__eps / self.__time:
-      self.__last_actions = [(np.random.randint(0, self.arm_num()), 1)]
-      return self.__last_actions
-
-    self.__last_actions = \
-        [(np.argmax(
-            np.array([arm.em_mean() for arm in self.__pseudo_arms])), 1)]
+    self.__last_actions = [(np.argmax(self.UCB()), 1)]
     return self.__last_actions
 
   def update(self, feedback):

@@ -11,6 +11,16 @@ from .utils import Protocol
 class SinglePlayerProtocol(Protocol):
   """Single player protocol
   """
+  def __init__(self, bandit, learner, intermediate_regrets=None):
+    """
+    Args:
+      bandit: bandit environment
+      learner: learner
+      intermediate_regrets: intermediate regrets to record
+    """
+    super().__init__(bandit, learner)
+    self.__intermediate_regrets = intermediate_regrets
+
   @property
   def name(self):
     return 'single_player_protocol'
@@ -25,9 +35,20 @@ class SinglePlayerProtocol(Protocol):
     bandit.reset()
     learner.reset()
 
+    data = []
+
     rounds = 0
     total_actions = 0
     while True:
+      if rounds in self.__intermediate_regrets:
+        data.append(
+            dict({
+                'bandit': bandit.name,
+                'learner': learner.name,
+                'rounds': rounds,
+                'total_actions': total_actions,
+                'regret': learner.regret(bandit)
+            }))
       context = bandit.context()
       actions = learner.actions(context)
       # When actions suggested by the learner is None, it means the learner
@@ -39,10 +60,13 @@ class SinglePlayerProtocol(Protocol):
       feedback = bandit.feed(actions)
       learner.update(feedback)
       rounds += 1
-    return dict({
-        'bandit': bandit.name,
-        'learner': learner.name,
-        'rounds': rounds,
-        'total_actions': total_actions,
-        'regret': learner.regret(bandit)
-    })
+
+    data.append(
+        dict({
+            'bandit': bandit.name,
+            'learner': learner.name,
+            'rounds': rounds,
+            'total_actions': total_actions,
+            'regret': learner.regret(bandit)
+        }))
+    return data
