@@ -14,11 +14,13 @@ class TestSinglePlayer:
     arms = [BernoulliArm(mean) for mean in means]
     ordinary_bandit = OrdinaryBandit(arms)
     eps_greedy_learner = EpsGreedy(arm_num=4, horizon=100)
-    single_player = SinglePlayerProtocol(ordinary_bandit, eps_greedy_learner)
+    single_player = SinglePlayerProtocol(bandit=ordinary_bandit,
+                                         learner=eps_greedy_learner)
     temp_file = tempfile.NamedTemporaryFile()
     single_player.play(
         trials=10,
-        output_filename=temp_file.name)
+        output_filename=temp_file.name,
+        debug=True)
     with open(temp_file.name, 'r') as f:
       # check number of records is 10
       lines = f.readlines()
