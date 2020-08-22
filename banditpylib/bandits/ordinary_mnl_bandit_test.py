@@ -31,8 +31,17 @@ class TestOrdinaryMNLBandit:
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25
     cvar_alpha = reward.calc([2, 3])
-    # upper bound of cvar in discrete distribution is 1/alpha
-    assert cvar_alpha == 4
+    # upper bound of cvar is 1
+    assert cvar_alpha <= 1
+
+    # equivalent to MeanReward
+    reward = CvarReward(alpha=2.0)
+    reward.set_abstraction_params(np.array([1, 1, 1, 1]))
+    reward.set_revenues(np.array([0, 1, 1, 1]))
+    # calculate cvar under percentile 0.25
+    cvar_alpha = reward.calc([1, 2, 3])
+    # upper bound of cvar is 1
+    assert cvar_alpha == 0.75
 
   def test_regret(self):
     abstraction_params = np.array(

@@ -88,9 +88,10 @@ class CvarReward(Reward):
     Args:
       alpha: percentile of cvar
     """
-    if alpha < 0:
-      raise Exception('Alpha %.2f is less than 0!' % alpha)
-    self.__alpha = alpha
+    if alpha <= 0:
+      raise Exception('Alpha %.2f is no greater than 0!' % alpha)
+    # alpha is at most 1.0
+    self.__alpha = alpha if alpha <= 1.0 else 1.0
 
   def calc(self, assortment: List[int]) -> float:
     abstraction_params_sum = sum(
@@ -117,7 +118,9 @@ class CvarReward(Reward):
     # calculate cvar_alpha
     cvar_alpha = sum([
         revenue_prob[ind][0] * revenue_prob[ind][1] for ind in range(next_ind)
-    ]) / self.__alpha
+    ])
+    cvar_alpha -= revenue_prob[next_ind-1][0] * (accumulate_prob - self.__alpha)
+    cvar_alpha /= self.__alpha
     return cvar_alpha
 
 
@@ -140,7 +143,11 @@ def search_best_assortment(product_num: int,
   sorted_assort = sorted([(reward.calc(assortment), assortment)
                           for assortment in assortments],
                          key=lambda x: x[0])
-  return sorted_assort[-1]
+  # randomly select one assortment with the maximum reward
+  ind = len(sorted_assort) - 1
+  while (ind > 0 and sorted_assort[ind-1][0] == sorted_assort[ind][0]):
+    ind -= 1
+  return sorted_assort[np.random.randint(ind, len(sorted_assort))]
 
 
 class OrdinaryMNLBandit(Bandit):
@@ -201,7 +208,7 @@ class OrdinaryMNLBandit(Bandit):
         product_num=self.__product_num,
         reward=self.__reward,
         card_limit=self.__card_limit)
-    logging.info('Assortment %s has best revenue %.2f.', self.__best_assort,
+    logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
                  self.__best_reward)
 
   @property

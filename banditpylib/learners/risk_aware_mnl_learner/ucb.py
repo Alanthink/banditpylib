@@ -50,7 +50,7 @@ class RiskAwareUCB(RiskAwareMNLLearner):
     avg_choices = self.__customer_choices / self.__serving_times
     # temperary result
     tmp_result = 48 * np.log(np.sqrt(self.product_num()) * self.__episode +
-                             1) / avg_choices
+                             1) / self.__serving_times
     ucb = avg_choices + np.sqrt(avg_choices * tmp_result) + tmp_result
     ucb[np.isnan(ucb)] = 1
     ucb = np.minimum(ucb, 1)

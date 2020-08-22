@@ -17,4 +17,4 @@ class TestRiskAwareUCB:
     learner.UCB = MagicMock(return_value=mock_abstraction_params)
 
     learner.reset()
-    assert learner.actions() == [([4], 1)]
+    assert learner.actions() == [([2, 3, 4], 1)]
