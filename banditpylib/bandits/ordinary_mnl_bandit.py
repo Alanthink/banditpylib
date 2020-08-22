@@ -170,9 +170,16 @@ class OrdinaryMNLBandit(Bandit):
       if param > 1 or param < 0:
         raise Exception('The %d-th abstraction parameter is '
                         'out of range [0, 1]' % i)
+    if abstraction_params[0] != 1:
+      raise Exception(
+          'The abstraction parameter of product 0 i.e., %.2f is not 1!' %
+          abstraction_params[0])
     for (i, revenue) in enumerate(revenues):
       if i > 0 and revenue <= 0:
         raise Exception('The %d-th revenue is no greater than 0!' % i)
+    if revenues[0] != 0:
+      raise Exception(
+          'The revenue of product 0 i.e., %.2f is not 0!' % revenues[0])
 
     self.__name = 'ordinary_mnl_bandit'
     self.__abstraction_params = abstraction_params
