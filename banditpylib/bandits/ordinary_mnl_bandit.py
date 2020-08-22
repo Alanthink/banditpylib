@@ -2,7 +2,7 @@ from abc import abstractmethod
 
 from typing import List, Tuple
 
-import logging
+from absl import logging
 
 import numpy as np
 

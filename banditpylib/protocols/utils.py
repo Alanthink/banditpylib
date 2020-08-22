@@ -1,11 +1,11 @@
 import json
-import logging
 import multiprocessing
 from multiprocessing import Pool
 import time
 from typing import List, Dict
 
 from abc import ABC, abstractmethod
+from absl import logging
 
 from banditpylib.bandits import Bandit
 from banditpylib.learners import Learner
