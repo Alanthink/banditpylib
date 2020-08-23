@@ -7,8 +7,10 @@ from .utils import OrdinaryLearner
 class UCB(OrdinaryLearner):
   r"""Upper confidence bound policy
 
-  With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
-  remaining probability play the arm with the maximum empirical mean.
+  At time :math:`t`, play arm
+  .. math::
+    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
+    \alpha  \ln(t) }{T_i(t)} } \right\}
   """
   def __init__(self, arm_num: int, horizon: int, alpha=2.0, name=None):
     self.__name = name if name else 'ucb'
