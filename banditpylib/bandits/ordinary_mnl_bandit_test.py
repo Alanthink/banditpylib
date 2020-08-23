@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
     search, search_best_assortment, MeanReward, CvarReward
@@ -19,11 +20,12 @@ class TestOrdinaryMNLBandit:
 
   def test_search_best_assortment(self):
     reward = MeanReward()
-    reward.set_abstraction_params(np.array([1, 1, 1, 1]))
-    reward.set_revenues(np.array([0, 1, 1, 1]))
-    best_revenue, best_assortment = search_best_assortment(3, reward)
-    assert best_assortment == [1, 2, 3]
-    assert best_revenue == 0.75
+    reward.set_abstraction_params(np.array([1, 1, 1, 1, 1]))
+    reward.set_revenues(np.array([0, 0.45, 0.8, 0.9, 1.0]))
+    best_revenue, best_assortment = search_best_assortment(product_num=4,
+                                                           reward=reward)
+    assert best_assortment == [2, 3, 4]
+    assert best_revenue == pytest.approx(0.675, 1e-8)
 
   def test_cvar_calculation(self):
     reward = CvarReward(alpha=0.5)

@@ -111,6 +111,6 @@ class Protocol(ABC):
     # can not apply for processes any more
     pool.close()
     pool.join()
-    logging.info('%s\'s play with %s runs %.2f seconds!', self.__learner.name,
+    logging.info('%s\'s play with %s runs %.2f seconds.', self.__learner.name,
                  self.__bandit.name,
                  time.time() - start_time)

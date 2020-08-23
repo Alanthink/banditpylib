@@ -53,6 +53,7 @@ class RiskAwareMNLLearner(Learner):
   def horizon(self):
     return self.__horizon
 
+  @property
   def reward(self):
     return self.__reward
 
