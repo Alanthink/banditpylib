@@ -32,26 +32,22 @@ class EpsGreedy(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(assortment, 1)]: assortment to serve
+      [(arm_id, 1)]: arms to pull
     """
     del context
+    # pylint: disable=E1101
     if self.__time > self.horizon():
       self.__last_actions = None
-      return self.__last_actions
-
-    if self.__time <= self.arm_num():
+    elif self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
-      return self.__last_actions
-
-    # pylint: disable=E1101
     # with probability eps/t, randomly select an arm to pull
-    if np.random.random() <= self.__eps / self.__time:
+    elif np.random.random() <= self.__eps / self.__time:
       self.__last_actions = [(np.random.randint(0, self.arm_num()), 1)]
-      return self.__last_actions
-
-    self.__last_actions = \
-        [(np.argmax(
-            np.array([arm.em_mean() for arm in self.__pseudo_arms])), 1)]
+    else:
+      self.__last_actions = [
+          (np.argmax(np.array([arm.em_mean()
+                               for arm in self.__pseudo_arms])), 1)
+      ]
     return self.__last_actions
 
   def update(self, feedback):

@@ -26,8 +26,8 @@ class TestEpsGreedy:
     horizon = 100
     reward = MeanReward()
     learner = EpsGreedy(revenues=revenues, horizon=horizon, reward=reward)
+    learner.reset()
     mock_random_assortment = [2, 3, 4]
     learner.select_ramdom_assort = MagicMock(
         return_value=mock_random_assortment)
-    learner.reset()
     assert learner.actions() == [([2, 3, 4], 1)]

@@ -12,9 +12,10 @@ class TestEpsGreedy:
     arm_num = 5
     horizon = 30
     learner = UCB(arm_num=arm_num, horizon=horizon)
+    learner.reset()
     mock_ucb = np.array([1.2, 1, 1, 1, 1])
     learner.UCB = MagicMock(return_value=mock_ucb)
-    learner.reset()
+
     # during the first 5 time steps, each arm is pulled once
     for time in range(1, arm_num + 1):
       assert learner.actions() == [((time-1) % arm_num, 1)]

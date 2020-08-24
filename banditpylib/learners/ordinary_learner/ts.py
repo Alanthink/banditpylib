@@ -36,7 +36,7 @@ class ThompsonSampling(OrdinaryLearner):
   def actions_from_beta_prior(self) -> int:
     """
     Return:
-      arm id of the arm to pull
+      arm to pull
     """
     # the mean of each arm has a uniform prior Beta(1, 1)
     virtual_means = np.zeros(self.arm_num())
@@ -50,7 +50,7 @@ class ThompsonSampling(OrdinaryLearner):
   def actions_from_gaussian_prior(self) -> int:
     """
     Return:
-      arm id of the arm to pull
+      arm to pull
     """
     # the mean of each arm has a Gaussian prior Normal(0, 1)
     virtual_means = np.zeros(self.arm_num())
@@ -64,17 +64,16 @@ class ThompsonSampling(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(assortment, 1)]: assortment to serve
+      [(arm_id, 1)]: arms to pull
     """
     del context
     if self.__time > self.horizon():
       self.__last_actions = None
-      return self.__last_actions
-
-    self.__last_actions = [(self.actions_from_beta_prior(),
-                            1)] if self.__prior_dist == 'beta' else [
-                                (self.actions_from_gaussian_prior(), 1)
-                            ]
+    else:
+      self.__last_actions = [(self.actions_from_beta_prior(),
+                              1)] if self.__prior_dist == 'beta' else [
+                                  (self.actions_from_gaussian_prior(), 1)
+                              ]
     return self.__last_actions
 
   def update(self, feedback):

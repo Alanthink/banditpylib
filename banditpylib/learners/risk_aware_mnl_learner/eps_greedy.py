@@ -78,26 +78,27 @@ class EpsGreedy(RiskAwareMNLLearner):
     del context
     if self.__time > self.horizon():
       self.__last_actions = None
-      return self.__last_actions
-    # check if last observation is not a non-purchase
-    if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
-      return self.__last_actions
-    # When a non-purchase observation happens, a new episode is started and
-    # a new assortment to be served is calculated
+    else:
+      # check if last observation is not a non-purchase
+      if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
+        return self.__last_actions
+      # When a non-purchase observation happens, a new episode is started and
+      # a new assortment to be served is calculated
 
-    # pylint: disable=E1101
-    # with probability eps/t, randomly select an assortment to serve
-    if np.random.random() <= self.__eps / self.__time:
-      self.__last_actions = [(self.select_ramdom_assort(), 1)]
-      return self.__last_actions
+      # pylint: disable=E1101
+      # with probability eps/t, randomly select an assortment to serve
+      if np.random.random() <= self.__eps / self.__time:
+        self.__last_actions = [(self.select_ramdom_assort(), 1)]
+        return self.__last_actions
 
-    self.reward.set_abstraction_params(self.em_abstraction_params())
-    # calculate assortment with the maximum reward using optimistic abstraction
-    # parameters
-    _, best_assortment = search_best_assortment(product_num=self.product_num(),
-                                                reward=self.reward,
-                                                card_limit=self.card_limit())
-    self.__last_actions = [(best_assortment, 1)]
+      self.reward.set_abstraction_params(self.em_abstraction_params())
+      # calculate assortment with the maximum reward using optimistic
+      # abstraction parameters
+      _, best_assortment = search_best_assortment(
+          product_num=self.product_num(),
+          reward=self.reward,
+          card_limit=self.card_limit())
+      self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 
   def update(self, feedback):

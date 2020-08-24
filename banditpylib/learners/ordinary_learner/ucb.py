@@ -46,18 +46,15 @@ class UCB(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(assortment, 1)]: assortment to serve
+      [(arm_id, 1)]: arms to pull
     """
     del context
     if self.__time > self.horizon():
       self.__last_actions = None
-      return self.__last_actions
-
-    if self.__time <= self.arm_num():
+    elif self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
-      return self.__last_actions
-
-    self.__last_actions = [(np.argmax(self.UCB()), 1)]
+    else:
+      self.__last_actions = [(np.argmax(self.UCB()), 1)]
     return self.__last_actions
 
   def update(self, feedback):

@@ -109,17 +109,17 @@ class ThompsonSampling(RiskAwareMNLLearner):
       if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
         # continue serving the same assortment
         return self.__last_actions
-      else:
-        # When a non-purchase observation happens, a new episode is started and
-        # a new assortment to be served is calculated.
-        self.reward.set_abstraction_params(self.thompson_sampling())
-        # calculate best assortment using the virtual abstraction parameters
-        # sampled from a posterior distribution
-        _, best_assortment = search_best_assortment(
-            product_num=self.product_num(),
-            reward=self.reward,
-            card_limit=self.card_limit())
-        self.__last_actions = [(best_assortment, 1)]
+
+      # When a non-purchase observation happens, a new episode is started and
+      # a new assortment to be served is calculated.
+      self.reward.set_abstraction_params(self.thompson_sampling())
+      # calculate best assortment using the virtual abstraction parameters
+      # sampled from a posterior distribution
+      _, best_assortment = search_best_assortment(
+          product_num=self.product_num(),
+          reward=self.reward,
+          card_limit=self.card_limit())
+      self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 
   def update(self, feedback):

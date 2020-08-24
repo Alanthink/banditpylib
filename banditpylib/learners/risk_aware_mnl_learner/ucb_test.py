@@ -13,8 +13,8 @@ class TestRiskAwareUCB:
     horizon = 100
     reward = CvarReward(0.7)
     learner = RiskAwareUCB(revenues=revenues, horizon=horizon, reward=reward)
-    mock_abstraction_params = np.array([1, 1, 1, 1, 1])
-    learner.UCB = MagicMock(return_value=mock_abstraction_params)
 
     learner.reset()
+    mock_abstraction_params = np.array([1, 1, 1, 1, 1])
+    learner.UCB = MagicMock(return_value=mock_abstraction_params)
     assert learner.actions() == [([2, 3, 4], 1)]
