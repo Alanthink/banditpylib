@@ -8,4 +8,5 @@ tests/
 *.ipynb_checkpoints*
 build/
 dist/
+docs/
 *pytest.log
