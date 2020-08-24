@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -41,7 +43,11 @@ class UCB(OrdinaryLearner):
     ]
     return ucb
 
-  def actions(self, context=None):
+  def actions(self, context=None) -> List[Tuple[int, int]]:
+    """
+    Return:
+      [(assortment, 1)]: assortment to serve
+    """
     del context
     if self.__time > self.horizon():
       self.__last_actions = None

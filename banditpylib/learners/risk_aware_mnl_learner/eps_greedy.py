@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
@@ -46,8 +46,8 @@ class EpsGreedy(RiskAwareMNLLearner):
     self.__episode = 1
     # number of episodes a product is served until the current episode
     # (exclusive)
-    self.__serving_times = np.zeros(self.product_num() + 1)
-    # number of times the customer chooses a product until the current episode
+    self.__serving_episodes = np.zeros(self.product_num() + 1)
+    # number of times the customer chooses a product until the current time
     # (exclusive)
     self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
@@ -58,10 +58,11 @@ class EpsGreedy(RiskAwareMNLLearner):
     Return:
       empirical estimate of abstraction parameters
     """
-    estimation = self.__customer_choices / self.__serving_times
-    estimation[np.isnan(estimation)] = 1
-    estimation = np.minimum(estimation, 1)
-    return estimation
+    # unbiased estimate of abstraction parameters
+    unbiased_est = self.__customer_choices / self.__serving_episodes
+    unbiased_est[np.isnan(unbiased_est)] = 1
+    unbiased_est = np.minimum(unbiased_est, 1)
+    return unbiased_est
 
   def select_ramdom_assort(self) -> List[int]:
     assortments = []
@@ -69,7 +70,11 @@ class EpsGreedy(RiskAwareMNLLearner):
     # pylint: disable=E1101
     return assortments[int(np.random.randint(0, len(assortments)))]
 
-  def actions(self, context=None):
+  def actions(self, context=None) -> List[Tuple[List[int], int]]:
+    """
+    Return:
+      [(assortment, 1)]: assortment to serve
+    """
     del context
     if self.__time > self.horizon():
       self.__last_actions = None
@@ -101,5 +106,5 @@ class EpsGreedy(RiskAwareMNLLearner):
     self.__time += 1
     if feedback[0][1][0] == 0:
       for product_id in self.__last_actions[0][0]:
-        self.__serving_times[product_id] += 1
+        self.__serving_episodes[product_id] += 1
       self.__episode += 1

@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward
@@ -34,8 +36,8 @@ class RiskAwareUCB(RiskAwareMNLLearner):
     self.__episode = 1
     # number of episodes a product is served until the current episode
     # (exclusive)
-    self.__serving_times = np.zeros(self.product_num() + 1)
-    # number of times the customer chooses a product until the current episode
+    self.__serving_episodes = np.zeros(self.product_num() + 1)
+    # number of times the customer chooses a product until the current time
     # (exclusive)
     self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
@@ -46,17 +48,21 @@ class RiskAwareUCB(RiskAwareMNLLearner):
     Return:
       optimistic estimate of abstraction parameters
     """
-    # average choices by the customer per episode
-    avg_choices = self.__customer_choices / self.__serving_times
+    # unbiased estimate of abstraction parameters
+    unbiased_est = self.__customer_choices / self.__serving_episodes
     # temperary result
     tmp_result = 48 * np.log(np.sqrt(self.product_num()) * self.__episode +
-                             1) / self.__serving_times
-    ucb = avg_choices + np.sqrt(avg_choices * tmp_result) + tmp_result
+                             1) / self.__serving_episodes
+    ucb = unbiased_est + np.sqrt(unbiased_est * tmp_result) + tmp_result
     ucb[np.isnan(ucb)] = 1
     ucb = np.minimum(ucb, 1)
     return ucb
 
-  def actions(self, context=None):
+  def actions(self, context=None) -> List[Tuple[List[int], int]]:
+    """
+    Return:
+      [(assortment, 1)]: assortment to serve
+    """
     del context
     if self.__time > self.horizon():
       self.__last_actions = None
@@ -81,5 +87,5 @@ class RiskAwareUCB(RiskAwareMNLLearner):
     self.__time += 1
     if feedback[0][1][0] == 0:
       for product_id in self.__last_actions[0][0]:
-        self.__serving_times[product_id] += 1
+        self.__serving_episodes[product_id] += 1
       self.__episode += 1
