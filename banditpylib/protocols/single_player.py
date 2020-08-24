@@ -10,13 +10,16 @@ from .utils import Protocol
 
 class SinglePlayerProtocol(Protocol):
   """Single player protocol
+
+  This protocol is used to simulate the game when the learner only has one
+  player and the learner only interacts with one bandit environment.
   """
   def __init__(self, bandit, learner, intermediate_regrets=None):
     """
     Args:
       bandit: bandit environment
       learner: learner
-      intermediate_regrets: intermediate regrets to record
+      intermediate_regrets: whether to record intermediate regrets
     """
     super().__init__(bandit, learner)
     self.__intermediate_regrets = \
@@ -29,45 +32,55 @@ class SinglePlayerProtocol(Protocol):
   def _one_trial(self, bandit: Bandit, learner: Learner,
                  random_seed: int) -> Dict:
     np.random.seed(random_seed)
+
+    # make sure not changing the behavior of outside bandit environment
+    # the learner
     bandit = copy.deepcopy(bandit)
     learner = copy.deepcopy(learner)
 
-    # reset
+    # reset the bandit environment and the learner
     bandit.reset()
     learner.reset()
 
-    data = []
-
-    rounds = 0
+    one_trial_data = []
+    # number of rounds to communicate with the bandit environment
+    adaptive_rounds = 0
+    # total actions executed by the bandit environment
     total_actions = 0
     while True:
-      if rounds in self.__intermediate_regrets:
-        data.append(
+      context = bandit.context()
+      actions = learner.actions(context)
+
+      # stop the game if actions returned by the learner are None
+      if not actions:
+        break
+
+      # record intermediate regrets
+      if adaptive_rounds in self.__intermediate_regrets:
+        one_trial_data.append(
             dict({
                 'bandit': bandit.name,
                 'learner': learner.name,
-                'rounds': rounds,
+                'rounds': adaptive_rounds,
                 'total_actions': total_actions,
                 'regret': learner.regret(bandit)
             }))
-      context = bandit.context()
-      actions = learner.actions(context)
-      # When actions suggested by the learner is None, it means the learner
-      # wants to stop.
-      if not actions:
-        break
-      for (_, times) in actions:
-        total_actions += times
+
       feedback = bandit.feed(actions)
       learner.update(feedback)
-      rounds += 1
 
-    data.append(
+      # information update
+      for (_, times) in actions:
+        total_actions += times
+      adaptive_rounds += 1
+
+    # record final regret
+    one_trial_data.append(
         dict({
             'bandit': bandit.name,
             'learner': learner.name,
-            'rounds': rounds,
+            'rounds': adaptive_rounds,
             'total_actions': total_actions,
             'regret': learner.regret(bandit)
         }))
-    return data
+    return one_trial_data

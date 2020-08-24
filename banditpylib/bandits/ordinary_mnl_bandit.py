@@ -13,7 +13,8 @@ def search(assortments: List[List[int]],
            product_num: int,
            next_product_id: int,
            assortment: List[int],
-           card_limit=np.inf):
+           card_limit=np.inf,
+           restricted_products=None):
   """Find all assortments with cardinality limit
 
   Args:
@@ -22,15 +23,18 @@ def search(assortments: List[List[int]],
     next_product_id: next product to consider
     assortment: current assortment
     card_limit: cardinality limit
+    restricted_products: products can only be selected from this restricted set
   """
   if next_product_id == (product_num + 1):
     if assortment:
       assortments.append(assortment)
     return
-  if len(assortment) < card_limit:
+  if len(assortment) < card_limit and (not restricted_products or
+                                       next_product_id in restricted_products):
     search(assortments, product_num, next_product_id + 1,
-           assortment + [next_product_id], card_limit)
-  search(assortments, product_num, next_product_id + 1, assortment, card_limit)
+           assortment + [next_product_id], card_limit, restricted_products)
+  search(assortments, product_num, next_product_id + 1, assortment, card_limit,
+         restricted_products)
 
 
 class Reward:
@@ -38,6 +42,9 @@ class Reward:
   @abstractmethod
   def calc(self, assortment: List[int]) -> float:
     """
+    Args:
+      assortment: input assortment to calculate
+
     Return:
       reward of the assortment
     """
@@ -119,7 +126,8 @@ class CvarReward(Reward):
     cvar_alpha = sum([
         revenue_prob[ind][0] * revenue_prob[ind][1] for ind in range(next_ind)
     ])
-    cvar_alpha -= revenue_prob[next_ind-1][0] * (accumulate_prob - self.__alpha)
+    cvar_alpha -= revenue_prob[next_ind - 1][0] * (accumulate_prob -
+                                                   self.__alpha)
     cvar_alpha /= self.__alpha
     return cvar_alpha
 
@@ -137,15 +145,38 @@ def search_best_assortment(product_num: int,
   Return:
     (reward, assortment): assortment with the maximum reward
   """
+  restricted_products = None
+
+  if isinstance(reward, MeanReward):
+    # a fast method to find the best assortment when the reward is MeanReward
+    revenues = reward.revenues
+    sorted_revenues = sorted(list(zip(revenues, range(product_num + 1))),
+                             key=lambda x: x[0])
+    best_assortment = [sorted_revenues[-1][1]]
+    next_ind = product_num - 1
+    while next_ind > 0 and reward.calc(best_assortment) < revenues[
+        sorted_revenues[next_ind][1]]:
+      best_assortment.append(sorted_revenues[next_ind][1])
+      next_ind -= 1
+    if len(best_assortment) <= card_limit:
+      return (reward.calc(best_assortment), sorted(best_assortment))
+    else:
+      restricted_products = best_assortment
+
   assortments = []
-  search(assortments, product_num, 1, [], card_limit)
+  search(assortments=assortments,
+         product_num=product_num,
+         next_product_id=1,
+         assortment=[],
+         card_limit=card_limit,
+         restricted_products=restricted_products)
   # sort assortments according to reward value
   sorted_assort = sorted([(reward.calc(assortment), assortment)
                           for assortment in assortments],
                          key=lambda x: x[0])
   # randomly select one assortment with the maximum reward
   ind = len(sorted_assort) - 1
-  while (ind > 0 and sorted_assort[ind-1][0] == sorted_assort[ind][0]):
+  while (ind > 0 and sorted_assort[ind - 1][0] == sorted_assort[ind][0]):
     ind -= 1
   return sorted_assort[np.random.randint(ind, len(sorted_assort))]
 
@@ -185,8 +216,8 @@ class OrdinaryMNLBandit(Bandit):
       if i > 0 and revenue <= 0:
         raise Exception('The %d-th revenue is no greater than 0!' % i)
     if revenues[0] != 0:
-      raise Exception(
-          'The revenue of product 0 i.e., %.2f is not 0!' % revenues[0])
+      raise Exception('The revenue of product 0 i.e., %.2f is not 0!' %
+                      revenues[0])
 
     self.__name = 'ordinary_mnl_bandit'
     self.__abstraction_params = abstraction_params
