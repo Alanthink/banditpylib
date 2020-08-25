@@ -7,7 +7,7 @@ from .utils import OrdinaryMNLLearner
 
 
 class ThompsonSampling(OrdinaryMNLLearner):
-  """Thompson sampling policy"""
+  """Thompson sampling policy :cite:`DBLP:journals/corr/AgrawalAGZ17`"""
   def __init__(self,
                revenues: np.ndarray,
                horizon: int,
@@ -51,7 +51,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     """Initial warm start stage
 
     Return:
-      [(assortment, 1)]: assortment to serve
+      assortment to serve
     """
     # check if last observation is a purchase
     if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
@@ -97,6 +97,10 @@ class ThompsonSampling(OrdinaryMNLLearner):
     return virtual_abstraction_params
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
+    """
+    Return:
+      assortments to serve
+    """
     del context
     # check if the learner should stop the game
     if self.__time > self.horizon():

@@ -9,14 +9,8 @@ class OrdinaryBanditItf(Bandit):
 
   @abstractmethod
   def arm_num(self) -> int:
-    """
-    Return:
-      total number of arms
-    """
+    """Total number of arms"""
 
   @abstractmethod
   def total_pulls(self) -> int:
-    """
-    Return:
-      total number of pulls executed
-    """
+    """Total number of pulls executed"""

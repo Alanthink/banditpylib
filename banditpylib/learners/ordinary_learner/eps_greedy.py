@@ -32,7 +32,7 @@ class EpsGreedy(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(arm_id, 1)]: arms to pull
+      arms to pull
     """
     del context
     # pylint: disable=E1101

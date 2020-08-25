@@ -73,7 +73,7 @@ class EpsGreedy(OrdinaryMNLLearner):
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
     Return:
-      [(assortment, 1)]: assortment to serve
+      assortments to serve
     """
     del context
     if self.__time > self.horizon():

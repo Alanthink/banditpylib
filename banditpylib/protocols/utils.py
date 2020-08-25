@@ -15,7 +15,7 @@ def time_seed() -> int:
   """Generate random seed using current time
 
   Return:
-    int: random seed
+    random seed
   """
   tem_time = time.time()
   return int((tem_time - int(tem_time)) * 10000000)
@@ -42,10 +42,7 @@ class Protocol(ABC):
   @property
   @abstractmethod
   def name(self) -> str:
-    """
-    Return:
-      protocol name
-    """
+    """protocol name"""
 
   @abstractmethod
   def _one_trial(self, bandit: Bandit, learner: Learner,
@@ -79,6 +76,8 @@ class Protocol(ABC):
 
   def play(self, trials: int, output_filename: str, processes=-1, debug=False):
     """Start playing the game
+
+    By default, `output_filename` will be opened with mode `a`.
 
     Args:
       trials: number of repetitions

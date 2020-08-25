@@ -13,22 +13,12 @@ class LinearBanditItf(Bandit):
 
   @abstractmethod
   def arm_num(self) -> int:
-    """
-    Return:
-      total number of arms
-    """
+    """Total number of arms"""
 
   @abstractmethod
   def features(self) -> np.ndarray:
-    """
-    Return:
-      features of arms. First dimension: number of arms. Second dimension:
-      dimension of the features.
-    """
+    """Feature vectors"""
 
   @abstractmethod
   def total_pulls(self) -> int:
-    """
-    Return:
-      total number of pulls so far
-    """
+    """Total number of pulls so far"""

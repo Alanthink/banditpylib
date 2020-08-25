@@ -7,9 +7,10 @@ from .utils import OrdinaryLearner
 
 
 class UCB(OrdinaryLearner):
-  r"""Upper confidence bound policy
+  r"""Upper confidence bound policy :cite:`auer2002finite`
 
   At time :math:`t`, play arm
+
   .. math::
     \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
     \alpha  \ln(t) }{T_i(t)} } \right\}
@@ -46,7 +47,7 @@ class UCB(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(arm_id, 1)]: arms to pull
+      arms to pull
     """
     del context
     if self.__time > self.horizon():

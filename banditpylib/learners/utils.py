@@ -9,14 +9,11 @@ class Learner(ABC):
 
   @property
   def name(self) -> str:
-    """
-    Return:
-      name of the learner
-    """
+    """name of the learner"""
 
   @abstractmethod
   def reset(self):
-    """Reset of the learner.
+    """Reset of the learner
 
     This function should be called before the start of the game
     """
@@ -29,7 +26,7 @@ class Learner(ABC):
       context: context of the bandit environment
 
     Return:
-      actions: actions to take
+      actions to take
     """
 
   @abstractmethod

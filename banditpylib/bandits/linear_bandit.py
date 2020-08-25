@@ -16,8 +16,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
   def __init__(self, features: np.ndarray, theta: np.ndarray, var=1.0):
     """
     Args:
-      features: features of the arms. First dimension: number of arms. Second
-      dimension: dimension of the features.
+      features: features of the arms
       theta: unknown parameter theta
       var: variance of noise
     """
@@ -54,7 +53,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
       pulls: number of pulls to apply
 
     Return:
-      feedback: first dimension denotes the stochastic rewards
+      feedback where the first dimension denotes the stochastic rewards
     """
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
@@ -69,11 +68,12 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: For each tuple, the first dimension denotes the arm id and the
+      actions: for each tuple, the first dimension denotes the arm id and the \
       second dimension is the number of times this arm is going to be pulled.
 
     Return:
-      feedback: For each tuple, the first dimension is the stochatic rewards.
+      feedback where for each tuple, the first dimension is the stochatic \
+      rewards
     """
     feedback = []
     for (arm_id, pulls) in actions:
@@ -84,14 +84,14 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     self.__total_pulls = 0
     self.__regret = 0.0
 
-  # implement methods for ordinary bandit
+  # implement methods of ordinary bandit
   def arm_num(self) -> int:
     return self.__arm_num
 
   def total_pulls(self) -> int:
     return self.__total_pulls
 
-  # implement methods for linear bandit
+  # implement methods of linear bandit
   def features(self) -> np.ndarray:
     return self.__features
 

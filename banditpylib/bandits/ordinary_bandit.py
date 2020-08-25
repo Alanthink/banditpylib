@@ -35,7 +35,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
       pulls: number of times to pull
 
     Return:
-      feedback: first dimention is the stochstic rewards
+      feedback where the first dimention is the stochstic rewards
     """
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
@@ -51,11 +51,12 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: For each tuple, the first dimension denotes the arm id and the
+      actions: for each tuple, the first dimension denotes the arm id and the \
       second dimension is the number of times to pull.
 
     Return:
-      feedback: For each tuple, the first dimention is the stochstic rewards.
+      feedback where for each tuple, the first dimention is the stochstic \
+      rewards
     """
     feedback = []
     for (arm_id, pulls) in actions:

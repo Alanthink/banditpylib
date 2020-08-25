@@ -7,11 +7,14 @@ from .utils import OrdinaryLearner
 
 
 class ThompsonSampling(OrdinaryLearner):
-  r"""Thompson Sampling policy
+  r"""Thompson Sampling policy :cite:`agrawal2017near`
 
   Assume a prior distribution for every arm. At time :math:`t`, sample a
   virtual mean from the posterior distribution for every arm. Play the arm with
   the maximum sampled virtual mean.
+
+  .. warning::
+    Reward should be Bernoulli when Beta prior is chosen.
   """
   def __init__(self, arm_num: int, horizon: int, prior_dist='beta', name=None):
     """
@@ -64,7 +67,7 @@ class ThompsonSampling(OrdinaryLearner):
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
     Return:
-      [(arm_id, 1)]: arms to pull
+      arms to pull
     """
     del context
     if self.__time > self.horizon():

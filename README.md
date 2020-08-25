@@ -28,12 +28,31 @@ A lightweight python library for bandit algorithms
 pip install .
 ```
 
+### Example
+
+![output example](example.jpg)
+
+Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out how to generate this figure.
+
 ### Running the Tests
 
 ```shell
 # run all tests
 pytest
 ```
+
+## Implemented Policies
+
+### Single Player Protocol
+
+#### Regret Minimization
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `EpsGreedy`, `UCB` , `ThompsonSampling` |
+| Ordinary MNL Bandit   | `UCB`, `ThompsonSampling` |
+
+For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib/website/html/index.html).
 
 ## License
 

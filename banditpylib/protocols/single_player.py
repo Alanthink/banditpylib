@@ -14,7 +14,10 @@ class SinglePlayerProtocol(Protocol):
   This protocol is used to simulate the game when the learner only has one
   player and the learner only interacts with one bandit environment.
   """
-  def __init__(self, bandit, learner, intermediate_regrets=None):
+  def __init__(self,
+               bandit: Bandit,
+               learner: Learner,
+               intermediate_regrets=None):
     """
     Args:
       bandit: bandit environment

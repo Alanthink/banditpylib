@@ -134,7 +134,7 @@ class CvarReward(Reward):
 
 def search_best_assortment(product_num: int,
                            reward: Reward,
-                           card_limit=np.inf):
+                           card_limit=np.inf) -> Tuple[float, List[int]]:
   """Search assortment with the maximum reward
 
   Args:
@@ -143,7 +143,7 @@ def search_best_assortment(product_num: int,
     card_limit: cardinality constraint
 
   Return:
-    (reward, assortment): assortment with the maximum reward
+    assortment with the maximum reward
   """
   restricted_products = None
 
@@ -254,8 +254,8 @@ class OrdinaryMNLBandit(Bandit):
       times: number of times to try
 
     Return:
-      feedback: The first dimension is the stochatic rewards, and the second
-      dimension are the choices of the customer.
+      feedback where the first dimension is the stochatic rewards, and the \
+      second dimension are the choices of the customer.
     """
     if not assortment:
       raise Exception('Empty assortment!')
@@ -293,12 +293,12 @@ class OrdinaryMNLBandit(Bandit):
     """Serve multiple assortments
 
     Args:
-      actions: For each tuple, the first dimension is the assortment to try and
-      the second dimension is the number of times.
+      actions: for each tuple, the first dimension is the assortment to try \
+      and the second dimension is the number of times.
 
     Return:
-      feedback: For each tuple, the first dimension is the stochatic rewards,
-      and the second dimension are the choices of the customer.
+      feedback where for each tuple, the first dimension is the stochatic \
+      rewards, and the second dimension are the choices of the customer
     """
     feedback = []
     for (assortment, times) in actions:

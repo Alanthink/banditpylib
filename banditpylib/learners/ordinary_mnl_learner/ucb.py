@@ -7,7 +7,7 @@ from .utils import OrdinaryMNLLearner
 
 
 class UCB(OrdinaryMNLLearner):
-  """UCB policy"""
+  """UCB policy :cite:`DBLP:journals/corr/AgrawalAGZ17a`"""
   def __init__(self,
                revenues: np.ndarray,
                horizon: int,
@@ -61,7 +61,7 @@ class UCB(OrdinaryMNLLearner):
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
     Return:
-      [(assortment, 1)]: assortment to serve
+      assortments to serve
     """
     del context
     if self.__time > self.horizon():

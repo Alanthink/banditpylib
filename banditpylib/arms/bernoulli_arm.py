@@ -20,10 +20,7 @@ class BernoulliArm(Arm):
 
   @property
   def mean(self) -> float:
-    """
-    Return:
-      real mean of the arm
-    """
+    """real mean of the arm"""
     return self.__mean
 
   def pull(self, pulls=1) -> np.ndarray:

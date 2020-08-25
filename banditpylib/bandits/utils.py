@@ -13,10 +13,7 @@ class Bandit(ABC):
   @property
   @abstractmethod
   def name(self) -> str:
-    """
-    Return:
-      name of the bandit environment
-    """
+    """Name of the bandit environment"""
 
   @abstractmethod
   def reset(self):
@@ -24,10 +21,7 @@ class Bandit(ABC):
 
   @abstractmethod
   def context(self):
-    """
-    Return:
-      current state of the bandit environment
-    """
+    """Current state of the bandit environment"""
 
   @abstractmethod
   def feed(self, actions):
@@ -36,5 +30,5 @@ class Bandit(ABC):
       actions: actions to take
 
     Return:
-      feedback: feedback after actions are taken
+      feedback after actions are taken
     """
