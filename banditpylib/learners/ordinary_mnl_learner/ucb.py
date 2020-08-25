@@ -2,22 +2,17 @@ from typing import List, Tuple
 
 import numpy as np
 
-from banditpylib.bandits import search_best_assortment, Reward, search
-from .utils import RiskAwareMNLLearner
+from banditpylib.bandits import search_best_assortment, Reward
+from .utils import OrdinaryMNLLearner
 
 
-class EpsGreedy(RiskAwareMNLLearner):
-  r"""Epsilon-Greedy policy
-
-  With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
-  remaining probability serve the assortment with the maximum empirical reward.
-  """
+class UCB(OrdinaryMNLLearner):
+  """UCB policy"""
   def __init__(self,
                revenues: np.ndarray,
                horizon: int,
                reward: Reward,
                card_limit=np.inf,
-               eps=1.0,
                name=None):
     """
     Args:
@@ -25,15 +20,10 @@ class EpsGreedy(RiskAwareMNLLearner):
       horizon: total number of time steps
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
-      eps: epsilon
       name: alias name for the learner
     """
-    self.__name = name if name else 'epsilon_greedy'
+    self.__name = name if name else 'risk_aware_ucb'
     super().__init__(revenues, horizon, reward, card_limit)
-    if eps <= 0:
-      raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
-          (eps, self.__name))
-    self.__eps = eps
 
   @property
   def name(self):
@@ -53,22 +43,20 @@ class EpsGreedy(RiskAwareMNLLearner):
     self.__last_actions = None
     self.__last_feedback = None
 
-  def em_abstraction_params(self) -> np.ndarray:
+  def UCB(self) -> np.ndarray:
     """
     Return:
-      empirical estimate of abstraction parameters
+      optimistic estimate of abstraction parameters
     """
     # unbiased estimate of abstraction parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
-    unbiased_est[np.isnan(unbiased_est)] = 1
-    unbiased_est = np.minimum(unbiased_est, 1)
-    return unbiased_est
-
-  def select_ramdom_assort(self) -> List[int]:
-    assortments = []
-    search(assortments, self.product_num(), 1, [], self.card_limit())
-    # pylint: disable=E1101
-    return assortments[int(np.random.randint(0, len(assortments)))]
+    # temperary result
+    tmp_result = 48 * np.log(np.sqrt(self.product_num()) * self.__episode +
+                             1) / self.__serving_episodes
+    ucb = unbiased_est + np.sqrt(unbiased_est * tmp_result) + tmp_result
+    ucb[np.isnan(ucb)] = 1
+    ucb = np.minimum(ucb, 1)
+    return ucb
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
@@ -84,14 +72,7 @@ class EpsGreedy(RiskAwareMNLLearner):
         return self.__last_actions
       # When a non-purchase observation happens, a new episode is started and
       # a new assortment to be served is calculated
-
-      # pylint: disable=E1101
-      # with probability eps/t, randomly select an assortment to serve
-      if np.random.random() <= self.__eps / self.__time:
-        self.__last_actions = [(self.select_ramdom_assort(), 1)]
-        return self.__last_actions
-
-      self.reward.set_abstraction_params(self.em_abstraction_params())
+      self.reward.set_abstraction_params(self.UCB())
       # calculate assortment with the maximum reward using optimistic
       # abstraction parameters
       _, best_assortment = search_best_assortment(

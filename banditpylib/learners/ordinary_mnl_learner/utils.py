@@ -7,8 +7,8 @@ from banditpylib.learners import Learner
 
 
 # pylint: disable=W0223
-class RiskAwareMNLLearner(Learner):
-  """Base class for risk-aware learners in the ordinary mnl bandit
+class OrdinaryMNLLearner(Learner):
+  """Base class for learners in the ordinary mnl bandit
 
   Product 0 is reserved for non-purchase. And it is assumed that the abstraction
   parameter for non-purchase is 1.

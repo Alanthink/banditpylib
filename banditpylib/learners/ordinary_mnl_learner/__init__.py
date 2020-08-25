@@ -5,8 +5,8 @@ from .ts import *
 
 
 __all__ = [
-    'RiskAwareMNLLearner',
-    'RiskAwareUCB',
+    'OrdinaryMNLLearner',
+    'UCB',
     'EpsGreedy',
     'ThompsonSampling'
 ]

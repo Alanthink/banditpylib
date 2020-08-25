@@ -3,10 +3,10 @@ from typing import List, Tuple
 import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward
-from .utils import RiskAwareMNLLearner
+from .utils import OrdinaryMNLLearner
 
 
-class ThompsonSampling(RiskAwareMNLLearner):
+class ThompsonSampling(OrdinaryMNLLearner):
   """Thompson sampling policy"""
   def __init__(self,
                revenues: np.ndarray,
