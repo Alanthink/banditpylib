@@ -18,7 +18,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
                card_limit=np.inf,
                name=None,
                use_local_search=False,
-               local_search_times=100):
+               local_search_times=10):
     """
     Args:
       revenues: product revenues

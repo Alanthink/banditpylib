@@ -186,7 +186,7 @@ def local_search_best_assortment(
     search_times: int,
     card_limit=np.inf,
     init_assortment=None) -> Tuple[float, List[int]]:
-  """Search assortment with the maximum reward
+  """Local search assortment with the maximum reward
 
   .. warning::
     This method does not guarantee to output the best assortment.
@@ -213,37 +213,44 @@ def local_search_best_assortment(
   remaining_products = all_products - best_assortment
   times_of_local_search = 0
   while times_of_local_search < search_times:
+    available_operations = []
+    if len(remaining_products) > 0:
+      available_operations.append('replace')
+    if len(best_assortment) > 0:
+      available_operations.append('remove')
+    if len(remaining_products) > 0 and len(best_assortment) < card_limit:
+      available_operations.append('add')
     # pylint: disable=E1101
-    random_number = np.random.random()
-    if random_number < 1 / 3:
+    operation = np.random.choice(available_operations)
+
+    if operation == 'replace':
       # replace one product
-      if len(remaining_products) > 0:
-        product_to_remove = set([np.random.choice(list(best_assortment))])
-        product_to_add = set([np.random.choice(list(remaining_products))])
-        new_assortment = (copy.deepcopy(best_assortment) -
-                          product_to_remove).union(product_to_add)
-        if reward.calc(new_assortment) > best_reward:
-          best_assortment = new_assortment
-          remaining_products -= product_to_add
-        times_of_local_search += 1
-    elif random_number < 2 / 3:
+      product_to_remove = set([np.random.choice(list(best_assortment))])
+      product_to_add = set([np.random.choice(list(remaining_products))])
+      new_assortment = (copy.deepcopy(best_assortment) -
+                        product_to_remove).union(product_to_add)
+      if reward.calc(new_assortment) > best_reward:
+        best_assortment = new_assortment
+        best_reward = reward.calc(new_assortment)
+        remaining_products -= product_to_add
+    elif operation == 'remove':
       # remove one product
-      if len(best_assortment) > 1:
-        product_to_remove = set([np.random.choice(list(best_assortment))])
-        new_assortment = copy.deepcopy(best_assortment) - product_to_remove
-        if reward.calc(new_assortment) > best_reward:
-          best_assortment = new_assortment
-          remaining_products = remaining_products.union(product_to_remove)
-        times_of_local_search += 1
+      product_to_remove = set([np.random.choice(list(best_assortment))])
+      new_assortment = copy.deepcopy(best_assortment) - product_to_remove
+      if reward.calc(new_assortment) > best_reward:
+        best_assortment = new_assortment
+        best_reward = reward.calc(new_assortment)
+        remaining_products = remaining_products.union(product_to_remove)
     else:
-      # add one product
-      if len(remaining_products) > 0 and len(best_assortment) < card_limit:
-        product_to_add = set([np.random.choice(list(remaining_products))])
-        new_assortment = copy.deepcopy(best_assortment).union(product_to_add)
-        if reward.calc(new_assortment) > best_reward:
-          best_assortment = new_assortment
-          remaining_products -= product_to_add
-        times_of_local_search += 1
+      # operation == 'add'
+      product_to_add = set([np.random.choice(list(remaining_products))])
+      new_assortment = copy.deepcopy(best_assortment).union(product_to_add)
+      if reward.calc(new_assortment) > best_reward:
+        best_assortment = new_assortment
+        best_reward = reward.calc(new_assortment)
+        remaining_products -= product_to_add
+
+    times_of_local_search += 1
 
   return (best_reward, sorted(list(best_assortment)))
 
