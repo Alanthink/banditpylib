@@ -18,7 +18,7 @@ class UCB(OrdinaryMNLLearner):
                card_limit=np.inf,
                name=None,
                use_local_search=False,
-               local_search_times=1000):
+               local_search_times=100):
     """
     Args:
       revenues: product revenues
@@ -94,7 +94,8 @@ class UCB(OrdinaryMNLLearner):
               reward=self.reward,
               search_times=self.__local_search_times,
               card_limit=self.card_limit(),
-              init_assortment=self.__last_actions[0][0])
+              init_assortment=(
+                  self.__last_actions[0][0] if self.__last_actions else None))
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 
