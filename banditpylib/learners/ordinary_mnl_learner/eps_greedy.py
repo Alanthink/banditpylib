@@ -95,7 +95,6 @@ class EpsGreedy(OrdinaryMNLLearner):
       # calculate assortment with the maximum reward using optimistic
       # abstraction parameters
       _, best_assortment = search_best_assortment(
-          product_num=self.product_num(),
           reward=self.reward,
           card_limit=self.card_limit())
       self.__last_actions = [(best_assortment, 1)]

@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+import copy
 from typing import List, Tuple
 
 from absl import logging
@@ -132,19 +133,18 @@ class CvarReward(Reward):
     return cvar_alpha
 
 
-def search_best_assortment(product_num: int,
-                           reward: Reward,
+def search_best_assortment(reward: Reward,
                            card_limit=np.inf) -> Tuple[float, List[int]]:
   """Search assortment with the maximum reward
 
   Args:
-    product_num: product number
     reward: reward definition
     card_limit: cardinality constraint
 
   Return:
     assortment with the maximum reward
   """
+  product_num = len(reward.revenues) - 1
   restricted_products = None
 
   if isinstance(reward, MeanReward):
@@ -179,6 +179,73 @@ def search_best_assortment(product_num: int,
   while (ind > 0 and sorted_assort[ind - 1][0] == sorted_assort[ind][0]):
     ind -= 1
   return sorted_assort[np.random.randint(ind, len(sorted_assort))]
+
+
+def local_search_best_assortment(
+    reward: Reward,
+    search_times: int,
+    card_limit=np.inf,
+    init_assortment=None) -> Tuple[float, List[int]]:
+  """Search assortment with the maximum reward
+
+  .. warning::
+    This method does not guarantee to output the best assortment.
+
+  Args:
+    reward: reward definition
+    search_times: number of local search times
+    card_limit: cardinality constraint
+    init_assortment: initial assortment to start
+
+  Return:
+    local best assortment with its reward
+  """
+  product_num = len(reward.revenues) - 1
+
+  # all available products
+  all_products = set(range(1, product_num + 1))
+  # randomly generate an assortment initially if init_assortment is not set
+  best_assortment = set(
+      copy.deepcopy(init_assortment)) if init_assortment else set(
+          np.random.choice(
+              list(all_products), min(card_limit, product_num), replace=False))
+  best_reward = reward.calc(best_assortment)
+  remaining_products = all_products - best_assortment
+  times_of_local_search = 0
+  while times_of_local_search < search_times:
+    # pylint: disable=E1101
+    random_number = np.random.random()
+    if random_number < 1 / 3:
+      # replace one product
+      if len(remaining_products) > 0:
+        product_to_remove = set([np.random.choice(list(best_assortment))])
+        product_to_add = set([np.random.choice(list(remaining_products))])
+        new_assortment = (copy.deepcopy(best_assortment) -
+                          product_to_remove).union(product_to_add)
+        if reward.calc(new_assortment) > best_reward:
+          best_assortment = new_assortment
+          remaining_products -= product_to_add
+        times_of_local_search += 1
+    elif random_number < 2 / 3:
+      # remove one product
+      if len(best_assortment) > 1:
+        product_to_remove = set([np.random.choice(list(best_assortment))])
+        new_assortment = copy.deepcopy(best_assortment) - product_to_remove
+        if reward.calc(new_assortment) > best_reward:
+          best_assortment = new_assortment
+          remaining_products = remaining_products.union(product_to_remove)
+        times_of_local_search += 1
+    else:
+      # add one product
+      if len(remaining_products) > 0 and len(best_assortment) < card_limit:
+        product_to_add = set([np.random.choice(list(remaining_products))])
+        new_assortment = copy.deepcopy(best_assortment).union(product_to_add)
+        if reward.calc(new_assortment) > best_reward:
+          best_assortment = new_assortment
+          remaining_products -= product_to_add
+        times_of_local_search += 1
+
+  return (best_reward, sorted(list(best_assortment)))
 
 
 class OrdinaryMNLBandit(Bandit):
@@ -236,7 +303,6 @@ class OrdinaryMNLBandit(Bandit):
 
     # compute the best assortment
     self.__best_reward, self.__best_assort = search_best_assortment(
-        product_num=self.__product_num,
         reward=self.__reward,
         card_limit=self.__card_limit)
     logging.info('Assortment %s has best reward %.2f.', self.__best_assort,

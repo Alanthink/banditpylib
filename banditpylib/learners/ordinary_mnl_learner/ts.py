@@ -1,8 +1,11 @@
 from typing import List, Tuple
 
+from absl import logging
+
 import numpy as np
 
-from banditpylib.bandits import search_best_assortment, Reward
+from banditpylib.bandits import search_best_assortment, Reward, \
+    local_search_best_assortment
 from .utils import OrdinaryMNLLearner
 
 
@@ -13,7 +16,9 @@ class ThompsonSampling(OrdinaryMNLLearner):
                horizon: int,
                reward: Reward,
                card_limit=np.inf,
-               name=None):
+               name=None,
+               use_local_search=False,
+               local_search_times=1000):
     """
     Args:
       revenues: product revenues
@@ -21,9 +26,17 @@ class ThompsonSampling(OrdinaryMNLLearner):
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
       name: alias name for the learner
+      use_local_search: whether to use local search for searching the best \
+      assortment
+      local_search_times: number of local searches if local search is used
     """
     self.__name = name if name else 'thompson_sampling'
     super().__init__(revenues, horizon, reward, card_limit)
+    self.__use_local_search = use_local_search
+    if local_search_times < 10:
+      logging.fatal('Times of local search %d is less than 10!' %
+                    local_search_times)
+    self.__local_search_times = local_search_times
 
   @property
   def name(self):
@@ -120,9 +133,12 @@ class ThompsonSampling(OrdinaryMNLLearner):
       # calculate best assortment using the virtual abstraction parameters
       # sampled from a posterior distribution
       _, best_assortment = search_best_assortment(
-          product_num=self.product_num(),
-          reward=self.reward,
-          card_limit=self.card_limit())
+          reward=self.reward, card_limit=self.card_limit(
+          )) if not self.__use_local_search else local_search_best_assortment(
+              reward=self.reward,
+              search_times=self.__local_search_times,
+              card_limit=self.card_limit(),
+              init_assortment=self.__last_actions[0][0])
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 

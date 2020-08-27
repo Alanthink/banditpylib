@@ -16,5 +16,6 @@ __all__ = [
     'MeanReward',
     'CvarReward',
     'search_best_assortment',
+    'local_search_best_assortment',
     'OrdinaryMNLBandit',
 ]
