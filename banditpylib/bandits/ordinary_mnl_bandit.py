@@ -99,6 +99,9 @@ class CvarReward(Reward):
     if alpha <= 0:
       raise Exception('Alpha %.2f is no greater than 0!' % alpha)
     # alpha is at most 1.0
+    if alpha > 1.0:
+      logging.error(
+          'Alpha %.2f is greater than 1! I am setting it to 1.' % alpha)
     self.__alpha = alpha if alpha <= 1.0 else 1.0
 
   def calc(self, assortment: List[int]) -> float:

@@ -1,4 +1,4 @@
 
 [submodule "docs/site"]
   path = docs/site
-  url = git@github.com:Alanthink/banditpylib-doc.git
+  url = https://github.com/Alanthink/banditpylib-doc.git

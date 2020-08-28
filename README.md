@@ -50,9 +50,9 @@ pytest
 | Bandit Type | Policies |
 |     :---      |      :--- |
 | Ordinary Bandit   | `EpsGreedy`, `UCB` , `ThompsonSampling` |
-| Ordinary MNL Bandit   | `UCB`, `ThompsonSampling` |
+| Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
-For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib/website/html/index.html).
+For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## License
 
