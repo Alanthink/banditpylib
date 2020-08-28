@@ -81,33 +81,33 @@ class ThompsonSampling(OrdinaryMNLLearner):
     """
     return not self.__done_warm_start
 
-  def sample_abstraction_params(self) -> np.ndarray:
+  def sample_preference_params(self) -> np.ndarray:
     """
     Return:
-      one time sampling of abstraction parameters
+      one time sampling of preference parameters
     """
     theta = np.random.normal(0, 1, self.product_num() + 1)
-    # unbiased estimate of abstraction parameters
+    # unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
-    sampled_abstraction_params = unbiased_est + theta * (
+    sampled_preference_params = unbiased_est + theta * (
         np.sqrt(50 * unbiased_est *
                 (unbiased_est + 1) / self.__serving_episodes) +
         75 * np.sqrt(np.log(self.horizon() * self.card_limit())) /
         self.__serving_episodes)
-    return sampled_abstraction_params
+    return sampled_preference_params
 
   def thompson_sampling(self) -> np.ndarray:
     """
     Return:
-      virtual abstraction parameters sampled using thompson sampling
+      virtual preference parameters sampled using thompson sampling
     """
-    virtual_abstraction_params = np.zeros(self.product_num() + 1)
+    virtual_preference_params = np.zeros(self.product_num() + 1)
     for _ in range(self.card_limit()):
-      virtual_abstraction_params = np.maximum(virtual_abstraction_params,
-                                              self.sample_abstraction_params())
-    virtual_abstraction_params[np.isnan(virtual_abstraction_params)] = 1
-    virtual_abstraction_params = np.minimum(virtual_abstraction_params, 1)
-    return virtual_abstraction_params
+      virtual_preference_params = np.maximum(virtual_preference_params,
+                                             self.sample_preference_params())
+    virtual_preference_params[np.isnan(virtual_preference_params)] = 1
+    virtual_preference_params = np.minimum(virtual_preference_params, 1)
+    return virtual_preference_params
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
@@ -129,8 +129,8 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
       # When a non-purchase observation happens, a new episode is started and
       # a new assortment to be served is calculated.
-      self.reward.set_abstraction_params(self.thompson_sampling())
-      # calculate best assortment using the virtual abstraction parameters
+      self.reward.set_preference_params(self.thompson_sampling())
+      # calculate best assortment using the virtual preference parameters
       # sampled from a posterior distribution
       _, best_assortment = search_best_assortment(
           reward=self.reward, card_limit=self.card_limit(

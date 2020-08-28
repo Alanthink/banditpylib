@@ -51,10 +51,10 @@ class Reward:
     """
 
   @property
-  def abstraction_params(self) -> np.ndarray:
-    if hasattr(self, '__abstraction_params'):
-      raise Exception('Abstraction parameters are not set yet!')
-    return self.__abstraction_params
+  def preference_params(self) -> np.ndarray:
+    if hasattr(self, '__preference_params'):
+      raise Exception('Preference parameters are not set yet!')
+    return self.__preference_params
 
   @property
   def revenues(self) -> np.ndarray:
@@ -62,12 +62,12 @@ class Reward:
       raise Exception('Revenues of products are not set yet!')
     return self.__revenues
 
-  def set_abstraction_params(self, abstraction_params: np.ndarray):
+  def set_preference_params(self, preference_params: np.ndarray):
     """
     Args:
-      abstraction_params: abstraction parameters of products
+      preference_params: preference parameters of products
     """
-    self.__abstraction_params = abstraction_params
+    self.__preference_params = preference_params
 
   def set_revenues(self, revenues: np.ndarray):
     """
@@ -80,11 +80,11 @@ class Reward:
 class MeanReward(Reward):
   """Mean reward"""
   def calc(self, assortment: List[int]) -> float:
-    abstraction_params_sum = (
-        sum([self.abstraction_params[product]
-             for product in assortment]) + self.abstraction_params[0])
+    preference_params_sum = (
+        sum([self.preference_params[product]
+             for product in assortment]) + self.preference_params[0])
     return sum([
-        self.abstraction_params[product] / abstraction_params_sum *
+        self.preference_params[product] / preference_params_sum *
         self.revenues[product] for product in assortment
     ])
 
@@ -102,13 +102,13 @@ class CvarReward(Reward):
     self.__alpha = alpha if alpha <= 1.0 else 1.0
 
   def calc(self, assortment: List[int]) -> float:
-    abstraction_params_sum = sum(
-        [self.abstraction_params[product]
-         for product in assortment]) + self.abstraction_params[0]
+    preference_params_sum = sum(
+        [self.preference_params[product]
+         for product in assortment]) + self.preference_params[0]
     # sort according to revenue of product
     revenue_prob = sorted([
-        (self.revenues[0], self.abstraction_params[0] / abstraction_params_sum)
-    ] + [(self.revenues[product], self.abstraction_params[product])
+        (self.revenues[0], self.preference_params[0] / preference_params_sum)
+    ] + [(self.revenues[product], self.preference_params[product])
          for product in assortment],
                           key=lambda x: x[0])
     # the minimum revenue should be 0, which is the revenue of non-purchase
@@ -259,33 +259,33 @@ class OrdinaryMNLBandit(Bandit):
   """Class for ordinary MNL bandit
 
   Products are numbered from 1 by default. 0 is reserved for non-purchase. The
-  abstraction parameters are assumed to be between 0 and 1. And it is assumed
-  that the abstraction parameter for non-purchase is 1.
+  preference parameters are assumed to be between 0 and 1. And it is assumed
+  that the preference parameter for non-purchase is 1.
   """
   def __init__(self,
-               abstraction_params: np.ndarray,
+               preference_params: np.ndarray,
                revenues: np.ndarray,
                card_limit=np.inf,
                reward=None):
     """
     Args:
-      abstraction_params: abstraction parameters
+      preference_params: preference parameters
       revenue: revenue of products
       card_limit: cardinality constraint of an assortment
       reward: reward the learner wants to maximize
     """
-    if len(abstraction_params) != len(revenues):
+    if len(preference_params) != len(revenues):
       raise Exception(
-          'Number of abstraction parameters %d does not equal to number of '
-          'revenues %d!' % (len(abstraction_params), len(revenues)))
-    for (i, param) in enumerate(abstraction_params):
+          'Number of preference parameters %d does not equal to number of '
+          'revenues %d!' % (len(preference_params), len(revenues)))
+    for (i, param) in enumerate(preference_params):
       if param > 1 or param < 0:
-        raise Exception('The %d-th abstraction parameter is '
+        raise Exception('The %d-th preference parameter is '
                         'out of range [0, 1]' % i)
-    if abstraction_params[0] != 1:
+    if preference_params[0] != 1:
       raise Exception(
-          'The abstraction parameter of product 0 i.e., %.2f is not 1!' %
-          abstraction_params[0])
+          'The preference parameter of product 0 i.e., %.2f is not 1!' %
+          preference_params[0])
     for (i, revenue) in enumerate(revenues):
       if i > 0 and revenue <= 0:
         raise Exception('The %d-th revenue is no greater than 0!' % i)
@@ -294,18 +294,18 @@ class OrdinaryMNLBandit(Bandit):
                       revenues[0])
 
     self.__name = 'ordinary_mnl_bandit'
-    self.__abstraction_params = abstraction_params
+    self.__preference_params = preference_params
     self.__revenues = revenues
     self.__card_limit = card_limit
     # product 0 is reserved for non-purchase
-    self.__product_num = len(self.__abstraction_params) - 1
+    self.__product_num = len(self.__preference_params) - 1
     if self.__product_num < 1:
       raise Exception('Number of products %d is less than 1!' %
                       self.__product_num)
 
     # MeanReward is the default goal
     self.__reward = MeanReward() if not reward else reward
-    self.__reward.set_abstraction_params(self.__abstraction_params)
+    self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
 
     # compute the best assortment
@@ -342,11 +342,11 @@ class OrdinaryMNLBandit(Bandit):
       raise Exception('Assortment %s has products more than cardinality'
                       ' constraint %d!' % (assortment, self.__card_limit))
 
-    abstraction_params_sum = sum(
-        [self.__abstraction_params[product_id] for product_id in assortment]) +\
-        self.__abstraction_params[0]
-    sample_prob = [self.__abstraction_params[0] / abstraction_params_sum] + \
-        [self.__abstraction_params[product] / abstraction_params_sum
+    preference_params_sum = sum(
+        [self.__preference_params[product_id] for product_id in assortment]) +\
+        self.__preference_params[0]
+    sample_prob = [self.__preference_params[0] / preference_params_sum] + \
+        [self.__preference_params[product] / preference_params_sum
          for product in assortment]
     sample_results = np.random.choice(len(sample_prob), times, p=sample_prob)
     choices = [

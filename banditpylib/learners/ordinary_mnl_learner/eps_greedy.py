@@ -53,12 +53,12 @@ class EpsGreedy(OrdinaryMNLLearner):
     self.__last_actions = None
     self.__last_feedback = None
 
-  def em_abstraction_params(self) -> np.ndarray:
+  def em_preference_params(self) -> np.ndarray:
     """
     Return:
-      empirical estimate of abstraction parameters
+      empirical estimate of preference parameters
     """
-    # unbiased estimate of abstraction parameters
+    # unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
     unbiased_est[np.isnan(unbiased_est)] = 1
     unbiased_est = np.minimum(unbiased_est, 1)
@@ -91,9 +91,9 @@ class EpsGreedy(OrdinaryMNLLearner):
         self.__last_actions = [(self.select_ramdom_assort(), 1)]
         return self.__last_actions
 
-      self.reward.set_abstraction_params(self.em_abstraction_params())
+      self.reward.set_preference_params(self.em_preference_params())
       # calculate assortment with the maximum reward using optimistic
-      # abstraction parameters
+      # preference parameters
       _, best_assortment = search_best_assortment(
           reward=self.reward,
           card_limit=self.card_limit())

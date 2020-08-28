@@ -21,14 +21,14 @@ class TestOrdinaryMNLBandit:
 
   def test_search_best_assortment(self):
     reward = MeanReward()
-    reward.set_abstraction_params(np.array([1, 1, 1, 1, 1]))
+    reward.set_preference_params(np.array([1, 1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 0.45, 0.8, 0.9, 1.0]))
     best_revenue, best_assortment = search_best_assortment(reward=reward)
     assert best_assortment == [2, 3, 4]
     assert best_revenue == pytest.approx(0.675, 1e-8)
 
     reward = CvarReward(0.7)
-    reward.set_abstraction_params(np.array([1, 0.7, 0.8, 0.5, 0.2]))
+    reward.set_preference_params(np.array([1, 0.7, 0.8, 0.5, 0.2]))
     reward.set_revenues(np.array([0, 0.7, 0.8, 0.9, 1.0]))
     best_revenue, best_assortment = search_best_assortment(reward=reward)
     assert best_assortment == [1, 2, 3, 4]
@@ -37,7 +37,7 @@ class TestOrdinaryMNLBandit:
 
   def test_local_search_best_assortment(self):
     reward = CvarReward(0.7)
-    reward.set_abstraction_params(
+    reward.set_preference_params(
         np.array([
             1, 0.41796638065213765, 0.640233815546399, 0.8692331344533714,
             0.6766260654759216, 0.7388897283940284, 0.6995225221701101,
@@ -64,7 +64,7 @@ class TestOrdinaryMNLBandit:
 
   def test_cvar_calculation(self):
     reward = CvarReward(alpha=0.5)
-    reward.set_abstraction_params(np.array([1, 1, 1, 1]))
+    reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25
     cvar_alpha = reward.calc([2, 3])
@@ -73,7 +73,7 @@ class TestOrdinaryMNLBandit:
 
     # equivalent to MeanReward
     reward = CvarReward(alpha=2.0)
-    reward.set_abstraction_params(np.array([1, 1, 1, 1]))
+    reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25
     cvar_alpha = reward.calc([1, 2, 3])
@@ -81,20 +81,20 @@ class TestOrdinaryMNLBandit:
     assert cvar_alpha == 0.75
 
   def test_regret(self):
-    abstraction_params = np.array(
+    preference_params = np.array(
         [1.0, 1.0, 1.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5])
     revenues = np.array([0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     card_limit = 1
-    bandit = OrdinaryMNLBandit(abstraction_params, revenues, card_limit)
+    bandit = OrdinaryMNLBandit(preference_params, revenues, card_limit)
     bandit.reset()
     # serve best assortment [1] for 3 times
     bandit.feed([([1], 3)])
     assert bandit.regret() == 0.0
 
   def test_one_product(self):
-    abstraction_params = [1.0, 0.0]
+    preference_params = [1.0, 0.0]
     revenues = [0.0, 1.0]
-    bandit = OrdinaryMNLBandit(abstraction_params, revenues)
+    bandit = OrdinaryMNLBandit(preference_params, revenues)
     bandit.reset()
     # always get no purchase
     assert set(bandit.feed([([1], 5)])[0][1]) == {0}

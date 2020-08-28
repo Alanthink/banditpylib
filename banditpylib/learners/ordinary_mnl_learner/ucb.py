@@ -59,9 +59,9 @@ class UCB(OrdinaryMNLLearner):
   def UCB(self) -> np.ndarray:
     """
     Return:
-      optimistic estimate of abstraction parameters
+      optimistic estimate of preference parameters
     """
-    # unbiased estimate of abstraction parameters
+    # unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
     # temperary result
     tmp_result = 48 * np.log(np.sqrt(self.product_num()) * self.__episode +
@@ -85,9 +85,9 @@ class UCB(OrdinaryMNLLearner):
         return self.__last_actions
       # When a non-purchase observation happens, a new episode is started and
       # a new assortment to be served is calculated
-      self.reward.set_abstraction_params(self.UCB())
+      self.reward.set_preference_params(self.UCB())
       # calculate assortment with the maximum reward using optimistic
-      # abstraction parameters
+      # preference parameters
       _, best_assortment = search_best_assortment(
           reward=self.reward, card_limit=self.card_limit(
           )) if not self.__use_local_search else local_search_best_assortment(

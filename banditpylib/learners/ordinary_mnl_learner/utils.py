@@ -10,7 +10,7 @@ from banditpylib.learners import Learner
 class OrdinaryMNLLearner(Learner):
   """Base class for learners in the ordinary mnl bandit
 
-  Product 0 is reserved for non-purchase. And it is assumed that the abstraction
+  Product 0 is reserved for non-purchase. And it is assumed that the preference
   parameter for non-purchase is 1.
   """
   def __init__(self,

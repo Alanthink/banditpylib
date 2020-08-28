@@ -15,6 +15,6 @@ class TestUCB:
     learner = UCB(revenues=revenues, horizon=horizon, reward=reward)
 
     learner.reset()
-    mock_abstraction_params = np.array([1, 1, 1, 1, 1])
-    learner.UCB = MagicMock(return_value=mock_abstraction_params)
+    mock_preference_params = np.array([1, 1, 1, 1, 1])
+    learner.UCB = MagicMock(return_value=mock_preference_params)
     assert learner.actions() == [([2, 3, 4], 1)]
