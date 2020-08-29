@@ -32,8 +32,7 @@ class TestOrdinaryMNLBandit:
     reward.set_revenues(np.array([0, 0.7, 0.8, 0.9, 1.0]))
     best_revenue, best_assortment = search_best_assortment(reward=reward)
     assert best_assortment == [1, 2, 3, 4]
-    assert best_revenue == pytest.approx(0.39, 1e-2)
-
+    assert best_revenue == pytest.approx(0.41, 1e-2)
 
   def test_local_search_best_assortment(self):
     reward = CvarReward(0.7)
