@@ -24,4 +24,4 @@ class TestThompsonSampling:
     learner.within_warm_start = MagicMock(return_value=False)
     mock_preference_params = np.array([1, 1, 1, 1, 1])
     learner.thompson_sampling = MagicMock(return_value=mock_preference_params)
-    assert learner.actions() == [([2, 3, 4], 1)]
+    assert learner.actions() == [([1, 2, 3, 4], 1)]

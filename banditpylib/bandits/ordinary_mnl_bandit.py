@@ -109,11 +109,12 @@ class CvarReward(Reward):
         [self.preference_params[product]
          for product in assortment]) + self.preference_params[0]
     # sort according to revenue of product
-    revenue_prob = sorted([
-        (self.revenues[0], self.preference_params[0] / preference_params_sum)
-    ] + [(self.revenues[product], self.preference_params[product])
+    revenue_prob = sorted(
+        [(self.revenues[0], self.preference_params[0] / preference_params_sum)]+
+        [(self.revenues[product],
+          self.preference_params[product] / preference_params_sum)
          for product in assortment],
-                          key=lambda x: x[0])
+        key=lambda x: x[0])
     # the minimum revenue should be 0, which is the revenue of non-purchase
     if revenue_prob[0][0] != 0:
       raise Exception('CVaR calculation error!')
@@ -127,9 +128,9 @@ class CvarReward(Reward):
       accumulate_prob += revenue_prob[next_ind][1]
       next_ind += 1
     # calculate cvar_alpha
-    cvar_alpha = sum([
-        revenue_prob[ind][0] * revenue_prob[ind][1] for ind in range(next_ind)
-    ])
+    cvar_alpha = sum(
+        [revenue_prob[ind][0] * revenue_prob[ind][1] \
+        for ind in range(next_ind)])
     cvar_alpha -= revenue_prob[next_ind - 1][0] * (accumulate_prob -
                                                    self.__alpha)
     cvar_alpha /= self.__alpha
