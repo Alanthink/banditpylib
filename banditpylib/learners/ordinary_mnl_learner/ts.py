@@ -10,7 +10,7 @@ from .utils import OrdinaryMNLLearner
 
 
 class ThompsonSampling(OrdinaryMNLLearner):
-  """Thompson sampling policy :cite:`DBLP:journals/corr/AgrawalAGZ17`"""
+  """Thompson sampling policy :cite:`DBLP:conf/colt/AgrawalAGZ17`"""
   def __init__(self,
                revenues: np.ndarray,
                horizon: int,

@@ -10,7 +10,7 @@ from .utils import OrdinaryMNLLearner
 
 
 class UCB(OrdinaryMNLLearner):
-  """UCB policy :cite:`DBLP:journals/corr/AgrawalAGZ17a`"""
+  """UCB policy :cite:`DBLP:journals/ior/AgrawalAGZ19`"""
   def __init__(self,
                revenues: np.ndarray,
                horizon: int,

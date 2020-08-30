@@ -2,19 +2,19 @@ from unittest.mock import MagicMock
 
 import numpy as np
 
-from .ucb import UCB
+from .ucbv import UCBV
 
 
-class TestUCB:
-  """Test UCB policy"""
+class TestUCBV:
+  """Test UCBV policy"""
 
   def test_simple_run(self):
     arm_num = 5
     horizon = 30
-    learner = UCB(arm_num=arm_num, horizon=horizon)
+    learner = UCBV(arm_num=arm_num, horizon=horizon)
     learner.reset()
-    mock_ucb = np.array([1.2, 1, 1, 1, 1])
-    learner.UCB = MagicMock(return_value=mock_ucb)
+    mock_ucbv = np.array([1.2, 1, 1, 1, 1])
+    learner.UCBV = MagicMock(return_value=mock_ucbv)
 
     # during the first 5 time steps, each arm is pulled once
     for time in range(1, arm_num + 1):

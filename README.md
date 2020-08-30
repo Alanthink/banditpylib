@@ -49,7 +49,7 @@ pytest
 
 | Bandit Type | Policies |
 |     :---      |      :--- |
-| Ordinary Bandit   | `EpsGreedy`, `UCB` , `ThompsonSampling` |
+| Ordinary Bandit   | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
 | Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
