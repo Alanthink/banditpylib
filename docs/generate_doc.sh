@@ -11,6 +11,8 @@ make html
 
 printf "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"
 
+rm -rf site/*
+
 cp -r build/html/* site/
 
 Commit () {
@@ -26,4 +28,5 @@ Commit () {
 
 # Go to site folder
 cd site
+git checkout master
 Commit
