@@ -9,12 +9,10 @@ class Uniform(OrdinaryLearner):
   Play each arm the same number of times.
   """
   def __init__(self, arm_num: int, horizon: int, name=None):
-    self.__name = name if name else 'uniform'
-    super().__init__(arm_num, horizon)
+    super().__init__(arm_num, horizon, name)
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'uniform'
 
   def reset(self):
     # current time step

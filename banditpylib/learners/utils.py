@@ -6,10 +6,21 @@ class Learner(ABC):
 
   Before a game runs, a learner should be initialized with :func:`reset`.
   """
+  def __init__(self, name: str):
+    """
+    Args:
+      name: alias name for the learner. This is useful for figure plotting.
+    """
+    self.__name = name if name else self._name()
 
   @property
   def name(self) -> str:
     """name of the learner"""
+    return self.__name
+
+  @abstractmethod
+  def _name(self) -> str:
+    """Internal name of the learner"""
 
   @abstractmethod
   def reset(self):

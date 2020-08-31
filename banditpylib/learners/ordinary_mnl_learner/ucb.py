@@ -21,26 +21,19 @@ class UCB(OrdinaryMNLLearner):
                local_search_times=10):
     """
     Args:
-      revenues: product revenues
-      horizon: total number of time steps
-      reward: reward the learner wants to maximize
-      card_limit: cardinality constraint
-      name: alias name for the learner
       use_local_search: whether to use local search for searching the best \
       assortment
       local_search_times: number of local searches if local search is used
     """
-    self.__name = name if name else 'risk_aware_ucb'
-    super().__init__(revenues, horizon, reward, card_limit)
+    super().__init__(revenues, horizon, reward, card_limit, name)
     self.__use_local_search = use_local_search
     if local_search_times < 10:
       logging.fatal('Times of local search %d is less than 10!' %
                     local_search_times)
     self.__local_search_times = local_search_times
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'risk_aware_ucb'
 
   def reset(self):
     # current time step

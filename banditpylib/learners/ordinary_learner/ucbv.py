@@ -18,21 +18,19 @@ class UCBV(OrdinaryLearner):
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self, arm_num: int, horizon: int, b=1.0, name=None):
+  def __init__(self, arm_num: int, horizon: int, name=None, b=1.0):
     """
     Args:
       b: upper bound of reward
     """
-    self.__name = name if name else 'ucbv'
-    super().__init__(arm_num, horizon)
+    super().__init__(arm_num, horizon, name)
     if b <= 0:
       raise Exception('%s: b is set to %.2f which is no greater than 0!' %
                       (self.name, b))
     self.__b = b
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'ucbv'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]

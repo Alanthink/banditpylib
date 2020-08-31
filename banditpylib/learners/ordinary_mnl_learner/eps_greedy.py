@@ -17,27 +17,20 @@ class EpsGreedy(OrdinaryMNLLearner):
                horizon: int,
                reward: Reward,
                card_limit=np.inf,
-               eps=1.0,
-               name=None):
+               name=None,
+               eps=1.0):
     """
     Args:
-      revenues: product revenues
-      horizon: total number of time steps
-      reward: reward the learner wants to maximize
-      card_limit: cardinality constraint
       eps: epsilon
-      name: alias name for the learner
     """
-    self.__name = name if name else 'epsilon_greedy'
-    super().__init__(revenues, horizon, reward, card_limit)
+    super().__init__(revenues, horizon, reward, card_limit, name)
     if eps <= 0:
       raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
           (eps, self.__name))
     self.__eps = eps
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'epsilon_greedy'
 
   def reset(self):
     # current time step

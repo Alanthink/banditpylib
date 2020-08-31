@@ -5,12 +5,13 @@ from banditpylib.learners import Learner
 class OrdinaryLearner(Learner):
   """Base class for learners in the ordinary multi-armed bandit
   """
-  def __init__(self, arm_num: int, horizon: int):
+  def __init__(self, arm_num: int, horizon: int, name=None):
     """
     Args:
       arm_num: number of arms
       horizon: total number of time steps
     """
+    super().__init__(name)
     if arm_num <= 2:
       raise Exception('Number of arms %d is less then 3!' % arm_num)
     self.__arm_num = arm_num

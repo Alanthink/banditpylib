@@ -15,17 +15,15 @@ class UCB(OrdinaryLearner):
     \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
     \alpha  \ln(t) }{T_i(t)} } \right\}
   """
-  def __init__(self, arm_num: int, horizon: int, alpha=2.0, name=None):
-    self.__name = name if name else 'ucb'
-    super().__init__(arm_num, horizon)
+  def __init__(self, arm_num: int, horizon: int, name=None, alpha=2.0):
+    super().__init__(arm_num, horizon, name)
     if alpha <= 0:
       raise Exception('Alpha %.2f in %s is no greater than 0!' %
                       (alpha, self.__name))
     self.__alpha = alpha
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'ucb'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]

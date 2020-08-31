@@ -17,7 +17,8 @@ class OrdinaryMNLLearner(Learner):
                revenues: np.ndarray,
                horizon: int,
                reward: Reward,
-               card_limit=np.inf,):
+               card_limit=np.inf,
+               name=None):
     """
     Args:
       revenues: product revenues
@@ -25,6 +26,7 @@ class OrdinaryMNLLearner(Learner):
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
     """
+    super().__init__(name)
     self.__product_num = len(revenues) - 1
     if self.__product_num < 2:
       raise Exception('Number of products %d is less then 2!' %

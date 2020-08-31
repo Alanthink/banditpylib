@@ -12,17 +12,15 @@ class EpsGreedy(OrdinaryLearner):
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability play the arm with the maximum empirical mean.
   """
-  def __init__(self, arm_num: int, horizon: int, eps=1.0, name=None):
-    self.__name = name if name else 'epsilon_greedy'
-    super().__init__(arm_num, horizon)
+  def __init__(self, arm_num: int, horizon: int, name=None, eps=1.0):
+    super().__init__(arm_num, horizon, name)
     if eps <= 0:
       raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
           (eps, self.__name))
     self.__eps = eps
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'epsilon_greedy'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]

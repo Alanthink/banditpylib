@@ -16,20 +16,18 @@ class ThompsonSampling(OrdinaryLearner):
   .. warning::
     Reward should be Bernoulli when Beta prior is chosen.
   """
-  def __init__(self, arm_num: int, horizon: int, prior_dist='beta', name=None):
+  def __init__(self, arm_num: int, horizon: int, name=None, prior_dist='beta'):
     """
     Args:
       prior_dist: prior distribution of thompson sampling
     """
-    self.__name = name if name else 'thompson_sampling'
-    super().__init__(arm_num, horizon)
+    super().__init__(arm_num, horizon, name)
     if prior_dist not in ['gaussian', 'beta']:
       raise Exception('Prior distribution %s is not supported!' % prior_dist)
     self.__prior_dist = prior_dist
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'thompson_sampling'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]

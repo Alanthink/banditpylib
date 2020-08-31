@@ -20,12 +20,10 @@ class MOSS(OrdinaryLearner):
     in [0, 1].
   """
   def __init__(self, arm_num: int, horizon: int, name=None):
-    self.__name = name if name else 'moss'
-    super().__init__(arm_num, horizon)
+    super().__init__(arm_num, horizon, name)
 
-  @property
-  def name(self):
-    return self.__name
+  def _name(self):
+    return 'moss'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
