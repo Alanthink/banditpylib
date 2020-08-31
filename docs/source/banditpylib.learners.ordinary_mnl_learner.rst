@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.learners.ordinary_mnl_learner.eps_greedy
    banditpylib.learners.ordinary_mnl_learner.eps_greedy_test

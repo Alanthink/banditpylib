@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.arms.bernoulli_arm
    banditpylib.arms.bernoulli_arm_test

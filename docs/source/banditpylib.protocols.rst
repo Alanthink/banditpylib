@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.protocols.single_player
    banditpylib.protocols.single_player_test

@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    banditpylib.bandits.linear_bandit
    banditpylib.bandits.linear_bandit_itf
