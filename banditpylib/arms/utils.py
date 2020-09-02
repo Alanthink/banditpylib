@@ -12,6 +12,6 @@ class Arm(ABC):
     Args:
       pulls: number of times to pull
 
-    Return:
+    Returns:
       rewards
     """

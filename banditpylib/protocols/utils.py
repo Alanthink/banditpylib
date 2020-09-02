@@ -14,7 +14,7 @@ from banditpylib.learners import Learner
 def time_seed() -> int:
   """Generate random seed using current time
 
-  Return:
+  Returns:
     random seed
   """
   tem_time = time.time()
@@ -54,7 +54,7 @@ class Protocol(ABC):
       learner: learner
       random_seed: random seed
 
-    Return:
+    Returns:
       result in dictionary
     """
 

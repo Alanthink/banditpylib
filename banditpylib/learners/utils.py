@@ -36,7 +36,7 @@ class Learner(ABC):
     Args:
       context: context of the bandit environment
 
-    Return:
+    Returns:
       actions to take
     """
 

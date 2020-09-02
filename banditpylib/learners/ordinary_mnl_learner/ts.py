@@ -56,7 +56,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
   def warm_start(self) -> List[Tuple[List[int], int]]:
     """Initial warm start stage
 
-    Return:
+    Returns:
       assortment to serve
     """
     # check if last observation is a purchase
@@ -69,14 +69,14 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
   def within_warm_start(self) -> bool:
     """
-    Return:
+    Returns:
       if the learner is still in warm start stage
     """
     return not self.__done_warm_start
 
   def sample_preference_params(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       one time sampling of preference parameters
     """
     theta = np.random.normal(0, 1, self.product_num() + 1)
@@ -91,7 +91,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
   def thompson_sampling(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       virtual preference parameters sampled using thompson sampling
     """
     virtual_preference_params = np.zeros(self.product_num() + 1)
@@ -104,7 +104,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
-    Return:
+    Returns:
       assortments to serve
     """
     del context

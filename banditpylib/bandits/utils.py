@@ -29,6 +29,6 @@ class Bandit(ABC):
     Args:
       actions: actions to take
 
-    Return:
+    Returns:
       feedback after actions are taken
     """

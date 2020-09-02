@@ -36,7 +36,7 @@ class ThompsonSampling(OrdinaryLearner):
 
   def actions_from_beta_prior(self) -> int:
     """
-    Return:
+    Returns:
       arm to pull
     """
     # the mean of each arm has a uniform prior Beta(1, 1)
@@ -50,7 +50,7 @@ class ThompsonSampling(OrdinaryLearner):
 
   def actions_from_gaussian_prior(self) -> int:
     """
-    Return:
+    Returns:
       arm to pull
     """
     # the mean of each arm has a Gaussian prior Normal(0, 1)
@@ -64,7 +64,7 @@ class ThompsonSampling(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
-    Return:
+    Returns:
       arms to pull
     """
     del context

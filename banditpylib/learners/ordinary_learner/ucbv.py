@@ -39,7 +39,7 @@ class UCBV(OrdinaryLearner):
 
   def UCBV(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       optimistic estimate of arms' real means using empirical variance
     """
     ucbv = [
@@ -52,7 +52,7 @@ class UCBV(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
-    Return:
+    Returns:
       arms to pull
     """
     del context

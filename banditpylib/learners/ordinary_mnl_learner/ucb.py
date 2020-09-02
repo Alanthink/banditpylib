@@ -51,7 +51,7 @@ class UCB(OrdinaryMNLLearner):
 
   def UCB(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       optimistic estimate of preference parameters
     """
     # unbiased estimate of preference parameters
@@ -66,7 +66,7 @@ class UCB(OrdinaryMNLLearner):
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
-    Return:
+    Returns:
       assortments to serve
     """
     del context

@@ -32,7 +32,7 @@ class MOSS(OrdinaryLearner):
 
   def MOSS(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       optimistic estimate of arms' real means using time horizon
     """
     moss = [
@@ -46,7 +46,7 @@ class MOSS(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
-    Return:
+    Returns:
       arms to pull
     """
     del context

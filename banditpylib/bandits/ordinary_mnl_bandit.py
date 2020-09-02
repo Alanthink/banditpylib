@@ -46,7 +46,7 @@ class Reward:
     Args:
       assortment: input assortment to calculate
 
-    Return:
+    Returns:
       reward of the assortment
     """
 
@@ -145,7 +145,7 @@ def search_best_assortment(reward: Reward,
     reward: reward definition
     card_limit: cardinality constraint
 
-  Return:
+  Returns:
     assortment with the maximum reward
   """
   product_num = len(reward.revenues) - 1
@@ -201,7 +201,7 @@ def local_search_best_assortment(
     card_limit: cardinality constraint
     init_assortment: initial assortment to start
 
-  Return:
+  Returns:
     local best assortment with its reward
   """
   product_num = len(reward.revenues) - 1
@@ -330,7 +330,7 @@ class OrdinaryMNLBandit(Bandit):
       assortment: assortment to try
       times: number of times to try
 
-    Return:
+    Returns:
       feedback where the first dimension is the stochatic rewards, and the \
       second dimension are the choices of the customer.
     """
@@ -373,7 +373,7 @@ class OrdinaryMNLBandit(Bandit):
       actions: for each tuple, the first dimension is the assortment to try \
       and the second dimension is the number of times.
 
-    Return:
+    Returns:
       feedback where for each tuple, the first dimension is the stochatic \
       rewards, and the second dimension are the choices of the customer
     """
@@ -399,7 +399,7 @@ class OrdinaryMNLBandit(Bandit):
 
   def regret(self) -> float:
     """
-    Return:
+    Returns:
       regret compared with the optimal policy
     """
     return self.__regret

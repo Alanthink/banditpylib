@@ -64,7 +64,7 @@ class OrdinaryMNLLearner(Learner):
 
   def regret(self, bandit) -> float:
     """
-    Return:
+    Returns:
       regret compared with the optimal policy
     """
     return bandit.regret()

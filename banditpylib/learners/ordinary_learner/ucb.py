@@ -32,7 +32,7 @@ class UCB(OrdinaryLearner):
 
   def UCB(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       optimistic estimate of arms' real means
     """
     ucb = [
@@ -44,7 +44,7 @@ class UCB(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
-    Return:
+    Returns:
       arms to pull
     """
     del context

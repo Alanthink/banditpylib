@@ -34,7 +34,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
       arm_id: arm to pull
       pulls: number of times to pull
 
-    Return:
+    Returns:
       feedback where the first dimention is the stochstic rewards
     """
     if arm_id not in range(self.__arm_num):
@@ -54,7 +54,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
       actions: for each tuple, the first dimension denotes the arm id and the \
       second dimension is the number of times to pull.
 
-    Return:
+    Returns:
       feedback where for each tuple, the first dimention is the stochstic \
       rewards
     """
@@ -81,7 +81,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
 
   def regret(self) -> float:
     """
-    Return:
+    Returns:
       regret compared with the optimal policy
     """
     return self.__regret
@@ -91,7 +91,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     Args:
       arm_id: best arm identified by the learner
 
-    Return:
+    Returns:
       regret compared with the best arm
     """
     return self.__best_arm_id != arm_id

@@ -11,21 +11,21 @@ class PseudoArm:
 
   def total_pulls(self) -> int:
     """
-    Return:
+    Returns:
       total number of pulls recorded
     """
     return self.__total_pulls
 
   def total_rewards(self) -> float:
     """
-    Return:
+    Returns:
       total rewards obtained so far
     """
     return self.__total_rewards
 
   def em_mean(self) -> float:
     """
-    Return:
+    Returns:
       empirical mean
     """
     if self.__total_pulls == 0:
@@ -34,7 +34,7 @@ class PseudoArm:
 
   def em_var(self) -> float:
     """
-    Return:
+    Returns:
       empirical variance
     """
     if self.__total_pulls == 0:

@@ -20,7 +20,7 @@ class Uniform(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
-    Return:
+    Returns:
       arms to pull
     """
     del context

@@ -52,7 +52,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
       arm_id: arm id
       pulls: number of pulls to apply
 
-    Return:
+    Returns:
       feedback where the first dimension denotes the stochastic rewards
     """
     if arm_id not in range(self.__arm_num):
@@ -71,7 +71,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
       actions: for each tuple, the first dimension denotes the arm id and the \
       second dimension is the number of times this arm is going to be pulled.
 
-    Return:
+    Returns:
       feedback where for each tuple, the first dimension is the stochatic \
       rewards
     """
@@ -97,7 +97,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
 
   def regret(self) -> float:
     """
-    Return:
+    Returns:
       regret compared with the optimal policy
     """
     return self.__regret
@@ -107,7 +107,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     Args:
       arm_id: best arm identified by the learner
 
-    Return:
+    Returns:
       regret compared with the best arm
     """
     return self.__best_arm_id != arm_id

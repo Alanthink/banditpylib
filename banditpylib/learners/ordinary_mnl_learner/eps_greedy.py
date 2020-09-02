@@ -48,7 +48,7 @@ class EpsGreedy(OrdinaryMNLLearner):
 
   def em_preference_params(self) -> np.ndarray:
     """
-    Return:
+    Returns:
       empirical estimate of preference parameters
     """
     # unbiased estimate of preference parameters
@@ -65,7 +65,7 @@ class EpsGreedy(OrdinaryMNLLearner):
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
-    Return:
+    Returns:
       assortments to serve
     """
     del context
