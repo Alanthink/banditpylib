@@ -270,13 +270,15 @@ class OrdinaryMNLBandit(Bandit):
                preference_params: np.ndarray,
                revenues: np.ndarray,
                card_limit=np.inf,
-               reward=None):
+               reward=None,
+               zero_best_reward=False):
     """
     Args:
       preference_params: preference parameters
       revenue: revenue of products
       card_limit: cardinality constraint of an assortment
       reward: reward the learner wants to maximize
+      zero_best_reward: whether to set the reward of the best assortment to 0.
     """
     if len(preference_params) != len(revenues):
       raise Exception(
@@ -312,12 +314,17 @@ class OrdinaryMNLBandit(Bandit):
     self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
 
-    # compute the best assortment
-    self.__best_reward, self.__best_assort = search_best_assortment(
-        reward=self.__reward,
-        card_limit=self.__card_limit)
-    logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
-                 self.__best_reward)
+    if zero_best_reward:
+      self.__best_reward, self.__best_assort = 0.0, []
+      logging.warning('Best reward is set to zero. Now the regret equals to the'
+                      ' minus total revenue.')
+    else:
+      # compute the best assortment
+      self.__best_reward, self.__best_assort = search_best_assortment(
+          reward=self.__reward,
+          card_limit=self.__card_limit)
+      logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
+                   self.__best_reward)
 
   @property
   def name(self):

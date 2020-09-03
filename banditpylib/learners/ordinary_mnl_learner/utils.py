@@ -1,5 +1,6 @@
 import copy
 
+from absl import logging
 import numpy as np
 
 from banditpylib.bandits import Reward
@@ -37,7 +38,7 @@ class OrdinaryMNLLearner(Learner):
     self.__revenues = revenues
     self.__card_limit = card_limit
     if horizon < self.__product_num:
-      raise Exception('Horizon %d is less than number of products %d!' % \
+      logging.warning('Horizon %d is less than number of products %d!' % \
           (horizon, self.__product_num))
     self.__horizon = horizon
     self.__reward = copy.deepcopy(reward)
