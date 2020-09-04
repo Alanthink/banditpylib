@@ -28,5 +28,4 @@ Commit () {
 
 # Go to site folder
 cd site
-git checkout master
 Commit

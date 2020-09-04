@@ -56,12 +56,12 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first dimension denotes the arm id and the \
-      second dimension is the number of times to pull.
+      actions: for each tuple, the first dimension denotes the arm id and the
+        second dimension is the number of times to pull.
 
     Returns:
-      feedback where for each tuple, the first dimention is the stochstic \
-      rewards
+      feedback where for each tuple, the first dimention is the stochstic
+        rewards
     """
     feedback = []
     for (arm_id, pulls) in actions:

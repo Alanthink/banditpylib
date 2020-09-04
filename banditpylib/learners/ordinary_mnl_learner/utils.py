@@ -26,6 +26,7 @@ class OrdinaryMNLLearner(Learner):
       horizon: total number of time steps
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
+      name: alias name
     """
     super().__init__(name)
     self.__product_num = len(revenues) - 1

@@ -86,9 +86,9 @@ class Protocol(ABC):
       trials: number of repetitions
       output_filename: file used to dump the results
       processes: maximum number of processes to run. -1 means no limit
-      debug: debug mode. When it is set to `True`, the game will stop if there \
-      is any error in subprocesses. Otherwise, the errors of subprocesses will \
-      be silenced.
+      debug: debug mode. When it is set to `True`, the game will stop if there
+        is any error in subprocesses. Otherwise, the errors of subprocesses will
+        be silenced.
 
     .. warning::
       By default, `output_filename` will be opened with mode `a`.

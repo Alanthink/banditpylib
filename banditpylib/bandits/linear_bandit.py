@@ -70,12 +70,12 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first dimension denotes the arm id and the \
-      second dimension is the number of times this arm is going to be pulled.
+      actions: for each tuple, the first dimension denotes the arm id and the
+        second dimension is the number of times this arm is going to be pulled.
 
     Returns:
-      feedback where for each tuple, the first dimension is the stochatic \
-      rewards
+      feedback where for each tuple, the first dimension is the stochatic
+        rewards
     """
     feedback = []
     for (arm_id, pulls) in actions:

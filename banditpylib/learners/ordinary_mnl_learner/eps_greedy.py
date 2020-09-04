@@ -21,6 +21,11 @@ class EpsGreedy(OrdinaryMNLLearner):
                eps=1.0):
     """
     Args:
+      revenues: product revenues
+      horizon: total number of time steps
+      reward: reward the learner wants to maximize
+      card_limit: cardinality constraint
+      name: alias name
       eps: epsilon
     """
     super().__init__(revenues, horizon, reward, card_limit, name)

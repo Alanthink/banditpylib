@@ -9,7 +9,7 @@ class Learner(ABC):
   def __init__(self, name: str):
     """
     Args:
-      name: alias name for the learner. This is useful for figure plotting.
+      name: alias name
     """
     self.__name = self._name() if name is None else name
 

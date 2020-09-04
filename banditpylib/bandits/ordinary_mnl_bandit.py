@@ -51,7 +51,7 @@ class Reward:
       assortment: input assortment to calculate
 
     Returns:
-      reward of the assortment
+      float: reward of the assortment
     """
 
   @property
@@ -158,7 +158,7 @@ def search_best_assortment(reward: Reward,
     card_limit: cardinality constraint
 
   Returns:
-    assortment with the maximum reward
+    Tuple[float, List[int]]: assortment with the maximum reward
   """
   product_num = len(reward.revenues) - 1
   restricted_products = None
@@ -217,7 +217,7 @@ def local_search_best_assortment(
     init_assortment: initial assortment to start
 
   Returns:
-    local best assortment with its reward
+    Tuple[float, List[int]]: local best assortment with its reward
   """
   product_num = len(reward.revenues) - 1
 
@@ -300,8 +300,8 @@ class OrdinaryMNLBandit(Bandit):
       revenue: revenue of products
       card_limit: cardinality constraint of an assortment
       reward: reward the learner wants to maximize
-      zero_best_reward: whether to set the reward of the best assortment to 0. \
-      This is useful when data is too large to compute the best assortment.
+      zero_best_reward: whether to set the reward of the best assortment to 0.
+        This is useful when data is too large to compute the best assortment.
       name: alias name
     """
     super().__init__(name)
@@ -359,11 +359,12 @@ class OrdinaryMNLBandit(Bandit):
 
     Args:
       assortment: assortment to try
-      times: number of times to try
+      times: number of times
 
     Returns:
-      feedback where the first dimension is the stochatic rewards, and the \
-      second dimension are the choices of the customer.
+      Tuple[np.ndarray, List[int]]: feedback. The first dimension is the \
+      stochatic rewards, and the second dimension is the choices of the \
+      customer.
     """
     if not assortment:
       raise Exception('Empty assortment!')
@@ -403,12 +404,13 @@ class OrdinaryMNLBandit(Bandit):
     """Serve multiple assortments
 
     Args:
-      actions: for each tuple, the first dimension is the assortment to try \
-      and the second dimension is the number of times.
+      actions: for each tuple, the first dimension is the assortment to try
+        and the second dimension is the number of times.
 
     Returns:
-      feedback where for each tuple, the first dimension is the stochatic \
-      rewards, and the second dimension are the choices of the customer
+      List[Tuple[np.ndarray, List[int]]]: feedback. For each tuple, the first \
+      dimension is the stochatic rewards, and the second dimension is the \
+      choices of the customer.
     """
     feedback = []
     for (assortment, times) in actions:
@@ -433,6 +435,6 @@ class OrdinaryMNLBandit(Bandit):
   def regret(self) -> float:
     """
     Returns:
-      regret compared with the optimal policy
+      float: regret compared with the optimal policy
     """
     return self.__regret

@@ -21,8 +21,13 @@ class ThompsonSampling(OrdinaryMNLLearner):
                local_search_times=10):
     """
     Args:
-      use_local_search: whether to use local search for searching the best \
-      assortment
+      revenues: product revenues
+      horizon: total number of time steps
+      reward: reward the learner wants to maximize
+      card_limit: cardinality constraint
+      name: alias name
+      use_local_search: whether to use local search for searching the best
+        assortment
       local_search_times: number of local searches if local search is used
     """
     super().__init__(revenues, horizon, reward, card_limit, name)
