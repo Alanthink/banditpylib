@@ -1,4 +1,3 @@
-import copy
 from typing import Dict
 
 import numpy as np
@@ -11,8 +10,7 @@ from .utils import Protocol
 class SinglePlayerProtocol(Protocol):
   """Single player protocol
 
-  This protocol is used to simulate the game when the learner only has one
-  player and the learner only interacts with one bandit environment.
+  This protocol is used to simulate the ordinary single-player game.
   """
   def __init__(self,
                bandit: Bandit,
@@ -32,18 +30,12 @@ class SinglePlayerProtocol(Protocol):
   def name(self):
     return 'single_player_protocol'
 
-  def _one_trial(self, bandit: Bandit, learner: Learner,
-                 random_seed: int) -> Dict:
+  def _one_trial(self, random_seed: int) -> Dict:
     np.random.seed(random_seed)
 
-    # make sure not changing the behavior of outside bandit environment
-    # the learner
-    bandit = copy.deepcopy(bandit)
-    learner = copy.deepcopy(learner)
-
     # reset the bandit environment and the learner
-    bandit.reset()
-    learner.reset()
+    self.bandit.reset()
+    self.learner.reset()
 
     one_trial_data = []
     # number of rounds to communicate with the bandit environment
@@ -51,8 +43,8 @@ class SinglePlayerProtocol(Protocol):
     # total actions executed by the bandit environment
     total_actions = 0
     while True:
-      context = bandit.context()
-      actions = learner.actions(context)
+      context = self.bandit.context()
+      actions = self.learner.actions(context)
 
       # stop the game if actions returned by the learner are None
       if not actions:
@@ -62,15 +54,15 @@ class SinglePlayerProtocol(Protocol):
       if adaptive_rounds in self.__intermediate_regrets:
         one_trial_data.append(
             dict({
-                'bandit': bandit.name,
-                'learner': learner.name,
+                'bandit': self.bandit.name,
+                'learner': self.learner.name,
                 'rounds': adaptive_rounds,
                 'total_actions': total_actions,
-                'regret': learner.regret(bandit)
+                'regret': self.learner.regret(self.bandit)
             }))
 
-      feedback = bandit.feed(actions)
-      learner.update(feedback)
+      feedback = self.bandit.feed(actions)
+      self.learner.update(feedback)
 
       # information update
       for (_, times) in actions:
@@ -80,10 +72,10 @@ class SinglePlayerProtocol(Protocol):
     # record final regret
     one_trial_data.append(
         dict({
-            'bandit': bandit.name,
-            'learner': learner.name,
+            'bandit': self.bandit.name,
+            'learner': self.learner.name,
             'rounds': adaptive_rounds,
             'total_actions': total_actions,
-            'regret': learner.regret(bandit)
+            'regret': self.learner.regret(self.bandit)
         }))
     return one_trial_data

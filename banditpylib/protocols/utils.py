@@ -44,25 +44,30 @@ class Protocol(ABC):
   def name(self) -> str:
     """protocol name"""
 
+  @property
+  def bandit(self) -> Bandit:
+    return self.__bandit
+
+  @property
+  def learner(self) -> Learner:
+    return self.__learner
+
   @abstractmethod
-  def _one_trial(self, bandit: Bandit, learner: Learner,
-                 random_seed: int) -> Dict:
+  def _one_trial(self, random_seed: int) -> Dict or List[Dict]:
     """One trial of the game
 
     Args:
-      bandit: bandit environment
-      learner: learner
       random_seed: random seed
 
     Returns:
-      result in dictionary
+      result of one trial
     """
 
   def __write_to_file(self, data: Dict or List[Dict]):
     """Write the result of one trial to file
 
     Args:
-      data: the result of one trial
+      data: result of one trial
     """
     with open(self.__output_filename, 'a') as f:
       if isinstance(data, list):
@@ -77,13 +82,16 @@ class Protocol(ABC):
   def play(self, trials: int, output_filename: str, processes=-1, debug=False):
     """Start playing the game
 
-    By default, `output_filename` will be opened with mode `a`.
-
     Args:
       trials: number of repetitions
       output_filename: file used to dump the results
       processes: maximum number of processes to run. -1 means no limit
-      debug: play the game in debugging mode
+      debug: debug mode. When it is set to `True`, the game will stop if there \
+      is any error in subprocesses. Otherwise, the errors of subprocesses will \
+      be silenced.
+
+    .. warning::
+      By default, `output_filename` will be opened with mode `a`.
     """
     start_time = time.time()
     self.__output_filename = output_filename
@@ -93,14 +101,7 @@ class Protocol(ABC):
     for _ in range(trials):
       results = pool.apply_async(
           self._one_trial,
-          args=(
-              # bandit
-              self.__bandit,
-              # learner
-              self.__learner,
-              # random_seed
-              time_seed(),
-          ),
+          args=[time_seed()],
           callback=self.__write_to_file)
 
       # for debugging purpose

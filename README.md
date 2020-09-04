@@ -25,7 +25,7 @@ A lightweight python library for bandit algorithms
 
 ```shell
 # run under `banditpylib` root directory
-pip install .
+pip install -e .
 ```
 
 ### Example

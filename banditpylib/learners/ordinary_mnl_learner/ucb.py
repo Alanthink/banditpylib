@@ -81,14 +81,16 @@ class UCB(OrdinaryMNLLearner):
       self.reward.set_preference_params(self.UCB())
       # calculate assortment with the maximum reward using optimistic
       # preference parameters
-      _, best_assortment = search_best_assortment(
-          reward=self.reward, card_limit=self.card_limit(
-          )) if not self.__use_local_search else local_search_best_assortment(
-              reward=self.reward,
-              search_times=self.__local_search_times,
-              card_limit=self.card_limit(),
-              init_assortment=(
-                  self.__last_actions[0][0] if self.__last_actions else None))
+      if self.__use_local_search:
+        _, best_assortment = local_search_best_assortment(
+            reward=self.reward,
+            search_times=self.__local_search_times,
+            card_limit=self.card_limit(),
+            init_assortment=(
+                self.__last_actions[0][0] if self.__last_actions else None))
+      else:
+        _, best_assortment = search_best_assortment(
+            reward=self.reward, card_limit=self.card_limit())
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 

@@ -37,6 +37,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
 ]
 
 autodoc_default_options = {

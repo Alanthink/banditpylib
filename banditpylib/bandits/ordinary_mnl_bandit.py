@@ -40,6 +40,10 @@ def search(assortments: List[List[int]],
 
 class Reward:
   """Reward class"""
+  def __init__(self):
+    self.__preference_params = None
+    self.__revenues = None
+
   @abstractmethod
   def calc(self, assortment: List[int]) -> float:
     """
@@ -52,13 +56,13 @@ class Reward:
 
   @property
   def preference_params(self) -> np.ndarray:
-    if hasattr(self, '__preference_params'):
+    if self.__preference_params is None:
       raise Exception('Preference parameters are not set yet!')
     return self.__preference_params
 
   @property
   def revenues(self) -> np.ndarray:
-    if hasattr(self, '__revenues'):
+    if self.__revenues is None:
       raise Exception('Revenues of products are not set yet!')
     return self.__revenues
 
@@ -79,6 +83,9 @@ class Reward:
 
 class MeanReward(Reward):
   """Mean reward"""
+  def __init__(self):
+    super().__init__()
+
   def calc(self, assortment: List[int]) -> float:
     preference_params_sum = (
         sum([self.preference_params[product]
@@ -96,6 +103,7 @@ class CvarReward(Reward):
     Args:
       alpha: percentile of cvar
     """
+    super().__init__()
     if alpha <= 0:
       raise Exception('Alpha %.2f is no greater than 0!' % alpha)
     # alpha is at most 1.0
@@ -103,6 +111,10 @@ class CvarReward(Reward):
       logging.error(
           'Alpha %.2f is greater than 1! I am setting it to 1.' % alpha)
     self.__alpha = alpha if alpha <= 1.0 else 1.0
+
+  @property
+  def alpha(self) -> float:
+    return self.__alpha
 
   def calc(self, assortment: List[int]) -> float:
     preference_params_sum = sum(
@@ -188,12 +200,15 @@ def search_best_assortment(reward: Reward,
 def local_search_best_assortment(
     reward: Reward,
     search_times: int,
-    card_limit=np.inf,
+    card_limit: int,
     init_assortment=None) -> Tuple[float, List[int]]:
   """Local search assortment with the maximum reward
 
   .. warning::
     This method does not guarantee to output the best assortment.
+
+  .. todo::
+    Implement this function with `cppyy`.
 
   Args:
     reward: reward definition
@@ -209,50 +224,56 @@ def local_search_best_assortment(
   # all available products
   all_products = set(range(1, product_num + 1))
   # randomly generate an assortment initially if init_assortment is not set
-  best_assortment = set(
-      copy.deepcopy(init_assortment)) if init_assortment else set(
-          np.random.choice(
-              list(all_products), min(card_limit, product_num), replace=False))
+  best_assortment = set(init_assortment) if init_assortment else set(
+      np.random.choice(
+          list(all_products),
+          np.random.randint(1, min(card_limit, product_num) + 1),
+          replace=False))
   best_reward = reward.calc(best_assortment)
   remaining_products = all_products - best_assortment
+
   times_of_local_search = 0
   while times_of_local_search < search_times:
     available_operations = []
     if len(remaining_products) > 0:
       available_operations.append('replace')
-    if len(best_assortment) > 0:
+    if len(best_assortment) > 1:
       available_operations.append('remove')
     if len(remaining_products) > 0 and len(best_assortment) < card_limit:
       available_operations.append('add')
     # pylint: disable=E1101
     operation = np.random.choice(available_operations)
 
+    new_assortment = set(best_assortment)
     if operation == 'replace':
       # replace one product
-      product_to_remove = set([np.random.choice(list(best_assortment))])
-      product_to_add = set([np.random.choice(list(remaining_products))])
-      new_assortment = (copy.deepcopy(best_assortment) -
-                        product_to_remove).union(product_to_add)
-      if reward.calc(new_assortment) > best_reward:
+      product_to_remove = np.random.choice(list(best_assortment))
+      product_to_add = np.random.choice(list(remaining_products))
+      new_assortment.remove(product_to_remove)
+      new_assortment.add(product_to_add)
+      new_reward = reward.calc(new_assortment)
+      if new_reward > best_reward:
         best_assortment = new_assortment
-        best_reward = reward.calc(new_assortment)
-        remaining_products -= product_to_add
+        best_reward = new_reward
+        remaining_products.remove(product_to_add)
     elif operation == 'remove':
       # remove one product
-      product_to_remove = set([np.random.choice(list(best_assortment))])
-      new_assortment = copy.deepcopy(best_assortment) - product_to_remove
-      if reward.calc(new_assortment) > best_reward:
+      product_to_remove = np.random.choice(list(best_assortment))
+      new_assortment.remove(product_to_remove)
+      new_reward = reward.calc(new_assortment)
+      if new_reward > best_reward:
         best_assortment = new_assortment
-        best_reward = reward.calc(new_assortment)
-        remaining_products = remaining_products.union(product_to_remove)
+        best_reward = new_reward
+        remaining_products.add(product_to_remove)
     else:
       # operation == 'add'
-      product_to_add = set([np.random.choice(list(remaining_products))])
-      new_assortment = copy.deepcopy(best_assortment).union(product_to_add)
-      if reward.calc(new_assortment) > best_reward:
+      product_to_add = np.random.choice(list(remaining_products))
+      new_assortment.add(product_to_add)
+      new_reward = reward.calc(new_assortment)
+      if new_reward > best_reward:
         best_assortment = new_assortment
-        best_reward = reward.calc(new_assortment)
-        remaining_products -= product_to_add
+        best_reward = new_reward
+        remaining_products.remove(product_to_add)
 
     times_of_local_search += 1
 
@@ -278,7 +299,8 @@ class OrdinaryMNLBandit(Bandit):
       revenue: revenue of products
       card_limit: cardinality constraint of an assortment
       reward: reward the learner wants to maximize
-      zero_best_reward: whether to set the reward of the best assortment to 0.
+      zero_best_reward: whether to set the reward of the best assortment to 0. \
+      This is useful when data is too large to compute the best assortment.
     """
     if len(preference_params) != len(revenues):
       raise Exception(
@@ -299,7 +321,6 @@ class OrdinaryMNLBandit(Bandit):
       raise Exception('The revenue of product 0 i.e., %.2f is not 0!' %
                       revenues[0])
 
-    self.__name = 'ordinary_mnl_bandit'
     self.__preference_params = preference_params
     self.__revenues = revenues
     self.__card_limit = card_limit
@@ -309,8 +330,8 @@ class OrdinaryMNLBandit(Bandit):
       raise Exception('Number of products %d is less than 1!' %
                       self.__product_num)
 
-    # MeanReward is the default goal
-    self.__reward = MeanReward() if not reward else reward
+    # maximizing MeanReward is the default goal
+    self.__reward = MeanReward() if reward is None else copy.deepcopy(reward)
     self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
 
@@ -328,9 +349,10 @@ class OrdinaryMNLBandit(Bandit):
 
   @property
   def name(self):
-    return self.__name
+    return 'ordinary_mnl_bandit'
 
-  def _take_action(self, assortment, times) -> Tuple[np.ndarray, List[int]]:
+  def _take_action(self, assortment: List[int], times: int) -> \
+      Tuple[np.ndarray, List[int]]:
     """Serve one assortment
 
     Args:
@@ -343,8 +365,10 @@ class OrdinaryMNLBandit(Bandit):
     """
     if not assortment:
       raise Exception('Empty assortment!')
-    # remove duplicate products if possible
-    assortment = list(set(assortment))
+    if len(list(set(assortment))) != len(assortment):
+      logging.error('Assortment %s contains duplicate products!' % assortment)
+      # remove duplicate products
+      assortment = sorted(list(set(assortment)))
     for product_id in assortment:
       if product_id < 1 or product_id > self.__product_num:
         raise Exception('Product id %d is out of range [1, %d]!' %
