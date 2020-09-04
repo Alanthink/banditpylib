@@ -11,7 +11,7 @@ class Learner(ABC):
     Args:
       name: alias name for the learner. This is useful for figure plotting.
     """
-    self.__name = name if name else self._name()
+    self.__name = self._name() if name is None else name
 
   @property
   def name(self) -> str:

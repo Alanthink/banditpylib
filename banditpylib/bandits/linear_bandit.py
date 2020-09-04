@@ -13,13 +13,16 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
   Arms are indexed from 0 by default.
   """
 
-  def __init__(self, features: np.ndarray, theta: np.ndarray, var=1.0):
+  def __init__(self,
+               features: np.ndarray, theta: np.ndarray, var=1.0, name=None):
     """
     Args:
       features: features of the arms
       theta: unknown parameter theta
       var: variance of noise
+      name: alias name
     """
+    super().__init__(name)
     if len(features) < 2:
       raise Exception('Number of arms %d is less than 2!' % len(features))
     for (i, feature) in enumerate(features):
@@ -41,8 +44,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
-  @property
-  def name(self):
+  def _name(self):
     return 'linear_bandit'
 
   def _take_action(self, arm_id, pulls=1) -> Tuple[np.ndarray, None]:

@@ -40,6 +40,8 @@ extensions = [
     'sphinx.ext.todo',
 ]
 
+todo_include_todos = True
+
 autodoc_default_options = {
     'member-order': 'bysource',
     'special-members': '__init__',

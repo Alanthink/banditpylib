@@ -292,7 +292,8 @@ class OrdinaryMNLBandit(Bandit):
                revenues: np.ndarray,
                card_limit=np.inf,
                reward=None,
-               zero_best_reward=False):
+               zero_best_reward=False,
+               name=None):
     """
     Args:
       preference_params: preference parameters
@@ -301,7 +302,9 @@ class OrdinaryMNLBandit(Bandit):
       reward: reward the learner wants to maximize
       zero_best_reward: whether to set the reward of the best assortment to 0. \
       This is useful when data is too large to compute the best assortment.
+      name: alias name
     """
+    super().__init__(name)
     if len(preference_params) != len(revenues):
       raise Exception(
           'Number of preference parameters %d does not equal to number of '
@@ -347,8 +350,7 @@ class OrdinaryMNLBandit(Bandit):
       logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
                    self.__best_reward)
 
-  @property
-  def name(self):
+  def _name(self):
     return 'ordinary_mnl_bandit'
 
   def _take_action(self, assortment: List[int], times: int) -> \

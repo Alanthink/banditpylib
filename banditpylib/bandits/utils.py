@@ -9,11 +9,21 @@ class Bandit(ABC):
   current state of the environment. :func:`feed` is used to pass the actions to
   the environment for execution.
   """
+  def __init__(self, name: str):
+    """
+    Args:
+      name: alias name for the bandit environment.
+    """
+    self.__name = self._name() if name is None else name
 
   @property
-  @abstractmethod
   def name(self) -> str:
-    """Name of the bandit environment"""
+    """name of the learner"""
+    return self.__name
+
+  @abstractmethod
+  def _name(self) -> str:
+    """Internal name of the bandit environment"""
 
   @abstractmethod
   def reset(self):

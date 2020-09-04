@@ -12,7 +12,13 @@ class OrdinaryBandit(OrdinaryBanditItf):
   Arms are indexed from 0 by default.
   """
 
-  def __init__(self, arms: List[Arm]):
+  def __init__(self, arms: List[Arm], name=None):
+    """
+    Args:
+      arms: arms in ordinary bandit
+      name: alias name
+    """
+    super().__init__(name)
     if len(arms) < 2:
       raise Exception('The number of arms %d is less than 2!' % len(arms))
     self.__arms = arms
@@ -23,8 +29,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
-  @property
-  def name(self) -> str:
+  def _name(self) -> str:
     return 'ordinary_bandit'
 
   def _take_action(self, arm_id: int, pulls=1) -> Tuple[np.ndarray, None]:
