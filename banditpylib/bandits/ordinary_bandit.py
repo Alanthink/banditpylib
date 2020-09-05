@@ -60,8 +60,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
         second dimension is the number of times to pull.
 
     Returns:
-      feedback where for each tuple, the first dimention is the stochstic
-        rewards
+      List[Tuple[np.ndarray, None]]: feedback. For each tuple, the first \
+      dimention is the stochstic rewards
     """
     feedback = []
     for (arm_id, pulls) in actions:

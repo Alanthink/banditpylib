@@ -223,13 +223,20 @@ def local_search_best_assortment(
 
   # all available products
   all_products = set(range(1, product_num + 1))
-  # randomly generate an assortment initially if init_assortment is not set
-  best_assortment = set(init_assortment) if init_assortment else set(
+
+  # randomly generate an assortment initially
+  best_assortment = set(
       np.random.choice(
           list(all_products),
           np.random.randint(1, min(card_limit, product_num) + 1),
           replace=False))
   best_reward = reward.calc(best_assortment)
+  if init_assortment is not None:
+    init_reward = reward.calc(init_assortment)
+    if init_reward > best_reward:
+      best_assortment = set(init_assortment)
+      best_reward = init_reward
+
   remaining_products = all_products - best_assortment
 
   times_of_local_search = 0

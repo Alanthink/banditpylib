@@ -52,7 +52,7 @@ class OrdinaryMNLLearner(Learner):
     return self.__revenues
 
   def card_limit(self):
-    return self.__card_limit
+    return min(self.__card_limit, self.__product_num)
 
   def horizon(self):
     return self.__horizon
