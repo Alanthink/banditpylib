@@ -1,7 +1,5 @@
 from typing import List, Tuple
 
-from absl import logging
-
 import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward, \
@@ -18,7 +16,7 @@ class UCB(OrdinaryMNLLearner):
                card_limit=np.inf,
                name=None,
                use_local_search=False,
-               local_search_times=10):
+               random_neighbors=10):
     """
     Args:
       revenues: product revenues
@@ -28,14 +26,17 @@ class UCB(OrdinaryMNLLearner):
       name: alias name
       use_local_search: whether to use local search for searching the best
         assortment
-      local_search_times: number of local searches if local search is used
+      random_neighbors: number of random neighbors to look up if local search is
+        used
     """
-    super().__init__(revenues, horizon, reward, card_limit, name)
-    self.__use_local_search = use_local_search
-    if local_search_times < 10:
-      logging.fatal('Times of local search %d is less than 10!' %
-                    local_search_times)
-    self.__local_search_times = local_search_times
+    super().__init__(
+        revenues=revenues,
+        horizon=horizon,
+        reward=reward,
+        card_limit=card_limit,
+        name=name,
+        use_local_search=use_local_search,
+        random_neighbors=random_neighbors)
 
   def _name(self):
     return 'risk_aware_ucb'
@@ -86,10 +87,10 @@ class UCB(OrdinaryMNLLearner):
       self.reward.set_preference_params(self.UCB())
       # calculate assortment with the maximum reward using optimistic
       # preference parameters
-      if self.__use_local_search:
+      if self.use_local_search:
         _, best_assortment = local_search_best_assortment(
             reward=self.reward,
-            search_times=self.__local_search_times,
+            random_neighbors=self.random_neighbors,
             card_limit=self.card_limit(),
             init_assortment=(
                 self.__last_actions[0][0] if self.__last_actions else None))

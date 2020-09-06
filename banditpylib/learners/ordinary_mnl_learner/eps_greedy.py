@@ -2,7 +2,8 @@ from typing import List, Tuple
 
 import numpy as np
 
-from banditpylib.bandits import search_best_assortment, Reward, search
+from banditpylib.bandits import search_best_assortment, Reward, search, \
+    local_search_best_assortment
 from .utils import OrdinaryMNLLearner
 
 
@@ -18,6 +19,8 @@ class EpsGreedy(OrdinaryMNLLearner):
                reward: Reward,
                card_limit=np.inf,
                name=None,
+               use_local_search=False,
+               random_neighbors=10,
                eps=1.0):
     """
     Args:
@@ -26,9 +29,20 @@ class EpsGreedy(OrdinaryMNLLearner):
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
       name: alias name
+      use_local_search: whether to use local search for searching the best
+        assortment
+      random_neighbors: number of random neighbors to look up if local search is
+        used
       eps: epsilon
     """
-    super().__init__(revenues, horizon, reward, card_limit, name)
+    super().__init__(
+        revenues=revenues,
+        horizon=horizon,
+        reward=reward,
+        card_limit=card_limit,
+        name=name,
+        use_local_search=use_local_search,
+        random_neighbors=random_neighbors)
     if eps <= 0:
       raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
           (eps, self.__name))
@@ -92,9 +106,16 @@ class EpsGreedy(OrdinaryMNLLearner):
       self.reward.set_preference_params(self.em_preference_params())
       # calculate assortment with the maximum reward using optimistic
       # preference parameters
-      _, best_assortment = search_best_assortment(
-          reward=self.reward,
-          card_limit=self.card_limit())
+      if self.use_local_search:
+        _, best_assortment = local_search_best_assortment(
+            reward=self.reward,
+            random_neighbors=self.random_neighbors,
+            card_limit=self.card_limit(),
+            init_assortment=(
+                self.__last_actions[0][0] if self.__last_actions else None))
+      else:
+        _, best_assortment = search_best_assortment(
+            reward=self.reward, card_limit=self.card_limit())
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 

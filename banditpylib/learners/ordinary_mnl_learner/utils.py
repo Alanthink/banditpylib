@@ -18,8 +18,10 @@ class OrdinaryMNLLearner(Learner):
                revenues: np.ndarray,
                horizon: int,
                reward: Reward,
-               card_limit=np.inf,
-               name=None):
+               card_limit: int,
+               name: str,
+               use_local_search: bool,
+               random_neighbors: int):
     """
     Args:
       revenues: product revenues
@@ -27,6 +29,10 @@ class OrdinaryMNLLearner(Learner):
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
       name: alias name
+      use_local_search: whether to use local search for searching the best
+        assortment
+      random_neighbors: number of random neighbors to look up if local search is
+        used
     """
     super().__init__(name)
     self.__product_num = len(revenues) - 1
@@ -37,13 +43,20 @@ class OrdinaryMNLLearner(Learner):
       raise Exception(
           'The revenue of product 0 i.e., %.2f is not 0!' % revenues[0])
     self.__revenues = revenues
-    self.__card_limit = card_limit
+    if card_limit < 1:
+      raise Exception('Cardinality limit %d is less than 1!' % card_limit)
+    self.__card_limit = min(card_limit, self.__product_num)
     if horizon < self.__product_num:
       logging.warning('Horizon %d is less than number of products %d!' % \
           (horizon, self.__product_num))
     self.__horizon = horizon
     self.__reward = copy.deepcopy(reward)
     self.__reward.set_revenues(self.__revenues)
+    self.__use_local_search = use_local_search
+    if 0 <= random_neighbors < 3:
+      raise Exception('Times of local search %d is less than 3!' %
+                      random_neighbors)
+    self.__random_neighbors = random_neighbors
 
   def product_num(self):
     return self.__product_num
@@ -52,17 +65,25 @@ class OrdinaryMNLLearner(Learner):
     return self.__revenues
 
   def card_limit(self):
-    return min(self.__card_limit, self.__product_num)
+    return self.__card_limit
 
   def horizon(self):
     return self.__horizon
 
   @property
-  def reward(self):
+  def reward(self) -> Reward:
     return self.__reward
 
+  @property
+  def use_local_search(self) -> bool:
+    return self.__use_local_search
+
+  @property
+  def random_neighbors(self) -> int:
+    return self.__random_neighbors
+
   def set_horizon(self, horizon: int):
-    self._horizon = horizon
+    self.__horizon = horizon
 
   def regret(self, bandit) -> float:
     """

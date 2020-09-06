@@ -199,7 +199,7 @@ def search_best_assortment(reward: Reward,
 
 def local_search_best_assortment(
     reward: Reward,
-    search_times: int,
+    random_neighbors: int,
     card_limit: int,
     init_assortment=None) -> Tuple[float, List[int]]:
   """Local search assortment with the maximum reward
@@ -212,35 +212,32 @@ def local_search_best_assortment(
 
   Args:
     reward: reward definition
-    search_times: number of local search times
+    random_neighbors: number of random neighbors to look up
     card_limit: cardinality constraint
     init_assortment: initial assortment to start
 
   Returns:
     Tuple[float, List[int]]: local best assortment with its reward
   """
+  if random_neighbors <= 0:
+    raise Exception('Number of neighbors to look up %d is no greater than 0!' \
+        % random_neighbors)
+
   product_num = len(reward.revenues) - 1
 
   # all available products
   all_products = set(range(1, product_num + 1))
-
-  # randomly generate an assortment initially
-  best_assortment = set(
-      np.random.choice(
-          list(all_products),
-          np.random.randint(1, min(card_limit, product_num) + 1),
-          replace=False))
-  best_reward = reward.calc(best_assortment)
-  if init_assortment is not None:
-    init_reward = reward.calc(init_assortment)
-    if init_reward > best_reward:
-      best_assortment = set(init_assortment)
-      best_reward = init_reward
-
+  if init_assortment is None:
+    # randomly generate an assortment initially
+    best_assortment = set(
+        np.random.choice(list(all_products), card_limit, replace=False))
+    best_reward = reward.calc(best_assortment)
+  else:
+    best_assortment = set(init_assortment)
+    best_reward = reward.calc(best_assortment)
   remaining_products = all_products - best_assortment
 
-  times_of_local_search = 0
-  while times_of_local_search < search_times:
+  while True:
     available_operations = []
     if len(remaining_products) > 0:
       available_operations.append('replace')
@@ -248,41 +245,45 @@ def local_search_best_assortment(
       available_operations.append('remove')
     if len(remaining_products) > 0 and len(best_assortment) < card_limit:
       available_operations.append('add')
-    # pylint: disable=E1101
-    operation = np.random.choice(available_operations)
 
-    new_assortment = set(best_assortment)
-    if operation == 'replace':
-      # replace one product
-      product_to_remove = np.random.choice(list(best_assortment))
-      product_to_add = np.random.choice(list(remaining_products))
-      new_assortment.remove(product_to_remove)
-      new_assortment.add(product_to_add)
-      new_reward = reward.calc(new_assortment)
-      if new_reward > best_reward:
-        best_assortment = new_assortment
-        best_reward = new_reward
-        remaining_products.remove(product_to_add)
-    elif operation == 'remove':
-      # remove one product
-      product_to_remove = np.random.choice(list(best_assortment))
-      new_assortment.remove(product_to_remove)
-      new_reward = reward.calc(new_assortment)
-      if new_reward > best_reward:
-        best_assortment = new_assortment
-        best_reward = new_reward
-        remaining_products.add(product_to_remove)
+    local_best_assortment = set()
+    local_best_reward = 0
+    for _ in range(random_neighbors):
+      # pylint: disable=E1101
+      operation = np.random.choice(available_operations)
+
+      if operation == 'replace':
+        # replace one product
+        product_to_remove = np.random.choice(list(best_assortment))
+        product_to_add = np.random.choice(list(remaining_products))
+        new_assortment = set(best_assortment)
+        new_assortment.remove(product_to_remove)
+        new_assortment.add(product_to_add)
+        new_reward = reward.calc(new_assortment)
+      elif operation == 'remove':
+        # remove one product
+        product_to_remove = np.random.choice(list(best_assortment))
+        new_assortment = set(best_assortment)
+        new_assortment.remove(product_to_remove)
+        new_reward = reward.calc(new_assortment)
+      else:
+        # operation = 'add'
+        # add one product
+        product_to_add = np.random.choice(list(remaining_products))
+        new_assortment = set(best_assortment)
+        new_assortment.add(product_to_add)
+        new_reward = reward.calc(new_assortment)
+
+      if new_reward > local_best_reward:
+        local_best_assortment = new_assortment
+        local_best_reward = new_reward
+
+    if local_best_reward > best_reward:
+      best_assortment = local_best_assortment
+      best_reward = local_best_reward
+      remaining_products = all_products - best_assortment
     else:
-      # operation == 'add'
-      product_to_add = np.random.choice(list(remaining_products))
-      new_assortment.add(product_to_add)
-      new_reward = reward.calc(new_assortment)
-      if new_reward > best_reward:
-        best_assortment = new_assortment
-        best_reward = new_reward
-        remaining_products.remove(product_to_add)
-
-    times_of_local_search += 1
+      break
 
   return (best_reward, sorted(list(best_assortment)))
 
