@@ -48,7 +48,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
     self.__total_pulls += pulls
     # empirical rewards when arm `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls)
-    self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
+    if em_rewards is not None:
+      self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
     return (em_rewards, None)
 
   def feed(self, actions: List[Tuple[int, int]]) -> \
@@ -91,7 +92,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """
     return self.__regret
 
-  def best_arm_regret(self, arm_id: int):
+  def best_arm_regret(self, arm_id: int) -> int:
     """
     Args:
       arm_id: best arm identified by the learner
@@ -99,4 +100,4 @@ class OrdinaryBandit(OrdinaryBanditItf):
     Returns:
       regret compared with the best arm
     """
-    return self.__best_arm_id != arm_id
+    return int(self.__best_arm_id != arm_id)

@@ -32,7 +32,7 @@ class GaussianArm(Arm):
     """variance of the arm"""
     return self.__var
 
-  def pull(self, pulls=1) -> np.ndarray:
+  def pull(self, pulls=1) -> np.ndarray or None:
     if pulls < 1:
-      raise Exception('Number of pulls %d is less than 1!' % pulls)
+      return None
     return np.random.normal(self.__mu, self.__std, pulls)

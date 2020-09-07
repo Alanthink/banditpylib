@@ -23,7 +23,7 @@ class BernoulliArm(Arm):
     """real mean of the arm"""
     return self.__mean
 
-  def pull(self, pulls=1) -> np.ndarray:
+  def pull(self, pulls=1) -> np.ndarray or None:
     if pulls < 1:
-      raise Exception('Number of pulls %d is less than 1!' % pulls)
+      return None
     return np.random.binomial(1, self.__mean, pulls)

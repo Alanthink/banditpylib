@@ -52,6 +52,12 @@ pytest
 | Ordinary Bandit   | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
 | Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
+#### Fixed Budget Best Arm Identification
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `Uniform`, `SR`, `SH`|
+
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## License

@@ -66,7 +66,7 @@ class SinglePlayerProtocol(Protocol):
 
       # information update
       for (_, times) in actions:
-        total_actions += times
+        total_actions += int(times)
       adaptive_rounds += 1
 
     # record final regret
