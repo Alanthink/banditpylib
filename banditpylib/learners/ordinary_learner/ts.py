@@ -16,20 +16,33 @@ class ThompsonSampling(OrdinaryLearner):
   .. warning::
     Reward should be Bernoulli when Beta prior is chosen.
   """
-  def __init__(self, arm_num: int, horizon: int, name=None, prior_dist='beta'):
+  def __init__(self, arm_num: int, horizon: int,
+               name: str = None, prior_dist: str = 'beta'):
     """
     Args:
-      prior_dist: prior distribution of thompson sampling
+      arm_num: number of arms
+      horizon: total number of time steps
+      name: alias name
+      prior_dist: prior distribution of thompson sampling. Only two priors are
+        supported i.e., `beta` and `gaussian`
     """
-    super().__init__(arm_num, horizon, name)
+    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
     if prior_dist not in ['gaussian', 'beta']:
       raise Exception('Prior distribution %s is not supported!' % prior_dist)
     self.__prior_dist = prior_dist
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'thompson_sampling'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # current time step
     self.__time = 1
@@ -37,7 +50,7 @@ class ThompsonSampling(OrdinaryLearner):
   def actions_from_beta_prior(self) -> int:
     """
     Returns:
-      arm to pull
+      arm to pull using beta prior
     """
     # the mean of each arm has a uniform prior Beta(1, 1)
     virtual_means = np.zeros(self.arm_num())
@@ -51,7 +64,7 @@ class ThompsonSampling(OrdinaryLearner):
   def actions_from_gaussian_prior(self) -> int:
     """
     Returns:
-      arm to pull
+      arm to pull using gaussian prior
     """
     # the mean of each arm has a Gaussian prior Normal(0, 1)
     virtual_means = np.zeros(self.arm_num())
@@ -64,6 +77,9 @@ class ThompsonSampling(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
+    Args:
+      context: context of the ordinary bandit which should be `None`
+
     Returns:
       arms to pull
     """
@@ -77,6 +93,12 @@ class ThompsonSampling(OrdinaryLearner):
                               ]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
     self.__time += 1

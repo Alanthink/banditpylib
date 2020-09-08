@@ -9,9 +9,13 @@ from .utils import OrdinaryFBBAILearner
 
 class SH(OrdinaryFBBAILearner):
   """Sequential halving policy :cite:`karnin2013almost`"""
-  def __init__(self, arm_num: int, budget: int, name=None, threshold=3):
+  def __init__(self, arm_num: int, budget: int,
+               name: str = None, threshold: int = 3):
     """
     Args:
+      arm_num: number of arms
+      horizon: total number of time steps
+      name: alias name
       threshold: do uniform sampling when the number of arms left is no greater
         than threshold
     """
@@ -21,9 +25,17 @@ class SH(OrdinaryFBBAILearner):
     self.__threshold = threshold
 
   def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'sh'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     self.__active_arms = set(range(self.arm_num()))
     self.__budget_left = self.budget()
@@ -35,6 +47,9 @@ class SH(OrdinaryFBBAILearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
+    Args:
+      context: context of the ordinary bandit which should be `None`
+
     Returns:
       arms to pull
     """
@@ -58,7 +73,13 @@ class SH(OrdinaryFBBAILearner):
                              for arm_id in self.__active_arms]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     for (ind, (rewards, _)) in enumerate(feedback):
       if rewards is not None:
         self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
@@ -77,8 +98,11 @@ class SH(OrdinaryFBBAILearner):
           sorted_active_arms[:math.ceil(len(self.__active_arms) / 2)])
     self.__round += 1
 
-  def best_arm(self):
+  def best_arm(self) -> int:
     """
+    Returns:
+      best arm identified by the learner
+
     .. todo::
       Randomize the output when there are multiple arms with the same empirical
       mean.

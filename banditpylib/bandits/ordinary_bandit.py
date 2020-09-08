@@ -30,6 +30,10 @@ class OrdinaryBandit(OrdinaryBanditItf):
     self.__best_arm = self.__arms[self.__best_arm_id]
 
   def _name(self) -> str:
+    """
+    Returns:
+      default bandit name
+    """
     return 'ordinary_bandit'
 
   def _take_action(self, arm_id: int, pulls=1) -> Tuple[np.ndarray, None]:
@@ -40,7 +44,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
       pulls: number of times to pull
 
     Returns:
-      feedback where the first dimention is the stochstic rewards
+      feedback by pulling arm `arm_id` where the first dimention is the \
+      stochstic rewards
     """
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
@@ -61,7 +66,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
         second dimension is the number of times to pull.
 
     Returns:
-      List[Tuple[np.ndarray, None]]: feedback. For each tuple, the first \
+      feedback by pulling arms `actions`. For each tuple, the first \
       dimention is the stochstic rewards
     """
     feedback = []
@@ -73,6 +78,10 @@ class OrdinaryBandit(OrdinaryBanditItf):
     pass
 
   def reset(self):
+    """Reset the bandit environment
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__total_pulls = 0
     self.__regret = 0.0
 

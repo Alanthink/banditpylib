@@ -38,10 +38,18 @@ class ThompsonSampling(OrdinaryMNLLearner):
         use_local_search=use_local_search,
         random_neighbors=random_neighbors)
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'thompson_sampling'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     # current time step
     self.__time = 1
     # current episode
@@ -62,7 +70,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     """Initial warm start stage
 
     Returns:
-      List[Tuple[List[int], int]]: assortments and their serving times
+      assortments to serve in the warm start stage
     """
     # check if last observation is a purchase
     if self.__last_feedback is not None and self.__last_feedback[0][1][0] != 0:
@@ -75,7 +83,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
   def within_warm_start(self) -> bool:
     """
     Returns:
-      bool: `True` if the learner is still in warm start stage
+      `True` if the learner is still in warm start stage
     """
     return not self.__done_warm_start
 
@@ -98,6 +106,9 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
+    Args:
+      context: context of the ordinary mnl bandit which should be `None`
+
     Returns:
       assortments to serve
     """
@@ -139,7 +150,13 @@ class ThompsonSampling(OrdinaryMNLLearner):
       self.__first_step_after_warm_start = False
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, List[int]]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__product_picks[feedback[0][1][0]] += 1
     # no purchase is observed
     if feedback[0][1][0] == 0:

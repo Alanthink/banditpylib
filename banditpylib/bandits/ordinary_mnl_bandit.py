@@ -158,7 +158,7 @@ def search_best_assortment(reward: Reward,
     card_limit: cardinality constraint
 
   Returns:
-    Tuple[float, List[int]]: assortment with the maximum reward
+    assortment with the maximum reward
   """
   product_num = len(reward.revenues) - 1
   restricted_products = None
@@ -217,7 +217,7 @@ def local_search_best_assortment(
     init_assortment: initial assortment to start
 
   Returns:
-    Tuple[float, List[int]]: local best assortment with its reward
+    local best assortment with its reward
   """
   if random_neighbors <= 0:
     raise Exception('Number of neighbors to look up %d is no greater than 0!' \
@@ -358,7 +358,11 @@ class OrdinaryMNLBandit(Bandit):
       logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
                    self.__best_reward)
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default bandit name
+    """
     return 'ordinary_mnl_bandit'
 
   def _take_action(self, assortment: List[int], times: int) -> \
@@ -366,11 +370,11 @@ class OrdinaryMNLBandit(Bandit):
     """Serve one assortment
 
     Args:
-      assortment: assortment to try
-      times: number of times
+      assortment: assortment to serve
+      times: number of serving times
 
     Returns:
-      Tuple[np.ndarray, List[int]]: feedback. The first dimension is the \
+      feedback by serving `assortment`. The first dimension is the \
       stochatic rewards, and the second dimension is the choices of the \
       customer.
     """
@@ -412,11 +416,11 @@ class OrdinaryMNLBandit(Bandit):
     """Serve multiple assortments
 
     Args:
-      actions: for each tuple, the first dimension is the assortment to try
-        and the second dimension is the number of times.
+      actions: for each tuple, the first dimension is the assortment to serve
+        and the second dimension is the number of serving times.
 
     Returns:
-      List[Tuple[np.ndarray, List[int]]]: feedback. For each tuple, the first \
+      feedback by serving assortments `actions`. For each tuple, the first \
       dimension is the stochatic rewards, and the second dimension is the \
       choices of the customer.
     """
@@ -426,6 +430,10 @@ class OrdinaryMNLBandit(Bandit):
     return feedback
 
   def reset(self):
+    """Reset the bandit environment
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__regret = 0.0
 
   def context(self):
@@ -443,6 +451,6 @@ class OrdinaryMNLBandit(Bandit):
   def regret(self) -> float:
     """
     Returns:
-      float: regret compared with the optimal policy
+      regret compared with the optimal policy
     """
     return self.__regret

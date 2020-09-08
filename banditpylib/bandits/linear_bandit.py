@@ -44,7 +44,11 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
         key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default bandit name
+    """
     return 'linear_bandit'
 
   def _take_action(self, arm_id, pulls=1) -> Tuple[np.ndarray, None]:
@@ -83,17 +87,21 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     return feedback
 
   def reset(self):
+    """Reset the bandit environment
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__total_pulls = 0
     self.__regret = 0.0
 
-  # implement methods of ordinary bandit
+  # methods of ordinary bandit
   def arm_num(self) -> int:
     return self.__arm_num
 
   def total_pulls(self) -> int:
     return self.__total_pulls
 
-  # implement methods of linear bandit
+  # methods of linear bandit
   def features(self) -> np.ndarray:
     return self.__features
 

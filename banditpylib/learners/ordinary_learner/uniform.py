@@ -1,5 +1,7 @@
 from typing import List, Tuple
 
+import numpy as np
+
 from .utils import OrdinaryLearner
 
 
@@ -9,17 +11,34 @@ class Uniform(OrdinaryLearner):
   Play each arm the same number of times.
   """
   def __init__(self, arm_num: int, horizon: int, name=None):
-    super().__init__(arm_num, horizon, name)
+    """
+    Args:
+      arm_num: number of arms
+      horizon: total number of time steps
+      name: alias name
+    """
+    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'uniform'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     # current time step
     self.__time = 1
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
+    Args:
+      context: context of the ordinary bandit which should be `None`
+
     Returns:
       arms to pull
     """
@@ -30,5 +49,11 @@ class Uniform(OrdinaryLearner):
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__time += 1

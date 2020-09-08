@@ -48,10 +48,18 @@ class EpsGreedy(OrdinaryMNLLearner):
           (eps, self.__name))
     self.__eps = eps
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'epsilon_greedy'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     # current time step
     self.__time = 1
     # current episode
@@ -119,7 +127,13 @@ class EpsGreedy(OrdinaryMNLLearner):
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, List[int]]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__customer_choices[feedback[0][1][0]] += 1
     self.__last_feedback = feedback
     self.__time += 1

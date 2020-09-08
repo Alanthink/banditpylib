@@ -38,10 +38,18 @@ class UCB(OrdinaryMNLLearner):
         use_local_search=use_local_search,
         random_neighbors=random_neighbors)
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'risk_aware_ucb'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     # current time step
     self.__time = 1
     # current episode
@@ -72,6 +80,9 @@ class UCB(OrdinaryMNLLearner):
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
     """
+    Args:
+      context: context of the ordinary mnl bandit which should be `None`
+
     Returns:
       assortments to serve
     """
@@ -100,7 +111,13 @@ class UCB(OrdinaryMNLLearner):
       self.__last_actions = [(best_assortment, 1)]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, List[int]]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__customer_choices[feedback[0][1][0]] += 1
     self.__last_feedback = feedback
     self.__time += 1

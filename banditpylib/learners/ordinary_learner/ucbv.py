@@ -18,21 +18,33 @@ class UCBV(OrdinaryLearner):
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self, arm_num: int, horizon: int, name=None, b=1.0):
+  def __init__(self, arm_num: int, horizon: int,
+               name: str = None, b: float = 1.0):
     """
     Args:
+      arm_num: number of arms
+      horizon: total number of time steps
+      name: alias name
       b: upper bound of reward
     """
-    super().__init__(arm_num, horizon, name)
+    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
     if b <= 0:
       raise Exception('%s: b is set to %.2f which is no greater than 0!' %
                       (self.name, b))
     self.__b = b
 
-  def _name(self):
+  def _name(self) -> str:
+    """
+    Returns:
+      default learner name
+    """
     return 'ucbv'
 
   def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # current time step
     self.__time = 1
@@ -52,6 +64,9 @@ class UCBV(OrdinaryLearner):
 
   def actions(self, context=None) -> List[Tuple[int, int]]:
     """
+    Args:
+      context: context of the ordinary bandit which should be `None`
+
     Returns:
       arms to pull
     """
@@ -64,6 +79,12 @@ class UCBV(OrdinaryLearner):
       self.__last_actions = [(np.argmax(self.UCBV()), 1)]
     return self.__last_actions
 
-  def update(self, feedback):
+  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    """Learner update
+
+    Args:
+      feedback: feedback returned by the ordinary bandit by executing
+        `self.__last_actions`.
+    """
     self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
     self.__time += 1

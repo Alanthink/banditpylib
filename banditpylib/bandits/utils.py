@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Bandit(ABC):
-  """Class for bandit environment
+  """Bandit environment
 
   Before a game is run, one has to call :func:`reset` to initialize the
   environment. During each time step, :func:`context` will return the
@@ -18,27 +18,36 @@ class Bandit(ABC):
 
   @property
   def name(self) -> str:
-    """name of the learner"""
+    """Bandit name"""
     return self.__name
 
   @abstractmethod
   def _name(self) -> str:
-    """Internal name of the bandit environment"""
+    """
+    Returns:
+      default bandit name
+    """
 
   @abstractmethod
   def reset(self):
-    """Reset the bandit environment"""
+    """Reset the bandit environment
+
+    Initialization. This function should be called before the start of the game.
+    """
 
   @abstractmethod
   def context(self):
-    """Current state of the bandit environment"""
+    """
+    Returns:
+      current state of the bandit environment
+    """
 
   @abstractmethod
   def feed(self, actions):
     """
     Args:
-      actions: actions to take
+      actions: actions for the bandit environment to take
 
     Returns:
-      feedback after actions are taken
+      feedback after executing actions `actions`
     """

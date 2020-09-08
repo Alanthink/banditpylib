@@ -15,22 +15,25 @@ class Learner(ABC):
 
   @property
   def name(self) -> str:
-    """name of the learner"""
+    """Learner name"""
     return self.__name
 
   @abstractmethod
   def _name(self) -> str:
-    """Internal name of the learner"""
-
-  @abstractmethod
-  def reset(self):
-    """Reset of the learner
-
-    This function should be called before the start of the game
+    """
+    Returns:
+      default learner name
     """
 
   @abstractmethod
-  def actions(self, context=None):
+  def reset(self):
+    """Learner reset
+
+    Initialization. This function should be called before the start of the game.
+    """
+
+  @abstractmethod
+  def actions(self, context):
     """Actions of the learner for one round
 
     Args:
@@ -45,5 +48,6 @@ class Learner(ABC):
     """Learner update
 
     Args:
-      feedback: feedback of the bandit environment
+      feedback: feedback returned by the bandit environment by executing actions
+        returned by :func:`actions`.
     """
