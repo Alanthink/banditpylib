@@ -25,12 +25,24 @@ class OrdinaryFBBAILearner(Learner):
     self.__budget = budget
 
   def arm_num(self) -> int:
+    """
+    Returns:
+      number of arms
+    """
     return self.__arm_num
 
   def budget(self) -> int:
+    """
+    Returns:
+      budget of the learner
+    """
     return self.__budget
 
   def set_budget(self, budget: int):
+    """
+    Args:
+      budget: new budget of the learner
+    """
     self.__budget = budget
 
   @abstractmethod

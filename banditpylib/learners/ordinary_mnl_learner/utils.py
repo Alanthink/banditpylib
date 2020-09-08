@@ -58,24 +58,42 @@ class OrdinaryMNLLearner(Learner):
                       random_neighbors)
     self.__random_neighbors = random_neighbors
 
-  def product_num(self):
+  def product_num(self) -> int:
+    """
+    Returns:
+      product numbers
+    """
     return self.__product_num
 
-  def revenues(self):
+  def revenues(self) -> np.ndarray:
+    """
+    Returns:
+      revenues of products (product 0 is included)
+    """
     return self.__revenues
 
-  def card_limit(self):
+  def card_limit(self) -> int:
+    """
+    Returns:
+      cardinality limit
+    """
     return self.__card_limit
 
-  def horizon(self):
+  def horizon(self) -> int:
+    """
+    Returns:
+      horizon of the learner
+    """
     return self.__horizon
 
   @property
   def reward(self) -> Reward:
+    """goal of the learner"""
     return self.__reward
 
   @property
   def use_local_search(self) -> bool:
+    """if local search is enabled"""
     return self.__use_local_search
 
   @property
@@ -83,6 +101,10 @@ class OrdinaryMNLLearner(Learner):
     return self.__random_neighbors
 
   def set_horizon(self, horizon: int):
+    """
+    Args:
+      horizon: new horizon of the learner
+    """
     self.__horizon = horizon
 
   def regret(self, bandit) -> float:

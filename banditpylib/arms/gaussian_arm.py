@@ -24,18 +24,12 @@ class GaussianArm(Arm):
 
   @property
   def mean(self) -> float:
-    """
-    Returns:
-      mean of the arm
-    """
+    """mean of the arm"""
     return self.__mu
 
   @property
   def var(self) -> float:
-    """
-    Returns:
-      variance of the arm
-    """
+    """variance of the arm"""
     return self.__var
 
   def pull(self, pulls=1) -> np.ndarray or None:

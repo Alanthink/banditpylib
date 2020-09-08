@@ -56,20 +56,14 @@ class Reward:
 
   @property
   def preference_params(self) -> np.ndarray:
-    """
-    Returns:
-      preference parameters
-    """
+    """preference parameters (product 0 is included)"""
     if self.__preference_params is None:
       raise Exception('Preference parameters are not set yet!')
     return self.__preference_params
 
   @property
   def revenues(self) -> np.ndarray:
-    """
-    Returns:
-      revenues
-    """
+    """revenues (product 0 is included)"""
     if self.__revenues is None:
       raise Exception('Revenues of products are not set yet!')
     return self.__revenues
@@ -129,10 +123,7 @@ class CvarReward(Reward):
 
   @property
   def alpha(self) -> float:
-    """
-    Returns:
-      percentile of cvar
-    """
+    """percentile of cvar"""
     return self.__alpha
 
   def calc(self, assortment: List[int]) -> float:

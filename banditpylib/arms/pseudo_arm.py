@@ -25,20 +25,14 @@ class PseudoArm:
 
   @property
   def em_mean(self) -> float:
-    """
-    Returns:
-      empirical mean
-    """
+    """empirical mean"""
     if self.__total_pulls == 0:
       raise Exception('Number of pulls is 0. No empirical mean!')
     return self.__total_rewards / self.__total_pulls
 
   @property
   def em_var(self) -> float:
-    """
-    Returns:
-      empirical variance
-    """
+    """empirical variance"""
     if self.__total_pulls == 0:
       raise Exception('Number of pulls is 0. No empirical variance!')
     return (self.__sum_of_square_reward -
