@@ -85,14 +85,14 @@ class SH(OrdinaryFBBAILearner):
         self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
         self.__budget_left -= len(rewards)
     if self.__last_round:
-      self.__best_arm = max([(arm_id, self.__pseudo_arms[arm_id].em_mean())
+      self.__best_arm = max([(arm_id, self.__pseudo_arms[arm_id].em_mean)
                              for arm_id in self.__active_arms],
                             key=lambda x: x[1])[0]
     else:
       # remove half of the arms with the worst empirical means
       sorted_active_arms = sorted(
           list(self.__active_arms),
-          key=lambda x: self.__pseudo_arms[x].em_mean(),
+          key=lambda x: self.__pseudo_arms[x].em_mean,
           reverse=True)
       self.__active_arms = set(
           sorted_active_arms[:math.ceil(len(self.__active_arms) / 2)])

@@ -67,7 +67,7 @@ class Uniform(OrdinaryFBBAILearner):
     for (ind, (rewards, _)) in enumerate(feedback):
       self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
     if self.__last_round:
-      self.__best_arm = np.argmax([arm.em_mean() for arm in self.__pseudo_arms])
+      self.__best_arm = np.argmax([arm.em_mean for arm in self.__pseudo_arms])
 
   def best_arm(self) -> int:
     """

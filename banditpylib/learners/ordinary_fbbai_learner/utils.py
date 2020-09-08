@@ -37,13 +37,13 @@ class OrdinaryFBBAILearner(Learner):
   def best_arm(self) -> int:
     """
     Returns:
-      int: index of the best arm identified by the learner
+      index of the best arm identified by the learner
     """
 
   def regret(self, bandit) -> int:
     """
     Returns:
-      int: best arm regret. 0 when the leaner returns the best arm and 1 \
+      best arm regret. 0 when the leaner returns the best arm and 1 \
       otherwise
     """
     return bandit.best_arm_regret(self.best_arm())

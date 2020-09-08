@@ -5,7 +5,7 @@ from .utils import Arm
 
 
 class GaussianArm(Arm):
-  """Gaussian arm or Normal arm
+  """Gaussian arm
   """
 
   def __init__(self, mu: float, var: float):
@@ -24,15 +24,30 @@ class GaussianArm(Arm):
 
   @property
   def mean(self) -> float:
-    """mean of the arm"""
+    """
+    Returns:
+      mean of the arm
+    """
     return self.__mu
 
   @property
   def var(self) -> float:
-    """variance of the arm"""
+    """
+    Returns:
+      variance of the arm
+    """
     return self.__var
 
   def pull(self, pulls=1) -> np.ndarray or None:
+    """Pulling the arm
+
+    Args:
+      pulls: number of pulls
+
+    Returns:
+      stochastic rewards. When number of pulls is less than 1, `None` is \
+      returned.
+    """
     if pulls < 1:
       return None
     return np.random.normal(self.__mu, self.__std, pulls)

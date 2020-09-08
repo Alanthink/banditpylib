@@ -14,8 +14,8 @@ def search(assortments: List[List[int]],
            product_num: int,
            next_product_id: int,
            assortment: List[int],
-           card_limit=np.inf,
-           restricted_products=None):
+           card_limit: int = np.inf,
+           restricted_products: List[int] = None):
   """Find all assortments with cardinality limit
 
   Args:
@@ -30,7 +30,7 @@ def search(assortments: List[List[int]],
     if assortment:
       assortments.append(assortment)
     return
-  if len(assortment) < card_limit and (not restricted_products or
+  if len(assortment) < card_limit and (restricted_products is None or
                                        next_product_id in restricted_products):
     search(assortments, product_num, next_product_id + 1,
            assortment + [next_product_id], card_limit, restricted_products)
@@ -39,7 +39,7 @@ def search(assortments: List[List[int]],
 
 
 class Reward:
-  """Reward class"""
+  """General reward class"""
   def __init__(self):
     self.__preference_params = None
     self.__revenues = None
@@ -51,17 +51,25 @@ class Reward:
       assortment: input assortment to calculate
 
     Returns:
-      float: reward of the assortment
+      reward of the assortment
     """
 
   @property
   def preference_params(self) -> np.ndarray:
+    """
+    Returns:
+      preference parameters
+    """
     if self.__preference_params is None:
       raise Exception('Preference parameters are not set yet!')
     return self.__preference_params
 
   @property
   def revenues(self) -> np.ndarray:
+    """
+    Returns:
+      revenues
+    """
     if self.__revenues is None:
       raise Exception('Revenues of products are not set yet!')
     return self.__revenues
@@ -87,6 +95,13 @@ class MeanReward(Reward):
     super().__init__()
 
   def calc(self, assortment: List[int]) -> float:
+    """
+    Args:
+      assortment: input assortment to calculate
+
+    Returns:
+      reward of the assortment
+    """
     preference_params_sum = (
         sum([self.preference_params[product]
              for product in assortment]) + self.preference_params[0])
@@ -114,9 +129,20 @@ class CvarReward(Reward):
 
   @property
   def alpha(self) -> float:
+    """
+    Returns:
+      percentile of cvar
+    """
     return self.__alpha
 
   def calc(self, assortment: List[int]) -> float:
+    """
+    Args:
+      assortment: input assortment to calculate
+
+    Returns:
+      reward of the assortment
+    """
     preference_params_sum = sum(
         [self.preference_params[product]
          for product in assortment]) + self.preference_params[0]
@@ -150,7 +176,7 @@ class CvarReward(Reward):
 
 
 def search_best_assortment(reward: Reward,
-                           card_limit=np.inf) -> Tuple[float, List[int]]:
+                           card_limit: int = np.inf) -> Tuple[float, List[int]]:
   """Search assortment with the maximum reward
 
   Args:
@@ -158,7 +184,7 @@ def search_best_assortment(reward: Reward,
     card_limit: cardinality constraint
 
   Returns:
-    assortment with the maximum reward
+    assortment with the maximum reward. Products are in sorted order.
   """
   product_num = len(reward.revenues) - 1
   restricted_products = None
@@ -201,7 +227,7 @@ def local_search_best_assortment(
     reward: Reward,
     random_neighbors: int,
     card_limit: int,
-    init_assortment=None) -> Tuple[float, List[int]]:
+    init_assortment: List[int] = None) -> Tuple[float, List[int]]:
   """Local search assortment with the maximum reward
 
   .. warning::
@@ -217,7 +243,7 @@ def local_search_best_assortment(
     init_assortment: initial assortment to start
 
   Returns:
-    local best assortment with its reward
+    local best assortment with its reward. Products are in sorted order.
   """
   if random_neighbors <= 0:
     raise Exception('Number of neighbors to look up %d is no greater than 0!' \
@@ -249,7 +275,7 @@ def local_search_best_assortment(
     local_best_assortment = set()
     local_best_reward = 0
     for _ in range(random_neighbors):
-      # pylint: disable=E1101
+      # pylint: disable=no-member
       operation = np.random.choice(available_operations)
 
       if operation == 'replace':
@@ -289,7 +315,7 @@ def local_search_best_assortment(
 
 
 class OrdinaryMNLBandit(Bandit):
-  """Class for ordinary MNL bandit
+  """Ordinary MNL bandit
 
   Products are numbered from 1 by default. 0 is reserved for non-purchase. The
   preference parameters are assumed to be between 0 and 1. And it is assumed
@@ -298,14 +324,14 @@ class OrdinaryMNLBandit(Bandit):
   def __init__(self,
                preference_params: np.ndarray,
                revenues: np.ndarray,
-               card_limit=np.inf,
-               reward=None,
-               zero_best_reward=False,
-               name=None):
+               card_limit: int = np.inf,
+               reward: Reward = None,
+               zero_best_reward: bool = False,
+               name: str = None):
     """
     Args:
-      preference_params: preference parameters
-      revenue: revenue of products
+      preference_params: preference parameters (product 0 is included)
+      revenue: revenue of products (product 0 is included)
       card_limit: cardinality constraint of an assortment
       reward: reward the learner wants to maximize
       zero_best_reward: whether to set the reward of the best assortment to 0.
@@ -334,12 +360,15 @@ class OrdinaryMNLBandit(Bandit):
 
     self.__preference_params = preference_params
     self.__revenues = revenues
-    self.__card_limit = card_limit
     # product 0 is reserved for non-purchase
     self.__product_num = len(self.__preference_params) - 1
     if self.__product_num < 1:
       raise Exception('Number of products %d is less than 1!' %
                       self.__product_num)
+    if card_limit < 1:
+      raise Exception('Cardinality limit %d is less than 1!' %
+                      card_limit)
+    self.__card_limit = min(card_limit, self.__product_num)
 
     # maximizing MeanReward is the default goal
     self.__reward = MeanReward() if reward is None else copy.deepcopy(reward)
@@ -437,15 +466,31 @@ class OrdinaryMNLBandit(Bandit):
     self.__regret = 0.0
 
   def context(self):
+    """
+    Returns:
+      current state of the mnl bandit
+    """
     return None
 
   def revenues(self) -> np.ndarray:
+    """
+    Returns:
+      revenues of products (product 0 is included)
+    """
     return self.__revenues
 
   def product_num(self) -> int:
+    """
+    Returns:
+      number of products (not including product 0)
+    """
     return self.__product_num
 
   def card_limit(self) -> int:
+    """
+    Returns:
+      cardinality limit
+    """
     return self.__card_limit
 
   def regret(self) -> float:

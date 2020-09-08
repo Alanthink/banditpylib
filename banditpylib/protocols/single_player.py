@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import List, Dict
 
 import numpy as np
 
@@ -15,16 +15,17 @@ class SinglePlayerProtocol(Protocol):
   def __init__(self,
                bandit: Bandit,
                learner: Learner,
-               intermediate_regrets=None):
+               intermediate_regrets: List[int] = None):
     """
     Args:
       bandit: bandit environment
       learner: learner
-      intermediate_regrets: whether to record intermediate regrets
+      intermediate_regrets: a list of intermediate times to record
+        intermediate regrets
     """
     super().__init__(bandit, learner)
     self.__intermediate_regrets = \
-        intermediate_regrets if intermediate_regrets else []
+        intermediate_regrets if intermediate_regrets is not None else []
 
   @property
   def name(self):
@@ -47,7 +48,7 @@ class SinglePlayerProtocol(Protocol):
       actions = self.learner.actions(context)
 
       # stop the game if actions returned by the learner are None
-      if not actions:
+      if actions is None:
         break
 
       # record intermediate regrets

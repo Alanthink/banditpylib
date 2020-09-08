@@ -52,7 +52,7 @@ class UCB(OrdinaryLearner):
       optimistic estimate of arms' real means
     """
     ucb = [
-        arm.em_mean() +
+        arm.em_mean +
         np.sqrt(self.__alpha * np.log(self.__time) / arm.total_pulls())
         for arm in self.__pseudo_arms
     ]

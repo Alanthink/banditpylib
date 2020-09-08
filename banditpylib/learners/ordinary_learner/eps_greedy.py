@@ -62,7 +62,7 @@ class EpsGreedy(OrdinaryLearner):
       self.__last_actions = [(np.random.randint(0, self.arm_num()), 1)]
     else:
       self.__last_actions = [
-          (np.argmax(np.array([arm.em_mean()
+          (np.argmax(np.array([arm.em_mean
                                for arm in self.__pseudo_arms])), 1)
       ]
     return self.__last_actions

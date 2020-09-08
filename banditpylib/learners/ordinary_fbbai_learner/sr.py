@@ -84,7 +84,7 @@ class SR(OrdinaryFBBAILearner):
         self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
         self.__budget_left -= len(rewards)
     # remove the arm with the least mean
-    arm_id_to_remove = min([(arm_id, self.__pseudo_arms[arm_id].em_mean())
+    arm_id_to_remove = min([(arm_id, self.__pseudo_arms[arm_id].em_mean)
                             for arm_id in self.__active_arms],
                            key=lambda x: x[1])[0]
     self.__active_arms.remove(arm_id_to_remove)

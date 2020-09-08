@@ -87,7 +87,7 @@ class EpsGreedy(OrdinaryMNLLearner):
   def select_ramdom_assort(self) -> List[int]:
     assortments = []
     search(assortments, self.product_num(), 1, [], self.card_limit())
-    # pylint: disable=E1101
+    # pylint: disable=no-member
     return assortments[int(np.random.randint(0, len(assortments)))]
 
   def actions(self, context=None) -> List[Tuple[List[int], int]]:
@@ -105,7 +105,7 @@ class EpsGreedy(OrdinaryMNLLearner):
       # When a non-purchase observation happens, a new episode is started and
       # a new assortment to be served is calculated
 
-      # pylint: disable=E1101
+      # pylint: disable=no-member
       # with probability eps/t, randomly select an assortment to serve
       if np.random.random() <= self.__eps / self.__time:
         self.__last_actions = [(self.select_ramdom_assort(), 1)]

@@ -55,8 +55,8 @@ class UCBV(OrdinaryLearner):
       optimistic estimate of arms' real means using empirical variance
     """
     ucbv = [
-        arm.em_mean() +
-        np.sqrt(2 * arm.em_var() * np.log(self.__time) / arm.total_pulls()) +
+        arm.em_mean +
+        np.sqrt(2 * arm.em_var * np.log(self.__time) / arm.total_pulls()) +
         self.__b * np.log(self.__time) / arm.total_pulls()
         for arm in self.__pseudo_arms
     ]

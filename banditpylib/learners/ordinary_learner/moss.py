@@ -50,7 +50,7 @@ class MOSS(OrdinaryLearner):
       optimistic estimate of arms' real means using horizon
     """
     moss = [
-        arm.em_mean() + np.sqrt(
+        arm.em_mean + np.sqrt(
             np.maximum(
                 0, np.log(self.horizon() /
                           (self.arm_num() * arm.total_pulls()))) /

@@ -17,7 +17,7 @@ class TestUniform:
       if actions is None:
         break
 
-      # pylint: disable=E1101
+      # pylint: disable=no-member
       learner.update([(np.random.random(pulls), None)
                       for (arm_id, pulls) in actions])
 
