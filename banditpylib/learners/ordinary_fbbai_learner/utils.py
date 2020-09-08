@@ -9,11 +9,12 @@ class OrdinaryFBBAILearner(Learner):
 
   This learner aims to identify the best arm with fixed budget.
   """
-  def __init__(self, arm_num: int, budget: int, name=None):
+  def __init__(self, arm_num: int, budget: int, name: str):
     """
     Args:
       arm_num: number of arms
       budget: total number of pulls
+      name: alias name
     """
     super().__init__(name)
     if arm_num <= 2:

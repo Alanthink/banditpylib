@@ -14,7 +14,7 @@ class SH(OrdinaryFBBAILearner):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
+      budget: total number of pulls
       name: alias name
       threshold: do uniform sampling when the number of arms left is no greater
         than threshold
@@ -54,7 +54,7 @@ class SH(OrdinaryFBBAILearner):
       arms to pull
     """
     del context
-    if self.__budget_left == 0:
+    if self.__last_round:
       self.__last_actions = None
     elif len(self.__active_arms) <= self.__threshold:
       # uniform sampling

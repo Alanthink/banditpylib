@@ -16,7 +16,7 @@ class Uniform(OrdinaryFBBAILearner):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
+      budget: total number of pulls
       name: alias name
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
