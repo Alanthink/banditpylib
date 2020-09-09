@@ -58,6 +58,12 @@ pytest
 |     :---      |      :--- |
 | Ordinary Bandit   | `Uniform`, `SR`, `SH`|
 
+#### Fixed Confidence Best Arm Identification
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `ExpGap`, `LilUCBHeuristic`|
+
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## License
