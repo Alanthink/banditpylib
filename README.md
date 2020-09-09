@@ -30,9 +30,42 @@ pip install -e .
 
 ### Example
 
+Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *ThompsonSampling* against the ordinary multi-armed bandit environment with `3` *Bernoulli* arms. The following code shows the main logic. 
+
+```python
+# horizon of the game
+horizon = 2000
+# real means of Bernoulli arms
+means = np.array([0.3, 0.5, 0.7])
+# create Bernoulli arms
+arms = [BernoulliArm(mean) for mean in means]
+# create an ordinary multi-armed bandit environment
+bandit = OrdinaryBandit(arms=arms)
+# create learners
+learners = [EpsGreedy(arm_num=len(arms), horizon=horizon),
+            UCB(arm_num=len(arms), horizon=horizon),
+            ThompsonSampling(arm_num=len(arms), horizon=horizon)]
+# for each setup we run 200 repetitions
+trials = 200
+gap = 50
+# record intermediate regrets for each trial of a game
+intermediate_regrets = list(range(0, horizon+1, gap))
+temp_file = tempfile.NamedTemporaryFile()
+for learner in learners:
+    # simulator
+    game = SinglePlayerProtocol(bandit=bandit, 
+                                learner=learner, 
+                                intermediate_regrets=intermediate_regrets)
+    # play the game
+    # add `debug=True` for debugging purposes
+    game.play(trials=trials, output_filename=temp_file.name)
+```
+
+The following figure shows the simulation results.
+
 ![output example](example.jpg)
 
-Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out how to generate this figure.
+Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more details.
 
 ### Running the Tests
 
