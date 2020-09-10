@@ -32,7 +32,7 @@ pip install -e .
 
 Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *Thompson Sampling*, which aim to maximize the total rewards, against the ordinary multi-armed bandit environment with 3 *Bernoulli* arms. The following code blocks show the main logic. 
 
-#### set up bandit envoronment
+#### set up bandit environment
 
 ```python
 # real means of Bernoulli arms
