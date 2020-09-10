@@ -3,6 +3,7 @@ import copy
 from absl import logging
 import numpy as np
 
+from banditpylib.bandits import OrdinaryMNLBandit
 from banditpylib.bandits import Reward
 from banditpylib.learners import Learner
 
@@ -57,6 +58,14 @@ class OrdinaryMNLLearner(Learner):
       raise Exception('Times of local search %d is less than 3!' %
                       random_neighbors)
     self.__random_neighbors = random_neighbors
+
+  @property
+  def running_environment(self) -> type:
+    """
+    Returns:
+      environment class the learner works with
+    """
+    return OrdinaryMNLBandit
 
   def product_num(self) -> int:
     """

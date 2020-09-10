@@ -1,9 +1,12 @@
+from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
 
 # pylint: disable=W0223
 class OrdinaryLearner(Learner):
   """Base class for learners in the ordinary multi-armed bandit
+
+  This type of learners aim to maximize the expected total rewards.
   """
   def __init__(self, arm_num: int, horizon: int, name: str):
     """
@@ -20,6 +23,14 @@ class OrdinaryLearner(Learner):
       raise Exception('Horizon %d is less than number of arms %d!' % \
           (horizon, arm_num))
     self.__horizon = horizon
+
+  @property
+  def running_environment(self) -> type:
+    """
+    Returns:
+      environment class the learner works with
+    """
+    return OrdinaryBanditItf
 
   def arm_num(self) -> int:
     """

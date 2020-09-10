@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
 
@@ -24,6 +25,14 @@ class OrdinaryFBBAILearner(Learner):
       raise Exception('Budget %d is less than number of arms %d!' % \
           (budget, arm_num))
     self.__budget = budget
+
+  @property
+  def running_environment(self) -> type:
+    """
+    Returns:
+      environment class the learner works with
+    """
+    return OrdinaryBanditItf
 
   def arm_num(self) -> int:
     """

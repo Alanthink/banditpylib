@@ -25,11 +25,19 @@ class Learner(ABC):
       default learner name
     """
 
+  @property
+  @abstractmethod
+  def running_environment(self) -> type:
+    """
+    Returns:
+      environment class the learner works with
+    """
+
   @abstractmethod
   def reset(self):
-    """Learner reset
+    """Learner initialization
 
-    Initialization. This function should be called before the start of the game.
+    This function should be called before the start of the game.
     """
 
   @abstractmethod

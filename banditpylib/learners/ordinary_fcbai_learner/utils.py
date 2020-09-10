@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
 
@@ -24,6 +25,14 @@ class OrdinaryFCBAILearner(Learner):
       raise Exception('Confidence level %.2f is not in range (0, 1)!' % \
                       confidence)
     self.__confidence = confidence
+
+  @property
+  def running_environment(self) -> type:
+    """
+    Returns:
+      environment class the learner works with
+    """
+    return OrdinaryBanditItf
 
   def arm_num(self) -> int:
     """
