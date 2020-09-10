@@ -30,7 +30,7 @@ pip install -e .
 
 ### Example
 
-Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *ThompsonSampling* against the ordinary multi-armed bandit environment with `3` *Bernoulli* arms. The following code shows the main logic. 
+Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *Thompson Sampling*, which aim to maximize the total rewards, against the ordinary multi-armed bandit environment with 3 *Bernoulli* arms. The following code blocks show the main logic. 
 
 #### setup bandit envoronment
 
@@ -48,7 +48,7 @@ bandit = OrdinaryBandit(arms=arms)
 ```python
 # horizon of the game
 horizon = 2000
-# create learners
+# create learners aiming to maximize the total rewards
 learners = [EpsGreedy(arm_num=len(arms), horizon=horizon),
             UCB(arm_num=len(arms), horizon=horizon),
             ThompsonSampling(arm_num=len(arms), horizon=horizon)]
@@ -57,19 +57,17 @@ learners = [EpsGreedy(arm_num=len(arms), horizon=horizon),
 #### setup simulator and play the game
 
 ```python
-# for each setup we run 200 repetitions
+# for each setup we run 200 trials
 trials = 200
-gap = 50
-# record intermediate regrets for each trial of a game
-intermediate_regrets = list(range(0, horizon+1, gap))
-for learner in learners:
-    # simulator
-    game = SinglePlayerProtocol(bandit=bandit, 
-                                learner=learner, 
-                                intermediate_regrets=intermediate_regrets)
-    # start playing the game
-    # add `debug=True` for debugging purposes
-    game.play(trials=trials)
+# record intermediate regrets for each trial
+intermediate_regrets = list(range(0, horizon+1, 50))
+# simulator
+game = SinglePlayerProtocol(bandit=bandit,
+                            learners=learners,
+                            intermediate_regrets=intermediate_regrets)
+# start playing the game
+# add `debug=True` for debugging purpose
+game.play(trials=trials)
 ```
 
 The following figure shows the simulation results.

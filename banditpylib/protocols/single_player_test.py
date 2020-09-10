@@ -15,7 +15,7 @@ class TestSinglePlayer:
     ordinary_bandit = OrdinaryBandit(arms)
     eps_greedy_learner = EpsGreedy(arm_num=4, horizon=100)
     single_player = SinglePlayerProtocol(bandit=ordinary_bandit,
-                                         learner=eps_greedy_learner)
+                                         learners=[eps_greedy_learner])
     temp_file = tempfile.NamedTemporaryFile()
     single_player.play(
         trials=10,

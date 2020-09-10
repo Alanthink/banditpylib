@@ -30,27 +30,41 @@ class Protocol(ABC):
   implement :func:`_one_trial` method to define how to run one trial of the
   game.
   """
-  def __init__(self, bandit: Bandit, learner: Learner):
+  def __init__(self, bandit: Bandit, learners: List[Learner]):
     """
     Args:
       bandit: bandit environment
-      learner: learner
+      learners: learners to be compared with
     """
+    for learner in learners:
+      if not isinstance(bandit, learner.running_environment):
+        raise Exception('Learner %s can not recognize environment %s!' %
+                        (learner.name, bandit.name))
     self.__bandit = bandit
-    self.__learner = learner
+    self.__learners = learners
+    # learner the simulator is currently running
+    self.__current_learner = None
 
   @property
   @abstractmethod
   def name(self) -> str:
-    """protocol name"""
+    """Protocol name"""
 
   @property
   def bandit(self) -> Bandit:
+    """
+    Returns:
+      bandit environment the simulator is running on
+    """
     return self.__bandit
 
   @property
-  def learner(self) -> Learner:
-    return self.__learner
+  def current_learner(self) -> Learner:
+    """
+    Returns:
+      current learner the simulator is running
+    """
+    return self.__current_learner
 
   @abstractmethod
   def _one_trial(self, random_seed: int) -> Dict or List[Dict]:
@@ -93,24 +107,27 @@ class Protocol(ABC):
     .. warning::
       By default, `output_filename` will be opened with mode `a`.
     """
-    start_time = time.time()
-    self.__output_filename = output_filename
-    pool = Pool(processes=(
-        multiprocessing.cpu_count() if processes < 0 else processes))
+    for learner in self.__learners:
+      # set current learner
+      self.__current_learner = learner
 
-    for _ in range(trials):
-      results = pool.apply_async(
-          self._one_trial,
-          args=[time_seed()],
-          callback=self.__write_to_file)
+      start_time = time.time()
+      self.__output_filename = output_filename
+      pool = Pool(processes=(
+          multiprocessing.cpu_count() if processes < 0 else processes))
 
-      # for debugging purpose
-      if debug:
-        results.get()
+      for _ in range(trials):
+        results = pool.apply_async(self._one_trial,
+                                   args=[time_seed()],
+                                   callback=self.__write_to_file)
 
-    # can not apply for processes any more
-    pool.close()
-    pool.join()
-    logging.info('%s\'s play with %s runs %.2f seconds.', self.__learner.name,
-                 self.__bandit.name,
-                 time.time() - start_time)
+        # for debugging purpose
+        if debug:
+          results.get()
+
+      # can not apply for processes any more
+      pool.close()
+      pool.join()
+      logging.info('%s\'s play with %s runs %.2f seconds.',
+                   self.__current_learner.name, self.__bandit.name,
+                   time.time() - start_time)

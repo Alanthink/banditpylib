@@ -14,38 +14,58 @@ class SinglePlayerProtocol(Protocol):
   """
   def __init__(self,
                bandit: Bandit,
-               learner: Learner,
+               learners: List[Learner],
                intermediate_regrets: List[int] = None):
     """
     Args:
       bandit: bandit environment
-      learner: learner
+      learner: learners to be compared with
       intermediate_regrets: a list of intermediate times to record
         intermediate regrets
     """
-    super().__init__(bandit, learner)
+    super().__init__(bandit=bandit, learners=learners)
     self.__intermediate_regrets = \
         intermediate_regrets if intermediate_regrets is not None else []
 
   @property
   def name(self):
+    """Protocol name"""
     return 'single_player_protocol'
 
-  def _one_trial(self, random_seed: int) -> Dict:
+  def _one_trial(self, random_seed: int) -> List[Dict]:
+    """One trial of the game
+
+    Args:
+      random_seed: random seed
+
+    Returns:
+      result of one trial
+    """
     np.random.seed(random_seed)
 
     # reset the bandit environment and the learner
     self.bandit.reset()
-    self.learner.reset()
+    self.current_learner.reset()
 
     one_trial_data = []
     # number of rounds to communicate with the bandit environment
     adaptive_rounds = 0
     # total actions executed by the bandit environment
     total_actions = 0
+
+    def record_data():
+      one_trial_data.append(
+          dict({
+              'bandit': self.bandit.name,
+              'learner': self.current_learner.name,
+              'rounds': adaptive_rounds,
+              'total_actions': total_actions,
+              'regret': self.current_learner.regret(self.bandit)
+          }))
+
     while True:
       context = self.bandit.context()
-      actions = self.learner.actions(context)
+      actions = self.current_learner.actions(context)
 
       # stop the game if actions returned by the learner are None
       if actions is None:
@@ -53,17 +73,10 @@ class SinglePlayerProtocol(Protocol):
 
       # record intermediate regrets
       if adaptive_rounds in self.__intermediate_regrets:
-        one_trial_data.append(
-            dict({
-                'bandit': self.bandit.name,
-                'learner': self.learner.name,
-                'rounds': adaptive_rounds,
-                'total_actions': total_actions,
-                'regret': self.learner.regret(self.bandit)
-            }))
+        record_data()
 
       feedback = self.bandit.feed(actions)
-      self.learner.update(feedback)
+      self.current_learner.update(feedback)
 
       # information update
       for (_, times) in actions:
@@ -71,12 +84,5 @@ class SinglePlayerProtocol(Protocol):
       adaptive_rounds += 1
 
     # record final regret
-    one_trial_data.append(
-        dict({
-            'bandit': self.bandit.name,
-            'learner': self.learner.name,
-            'rounds': adaptive_rounds,
-            'total_actions': total_actions,
-            'regret': self.learner.regret(self.bandit)
-        }))
+    record_data()
     return one_trial_data
