@@ -18,8 +18,8 @@ class OrdinaryFCBAILearner(Learner):
       name: alias name
     """
     super().__init__(name)
-    if arm_num <= 2:
-      raise Exception('Number of arms %d is less then 3!' % arm_num)
+    if arm_num <= 1:
+      raise Exception('Number of arms %d is less then 2!' % arm_num)
     self.__arm_num = arm_num
     if confidence <= 0 or confidence >= 1:
       raise Exception('Confidence level %.2f is not in range (0, 1)!' % \

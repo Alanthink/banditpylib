@@ -19,12 +19,12 @@ class ExpGap(OrdinaryFCBAILearner):
       arm_num: number of arms
       confidence: confidence level. It should be within (0, 1).
       name: alias name
-      threshold: uniform sampling when the left arms are no greater than this
-        within median elimination
+      threshold: do uniform sampling when the active arms are no greater than
+        the threshold within median elimination
     """
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if threshold <= 2:
-      raise Exception('Thredhold %d is no greater than 2!' % threshold)
+      raise Exception('Thredhold %d is less than 3!' % threshold)
     self.__threshold = threshold
 
   def _name(self) -> str:
@@ -46,8 +46,7 @@ class ExpGap(OrdinaryFCBAILearner):
     self.__stage = 'main_loop'
     # main loop variables
     self.__eps_r = 0.125
-    self.__log_delta_r = math.log(
-        (1 - self.confidence()) / 50) - 3 * math.log(self.__round)
+    self.__log_delta_r = math.log((1 - self.confidence()) / 50)
 
   @property
   def stage(self) -> str:
@@ -66,11 +65,11 @@ class ExpGap(OrdinaryFCBAILearner):
                              for arm_id in self.__me_active_arms]
     if len(self.__me_active_arms) <= self.__threshold:
       # uniform sampling
-      pulls = int(0.5 / (self.__me_eps_left**2) *
-                  (math.log(2 / self.__me_delta_left)))
+      pulls = math.ceil(0.5 / (self.__me_eps_left**2) *
+                        (math.log(2 / self.__me_delta_left)))
     else:
-      pulls = int(4 / (self.__me_eps_ell**2) *
-                  (math.log(3) - self.__me_log_delta_ell))
+      pulls = math.ceil(4 / (self.__me_eps_ell**2) *
+                        (math.log(3) - self.__me_log_delta_ell))
     actions = [(arm_id, pulls) for arm_id in self.__me_active_arms]
     return actions
 
@@ -87,7 +86,8 @@ class ExpGap(OrdinaryFCBAILearner):
     elif self.__stage == 'main_loop':
       self.__pseudo_arms = [(arm_id, PseudoArm())
                             for arm_id in self.__active_arms]
-      pulls = int(2 / (self.__eps_r**2) * (math.log(2) - self.__log_delta_r))
+      pulls = math.ceil(2 / (self.__eps_r**2) *
+                        (math.log(2) - self.__log_delta_r))
       self.__last_actions = [(arm_id, pulls) for arm_id in self.__active_arms]
     else:
       # self.__stage == 'median_elimination'
@@ -126,8 +126,8 @@ class ExpGap(OrdinaryFCBAILearner):
             arm_id for (arm_id, pseudo_arm) in self.__me_pseudo_arms
             if pseudo_arm.em_mean >= median
         ]
-        self.__me_eps_left -= self.__me_eps_ell
-        self.__me_delta_left -= math.exp(self.__me_log_delta_ell)
+        self.__me_eps_left *= 0.75
+        self.__me_delta_left *= 0.5
         self.__me_eps_ell *= 0.75
         self.__me_log_delta_ell -= math.log(2)
         self.__me_ell += 1
