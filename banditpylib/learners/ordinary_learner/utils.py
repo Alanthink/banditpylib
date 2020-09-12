@@ -16,8 +16,8 @@ class OrdinaryLearner(Learner):
       name: alias name
     """
     super().__init__(name)
-    if arm_num <= 2:
-      raise Exception('Number of arms %d is less then 3!' % arm_num)
+    if arm_num <= 1:
+      raise Exception('Number of arms %d is less then 2!' % arm_num)
     self.__arm_num = arm_num
     if horizon < arm_num:
       raise Exception('Horizon %d is less than number of arms %d!' % \
