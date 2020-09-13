@@ -65,8 +65,9 @@ class ExpGap(OrdinaryFCBAILearner):
                              for arm_id in self.__me_active_arms]
     if len(self.__me_active_arms) <= self.__threshold:
       # uniform sampling
-      pulls = math.ceil(0.5 / (self.__me_eps_left**2) *
-                        (math.log(2 / self.__me_delta_left)))
+      pulls = math.ceil(
+          0.5 / (self.__me_eps_left**2) *
+          (math.log(2 / self.__me_delta_left / len(self.__me_active_arms))))
     else:
       pulls = math.ceil(4 / (self.__me_eps_ell**2) *
                         (math.log(3) - self.__me_log_delta_ell))
