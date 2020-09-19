@@ -23,10 +23,25 @@ A lightweight python library for bandit algorithms
 
 ### Installing
 
-```shell
+Python version requirement: 3.6+.
+
+Virtual environment: in order not to pollute your own environment, it is suggested to use python virtual environment. The following commands show the details to create and activate a virtual environment.
+
+```bash
+# create a virtual environment `.env`
+python -m venv .env
+# activate the environment
+source .env/bin/activate
+```
+
+Then you can run the following command to install the `banditpylib` library. Note that the following command creates a symbolic link to the library which means anything you change to the library will immediately take effect when you re-import the library.
+
+```bash
 # run under `banditpylib` root directory
 pip install -e .
 ```
+
+After finishing the usage of the library, you can use `deactivate` to deactive the virtual environment and what's more, you can safely delete the whole `.env` directory for clean up.
 
 ### Example
 
@@ -75,7 +90,7 @@ Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more 
 
 ### Running the Tests
 
-```shell
+```bash
 # run all tests
 pytest
 ```
