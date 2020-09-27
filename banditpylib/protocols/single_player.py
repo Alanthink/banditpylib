@@ -29,7 +29,7 @@ class SinglePlayerProtocol(Protocol):
 
   @property
   def name(self):
-    """Protocol name"""
+    """protocol name"""
     return 'single_player_protocol'
 
   def _one_trial(self, random_seed: int) -> List[Dict]:

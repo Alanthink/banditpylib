@@ -33,7 +33,7 @@ class OrdinaryMNLLearner(Learner):
       use_local_search: whether to use local search for searching the best
         assortment
       random_neighbors: number of random neighbors to look up if local search is
-        used
+        enabled
     """
     super().__init__(name)
     self.__product_num = len(revenues) - 1
@@ -61,10 +61,7 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def running_environment(self) -> type:
-    """
-    Returns:
-      environment class the learner works with
-    """
+    """type of environment the learner works with"""
     return OrdinaryMNLBandit
 
   def product_num(self) -> int:
@@ -102,11 +99,12 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def use_local_search(self) -> bool:
-    """if local search is enabled"""
+    """whether local search is enabled"""
     return self.__use_local_search
 
   @property
   def random_neighbors(self) -> int:
+    """number of random neighbors to look up when local search is enabled"""
     return self.__random_neighbors
 
   def set_horizon(self, horizon: int):

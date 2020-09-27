@@ -50,10 +50,7 @@ class ExpGap(OrdinaryFCBAILearner):
 
   @property
   def stage(self) -> str:
-    """
-    Returns:
-      stage of the learner
-    """
+    """stage of the learner"""
     return self.__stage
 
   def median_elimination(self) -> List[Tuple[int, int]]:

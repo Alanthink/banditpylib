@@ -18,7 +18,7 @@ class Bandit(ABC):
 
   @property
   def name(self) -> str:
-    """Bandit name"""
+    """bandit name"""
     return self.__name
 
   @abstractmethod

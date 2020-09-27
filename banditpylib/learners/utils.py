@@ -15,7 +15,7 @@ class Learner(ABC):
 
   @property
   def name(self) -> str:
-    """Learner name"""
+    """learner name"""
     return self.__name
 
   @abstractmethod
@@ -28,10 +28,7 @@ class Learner(ABC):
   @property
   @abstractmethod
   def running_environment(self) -> type:
-    """
-    Returns:
-      environment class the learner works with
-    """
+    """type of environment the learner works with"""
 
   @abstractmethod
   def reset(self):

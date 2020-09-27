@@ -26,10 +26,7 @@ class OrdinaryLearner(Learner):
 
   @property
   def running_environment(self) -> type:
-    """
-    Returns:
-      environment class the learner works with
-    """
+    """type of environment the learner works with"""
     return OrdinaryBanditItf
 
   def arm_num(self) -> int:

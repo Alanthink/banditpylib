@@ -48,22 +48,16 @@ class Protocol(ABC):
   @property
   @abstractmethod
   def name(self) -> str:
-    """Protocol name"""
+    """protocol name"""
 
   @property
   def bandit(self) -> Bandit:
-    """
-    Returns:
-      bandit environment the simulator is running on
-    """
+    """bandit environment the simulator is running in"""
     return self.__bandit
 
   @property
   def current_learner(self) -> Learner:
-    """
-    Returns:
-      current learner the simulator is running
-    """
+    """current learner the simulator is using"""
     return self.__current_learner
 
   @abstractmethod

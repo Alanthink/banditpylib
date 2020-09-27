@@ -10,7 +10,7 @@ class BernoulliArm(Arm):
   def __init__(self, mean: float):
     """
     Args:
-      mean: mean of the arm
+      mean: real mean of the arm
     """
     if mean < 0:
       raise Exception('Mean of Bernoulli arm %.2f is less than 0!' % mean)
@@ -20,10 +20,10 @@ class BernoulliArm(Arm):
 
   @property
   def mean(self) -> float:
-    """mean of the arm"""
+    """real mean of the arm"""
     return self.__mean
 
-  def pull(self, pulls=1) -> np.ndarray or None:
+  def pull(self, pulls: int=1) -> np.ndarray or None:
     """Pulling the arm
 
     Args:
