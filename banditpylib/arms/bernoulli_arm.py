@@ -23,7 +23,7 @@ class BernoulliArm(Arm):
     """real mean of the arm"""
     return self.__mean
 
-  def pull(self, pulls: int=1) -> np.ndarray or None:
+  def pull(self, pulls: int = 1) -> np.ndarray or None:
     """Pulling the arm
 
     Args:
