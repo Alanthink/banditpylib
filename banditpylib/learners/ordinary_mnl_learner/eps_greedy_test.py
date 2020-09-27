@@ -18,7 +18,7 @@ class TestEpsGreedy:
                         reward=reward,
                         card_limit=card_limit)
     random_assortment = learner.select_ramdom_assort()
-    assert random_assortment != []
+    assert random_assortment != set()
     assert len(random_assortment) <= card_limit
 
   def test_simple_run(self):
@@ -27,7 +27,7 @@ class TestEpsGreedy:
     reward = MeanReward()
     learner = EpsGreedy(revenues=revenues, horizon=horizon, reward=reward)
     learner.reset()
-    mock_random_assortment = [2, 3, 4]
+    mock_random_assortment = {2, 3, 4}
     learner.select_ramdom_assort = MagicMock(
         return_value=mock_random_assortment)
-    assert learner.actions() == [([2, 3, 4], 1)]
+    assert learner.actions() == [({2, 3, 4}, 1)]

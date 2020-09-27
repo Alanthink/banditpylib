@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 import numpy as np
 
@@ -66,7 +66,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     # next product to try in the warm start stage
     self.__next_product_in_warm_start = 1
 
-  def warm_start(self) -> List[Tuple[List[int], int]]:
+  def warm_start(self) -> List[Tuple[Set[int], int]]:
     """Initial warm start stage
 
     Returns:
@@ -76,7 +76,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     if self.__last_feedback is not None and self.__last_feedback[0][1][0] != 0:
       # continue serving the same assortment
       return self.__last_actions
-    self.__last_actions = [([self.__next_product_in_warm_start], 1)]
+    self.__last_actions = [({self.__next_product_in_warm_start}, 1)]
     self.__next_product_in_warm_start += 1
     return self.__last_actions
 
@@ -104,7 +104,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     sampled_preference_params = np.minimum(sampled_preference_params, 1)
     return sampled_preference_params
 
-  def actions(self, context=None) -> List[Tuple[List[int], int]]:
+  def actions(self, context=None) -> List[Tuple[Set[int], int]]:
     """
     Args:
       context: context of the ordinary mnl bandit which should be `None`

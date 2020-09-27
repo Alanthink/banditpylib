@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 import copy
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 from absl import logging
 
@@ -10,13 +10,13 @@ import numpy as np
 from .utils import Bandit
 
 
-def search(assortments: List[List[int]],
+def search(assortments: List[Set[int]],
            product_num: int,
            next_product_id: int,
-           assortment: List[int],
+           assortment: Set[int],
            card_limit: int = np.inf,
-           restricted_products: List[int] = None):
-  """Find all assortments with cardinality limit
+           restricted_products: Set[int] = None):
+  """Find all assortments satisfying cardinality limit
 
   Args:
     assortments: all eligible assortments found so far
@@ -27,13 +27,14 @@ def search(assortments: List[List[int]],
     restricted_products: products can only be selected from this restricted set
   """
   if next_product_id == (product_num + 1):
+    # ignore empty assortment
     if assortment:
       assortments.append(assortment)
     return
   if len(assortment) < card_limit and (restricted_products is None or
                                        next_product_id in restricted_products):
     search(assortments, product_num, next_product_id + 1,
-           assortment + [next_product_id], card_limit, restricted_products)
+           assortment.union({next_product_id}), card_limit, restricted_products)
   search(assortments, product_num, next_product_id + 1, assortment, card_limit,
          restricted_products)
 
@@ -45,10 +46,10 @@ class Reward:
     self.__revenues = None
 
   @abstractmethod
-  def calc(self, assortment: List[int]) -> float:
+  def calc(self, assortment: Set[int]) -> float:
     """
     Args:
-      assortment: input assortment to calculate
+      assortment: assortment to calculate
 
     Returns:
       reward of the assortment
@@ -88,10 +89,10 @@ class MeanReward(Reward):
   def __init__(self):
     super().__init__()
 
-  def calc(self, assortment: List[int]) -> float:
+  def calc(self, assortment: Set[int]) -> float:
     """
     Args:
-      assortment: input assortment to calculate
+      assortment: assortment to calculate
 
     Returns:
       reward of the assortment
@@ -126,10 +127,10 @@ class CvarReward(Reward):
     """percentile of cvar"""
     return self.__alpha
 
-  def calc(self, assortment: List[int]) -> float:
+  def calc(self, assortment: Set[int]) -> float:
     """
     Args:
-      assortment: input assortment to calculate
+      assortment: assortment to calculate
 
     Returns:
       reward of the assortment
@@ -167,7 +168,7 @@ class CvarReward(Reward):
 
 
 def search_best_assortment(reward: Reward,
-                           card_limit: int = np.inf) -> Tuple[float, List[int]]:
+                           card_limit: int = np.inf) -> Tuple[float, Set[int]]:
   """Search assortment with the maximum reward
 
   Args:
@@ -175,7 +176,7 @@ def search_best_assortment(reward: Reward,
     card_limit: cardinality constraint
 
   Returns:
-    assortment with the maximum reward. Products are in sorted order.
+    assortment with the maximum reward
   """
   product_num = len(reward.revenues) - 1
   restricted_products = None
@@ -185,22 +186,22 @@ def search_best_assortment(reward: Reward,
     revenues = reward.revenues
     sorted_revenues = sorted(list(zip(revenues, range(product_num + 1))),
                              key=lambda x: x[0])
-    best_assortment = [sorted_revenues[-1][1]]
+    best_assortment = {sorted_revenues[-1][1]}
     next_ind = product_num - 1
     while next_ind > 0 and reward.calc(best_assortment) < revenues[
         sorted_revenues[next_ind][1]]:
-      best_assortment.append(sorted_revenues[next_ind][1])
+      best_assortment.add(sorted_revenues[next_ind][1])
       next_ind -= 1
     if len(best_assortment) <= card_limit:
-      return (reward.calc(best_assortment), sorted(best_assortment))
+      return (reward.calc(best_assortment), best_assortment)
     else:
       restricted_products = best_assortment
 
-  assortments = []
+  assortments: List[Set[int]] = []
   search(assortments=assortments,
          product_num=product_num,
          next_product_id=1,
-         assortment=[],
+         assortment=set(),
          card_limit=card_limit,
          restricted_products=restricted_products)
   # sort assortments according to reward value
@@ -218,7 +219,7 @@ def local_search_best_assortment(
     reward: Reward,
     random_neighbors: int,
     card_limit: int,
-    init_assortment: List[int] = None) -> Tuple[float, List[int]]:
+    init_assortment: Set[int] = None) -> Tuple[float, Set[int]]:
   """Local search assortment with the maximum reward
 
   .. warning::
@@ -234,7 +235,7 @@ def local_search_best_assortment(
     init_assortment: initial assortment to start
 
   Returns:
-    local best assortment with its reward. Products are in sorted order.
+    local best assortment with its reward
   """
   if random_neighbors <= 0:
     raise Exception('Number of neighbors to look up %d is no greater than 0!' \
@@ -302,7 +303,7 @@ def local_search_best_assortment(
     else:
       break
 
-  return (best_reward, sorted(list(best_assortment)))
+  return (best_reward, best_assortment)
 
 
 class OrdinaryMNLBandit(Bandit):
@@ -375,7 +376,8 @@ class OrdinaryMNLBandit(Bandit):
       self.__best_reward, self.__best_assort = search_best_assortment(
           reward=self.__reward,
           card_limit=self.__card_limit)
-      logging.info('Assortment %s has best reward %.2f.', self.__best_assort,
+      logging.info('Assortment %s has best reward %.2f.',
+                   sorted(list(self.__best_assort)),
                    self.__best_reward)
 
   def _name(self) -> str:
@@ -385,7 +387,7 @@ class OrdinaryMNLBandit(Bandit):
     """
     return 'ordinary_mnl_bandit'
 
-  def _take_action(self, assortment: List[int], times: int) -> \
+  def _take_action(self, assortment: Set[int], times: int) -> \
       Tuple[np.ndarray, List[int]]:
     """Serve one assortment
 
@@ -400,27 +402,25 @@ class OrdinaryMNLBandit(Bandit):
     """
     if not assortment:
       raise Exception('Empty assortment!')
-    if len(list(set(assortment))) != len(assortment):
-      logging.error('Assortment %s contains duplicate products!' % assortment)
-      # remove duplicate products
-      assortment = sorted(list(set(assortment)))
     for product_id in assortment:
       if product_id < 1 or product_id > self.__product_num:
         raise Exception('Product id %d is out of range [1, %d]!' %
                         (product_id, self.__product_num))
     if len(assortment) > self.__card_limit:
       raise Exception('Assortment %s has products more than cardinality'
-                      ' constraint %d!' % (assortment, self.__card_limit))
+                      ' constraint %d!' % (sorted(list(assortment)),
+                                           self.__card_limit))
 
     preference_params_sum = sum(
         [self.__preference_params[product_id] for product_id in assortment]) +\
         self.__preference_params[0]
+    sorted_assort = sorted(list(assortment))
     sample_prob = [self.__preference_params[0] / preference_params_sum] + \
         [self.__preference_params[product] / preference_params_sum
-         for product in assortment]
+         for product in sorted_assort]
     sample_results = np.random.choice(len(sample_prob), times, p=sample_prob)
     choices = [
-        0 if (sample == 0) else assortment[sample - 1]
+        0 if (sample == 0) else sorted_assort[sample - 1]
         for sample in sample_results
     ]
     # feedback = (stochastic rewards, choices)
@@ -431,7 +431,7 @@ class OrdinaryMNLBandit(Bandit):
         (self.__best_reward - self.__reward.calc(assortment)) * times
     return feedback
 
-  def feed(self, actions: List[Tuple[List[int], int]]) -> \
+  def feed(self, actions: List[Tuple[Set[int], int]]) -> \
       List[Tuple[np.ndarray, List[int]]]:
     """Serve multiple assortments
 
@@ -440,9 +440,9 @@ class OrdinaryMNLBandit(Bandit):
         and the second dimension is the number of serving times.
 
     Returns:
-      feedback by serving assortments `actions`. For each tuple, the first \
-      dimension is the stochatic rewards, and the second dimension is the \
-      choices of the customer.
+      feedback by serving `actions`. For each tuple, the first dimension is \
+      the stochatic rewards, and the second dimension is the choices of the \
+      customer.
     """
     feedback = []
     for (assortment, times) in actions:
@@ -452,7 +452,7 @@ class OrdinaryMNLBandit(Bandit):
   def reset(self):
     """Reset the bandit environment
 
-    Initialization. This function should be called before the start of the game.
+    This function should be called before the start of the game.
     """
     self.__regret = 0.0
 

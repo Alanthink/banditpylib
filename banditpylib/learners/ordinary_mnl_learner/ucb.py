@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 import numpy as np
 
@@ -78,7 +78,7 @@ class UCB(OrdinaryMNLLearner):
     ucb = np.minimum(ucb, 1)
     return ucb
 
-  def actions(self, context=None) -> List[Tuple[List[int], int]]:
+  def actions(self, context=None) -> List[Tuple[Set[int], int]]:
     """
     Args:
       context: context of the ordinary mnl bandit which should be `None`

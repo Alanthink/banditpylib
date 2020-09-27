@@ -11,27 +11,34 @@ class TestOrdinaryMNLBandit:
 
   def test_search_unrestricted(self):
     results = []
-    search(results, 3, 1, [])
-    assert results == [[1, 2, 3], [1, 2], [1, 3], [1], [2, 3], [2], [3]]
+    search(assortments=results,
+           product_num=3,
+           next_product_id=1,
+           assortment=set())
+    assert results == [{1, 2, 3}, {1, 2}, {1, 3}, {1}, {2, 3}, {2}, {3}]
 
   def test_search_restricted(self):
     results = []
-    search(results, 3, 1, [], 1)
-    assert results == [[1], [2], [3]]
+    search(assortments=results,
+           product_num=3,
+           next_product_id=1,
+           assortment=set(),
+           card_limit=1)
+    assert results == [{1}, {2}, {3}]
 
   def test_search_best_assortment(self):
     reward = MeanReward()
     reward.set_preference_params(np.array([1, 1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 0.45, 0.8, 0.9, 1.0]))
     best_revenue, best_assortment = search_best_assortment(reward=reward)
-    assert best_assortment == [2, 3, 4]
+    assert best_assortment == {2, 3, 4}
     assert best_revenue == pytest.approx(0.675, 1e-8)
 
     reward = CvarReward(0.7)
     reward.set_preference_params(np.array([1, 0.7, 0.8, 0.5, 0.2]))
     reward.set_revenues(np.array([0, 0.7, 0.8, 0.9, 1.0]))
     best_revenue, best_assortment = search_best_assortment(reward=reward)
-    assert best_assortment == [1, 2, 3, 4]
+    assert best_assortment == {1, 2, 3, 4}
     assert best_revenue == pytest.approx(0.41, 1e-2)
 
   def test_local_search_best_assortment(self):
@@ -66,7 +73,7 @@ class TestOrdinaryMNLBandit:
     reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25
-    cvar_alpha = reward.calc([2, 3])
+    cvar_alpha = reward.calc({2, 3})
     # upper bound of cvar is 1
     assert cvar_alpha <= 1
 
@@ -75,7 +82,7 @@ class TestOrdinaryMNLBandit:
     reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25
-    cvar_alpha = reward.calc([1, 2, 3])
+    cvar_alpha = reward.calc({1, 2, 3})
     # upper bound of cvar is 1
     assert cvar_alpha == 0.75
 
@@ -86,8 +93,8 @@ class TestOrdinaryMNLBandit:
     card_limit = 1
     bandit = OrdinaryMNLBandit(preference_params, revenues, card_limit)
     bandit.reset()
-    # serve best assortment [1] for 3 times
-    bandit.feed([([1], 3)])
+    # serve best assortment {1} for 3 times
+    bandit.feed([({1}, 3)])
     assert bandit.regret() == 0.0
 
   def test_one_product(self):
@@ -96,4 +103,4 @@ class TestOrdinaryMNLBandit:
     bandit = OrdinaryMNLBandit(preference_params, revenues)
     bandit.reset()
     # always get no purchase
-    assert set(bandit.feed([([1], 5)])[0][1]) == {0}
+    assert set(bandit.feed([({1}, 5)])[0][1]) == {0}
