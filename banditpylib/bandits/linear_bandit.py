@@ -78,8 +78,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
         second dimension is the number of times this arm is going to be pulled.
 
     Returns:
-      List[Tuple[np.ndarray, None]]: feedback. For each tuple, the first \
-      dimension is the stochatic rewards
+      feedback. For each tuple, the first dimension is the stochatic rewards.
     """
     feedback = []
     for (arm_id, pulls) in actions:
