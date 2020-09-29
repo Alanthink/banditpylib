@@ -1,3 +1,5 @@
+from typing import Optional
+
 import math
 import numpy as np
 
@@ -32,7 +34,7 @@ class GaussianArm(Arm):
     """real variance of the arm"""
     return self.__var
 
-  def pull(self, pulls=1) -> np.ndarray or None:
+  def pull(self, pulls=1) -> Optional[np.ndarray]:
     """Pulling the arm
 
     Args:

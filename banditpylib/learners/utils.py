@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
+from typing import Optional
 
 class Learner(ABC):
   """Learner class
 
   Before a game runs, a learner should be initialized with :func:`reset`.
   """
-  def __init__(self, name: str):
+  def __init__(self, name: Optional[str]):
     """
     Args:
       name: alias name

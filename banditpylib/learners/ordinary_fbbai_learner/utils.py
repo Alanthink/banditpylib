@@ -1,5 +1,7 @@
 from abc import abstractmethod
 
+from typing import Optional
+
 from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
@@ -10,7 +12,7 @@ class OrdinaryFBBAILearner(Learner):
 
   This learner aims to identify the best arm with fixed budget.
   """
-  def __init__(self, arm_num: int, budget: int, name: str):
+  def __init__(self, arm_num: int, budget: int, name: Optional[str]):
     """
     Args:
       arm_num: number of arms

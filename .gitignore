@@ -9,3 +9,4 @@ tests/
 build/
 dist/
 *pytest.log
+.mypy_cache/

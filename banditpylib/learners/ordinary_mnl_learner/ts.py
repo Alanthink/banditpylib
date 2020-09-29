@@ -1,4 +1,4 @@
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Optional
 
 import numpy as np
 
@@ -104,7 +104,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
     sampled_preference_params = np.minimum(sampled_preference_params, 1)
     return sampled_preference_params
 
-  def actions(self, context=None) -> List[Tuple[Set[int], int]]:
+  def actions(self, context=None) -> Optional[List[Tuple[Set[int], int]]]:
     """
     Args:
       context: context of the ordinary mnl bandit which should be `None`

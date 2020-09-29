@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import math
 import numpy as np
@@ -49,7 +49,7 @@ class SR(OrdinaryFBBAILearner):
     # current round
     self.__round = 1
 
-  def actions(self, context=None) -> List[Tuple[int, int]]:
+  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -72,7 +72,7 @@ class SR(OrdinaryFBBAILearner):
                                for i in range(2)]
     return self.__last_actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+  def update(self, feedback: List[Tuple[Optional[np.ndarray], None]]):
     """Learner update
 
     Args:

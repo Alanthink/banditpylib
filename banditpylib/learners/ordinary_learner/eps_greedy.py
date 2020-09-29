@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import numpy as np
 
@@ -43,7 +43,7 @@ class EpsGreedy(OrdinaryLearner):
     # current time step
     self.__time = 1
 
-  def actions(self, context=None) -> List[Tuple[int, int]]:
+  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
     """
     Args:
       context: context of the ordinary bandit which should be `None`

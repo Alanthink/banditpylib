@@ -1,3 +1,5 @@
+from typing import Optional
+
 from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
@@ -8,7 +10,7 @@ class OrdinaryLearner(Learner):
 
   This type of learners aim to maximize the expected total rewards.
   """
-  def __init__(self, arm_num: int, horizon: int, name: str):
+  def __init__(self, arm_num: int, horizon: int, name: Optional[str]):
     """
     Args:
       arm_num: number of arms

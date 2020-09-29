@@ -265,7 +265,7 @@ def local_search_best_assortment(
       available_operations.append('add')
 
     local_best_assortment = set()
-    local_best_reward = 0
+    local_best_reward = 0.0
     for _ in range(random_neighbors):
       # pylint: disable=no-member
       operation = np.random.choice(available_operations)
@@ -368,7 +368,7 @@ class OrdinaryMNLBandit(Bandit):
     self.__reward.set_revenues(self.__revenues)
 
     if zero_best_reward:
-      self.__best_reward, self.__best_assort = 0.0, []
+      self.__best_reward, self.__best_assort = 0.0, set()
       logging.warning('Best reward is set to zero. Now the regret equals to the'
                       ' minus total revenue.')
     else:

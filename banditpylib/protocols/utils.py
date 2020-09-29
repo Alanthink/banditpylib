@@ -2,7 +2,7 @@ import json
 import multiprocessing
 from multiprocessing import Pool
 import time
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from abc import ABC, abstractmethod
 from absl import logging
@@ -61,7 +61,7 @@ class Protocol(ABC):
     return self.__current_learner
 
   @abstractmethod
-  def _one_trial(self, random_seed: int) -> Dict or List[Dict]:
+  def _one_trial(self, random_seed: int) -> Union[Dict, List[Dict]]:
     """One trial of the game
 
     Args:
@@ -71,7 +71,7 @@ class Protocol(ABC):
       result of one trial
     """
 
-  def __write_to_file(self, data: Dict or List[Dict]):
+  def __write_to_file(self, data: Union[Dict, List[Dict]]):
     """Write the result of one trial to file
 
     Args:

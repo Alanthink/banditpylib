@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from typing import Optional
 
 class Bandit(ABC):
   """Bandit environment
@@ -9,7 +10,7 @@ class Bandit(ABC):
   current state of the environment. :func:`feed` is used to pass the actions to
   the environment for execution.
   """
-  def __init__(self, name: str):
+  def __init__(self, name: Optional[str]):
     """
     Args:
       name: alias name for the bandit environment.

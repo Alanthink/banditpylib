@@ -1,5 +1,7 @@
 from abc import abstractmethod
 
+from typing import Optional
+
 from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner
 
@@ -10,7 +12,7 @@ class OrdinaryFCBAILearner(Learner):
 
   This learner aims to identify the best arm with fixed confidence.
   """
-  def __init__(self, arm_num: int, confidence: float, name: str):
+  def __init__(self, arm_num: int, confidence: float, name: Optional[str]):
     """
     Args:
       arm_num: number of arms
@@ -38,14 +40,14 @@ class OrdinaryFCBAILearner(Learner):
     """
     return self.__arm_num
 
-  def confidence(self) -> int:
+  def confidence(self) -> float:
     """
     Returns:
       confidence level of the learner
     """
     return self.__confidence
 
-  def set_confidence(self, confidence: int):
+  def set_confidence(self, confidence: float):
     """
     Args:
       confidence: new confidence level of the learner

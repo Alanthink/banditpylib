@@ -1,4 +1,4 @@
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Optional
 
 import numpy as np
 
@@ -85,7 +85,7 @@ class EpsGreedy(OrdinaryMNLLearner):
     return unbiased_est
 
   def select_ramdom_assort(self) -> List[int]:
-    assortments = []
+    assortments: List[Set[int]] = []
     search(assortments=assortments,
            product_num=self.product_num(),
            next_product_id=1,
@@ -94,7 +94,7 @@ class EpsGreedy(OrdinaryMNLLearner):
     # pylint: disable=no-member
     return assortments[int(np.random.randint(0, len(assortments)))]
 
-  def actions(self, context=None) -> List[Tuple[Set[int], int]]:
+  def actions(self, context=None) -> Optional[List[Tuple[Set[int], int]]]:
     """
     Returns:
       assortments to serve

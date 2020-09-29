@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import math
 import numpy as np
@@ -71,7 +71,7 @@ class ExpGap(OrdinaryFCBAILearner):
     actions = [(arm_id, pulls) for arm_id in self.__me_active_arms]
     return actions
 
-  def actions(self, context=None) -> List[Tuple[int, int]]:
+  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -110,7 +110,7 @@ class ExpGap(OrdinaryFCBAILearner):
       self.__me_log_delta_ell = self.__log_delta_r - math.log(2)
       self.__me_eps_left = self.__eps_r / 2
       self.__me_delta_left = math.exp(self.__log_delta_r)
-      self.__me_active_arms = set(self.__active_arms)
+      self.__me_active_arms = list(self.__active_arms)
     elif self.__stage == 'median_elimination':
       for (ind, (rewards, _)) in enumerate(feedback):
         self.__me_pseudo_arms[ind][1].update(rewards)
