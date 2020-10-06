@@ -7,34 +7,45 @@ from .utils import Arm
 
 class BernoulliArm(Arm):
   """Bernoulli arm
+
+  Arm with rewards generated from a Bernoulli distribution.
   """
 
-  def __init__(self, mean: float):
+  def __init__(self, mu: float, name: str = None):
     """
     Args:
-      mean: real mean of the arm
+      mu: mean of rewards
+      name: alias name
     """
-    if mean < 0:
-      raise Exception('Mean of Bernoulli arm %.2f is less than 0!' % mean)
-    if mean > 1:
-      raise Exception('Mean of Bernoulli arm %.2f is greater than 1!' % mean)
-    self.__mean = mean
+    super().__init__(name)
+    if mu < 0:
+      raise Exception('Mean of rewards %.2f is less than 0!' % mu)
+    if mu > 1:
+      raise Exception('Mean of rewards %.2f is greater than 1!' % mu)
+    self.__mu = mu
+
+  def _name(self) -> str:
+    """
+    Returns:
+      default arm name
+    """
+    return 'bernoulli_arm'
 
   @property
   def mean(self) -> float:
-    """real mean of the arm"""
-    return self.__mean
+    """mean of rewards"""
+    return self.__mu
 
   def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
-    """Pulling the arm
+    """Pull the arm
 
     Args:
-      pulls: number of pulls
+      pulls: number of times to pull
 
     Returns:
-      stochastic rewards. When number of pulls is less than 1, `None` is \
-      returned.
+      stochastic rewards. When number of times to pull is less than 1, `None` is
+        returned.
     """
     if pulls < 1:
       return None
-    return np.random.binomial(1, self.__mean, pulls)
+    return np.random.binomial(1, self.__mu, pulls)

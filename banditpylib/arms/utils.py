@@ -1,17 +1,39 @@
 from abc import ABC, abstractmethod
 
+from typing import Optional
+
 import numpy as np
 
 
 class Arm(ABC):
-  """Arm class"""
+  """Arm"""
+
+  def __init__(self, name: Optional[str]):
+    """
+    Args:
+      name: alias name for the arm
+    """
+    self.__name = self._name() if name is None else name
+
+  @property
+  def name(self) -> str:
+    """arm name"""
+    return self.__name
 
   @abstractmethod
-  def pull(self, pulls=1) -> np.ndarray:
+  def _name(self) -> str:
     """
+    Returns:
+      default arm name
+    """
+
+  @abstractmethod
+  def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
+    """Pull the arm
+
     Args:
       pulls: number of times to pull
 
     Returns:
-      rewards
+      rewards. When number of times to pull is less than 1, `None` is returned.
     """

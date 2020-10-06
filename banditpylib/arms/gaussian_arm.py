@@ -8,41 +8,56 @@ from .utils import Arm
 
 class GaussianArm(Arm):
   """Gaussian arm
+
+  Arm with rewards generated from a Gaussian distribution.
   """
 
-  def __init__(self, mu: float, var: float):
+  def __init__(self, mu: float, var: float, name: str = None):
     """
     Args:
-      mu: mean of the arm
-      var: variance of the arm
+      mu: mean of rewards
+      var: variance of rewards
+      name: alias name
     """
+    super().__init__(name)
     self.__mu = mu
     if var < 0:
-      raise Exception(
-          'Variance of gaussian distribution %.2f is negative!' % var)
+      raise Exception('Variance of rewards %.2f is negative!' % var)
     self.__var = var
-    # compute standard deviation
+    # standard deviation
     self.__std = math.sqrt(var)
+
+  def _name(self) -> str:
+    """
+    Returns:
+      default arm name
+    """
+    return 'gaussian_arm'
 
   @property
   def mean(self) -> float:
-    """real mean of the arm"""
+    """mean of rewards"""
     return self.__mu
 
   @property
+  def std(self) -> float:
+    """standard deviation of rewards"""
+    return self.__std
+
+  @property
   def var(self) -> float:
-    """real variance of the arm"""
+    """variance of rewards"""
     return self.__var
 
   def pull(self, pulls=1) -> Optional[np.ndarray]:
-    """Pulling the arm
+    """Pull the arm
 
     Args:
-      pulls: number of pulls
+      pulls: number of times to pull
 
     Returns:
-      stochastic rewards. When number of pulls is less than 1, `None` is \
-      returned.
+      stochastic rewards. When number of times to pull is less than 1, `None` is
+        returned.
     """
     if pulls < 1:
       return None
