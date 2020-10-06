@@ -13,7 +13,7 @@ class Bandit(ABC):
   def __init__(self, name: Optional[str]):
     """
     Args:
-      name: alias name for the bandit environment.
+      name: alias name for the bandit environment
     """
     self.__name = self._name() if name is None else name
 
@@ -33,7 +33,8 @@ class Bandit(ABC):
   def reset(self):
     """Reset the bandit environment
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
 
   @abstractmethod
@@ -47,8 +48,8 @@ class Bandit(ABC):
   def feed(self, actions):
     """
     Args:
-      actions: actions for the bandit environment to take
+      actions: actions for the bandit environment to execute
 
     Returns:
-      feedback after executing actions `actions`
+      feedback after `actions` are executed
     """

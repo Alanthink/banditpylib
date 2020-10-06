@@ -7,12 +7,14 @@ from .ordinary_bandit_itf import OrdinaryBanditItf
 
 
 class OrdinaryBandit(OrdinaryBanditItf):
-  """Class for ordinary bandit
+  r"""Ordinary bandit
 
-  Arms are indexed from 0 by default.
+  Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
+  an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
+  beforehand.
   """
 
-  def __init__(self, arms: List[Arm], name=None):
+  def __init__(self, arms: List[Arm], name: str = None):
     """
     Args:
       arms: arms in ordinary bandit
@@ -36,7 +38,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """
     return 'ordinary_bandit'
 
-  def _take_action(self, arm_id: int, pulls=1) -> Tuple[np.ndarray, None]:
+  def _take_action(self, arm_id: int, pulls: int = 1) -> \
+      Tuple[np.ndarray, None]:
     """Pull one arm
 
     Args:
@@ -44,17 +47,17 @@ class OrdinaryBandit(OrdinaryBanditItf):
       pulls: number of times to pull
 
     Returns:
-      feedback by pulling arm `arm_id` where the first dimention is the \
-      stochstic rewards
+      feedback after `arm_id` is pulled where the first dimention is the
+        stochstic rewards
     """
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
-    self.__total_pulls += pulls
-    # empirical rewards when arm `arm_id` is pulled for `pulls` times
+    # empirical rewards when `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls)
     if em_rewards is not None:
       self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
+      self.__total_pulls += pulls
     return (em_rewards, None)
 
   def feed(self, actions: List[Tuple[int, int]]) -> \
@@ -63,41 +66,44 @@ class OrdinaryBandit(OrdinaryBanditItf):
 
     Args:
       actions: for each tuple, the first dimension denotes the arm id and the
-        second dimension is the number of times to pull.
+        second dimension is the number of times to pull
 
     Returns:
-      feedback by pulling arms `actions`. For each tuple, the first \
-      dimention is the stochstic rewards
+      feedback after arms are pulled. For each tuple, the first dimention is
+        the stochstic rewards.
     """
     feedback = []
     for (arm_id, pulls) in actions:
       feedback.append(self._take_action(arm_id, pulls))
     return feedback
 
-  def _update_context(self):
-    pass
-
   def reset(self):
     """Reset the bandit environment
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__total_pulls = 0
     self.__regret = 0.0
 
-  def context(self):
-    return None
-
   def arm_num(self) -> int:
+    """
+    Returns:
+      total number of arms
+    """
     return self.__arm_num
 
   def total_pulls(self) -> int:
+    """
+    Returns:
+      total number of pulls
+    """
     return self.__total_pulls
 
   def regret(self) -> float:
     """
     Returns:
-      regret compared with the optimal policy
+      regret compared with the optimal policy i.e., always pulling the best arm
     """
     return self.__regret
 

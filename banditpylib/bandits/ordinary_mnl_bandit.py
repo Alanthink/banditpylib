@@ -307,11 +307,28 @@ def local_search_best_assortment(
 
 
 class OrdinaryMNLBandit(Bandit):
-  """Ordinary MNL bandit
+  r"""Ordinary MNL bandit
 
-  Products are numbered from 1 by default. 0 is reserved for non-purchase. The
-  preference parameters are assumed to be between 0 and 1. And it is assumed
-  that the preference parameter for non-purchase is 1.
+  There are a total of :math:`N` products, where products are numbered from 1 by
+  default. During each time step :math:`t`, when an assortment :math:`S_t` which
+  is a subset of products is served, the online customer will make a choice
+  i.e., whether to buy a product or purchase nothing. The choice is modeled by
+
+  .. math::
+    \mathbb{P}(c_t = i) = \frac{v_i}{\sum_{i \in S_t \cup \{0\} } v_i}
+
+  where 0 is reserved for non-purchase and :math:`v_0 = 1`. It is also assumed
+  that preference parameters are within the range :math:`[0, 1]`.
+
+  Suppose the rewards are :math:`(r_0, \dots, r_N)`, where :math:`r_0` is always
+  0. Let :math:`F(S)` be the cumulative function of the rewards when :math:`S`
+  is served. Let :math:`U` be a quasiconvex function denoting the reward the
+  learner wants to maximize. The regret is defined as
+
+  .. math::
+    T U(F(S^*)) - \sum_{t = 1}^T U(F(S_t))
+
+  where :math:`S^*` is the optimal assortment.
   """
   def __init__(self,
                preference_params: np.ndarray,
@@ -322,12 +339,16 @@ class OrdinaryMNLBandit(Bandit):
                name: str = None):
     """
     Args:
-      preference_params: preference parameters (product 0 is included)
-      revenue: revenue of products (product 0 is included)
-      card_limit: cardinality constraint of an assortment
-      reward: reward the learner wants to maximize
+      preference_params: preference parameters (product 0 should be included)
+      revenue: revenue of products (product 0 should be included)
+      card_limit: cardinality constraint of an assortment meaning the total
+        number of products provided at a time is no greater than this number
+      reward: reward the learner wants to maximize. The default goal is mean of
+        rewards
       zero_best_reward: whether to set the reward of the best assortment to 0.
         This is useful when data is too large to compute the best assortment.
+        When best reward is set to zero, the regret equals to the minus total
+        revenue.
       name: alias name
     """
     super().__init__(name)
@@ -354,15 +375,14 @@ class OrdinaryMNLBandit(Bandit):
     self.__revenues = revenues
     # product 0 is reserved for non-purchase
     self.__product_num = len(self.__preference_params) - 1
-    if self.__product_num < 1:
-      raise Exception('Number of products %d is less than 1!' %
-                      self.__product_num)
+    if self.__product_num == 0:
+      raise Exception('Number of products %d is 0!' % self.__product_num)
     if card_limit < 1:
       raise Exception('Cardinality limit %d is less than 1!' %
                       card_limit)
     self.__card_limit = min(card_limit, self.__product_num)
 
-    # maximizing MeanReward is the default goal
+    # maximizing the mean of rewards is the default goal
     self.__reward = MeanReward() if reward is None else copy.deepcopy(reward)
     self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
@@ -396,9 +416,9 @@ class OrdinaryMNLBandit(Bandit):
       times: number of serving times
 
     Returns:
-      feedback by serving `assortment`. The first dimension is the \
-      stochatic rewards, and the second dimension is the choices of the \
-      customer.
+      feedback by serving `assortment`. The first dimension is the
+        stochatic rewards, and the second dimension is the choices of the
+        customer.
     """
     if not assortment:
       raise Exception('Empty assortment!')
@@ -437,12 +457,12 @@ class OrdinaryMNLBandit(Bandit):
 
     Args:
       actions: for each tuple, the first dimension is the assortment to serve
-        and the second dimension is the number of serving times.
+        and the second dimension is the number of serving times
 
     Returns:
-      feedback by serving `actions`. For each tuple, the first dimension is \
-      the stochatic rewards, and the second dimension is the choices of the \
-      customer.
+      feedback by taking `actions`. For each tuple, the first dimension is
+        the stochatic rewards, and the second dimension is the choices of the
+        customer.
     """
     feedback = []
     for (assortment, times) in actions:
@@ -452,21 +472,22 @@ class OrdinaryMNLBandit(Bandit):
   def reset(self):
     """Reset the bandit environment
 
-    This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__regret = 0.0
 
   def context(self):
     """
     Returns:
-      current state of the mnl bandit
+      current state of the ordinary mnl bandit
     """
     return None
 
   def revenues(self) -> np.ndarray:
     """
     Returns:
-      revenues of products (product 0 is included)
+      revenues of products (product 0 is included, which is always 0.0)
     """
     return self.__revenues
 

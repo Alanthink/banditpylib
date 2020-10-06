@@ -4,13 +4,25 @@ from .utils import Bandit
 
 
 class OrdinaryBanditItf(Bandit):
-  """Ordinary bandit interface
-  """
+  """Ordinary bandit interface"""
+
+  def context(self):
+    """
+    Returns:
+      current state of the bandit environment
+    """
+    return None
 
   @abstractmethod
   def arm_num(self) -> int:
-    """Total number of arms"""
+    """
+    Returns:
+      total number of arms
+    """
 
   @abstractmethod
   def total_pulls(self) -> int:
-    """Total number of pulls executed"""
+    """
+    Returns:
+      total number of pulls
+    """

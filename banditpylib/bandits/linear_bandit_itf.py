@@ -1,24 +1,38 @@
 from abc import abstractmethod
 
+from typing import List
+
 import numpy as np
 from .utils import Bandit
 
 
 class LinearBanditItf(Bandit):
-  """Linear bandit interface
-  """
+  """Finite-armed linear bandit interface"""
 
   def context(self):
+    """
+    Returns:
+      current state of the bandit environment
+    """
     return None
 
   @abstractmethod
   def arm_num(self) -> int:
-    """Total number of arms"""
+    """
+    Returns:
+      total number of arms
+    """
 
   @abstractmethod
-  def features(self) -> np.ndarray:
-    """Feature vectors"""
+  def features(self) -> List[np.ndarray]:
+    """
+    Returns:
+      feature vectors
+    """
 
   @abstractmethod
   def total_pulls(self) -> int:
-    """Total number of pulls so far"""
+    """
+    Returns:
+      total number of pulls so far
+    """

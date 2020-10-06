@@ -8,17 +8,23 @@ from .linear_bandit_itf import LinearBanditItf
 
 
 class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
-  """Class for finite-armed linear bandit
+  r"""Finite-armed linear bandit
 
-  Arms are indexed from 0 by default.
+  Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
+  an `i.i.d.` reward from distribution :math:`\langle \theta, v_i \rangle
+  + \epsilon`, where :math:`v_i` is the feature of arm :math:`i`, :math:`\theta`
+  is an unknown parameter and :math:`\epsilon` is a zero-mean noise.
   """
 
   def __init__(self,
-               features: np.ndarray, theta: np.ndarray, var=1.0, name=None):
+               features: List[np.ndarray],
+               theta: np.ndarray,
+               var: float = 1.0,
+               name: str = None):
     """
     Args:
       features: features of the arms
-      theta: unknown parameter theta
+      theta: parameter theta
       var: variance of noise
       name: alias name
     """
@@ -36,7 +42,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     if var < 0:
       raise Exception('Variance of noise %d is less than 0!' % var)
     self.__var = var
-    # each arm in linear bandit can be seen as a gaussian arm
+    # each arm in linear bandit can be seen as a Gaussian arm
     self.__arms = [GaussianArm(np.dot(feature, self.__theta), self.__var) \
                    for feature in self.__features]
     self.__best_arm_id = max(
@@ -56,7 +62,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
 
     Args:
       arm_id: arm id
-      pulls: number of pulls to apply
+      pulls: number of times to pull
 
     Returns:
       feedback where the first dimension denotes the stochastic rewards
@@ -64,9 +70,10 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
-    self.__total_pulls += pulls
     em_rewards = self.__arms[arm_id].pull(pulls)
-    self.__regret += (self.__best_arm.mean * pulls - em_rewards)
+    if em_rewards is not None:
+      self.__regret += (self.__best_arm.mean * pulls - em_rewards)
+      self.__total_pulls += pulls
     return (em_rewards, None)
 
   def feed(self,
@@ -75,7 +82,7 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
 
     Args:
       actions: for each tuple, the first dimension denotes the arm id and the
-        second dimension is the number of times this arm is going to be pulled.
+        second dimension is the number of times this arm will be pulled
 
     Returns:
       feedback. For each tuple, the first dimension is the stochatic rewards.
@@ -88,20 +95,31 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
   def reset(self):
     """Reset the bandit environment
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__total_pulls = 0
     self.__regret = 0.0
 
-  # methods of ordinary bandit
   def arm_num(self) -> int:
+    """
+    Returns:
+      total number of arms
+    """
     return self.__arm_num
 
   def total_pulls(self) -> int:
+    """
+    Returns:
+      total number of pulls so far
+    """
     return self.__total_pulls
 
-  # methods of linear bandit
-  def features(self) -> np.ndarray:
+  def features(self) -> List[np.ndarray]:
+    """
+    Returns:
+      feature vectors
+    """
     return self.__features
 
   def regret(self) -> float:
@@ -119,4 +137,4 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     Returns:
       regret compared with the best arm
     """
-    return self.__best_arm_id != arm_id
+    return int(self.__best_arm_id != arm_id)
