@@ -5,7 +5,7 @@ set -e
 
 rm -rf build/*
 
-sphinx-apidoc -M -e -f -o ./source ../banditpylib/
+sphinx-apidoc -M -e -o ./source ../banditpylib/
 
 make html
 
