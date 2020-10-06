@@ -49,7 +49,7 @@ class GaussianArm(Arm):
     """variance of rewards"""
     return self.__var
 
-  def pull(self, pulls=1) -> Optional[np.ndarray]:
+  def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
     """Pull the arm
 
     Args:
