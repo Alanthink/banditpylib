@@ -78,7 +78,7 @@ class TestOrdinaryMNLBandit:
     assert cvar_alpha <= 1
 
     # equivalent to MeanReward
-    reward = CvarReward(alpha=2.0)
+    reward = CvarReward(alpha=1.0)
     reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
     # calculate cvar under percentile 0.25

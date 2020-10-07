@@ -15,7 +15,8 @@ class SinglePlayerProtocol(Protocol):
   def __init__(self,
                bandit: Bandit,
                learners: List[Learner],
-               intermediate_regrets: List[int] = None):
+               intermediate_regrets: List[int] = None,
+               name: str = None):
     """
     Args:
       bandit: bandit environment
@@ -23,13 +24,12 @@ class SinglePlayerProtocol(Protocol):
       intermediate_regrets: a list of intermediate times to record
         intermediate regrets
     """
-    super().__init__(bandit=bandit, learners=learners)
+    super().__init__(bandit=bandit, learners=learners, name=name)
     self.__intermediate_regrets = \
         intermediate_regrets if intermediate_regrets is not None else []
 
-  @property
-  def name(self):
-    """protocol name"""
+  def _name(self):
+    """default protocol name"""
     return 'single_player_protocol'
 
   def _one_trial(self, random_seed: int) -> List[Dict]:

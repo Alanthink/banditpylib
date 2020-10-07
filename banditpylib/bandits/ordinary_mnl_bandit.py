@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 import copy
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Optional
 
 from absl import logging
 
@@ -41,9 +41,22 @@ def search(assortments: List[Set[int]],
 
 class Reward:
   """General reward class"""
-  def __init__(self):
+  def __init__(self, name: Optional[str]):
+    self.__name = self._name() if name is None else name
     self.__preference_params = None
     self.__revenues = None
+
+  @property
+  def name(self) -> str:
+    """reward name"""
+    return self.__name
+
+  @abstractmethod
+  def _name(self) -> str:
+    """
+    Returns:
+      default reward name
+    """
 
   @abstractmethod
   def calc(self, assortment: Set[int]) -> float:
@@ -86,8 +99,19 @@ class Reward:
 
 class MeanReward(Reward):
   """Mean reward"""
-  def __init__(self):
-    super().__init__()
+  def __init__(self, name: str = None):
+    """
+    Args:
+      name: alias name
+    """
+    super().__init__(name)
+
+  def _name(self) -> str:
+    """
+    Returns:
+      default reward name
+    """
+    return 'mean_reward'
 
   def calc(self, assortment: Set[int]) -> float:
     """
@@ -108,12 +132,13 @@ class MeanReward(Reward):
 
 class CvarReward(Reward):
   """CVaR reward"""
-  def __init__(self, alpha: float):
+  def __init__(self, alpha: float, name: str = None):
     """
     Args:
       alpha: percentile of cvar
+      name: alias name
     """
-    super().__init__()
+    super().__init__(name)
     if alpha <= 0:
       raise Exception('Alpha %.2f is no greater than 0!' % alpha)
     # alpha is at most 1.0
@@ -121,6 +146,13 @@ class CvarReward(Reward):
       logging.error(
           'Alpha %.2f is greater than 1! I am setting it to 1.' % alpha)
     self.__alpha = alpha if alpha <= 1.0 else 1.0
+
+  def _name(self) -> str:
+    """
+    Returns:
+      default reward name
+    """
+    return 'cvar_reward'
 
   @property
   def alpha(self) -> float:
