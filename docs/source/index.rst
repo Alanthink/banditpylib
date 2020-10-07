@@ -12,11 +12,3 @@ Welcome to banditpylib's documentation!
 
    modules
    bibliography
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

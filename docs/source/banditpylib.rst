@@ -1,11 +1,3 @@
-banditpylib package
-===================
-
-.. automodule:: banditpylib
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Subpackages
 -----------
 
