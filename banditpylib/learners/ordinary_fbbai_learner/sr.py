@@ -77,8 +77,8 @@ class SR(OrdinaryFBBAILearner):
     """Learner update
 
     Args:
-      feedback: feedback returned by the ordinary bandit by executing
-        `self.__last_actions`.
+      feedback: feedback returned by the bandit environment by executing
+        :func:`actions`
     """
     for (ind, (rewards, _)) in enumerate(feedback):
       if rewards is not None:

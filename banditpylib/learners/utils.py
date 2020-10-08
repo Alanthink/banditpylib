@@ -57,5 +57,5 @@ class Learner(ABC):
 
     Args:
       feedback: feedback returned by the bandit environment by executing
-        :func:`actions`.
+        :func:`actions`
     """

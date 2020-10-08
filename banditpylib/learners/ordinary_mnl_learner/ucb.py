@@ -116,8 +116,8 @@ class UCB(OrdinaryMNLLearner):
     """Learner update
 
     Args:
-      feedback: feedback returned by the ordinary bandit by executing
-        `self.__last_actions`.
+      feedback: feedback returned by the bandit environment by executing
+        :func:`actions`
     """
     self.__customer_choices[feedback[0][1][0]] += 1
     self.__last_feedback = feedback

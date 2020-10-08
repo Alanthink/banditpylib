@@ -72,8 +72,8 @@ class EpsGreedy(OrdinaryLearner):
     """Learner update
 
     Args:
-      feedback: feedback returned by the ordinary bandit by executing
-        `self.__last_actions`.
+      feedback: feedback returned by the bandit environment by executing
+        :func:`actions`
     """
     self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
     self.__time += 1
