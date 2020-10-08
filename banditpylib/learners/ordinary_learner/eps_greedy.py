@@ -35,9 +35,10 @@ class EpsGreedy(OrdinaryLearner):
     return 'epsilon_greedy'
 
   def reset(self):
-    """Learner reset
+    """Reset the learner
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # current time step

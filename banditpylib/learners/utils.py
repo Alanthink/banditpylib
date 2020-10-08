@@ -3,9 +3,10 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 class Learner(ABC):
-  """Learner class
+  """Abstract class for learners
 
-  Before a game runs, a learner should be initialized with :func:`reset`.
+  :func:`actions` returns the actions the learner wants to take. :func:`update`
+  is used to pass the feedback of the environment to the learner.
   """
   def __init__(self, name: Optional[str]):
     """
@@ -29,13 +30,14 @@ class Learner(ABC):
   @property
   @abstractmethod
   def running_environment(self) -> type:
-    """type of environment the learner works with"""
+    """type of environment the learner is running in"""
 
   @abstractmethod
   def reset(self):
-    """Learner initialization
+    """Reset the learner
 
-    This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
 
   @abstractmethod
@@ -43,7 +45,7 @@ class Learner(ABC):
     """Actions of the learner for one round
 
     Args:
-      context: context of the bandit environment
+      context: state of the bandit environment
 
     Returns:
       actions to take
@@ -54,6 +56,6 @@ class Learner(ABC):
     """Learner update
 
     Args:
-      feedback: feedback returned by the bandit environment by executing actions
-        returned by :func:`actions`.
+      feedback: feedback returned by the bandit environment by executing
+        :func:`actions`.
     """

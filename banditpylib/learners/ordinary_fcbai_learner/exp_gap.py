@@ -35,9 +35,10 @@ class ExpGap(OrdinaryFCBAILearner):
     return 'exp_gap'
 
   def reset(self):
-    """Learner reset
+    """Reset the learner
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__active_arms = set(range(self.arm_num()))
     self.__best_arm = None

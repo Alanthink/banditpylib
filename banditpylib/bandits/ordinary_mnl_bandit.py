@@ -42,6 +42,10 @@ def search(assortments: List[Set[int]],
 class Reward:
   """General reward class"""
   def __init__(self, name: Optional[str]):
+    """
+    Args:
+      name: alias name
+    """
     self.__name = self._name() if name is None else name
     self.__preference_params = None
     self.__revenues = None

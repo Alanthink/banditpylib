@@ -56,9 +56,10 @@ class EpsGreedy(OrdinaryMNLLearner):
     return 'epsilon_greedy'
 
   def reset(self):
-    """Learner reset
+    """Reset the learner
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     # current time step
     self.__time = 1

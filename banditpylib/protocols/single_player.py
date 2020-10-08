@@ -10,7 +10,18 @@ from .utils import Protocol
 class SinglePlayerProtocol(Protocol):
   """Single player protocol
 
-  This protocol is used to simulate the ordinary single-player game.
+  This protocol is used to simulate the ordinary single-player game. It runs in
+  rounds. During each round, the protocol runs the following steps in sequence.
+
+  * fetch the state of the environment and ask the learner for actions
+  * send the actions to the enviroment for execution
+  * update the learner with the feedback of the environment
+
+  The simulation stops when actions returned by the learner is `None`.
+
+  .. note::
+    The total number of rounds shows how adaptive the learner is and it is at
+    most the total number of actions.
   """
   def __init__(self,
                bandit: Bandit,
@@ -34,6 +45,8 @@ class SinglePlayerProtocol(Protocol):
 
   def _one_trial(self, random_seed: int) -> List[Dict]:
     """One trial of the game
+
+    This method defines how to run one trial of the game.
 
     Args:
       random_seed: random seed
@@ -67,7 +80,7 @@ class SinglePlayerProtocol(Protocol):
       context = self.bandit.context()
       actions = self.current_learner.actions(context)
 
-      # stop the game if actions returned by the learner are None
+      # stop the game if actions returned by the learner is None
       if actions is None:
         break
 

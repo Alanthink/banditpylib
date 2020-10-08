@@ -23,12 +23,10 @@ def time_seed() -> int:
 
 class Protocol(ABC):
   """
-  Abstract class for the protocol which is used to coordinate the interactions
+  Abstract class for a protocol which is used to coordinate the interactions
   between the learner and the bandit environment.
 
-  For each setup, just call :func:`play` to start the game. A protocol should
-  implement :func:`_one_trial` method to define how to run one trial of the
-  game.
+  For each setup, just call :func:`play` to start the game.
   """
   def __init__(self,
                bandit: Bandit,
@@ -75,6 +73,8 @@ class Protocol(ABC):
   @abstractmethod
   def _one_trial(self, random_seed: int) -> Union[Dict, List[Dict]]:
     """One trial of the game
+
+    This method defines how to run one trial of the game.
 
     Args:
       random_seed: random seed

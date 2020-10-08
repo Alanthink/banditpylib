@@ -5,10 +5,8 @@ from typing import Optional
 class Bandit(ABC):
   """Bandit environment
 
-  Before a game is run, one has to call :func:`reset` to initialize the
-  environment. During each time step, :func:`context` will return the
-  current state of the environment. :func:`feed` is used to pass the actions to
-  the environment for execution.
+  :func:`context` is used to fetch the current state of the environment.
+  :func:`feed` is used to pass the actions to the environment for execution.
   """
   def __init__(self, name: Optional[str]):
     """

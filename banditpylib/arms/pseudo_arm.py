@@ -4,9 +4,15 @@ import numpy as np
 class PseudoArm:
   """Pseudo arm
 
-  This class is used to store empirical information of an arm.
+  This class is used to store empirical information of an arm. Currently, only
+  the information regarding the first and second moments of empirical rewards
+  i.e., mean and variance are stored.
   """
   def __init__(self, name: str = None):
+    """
+    Args:
+      name: alias name
+    """
     self.__name = 'pseudo_arm' if name is None else name
     self.reset()
 

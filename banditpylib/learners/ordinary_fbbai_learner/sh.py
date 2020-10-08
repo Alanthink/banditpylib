@@ -32,9 +32,10 @@ class SH(OrdinaryFBBAILearner):
     return 'sh'
 
   def reset(self):
-    """Learner reset
+    """Reset the learner
 
-    Initialization. This function should be called before the start of the game.
+    .. warning::
+      This function should be called before the start of the game.
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     self.__active_arms = set(range(self.arm_num()))
