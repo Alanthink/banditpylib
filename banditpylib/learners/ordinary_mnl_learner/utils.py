@@ -126,8 +126,5 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    """
-    Returns:
-      goal of the learner
-    """
+    """goal of the learner"""
     return MaxReward()

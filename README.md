@@ -13,11 +13,47 @@ A lightweight python library for bandit algorithms
 
 ![Unit Test](https://github.com/Alanthink/banditpylib/workflows/Unit%20Test/badge.svg?branch=master) ![Style Check](https://github.com/Alanthink/banditpylib/workflows/Style%20Check/badge.svg?branch=master)
 
-## Features
+## Introduction
+
+This library is intended for fast and robust build of bandit algorithms. Hence it has the following features:
 
 * object-oriented design
 * multiprocesses support
 * friendly runtime info
+
+The library consists of four components i.e., `arms`, `bandits`, `learners` and `protocols`, which are explained in the following:
+
+* `arms`: a set of arms used to build bandit environments
+* `bandits`: a set of bandit environments
+* `learners`: a set of bandit algorithms
+* `protocols`: a set of protocols which are used to coordinate the interactions between the learner and the bandit environment
+
+Please check the next section for the implemented policies.
+
+## Implemented Policies
+
+### Single Player Protocol
+
+#### Regret Minimization
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
+| Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
+
+#### Fixed Budget Best Arm Identification
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `Uniform`, `SR`, `SH`|
+
+#### Fixed Confidence Best Arm Identification
+
+| Bandit Type | Policies |
+|     :---      |      :--- |
+| Ordinary Bandit   | `ExpGap`, `LilUCBHeuristic`|
+
+For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## Getting Started
 
@@ -94,31 +130,6 @@ Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more 
 # run all tests
 pytest
 ```
-
-## Implemented Policies
-
-### Single Player Protocol
-
-#### Regret Minimization
-
-| Bandit Type | Policies |
-|     :---      |      :--- |
-| Ordinary Bandit   | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
-| Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
-
-#### Fixed Budget Best Arm Identification
-
-| Bandit Type | Policies |
-|     :---      |      :--- |
-| Ordinary Bandit   | `Uniform`, `SR`, `SH`|
-
-#### Fixed Confidence Best Arm Identification
-
-| Bandit Type | Policies |
-|     :---      |      :--- |
-| Ordinary Bandit   | `ExpGap`, `LilUCBHeuristic`|
-
-For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## License
 

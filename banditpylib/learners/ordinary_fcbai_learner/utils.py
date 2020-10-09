@@ -63,8 +63,5 @@ class OrdinaryFCBAILearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    """
-    Returns:
-      goal of the learner
-    """
+    """goal of the learner"""
     return BestArmId(best_arm=self.best_arm())

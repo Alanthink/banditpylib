@@ -8,23 +8,18 @@ class Goal(ABC):
   def __init__(self, value: Optional[Union[float, int]]):
     """
     Args:
-      value: value of the goal
+      value: value obtained by the learner
     """
     self.__value = value
 
+  @property
   @abstractmethod
   def name(self) -> str:
-    """
-    Returns:
-      name of the goal
-    """
+    """name of the goal"""
 
   @property
   def value(self):
-    """
-    Returns:
-      value of the goal
-    """
+    """value obtained by the learner"""
     return self.__value
 
 
@@ -37,11 +32,9 @@ class BestArmId(Goal):
     """
     super().__init__(value=best_arm)
 
+  @property
   def name(self) -> str:
-    """
-    Returns:
-      name of the goal
-    """
+    """name of the goal"""
     return 'best_arm_id'
 
 
@@ -54,11 +47,9 @@ class MaxReward(Goal):
     """
     super().__init__(value=None)
 
+  @property
   def name(self) -> str:
-    """
-    Returns:
-      name of the goal
-    """
+    """name of the goal"""
     return 'reward_maximization'
 
 
@@ -123,7 +114,4 @@ class Learner(ABC):
   @property
   @abstractmethod
   def goal(self) -> Goal:
-    """
-    Returns:
-      goal of the learner
-    """
+    """goal of the learner"""
