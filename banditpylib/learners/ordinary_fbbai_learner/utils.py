@@ -3,7 +3,7 @@ from abc import abstractmethod
 from typing import Optional
 
 from banditpylib.bandits import OrdinaryBanditItf
-from banditpylib.learners import Learner
+from banditpylib.learners import Learner, Goal, BestArmId
 
 
 # pylint: disable=W0223
@@ -61,10 +61,10 @@ class OrdinaryFBBAILearner(Learner):
       index of the best arm identified by the learner
     """
 
-  def regret(self, bandit) -> int:
+  @property
+  def goal(self) -> Goal:
     """
     Returns:
-      best arm regret. 0 when the leaner identified the best arm and 1
-        otherwise.
+      goal of the learner
     """
-    return bandit.best_arm_regret(self.best_arm())
+    return BestArmId(best_arm=self.best_arm())

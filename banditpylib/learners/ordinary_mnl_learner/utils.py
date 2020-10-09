@@ -5,7 +5,7 @@ import numpy as np
 
 from banditpylib.bandits import OrdinaryMNLBandit
 from banditpylib.bandits import Reward
-from banditpylib.learners import Learner
+from banditpylib.learners import Learner, Goal, MaxReward
 
 
 # pylint: disable=W0223
@@ -116,7 +116,18 @@ class OrdinaryMNLLearner(Learner):
 
   def regret(self, bandit) -> float:
     """
+    .. warning::
+      This method is deprecated and will be removed in a future version.
+
     Returns:
       regret compared with the optimal policy
     """
-    return bandit.regret()
+    return bandit.regret(goal=MaxReward())
+
+  @property
+  def goal(self) -> Goal:
+    """
+    Returns:
+      goal of the learner
+    """
+    return MaxReward()

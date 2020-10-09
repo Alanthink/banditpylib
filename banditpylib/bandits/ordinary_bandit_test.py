@@ -1,4 +1,5 @@
 from banditpylib.arms import BernoulliArm
+from banditpylib.learners import MaxReward, BestArmId
 from .ordinary_bandit import OrdinaryBandit
 
 
@@ -12,5 +13,5 @@ class TestOrdinaryBandit:
     ordinary_bandit.reset()
     # pull arm 0 for 100 times
     ordinary_bandit.feed([(0, 100)])
-    assert ordinary_bandit.regret() == 100
-    assert ordinary_bandit.best_arm_regret(1) == 0
+    assert ordinary_bandit.regret(MaxReward()) == 100
+    assert ordinary_bandit.regret(BestArmId(best_arm=1)) == 0

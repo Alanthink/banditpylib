@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 from typing import Optional
 
+from banditpylib.learners import Goal
+
+
 class Bandit(ABC):
   """Bandit environment
 
@@ -50,4 +53,14 @@ class Bandit(ABC):
 
     Returns:
       feedback after `actions` are executed
+    """
+
+  @abstractmethod
+  def regret(self, goal: Goal) -> float:
+    """
+    Args:
+      goal: goal of the learner
+
+    Returns:
+      regret of the learner
     """

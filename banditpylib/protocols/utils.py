@@ -2,7 +2,7 @@ import json
 import multiprocessing
 from multiprocessing import Pool
 import time
-from typing import List, Dict, Union, Optional
+from typing import List, Dict, Union
 
 from abc import ABC, abstractmethod
 from absl import logging
@@ -30,13 +30,11 @@ class Protocol(ABC):
   """
   def __init__(self,
                bandit: Bandit,
-               learners: List[Learner],
-               name: Optional[str]):
+               learners: List[Learner]):
     """
     Args:
       bandit: bandit environment
       learners: learners to be compared with
-      name: alias name
     """
     for learner in learners:
       if not isinstance(bandit, learner.running_environment):
@@ -46,19 +44,11 @@ class Protocol(ABC):
     self.__learners = learners
     # learner the simulator is currently running
     self.__current_learner = None
-    self.__name = self._name() if name is None else name
 
   @property
+  @abstractmethod
   def name(self) -> str:
     """protocol name"""
-    return self.__name
-
-  @abstractmethod
-  def _name(self) -> str:
-    """
-    Returns:
-      default protocol name
-    """
 
   @property
   def bandit(self) -> Bandit:

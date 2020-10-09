@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from banditpylib.learners import MaxReward
 from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
     search, search_best_assortment, MeanReward, CvarReward, \
     local_search_best_assortment
@@ -95,7 +96,7 @@ class TestOrdinaryMNLBandit:
     bandit.reset()
     # serve best assortment {1} for 3 times
     bandit.feed([({1}, 3)])
-    assert bandit.regret() == 0.0
+    assert bandit.regret(MaxReward()) == 0.0
 
   def test_one_product(self):
     preference_params = [1.0, 0.0]

@@ -7,6 +7,7 @@ from absl import logging
 
 import numpy as np
 
+from banditpylib.learners import Goal, MaxReward
 from .utils import Bandit
 
 
@@ -541,9 +542,14 @@ class OrdinaryMNLBandit(Bandit):
     """
     return self.__card_limit
 
-  def regret(self) -> float:
+  def regret(self, goal: Goal) -> float:
     """
+    Args:
+      goal: goal of the learner
+
     Returns:
-      regret compared with the optimal policy
+      regret of the learner
     """
-    return self.__regret
+    if isinstance(goal, MaxReward):
+      return self.__regret
+    raise Exception('Goal %s is not supported!' % goal.name)

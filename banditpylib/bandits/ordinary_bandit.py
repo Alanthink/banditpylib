@@ -3,6 +3,7 @@ from typing import List, Tuple
 import numpy as np
 
 from banditpylib.arms import Arm
+from banditpylib.learners import Goal, BestArmId, MaxReward
 from .ordinary_bandit_itf import OrdinaryBanditItf
 
 
@@ -100,14 +101,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """
     return self.__total_pulls
 
-  def regret(self) -> float:
-    """
-    Returns:
-      regret compared with the optimal policy i.e., always pulling the best arm
-    """
-    return self.__regret
-
-  def best_arm_regret(self, arm_id: int) -> int:
+  def __best_arm_regret(self, arm_id: int) -> int:
     """
     Args:
       arm_id: best arm identified by the learner
@@ -116,3 +110,17 @@ class OrdinaryBandit(OrdinaryBanditItf):
       regret compared with the best arm
     """
     return int(self.__best_arm_id != arm_id)
+
+  def regret(self, goal: Goal) -> float:
+    """
+    Args:
+      goal: goal of the learner
+
+    Returns:
+      regret of the learner
+    """
+    if isinstance(goal, BestArmId):
+      return self.__best_arm_regret(goal.value)
+    elif isinstance(goal, MaxReward):
+      return self.__regret
+    raise Exception('Goal %s is not supported!' % goal.name)

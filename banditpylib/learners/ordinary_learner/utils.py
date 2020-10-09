@@ -1,7 +1,7 @@
 from typing import Optional
 
 from banditpylib.bandits import OrdinaryBanditItf
-from banditpylib.learners import Learner
+from banditpylib.learners import Learner, Goal, MaxReward
 
 
 # pylint: disable=W0223
@@ -53,12 +53,10 @@ class OrdinaryLearner(Learner):
     """
     self.__horizon = horizon
 
-  def regret(self, bandit) -> float:
+  @property
+  def goal(self) -> Goal:
     """
-    Args:
-      bandit: bandit environment
-
     Returns:
-      regret compared with the optimal policy
+      goal of the learner
     """
-    return bandit.regret()
+    return MaxReward()

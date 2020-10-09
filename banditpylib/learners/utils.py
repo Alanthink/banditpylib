@@ -1,6 +1,66 @@
 from abc import ABC, abstractmethod
 
-from typing import Optional
+from typing import Optional, Union
+
+
+class Goal(ABC):
+  """Base class for the goal of a learner"""
+  def __init__(self, value: Optional[Union[float, int]]):
+    """
+    Args:
+      value: value of the goal
+    """
+    self.__value = value
+
+  @abstractmethod
+  def name(self) -> str:
+    """
+    Returns:
+      name of the goal
+    """
+
+  @property
+  def value(self):
+    """
+    Returns:
+      value of the goal
+    """
+    return self.__value
+
+
+class BestArmId(Goal):
+  """Best arm identification"""
+  def __init__(self, best_arm: int):
+    """
+    Args:
+      best_arm: best arm identified by the learner
+    """
+    super().__init__(value=best_arm)
+
+  def name(self) -> str:
+    """
+    Returns:
+      name of the goal
+    """
+    return 'best_arm_id'
+
+
+class MaxReward(Goal):
+  """Reward maximization"""
+  def __init__(self):
+    """
+    Args:
+      rewards: rewards obtained by the learner
+    """
+    super().__init__(value=None)
+
+  def name(self) -> str:
+    """
+    Returns:
+      name of the goal
+    """
+    return 'reward_maximization'
+
 
 class Learner(ABC):
   """Abstract class for learners
@@ -58,4 +118,12 @@ class Learner(ABC):
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
+    """
+
+  @property
+  @abstractmethod
+  def goal(self) -> Goal:
+    """
+    Returns:
+      goal of the learner
     """
