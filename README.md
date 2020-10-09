@@ -131,9 +131,23 @@ Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more 
 pytest
 ```
 
+## Bibtex citation
+
+```BibTeX
+@misc{BanditPyLib,
+    title =   {{BanditPyLib: a lightweight python library for bandit algorithms}},
+    author =  {Chester Holtz and Chao Tao},
+    year =    {2020},
+    url =     {https://github.com/Alanthink/banditpylib},
+    howpublished = {Online at: \url{https://github.com/Alanthink/banditpylib}},
+    note =    {Documentation at \url{https://alanthink.github.io/banditpylib-doc}}
+}
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
 
 ## Acknowledgments
 
