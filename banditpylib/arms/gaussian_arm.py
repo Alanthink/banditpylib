@@ -1,5 +1,3 @@
-from typing import Optional
-
 import math
 import numpy as np
 
@@ -49,16 +47,13 @@ class GaussianArm(Arm):
     """variance of rewards"""
     return self.__var
 
-  def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
+  def pull(self, pulls: int = 1) -> np.ndarray:
     """Pull the arm
 
     Args:
       pulls: number of times to pull
 
     Returns:
-      stochastic rewards. When number of times to pull is less than 1, `None` is
-        returned.
+      stochastic rewards
     """
-    if pulls < 1:
-      return None
     return np.random.normal(self.__mu, self.__std, pulls)

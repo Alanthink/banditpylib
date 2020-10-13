@@ -1,5 +1,3 @@
-from typing import Optional
-
 import numpy as np
 
 from .utils import Arm
@@ -36,16 +34,13 @@ class BernoulliArm(Arm):
     """mean of rewards"""
     return self.__mu
 
-  def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
+  def pull(self, pulls: int = 1) -> np.ndarray:
     """Pull the arm
 
     Args:
       pulls: number of times to pull
 
     Returns:
-      stochastic rewards. When number of times to pull is less than 1, `None` is
-        returned.
+      stochastic rewards
     """
-    if pulls < 1:
-      return None
     return np.random.binomial(1, self.__mu, pulls)

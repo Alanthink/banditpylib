@@ -28,12 +28,12 @@ class Arm(ABC):
     """
 
   @abstractmethod
-  def pull(self, pulls: int = 1) -> Optional[np.ndarray]:
+  def pull(self, pulls: int = 1) -> np.ndarray:
     """Pull the arm
 
     Args:
       pulls: number of times to pull
 
     Returns:
-      rewards. When number of times to pull is less than 1, `None` is returned.
+      rewards
     """

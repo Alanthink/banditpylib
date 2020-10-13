@@ -12,19 +12,20 @@ class ExpGap(OrdinaryFCBAILearner):
   def __init__(self,
                arm_num: int,
                confidence: float,
-               name: str = None,
-               threshold: int = 3):
+               threshold: int = 2,
+               name: str = None):
     """
     Args:
       arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1).
-      name: alias name
+      confidence: confidence level. It should be within (0, 1). The algorithm
+        should output the best arm with probability at least this value.
       threshold: do uniform sampling when the active arms are no greater than
         the threshold within median elimination
+      name: alias name
     """
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
-    if threshold <= 2:
-      raise Exception('Thredhold %d is less than 3!' % threshold)
+    if threshold < 2:
+      raise Exception('Thredhold %d is less than 2!' % threshold)
     self.__threshold = threshold
 
   def _name(self) -> str:
@@ -40,7 +41,7 @@ class ExpGap(OrdinaryFCBAILearner):
     .. warning::
       This function should be called before the start of the game.
     """
-    self.__active_arms = set(range(self.arm_num()))
+    self.__active_arms = list(range(self.arm_num()))
     self.__best_arm = None
     # current round
     self.__round = 1
@@ -135,12 +136,12 @@ class ExpGap(OrdinaryFCBAILearner):
                                   key=lambda x: x[1].em_mean)[1]
         # second half of 'main_loop'
         # use estimated epsilon-best-arm to do elimination
-        self.__active_arms = set([
+        self.__active_arms = [
             arm_id for (arm_id, pseudo_arm) in self.__pseudo_arms
             if pseudo_arm.em_mean >= eps_best_pseudo_arm.em_mean - self.__eps_r
-        ])
+        ]
         if len(self.__active_arms) == 1:
-          self.__best_arm = list(self.__active_arms)[0]
+          self.__best_arm = self.__active_arms[0]
         self.__stage = 'main_loop'
         self.__round += 1
         self.__eps_r /= 2
@@ -151,10 +152,6 @@ class ExpGap(OrdinaryFCBAILearner):
     """
     Returns:
       best arm identified by the learner
-
-    .. todo::
-      Randomize the output when there are multiple arms with the same empirical
-      mean.
     """
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)

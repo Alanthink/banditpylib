@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import numpy as np
 
@@ -39,8 +39,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """
     return 'ordinary_bandit'
 
-  def _take_action(self, arm_id: int, pulls: int = 1) -> \
-      Tuple[np.ndarray, None]:
+  def _take_action(self, arm_id: int, pulls: int) -> \
+      Optional[Tuple[np.ndarray, None]]:
     """Pull one arm
 
     Args:
@@ -48,17 +48,18 @@ class OrdinaryBandit(OrdinaryBanditItf):
       pulls: number of times to pull
 
     Returns:
-      feedback after `arm_id` is pulled where the first dimention is the
-        stochstic rewards
+      stochastic rewards after `arm_id` is pulled. The first element is the
+        stochstic rewards. `None` is returned if `pulls` is less than 1.
     """
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
+    if pulls < 1:
+      return None
     # empirical rewards when `arm_id` is pulled for `pulls` times
-    em_rewards = self.__arms[arm_id].pull(pulls)
-    if em_rewards is not None:
-      self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
-      self.__total_pulls += pulls
+    em_rewards = self.__arms[arm_id].pull(pulls=pulls)
+    self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
+    self.__total_pulls += pulls
     return (em_rewards, None)
 
   def feed(self, actions: List[Tuple[int, int]]) -> \
@@ -66,16 +67,18 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first dimension denotes the arm id and the
-        second dimension is the number of times to pull
+      actions: for each tuple, the first element is the arm id and the
+        second element is the pull times
 
     Returns:
-      feedback after arms are pulled. For each tuple, the first dimention is
+      feedback after arms are pulled. For each tuple, the first element is
         the stochstic rewards.
     """
     feedback = []
     for (arm_id, pulls) in actions:
-      feedback.append(self._take_action(arm_id, pulls))
+      stochastic_rewards = self._take_action(arm_id=arm_id, pulls=pulls)
+      if stochastic_rewards is not None:
+        feedback.append(stochastic_rewards)
     return feedback
 
   def reset(self):

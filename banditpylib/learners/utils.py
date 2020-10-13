@@ -1,6 +1,41 @@
 from abc import ABC, abstractmethod
+from typing import Optional, Union, List, Tuple
 
-from typing import Optional, Union
+import numpy as np
+
+
+def argmax(values: List[float]) -> int:
+  """Find index with the highest value
+
+  Args:
+    values: a list of values
+
+  Returns:
+    index with the highest value. When there is a tie, randomly output one of
+    the indexes with the highest value.
+  """
+  max_value = max(values)
+  max_value_indexes = [
+      index for index, value in enumerate(values) if value == max_value
+  ]
+  return np.random.choice(max_value_indexes)
+
+
+def argmax_tuple(values: List[Tuple[float, int]]) -> int:
+  """Find the second element of the tuple with the highest value
+
+  Args:
+    values: a list of tuples
+
+  Returns:
+    the second element of the tuple with the highest value. When there is a tie,
+    randomly output one of them.
+  """
+  max_value = max([value for value, _ in values])
+  max_value_indexes = [
+      index for (value, index) in values if value == max_value
+  ]
+  return np.random.choice(max_value_indexes)
 
 
 class Goal(ABC):

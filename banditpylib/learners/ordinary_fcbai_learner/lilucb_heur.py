@@ -4,6 +4,7 @@ import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.learners import argmax_tuple
 from .utils import OrdinaryFCBAILearner
 
 
@@ -13,7 +14,8 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     """
     Args:
       arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1).
+      confidence: confidence level. It should be within (0, 1). The algorithm
+        should output the best arm with probability at least this value.
       name: alias name
     """
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
@@ -101,11 +103,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     """
     Returns:
       best arm identified by the learner
-
-    .. todo::
-      Randomize the output when there are multiple arms with the same empirical
-      mean.
     """
-    return max([(arm_id, pseudo_arm.total_pulls())
-                for (arm_id, pseudo_arm) in enumerate(self.__pseudo_arms)],
-               key=lambda x: x[1])[0]
+    return argmax_tuple([(pseudo_arm.total_pulls(), arm_id)
+                         for (arm_id,
+                              pseudo_arm) in enumerate(self.__pseudo_arms)])

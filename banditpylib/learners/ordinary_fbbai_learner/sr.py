@@ -17,6 +17,10 @@ class SR(OrdinaryFBBAILearner):
       name: alias name
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
+    # calculate bar_log_K
+    self.__bar_log_K = 0.5 + sum([1/i for i in range(2, self.arm_num() + 1)])
+    if (budget - arm_num) < arm_num * self.__bar_log_K:
+      raise Exception('Budget is too small.')
 
   def _name(self) -> str:
     """
@@ -32,10 +36,6 @@ class SR(OrdinaryFBBAILearner):
       This function should be called before the start of the game.
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    # calculate bar_log_K
-    self.__bar_log_K = 0.5
-    for i in range(2, self.arm_num() + 1):
-      self.__bar_log_K += (1 / i)
     # calculate pulls_per_round
     self.__pulls_per_round = [-1]
     nk = [0]
@@ -90,7 +90,6 @@ class SR(OrdinaryFBBAILearner):
                            key=lambda x: x[1])[0]
     self.__active_arms.remove(arm_id_to_remove)
     if self.__round == self.arm_num() - 1:
-      assert len(self.__active_arms) == 1
       self.__best_arm = list(self.__active_arms)[0]
     self.__round += 1
 
@@ -98,10 +97,6 @@ class SR(OrdinaryFBBAILearner):
     """
     Returns:
       best arm identified by the learner
-
-    .. todo::
-      Randomize the output when there are multiple arms with the same empirical
-      mean.
     """
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)

@@ -131,7 +131,7 @@ Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more 
 pytest
 ```
 
-## Bibtex citation
+## Bibtex Citation
 
 ```BibTeX
 @misc{BanditPyLib,

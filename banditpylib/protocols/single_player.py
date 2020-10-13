@@ -91,10 +91,11 @@ class SinglePlayerProtocol(Protocol):
       feedback = self.bandit.feed(actions)
       self.current_learner.update(feedback)
 
-      # information update
-      for (_, times) in actions:
-        total_actions += int(times)
-      adaptive_rounds += 1
+      if feedback:
+        # information update
+        for (_, times) in actions:
+          total_actions += int(times)
+        adaptive_rounds += 1
 
     # record final regret
     record_data()

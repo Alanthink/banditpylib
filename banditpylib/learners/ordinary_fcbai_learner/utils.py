@@ -16,7 +16,8 @@ class OrdinaryFCBAILearner(Learner):
     """
     Args:
       arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1).
+      confidence: confidence level. It should be within (0, 1). The algorithm
+        should output the best arm with probability at least this value.
       name: alias name
     """
     super().__init__(name)

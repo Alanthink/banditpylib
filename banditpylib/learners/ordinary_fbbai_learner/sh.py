@@ -4,25 +4,31 @@ import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.learners import argmax_tuple
 from .utils import OrdinaryFBBAILearner
 
 
 class SH(OrdinaryFBBAILearner):
   """Sequential halving policy :cite:`karnin2013almost`"""
-  def __init__(self, arm_num: int, budget: int,
-               name: str = None, threshold: int = 3):
+  def __init__(self,
+               arm_num: int,
+               budget: int,
+               threshold: int = 2,
+               name: str = None):
     """
     Args:
       arm_num: number of arms
       budget: total number of pulls
-      name: alias name
       threshold: do uniform sampling when the number of arms left is no greater
-        than threshold
+        than this number
+      name: alias name
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
-    if threshold <= 2:
-      raise Exception('Thredhold %d is no greater than 2!' % threshold)
+    if threshold < 2:
+      raise Exception('Thredhold %d is less than 2!' % threshold)
     self.__threshold = threshold
+    if budget < (arm_num * math.ceil(math.log(self.arm_num(), 2))):
+      raise Exception('Budget is too small.')
 
   def _name(self) -> str:
     """
@@ -38,7 +44,7 @@ class SH(OrdinaryFBBAILearner):
       This function should be called before the start of the game.
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    self.__active_arms = set(range(self.arm_num()))
+    self.__active_arms = list(range(self.arm_num()))
     self.__budget_left = self.budget()
     self.__best_arm = None
     self.__total_rounds = math.ceil(math.log(self.arm_num(), 2))
@@ -63,7 +69,7 @@ class SH(OrdinaryFBBAILearner):
                                     np.ones(len(self.__active_arms)) /
                                     len(self.__active_arms),
                                     size=1)[0]
-      self.__last_actions = [(list(self.__active_arms)[i], pulls[i])
+      self.__last_actions = [(self.__active_arms[i], pulls[i])
                              for i in range(len(self.__active_arms))]
       self.__last_round = True
     else:
@@ -82,31 +88,25 @@ class SH(OrdinaryFBBAILearner):
         :func:`actions`
     """
     for (ind, (rewards, _)) in enumerate(feedback):
-      if rewards is not None:
-        self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
-        self.__budget_left -= len(rewards)
+      self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
+      self.__budget_left -= len(rewards)
     if self.__last_round:
-      self.__best_arm = max([(arm_id, self.__pseudo_arms[arm_id].em_mean)
-                             for arm_id in self.__active_arms],
-                            key=lambda x: x[1])[0]
+      self.__best_arm = argmax_tuple([
+          (self.__pseudo_arms[arm_id].em_mean,
+           arm_id) for arm_id in self.__active_arms])
     else:
       # remove half of the arms with the worst empirical means
-      sorted_active_arms = sorted(
-          list(self.__active_arms),
-          key=lambda x: self.__pseudo_arms[x].em_mean,
-          reverse=True)
-      self.__active_arms = set(
-          sorted_active_arms[:math.ceil(len(self.__active_arms) / 2)])
+      sorted_active_arms = sorted(self.__active_arms,
+                                  key=lambda x: self.__pseudo_arms[x].em_mean,
+                                  reverse=True)
+      self.__active_arms = sorted_active_arms[:math.
+                                              ceil(len(self.__active_arms) / 2)]
     self.__round += 1
 
   def best_arm(self) -> int:
     """
     Returns:
       best arm identified by the learner
-
-    .. todo::
-      Randomize the output when there are multiple arms with the same empirical
-      mean.
     """
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)

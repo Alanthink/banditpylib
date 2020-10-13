@@ -3,11 +3,12 @@ from typing import List, Tuple, Optional
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.learners import argmax
 from .utils import OrdinaryFBBAILearner
 
 
 class Uniform(OrdinaryFBBAILearner):
-  """Uniform policy
+  """Uniform sampling policy
 
   Play each arm the same number of times and then output the arm with the best
   empirical mean.
@@ -50,10 +51,11 @@ class Uniform(OrdinaryFBBAILearner):
     if self.__last_round:
       self.__last_actions = None
     else:
-      pulls = np.random.multinomial(self.budget(),
+      # make sure each arm is sampled at least once
+      pulls = np.random.multinomial(self.budget() - self.arm_num(),
                                     np.ones(self.arm_num()) / self.arm_num(),
                                     size=1)[0]
-      self.__last_actions = [(arm_id, pulls[arm_id])
+      self.__last_actions = [(arm_id, pulls[arm_id] + 1)
                              for arm_id in range(self.arm_num())]
       self.__last_round = True
     return self.__last_actions
@@ -63,21 +65,17 @@ class Uniform(OrdinaryFBBAILearner):
 
     Args:
       feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
+        `self.__last_actions`
     """
     for (ind, (rewards, _)) in enumerate(feedback):
       self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
     if self.__last_round:
-      self.__best_arm = np.argmax([arm.em_mean for arm in self.__pseudo_arms])
+      self.__best_arm = argmax([arm.em_mean for arm in self.__pseudo_arms])
 
   def best_arm(self) -> int:
     """
     Returns:
       best arm identified by the learner
-
-    .. todo::
-      Randomize the output when there are multiple arms with the same empirical
-      mean.
     """
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)

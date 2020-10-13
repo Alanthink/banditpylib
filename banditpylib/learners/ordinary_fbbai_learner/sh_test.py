@@ -8,7 +8,7 @@ class TestSH:
 
   def test_simple_run(self):
     arm_num = 5
-    budget = 30
+    budget = 20
     learner = SH(arm_num=arm_num, budget=budget)
     learner.reset()
 
