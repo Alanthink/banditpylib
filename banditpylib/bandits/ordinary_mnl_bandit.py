@@ -424,6 +424,8 @@ class OrdinaryMNLBandit(Bandit):
     self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
 
+    self.__best_assort: Set[int]
+
     if zero_best_reward:
       self.__best_reward, self.__best_assort = 0.0, set()
       logging.warning('Best reward is set to zero. Now the regret equals to the'

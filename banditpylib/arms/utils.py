@@ -27,6 +27,11 @@ class Arm(ABC):
       default arm name
     """
 
+  @property
+  @abstractmethod
+  def mean(self) -> float:
+    """mean of rewards"""
+
   @abstractmethod
   def pull(self, pulls: int = 1) -> np.ndarray:
     """Pull the arm

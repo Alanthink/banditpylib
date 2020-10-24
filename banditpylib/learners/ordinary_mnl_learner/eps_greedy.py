@@ -85,7 +85,7 @@ class EpsGreedy(OrdinaryMNLLearner):
     unbiased_est = np.minimum(unbiased_est, 1)
     return unbiased_est
 
-  def select_ramdom_assort(self) -> List[int]:
+  def select_ramdom_assort(self) -> Set[int]:
     assortments: List[Set[int]] = []
     search(assortments=assortments,
            product_num=self.product_num(),

@@ -43,7 +43,7 @@ class Protocol(ABC):
     self.__bandit = bandit
     self.__learners = learners
     # learner the simulator is currently running
-    self.__current_learner = None
+    self.__current_learner: Learner
 
   @property
   @abstractmethod
