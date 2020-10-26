@@ -2,6 +2,8 @@ from typing import List, Dict
 
 import numpy as np
 
+from absl import logging
+
 from banditpylib.bandits import Bandit
 from banditpylib.learners import Learner
 from .utils import Protocol
@@ -43,17 +45,20 @@ class SinglePlayerProtocol(Protocol):
     """default protocol name"""
     return 'single_player_protocol'
 
-  def _one_trial(self, random_seed: int) -> List[Dict]:
+  def _one_trial(self, random_seed: int, debug: bool) -> List[Dict]:
     """One trial of the game
 
     This method defines how to run one trial of the game.
 
     Args:
       random_seed: random seed
+      debug: whether to run the trial in debug mode
 
     Returns:
       result of one trial
     """
+    if debug:
+      logging.set_verbosity(logging.DEBUG)
     np.random.seed(random_seed)
 
     # reset the bandit environment and the learner

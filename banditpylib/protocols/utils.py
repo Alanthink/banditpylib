@@ -61,13 +61,15 @@ class Protocol(ABC):
     return self.__current_learner
 
   @abstractmethod
-  def _one_trial(self, random_seed: int) -> Union[Dict, List[Dict]]:
+  def _one_trial(self, random_seed: int, debug: bool) -> \
+      Union[Dict, List[Dict]]:
     """One trial of the game
 
     This method defines how to run one trial of the game.
 
     Args:
       random_seed: random seed
+      debug: whether to run the trial in debug mode
 
     Returns:
       result of one trial
@@ -96,34 +98,44 @@ class Protocol(ABC):
       trials: number of repetitions
       output_filename: file used to dump the results
       processes: maximum number of processes to run. -1 means no limit
-      debug: debug mode. When it is set to `True`, the game will stop if there
-        is any error in subprocesses. Otherwise, the errors of subprocesses will
-        be silenced.
+      debug: debug mode. When it is set to `True`, `trials` will be
+        automatically set to 1 and debug information of the trial will be
+        printed out.
 
     .. warning::
       By default, `output_filename` will be opened with mode `a`.
     """
+    if debug:
+      trials = 1
+
     for learner in self.__learners:
       # set current learner
       self.__current_learner = learner
+
+      logging.info('start %s\'s play with %s',
+                   self.__current_learner.name, self.__bandit.name)
 
       start_time = time.time()
       self.__output_filename = output_filename
       pool = Pool(processes=(
           multiprocessing.cpu_count() if processes < 0 else processes))
 
+      trial_results = []
       for _ in range(trials):
-        results = pool.apply_async(self._one_trial,
-                                   args=[time_seed()],
-                                   callback=self.__write_to_file)
+        result = pool.apply_async(self._one_trial,
+                                  args=[time_seed(), debug],
+                                  callback=self.__write_to_file)
 
-        # for debugging purpose
-        if debug:
-          results.get()
+        trial_results.append(result)
 
       # can not apply for processes any more
       pool.close()
       pool.join()
+
+      # check if there are exceptions during the trials
+      for result in trial_results:
+        result.get()
+
       logging.info('%s\'s play with %s runs %.2f seconds.',
                    self.__current_learner.name, self.__bandit.name,
                    time.time() - start_time)
