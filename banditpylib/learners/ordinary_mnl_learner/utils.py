@@ -114,16 +114,6 @@ class OrdinaryMNLLearner(Learner):
     """
     self.__horizon = horizon
 
-  def regret(self, bandit) -> float:
-    """
-    .. warning::
-      This method is deprecated and will be removed in a future version.
-
-    Returns:
-      regret compared with the optimal policy
-    """
-    return bandit.regret(goal=MaxReward())
-
   @property
   def goal(self) -> Goal:
     """goal of the learner"""
