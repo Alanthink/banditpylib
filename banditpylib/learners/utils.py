@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Union, List, Tuple
+from typing import Optional, List, Tuple, Any
 
 import numpy as np
 
@@ -40,7 +40,7 @@ def argmax_tuple(values: List[Tuple[float, int]]) -> int:
 
 class Goal(ABC):
   """Base class for the goal of a learner"""
-  def __init__(self, value: Optional[Union[float, int]]):
+  def __init__(self, value: Any):
     """
     Args:
       value: value obtained by the learner
@@ -86,6 +86,36 @@ class MaxReward(Goal):
   def name(self) -> str:
     """name of the goal"""
     return 'reward_maximization'
+
+
+class MaxCorrectAnswers(Goal):
+  """Maximize correct answers"""
+  def __init__(self, answers: List[int]):
+    """
+    Args:
+      answers: answers obtained by the learner
+    """
+    super().__init__(value=answers)
+
+  @property
+  def name(self) -> str:
+    """name of the goal"""
+    return 'max_correct_answers'
+
+
+class AllCorrect(Goal):
+  """Make all answers correct"""
+  def __init__(self, answers: List[int]):
+    """
+    Args:
+      answers: answers obtained by the learner
+    """
+    super().__init__(value=answers)
+
+  @property
+  def name(self) -> str:
+    """name of the goal"""
+    return 'make_all_correct'
 
 
 class Learner(ABC):
