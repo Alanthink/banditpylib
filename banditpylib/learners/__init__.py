@@ -7,5 +7,7 @@ __all__ = [
     'Goal',
     'BestArmId',
     'MaxReward',
+    'MaxCorrectAnswers',
+    'AllCorrect',
     'Learner'
 ]
