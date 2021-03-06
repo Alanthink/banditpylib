@@ -25,6 +25,12 @@ class CategoricalArm(Arm):
     self.__p = p
     self.__n = len(p)
 
+  # Should be removed. But has to be added here because it is inherated from Arm. 
+  def mean(self) -> float:
+    """mean of rewards"""
+    print('You should not call mean() for the Categorical arm.')
+    return sum([x*i for i, x in enumerate(self.__p)])
+
   def _name(self) -> str:
     """
     Returns:

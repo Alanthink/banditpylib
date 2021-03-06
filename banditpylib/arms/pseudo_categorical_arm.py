@@ -34,6 +34,18 @@ class PseudoCategArm(PseudoArm):
   def freq(self):
     return self.__freq
 
+  @property
+  def sorted_freq(self):
+    return sorted(self.__freq)
+
+  @property
+  def top_categ(self) -> int:
+    """
+    Return the index of the category with the highest frequency.
+    If there are more than one, return the one with the smallest index.
+    """
+    return self.__freq.index(max(self.__freq))
+
   def update(self, categories: np.ndarray):
     """Update information
 
