@@ -18,16 +18,19 @@ class M_OPT_KG(MultiThresBanditLearner):
                arm_num: int,
                budget: int,
                categ_num: int,
+               opt: bool = True,
                name: str = None):
     """
     Args:
       arm_num: number of arms
       budget: total number of pulls
       categ_num: The number of categories to each question
+      opt: True if it is optimistic
       name: alias name
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     self.__categ_num = categ_num
+    self.__opt = opt
 
 
   def _name(self) -> str:
@@ -46,10 +49,14 @@ class M_OPT_KG(MultiThresBanditLearner):
 
 
   def __I_integral(self, alpha: List) -> List:
-    return [integrate.quad(self.__integrand, 0, np.inf, args=(alpha, c))[0] for c in range(len(alpha))]
+    return [integrate.quad(self.__integrand, 0, 1000, args=(alpha, c))[0] for c in range(len(alpha))]
 
-  # We can also compute I using Monte Carlo.
-  #def __I_MC(alpha: List) -> List:
+
+  # the problem with monte carlo is the accuracy is not high enough.
+  def __I_MC2(self, alpha: List, sample_num=200000) -> List:
+    samples = np.array([gamma.rvs(a, size=sample_num) for a in alpha])
+    m = np.argmax(samples, axis=0)
+    return [np.count_nonzero(m == c)/sample_num for c in range(len(alpha))]
 
 
 
@@ -102,12 +109,15 @@ class M_OPT_KG(MultiThresBanditLearner):
     self.__I[last_action] = max(self.__I_integral(alpha))
 
     # update metrics R as in Xi Chen paper page 43 last line
-
-    self.__metrics[last_action] = (
-      self.__I[last_action]
-      - sum([(alpha[i]/sum(alpha)) * max(self.__I_integral(alpha[:i]+[alpha[i]+1]+alpha[i+1:]))
-      for i in range(self.__categ_num)])
-    )
+    if not self.__opt:
+      self.__metrics[last_action] = (
+        self.__I[last_action]
+        - sum([(alpha[i]/sum(alpha)) * max(self.__I_integral(alpha[:i]+[alpha[i]+1]+alpha[i+1:]))
+        for i in range(self.__categ_num)])
+      )
+    else:
+      self.__metrics[last_action] = min([self.__I[last_action]
+        -max(self.__I_integral(alpha[:i]+[alpha[i]+1]+alpha[i+1:])) for i in range(self.__categ_num)])
 
   @property
   def goal(self) -> Goal:

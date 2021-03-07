@@ -66,6 +66,6 @@ if __name__ == '__main__':
   foldername = datetime.datetime.now().strftime("%Y%m%d-%H-%M-%S")
   os.mkdir(cwd+'/'+foldername+'/')
   ps=[[0.1,0.1,0.8], [0.05,0.1,0.85],[0.1,0.3,0.6],[0.32,0.32,0.36],[0.2,0.3,0.5],[0.3,0.3,0.4]]
-  play_game(ps, budget=500, folder=foldername, trials=20)
+  play_game(ps, budget=500, folder=foldername, trials=25)
 
   

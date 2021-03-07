@@ -29,7 +29,7 @@ def play_game(ps, budget, trials=20):
   arms = [CategoricalArm(p) for p in ps]
   categ_num = len(ps[0])
   bandit = MultiThresholdingBandit(arms=arms)
-  learners = [M_OPT_KG(arm_num=len(arms), budget=budget, categ_num=categ_num),
+  learners = [M_OPT_KG(arm_num=len(arms), budget=budget, categ_num=categ_num, opt=True),
               M_LSA(arm_num=len(arms), budget=budget, categ_num=categ_num),
               M_Uniform(arm_num=len(arms), budget=budget, categ_num=categ_num)]
   gap = 2
