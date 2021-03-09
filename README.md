@@ -136,7 +136,7 @@ pytest
 ```BibTeX
 @misc{BanditPyLib,
     title =   {{BanditPyLib: a lightweight python library for bandit algorithms}},
-    author =  {Chester Holtz and Chao Tao},
+    author =  {Chester Holtz and Chao Tao and Guangyu Xi},
     year =    {2020},
     url =     {https://github.com/Alanthink/banditpylib},
     howpublished = {Online at: \url{https://github.com/Alanthink/banditpylib}},
