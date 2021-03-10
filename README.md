@@ -149,6 +149,10 @@ pytest
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 
+## Code Style
+
+We use `pylint` to check the code style. The configuration is in `pylintrc`. Please make sure your PR follow the code style.
+
 ## Acknowledgments
 
 * This project is inspired by [libbandit](https://github.com/tor/libbandit) and [banditlib](https://github.com/jkomiyama/banditlib) which are both c++ libraries for bandit algorithms.
