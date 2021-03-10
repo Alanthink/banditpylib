@@ -5,6 +5,7 @@ from .ordinary_mnl_bandit import *
 from .linear_bandit import *
 from .linear_bandit_itf import *
 from .thres_bandit import *
+from .multi_thres_bandit import *
 
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     'search_best_assortment',
     'local_search_best_assortment',
     'OrdinaryMNLBandit',
-    'ThresholdingBandit'
+    'ThresholdingBandit',
+    'MultiThresholdingBandit'
 ]
