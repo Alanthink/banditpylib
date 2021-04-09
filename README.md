@@ -24,11 +24,9 @@ This library is intended for fast and robust build of bandit algorithms. Hence i
 The library consists of four components i.e., `arms`, `bandits`, `learners` and `protocols`, which are explained in the following:
 
 * `arms`: a set of arms used to build bandit environments
-* `bandits`: a set of bandit environments
-* `learners`: a set of bandit algorithms
-* `protocols`: a set of protocols which are used to coordinate the interactions between the learner and the bandit environment
-
-Please check the next section for the implemented policies.
+* `bandits`: bandit environments
+* `learners`: bandit algorithms
+* `protocols`: protocols which are used to coordinate the interactions between the learner and the bandit environment
 
 ## Implemented Policies
 
@@ -59,25 +57,37 @@ For a detailed description, please check the [documentation](https://alanthink.g
 
 ### Installing
 
-Python version requirement: 3.6+.
+Python version requirement: 3.8 or above.
 
 Virtual environment: in order not to pollute your own environment, it is suggested to use python virtual environment. The following commands show the details to create and activate a virtual environment.
 
 ```bash
 # create a virtual environment `.env`
-python -m venv .env
+python3 -m venv .env
 # activate the environment
 source .env/bin/activate
 ```
 
-Then you can run the following command to install the `banditpylib` library. Note that the following command creates a symbolic link to the library which means anything you change to the library will immediately take effect when you re-import the library.
+Then you can run the following command to install the `banditpylib` library.
 
 ```bash
-# run under `banditpylib` root directory
-pip install -e .
+make install
 ```
 
-After finishing the usage of the library, you can use `deactivate` to deactive the virtual environment and what's more, you can safely delete the whole `.env` directory for clean up.
+After finishing the usage of the library, you can use `deactivate` to deactive the virtual environment and what's more, you can safely delete the whole `.env` directory for cleanup.
+
+The following shows other useful make commands.
+
+```bash
+make test
+       run tests
+make lint
+       run pylint and mypy
+make clean
+       clean cache files
+make doc
+       build sphinx documentation
+```
 
 ### Example
 
@@ -123,13 +133,6 @@ The following figure shows the simulation results.
 ![output example](example.jpg)
 
 Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more details.
-
-### Running the Tests
-
-```bash
-# run all tests
-pytest
-```
 
 ## Bibtex Citation
 
