@@ -16,7 +16,7 @@ help:
 install_requirements:
 	pip install -r requirements.txt
 
-install:
+install: install_requirements
 	pip install -e .
 
 test:
