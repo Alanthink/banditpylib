@@ -35,4 +35,4 @@ clean-pyc:
 	@rm -rf .mypy_cache
 
 clean: clean-pyc
-	@echo "### Clean cache files"
+	@echo "Clean cache files"
