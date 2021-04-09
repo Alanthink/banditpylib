@@ -85,9 +85,9 @@ make lint
        run pylint and mypy
 make clean
        clean cache files
-make doc
-       build sphinx documentation
 ```
+
+We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make lint`.
 
 ### Example
 
@@ -147,14 +147,10 @@ Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more 
 }
 ```
 
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
-
-
-## Code Style
-
-We use `pylint` to check the code style. The configuration is in `pylintrc`. Please make sure your PR follow the code style.
 
 ## Acknowledgments
 
