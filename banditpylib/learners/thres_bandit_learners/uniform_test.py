@@ -9,10 +9,7 @@ class TestUniform:
     # test actions are in the right range
     arm_num = 10
     budget = 15
-    apt = Uniform(arm_num=arm_num,
-                  budget=budget,
-                  theta=0.5,
-                  eps=0)
+    apt = Uniform(arm_num=arm_num, budget=budget, theta=0.5, eps=0)
     apt.reset()
     for _ in range(budget):
       actions = apt.actions()

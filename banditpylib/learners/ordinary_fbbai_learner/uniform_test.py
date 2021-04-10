@@ -5,7 +5,6 @@ from .uniform import Uniform
 
 class TestUniform:
   """Test uniform policy"""
-
   def test_simple_run(self):
     arm_num = 5
     budget = 30

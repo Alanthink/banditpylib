@@ -5,7 +5,6 @@ from .thres_bandit import ThresholdingBandit
 
 class TestThresholdingBandit:
   """Test thresholding bandit"""
-
   def test_simple_run(self):
     means = [0.3, 0.5, 0.7]
     arms = [BernoulliArm(mean) for mean in means]

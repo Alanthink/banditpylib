@@ -14,7 +14,6 @@ class OrdinaryBandit(OrdinaryBanditItf):
   an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
   beforehand.
   """
-
   def __init__(self, arms: List[Arm], name: str = None):
     """
     Args:
@@ -27,9 +26,9 @@ class OrdinaryBandit(OrdinaryBanditItf):
     self.__arms = arms
     self.__arm_num = len(arms)
     # find the best arm
-    self.__best_arm_id = max(
-        [(arm_id, arm.mean) for (arm_id, arm) in enumerate(self.__arms)],
-        key=lambda x: x[1])[0]
+    self.__best_arm_id = max([(arm_id, arm.mean)
+                              for (arm_id, arm) in enumerate(self.__arms)],
+                             key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
   def _name(self) -> str:

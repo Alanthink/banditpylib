@@ -35,7 +35,8 @@ def search(assortments: List[Set[int]],
   if len(assortment) < card_limit and (restricted_products is None or
                                        next_product_id in restricted_products):
     search(assortments, product_num, next_product_id + 1,
-           assortment.union({next_product_id}), card_limit, restricted_products)
+           assortment.union({next_product_id}), card_limit,
+           restricted_products)
   search(assortments, product_num, next_product_id + 1, assortment, card_limit,
          restricted_products)
 
@@ -148,8 +149,8 @@ class CvarReward(Reward):
       raise Exception('Alpha %.2f is no greater than 0!' % alpha)
     # alpha is at most 1.0
     if alpha > 1.0:
-      logging.error(
-          'Alpha %.2f is greater than 1! I am setting it to 1.' % alpha)
+      logging.error('Alpha %.2f is greater than 1! I am setting it to 1.' %
+                    alpha)
     self.__alpha = alpha if alpha <= 1.0 else 1.0
 
   def _name(self) -> str:
@@ -176,12 +177,12 @@ class CvarReward(Reward):
         [self.preference_params[product]
          for product in assortment]) + self.preference_params[0]
     # sort according to revenue of product
-    revenue_prob = sorted(
-        [(self.revenues[0], self.preference_params[0] / preference_params_sum)]+
-        [(self.revenues[product],
+    revenue_prob = sorted([
+        (self.revenues[0], self.preference_params[0] / preference_params_sum)
+    ] + [(self.revenues[product],
           self.preference_params[product] / preference_params_sum)
          for product in assortment],
-        key=lambda x: x[0])
+                          key=lambda x: x[0])
     # the minimum revenue should be 0, which is the revenue of non-purchase
     if revenue_prob[0][0] != 0:
       raise Exception('CVaR calculation error!')
@@ -189,9 +190,9 @@ class CvarReward(Reward):
     # least alpha
     accumulate_prob = revenue_prob[0][1]
     next_ind = 1
-    while next_ind < len(revenue_prob) and (
-        accumulate_prob < self.__alpha
-        or revenue_prob[next_ind][0] == revenue_prob[next_ind - 1][0]):
+    while next_ind < len(revenue_prob) and (accumulate_prob < self.__alpha
+                                            or revenue_prob[next_ind][0]
+                                            == revenue_prob[next_ind - 1][0]):
       accumulate_prob += revenue_prob[next_ind][1]
       next_ind += 1
     # calculate cvar_alpha
@@ -415,8 +416,7 @@ class OrdinaryMNLBandit(Bandit):
     if self.__product_num == 0:
       raise Exception('Number of products %d is 0!' % self.__product_num)
     if card_limit < 1:
-      raise Exception('Cardinality limit %d is less than 1!' %
-                      card_limit)
+      raise Exception('Cardinality limit %d is less than 1!' % card_limit)
     self.__card_limit = min(card_limit, self.__product_num)
 
     # maximizing the mean of rewards is the default goal
@@ -428,16 +428,15 @@ class OrdinaryMNLBandit(Bandit):
 
     if zero_best_reward:
       self.__best_reward, self.__best_assort = 0.0, set()
-      logging.warning('Best reward is set to zero. Now the regret equals to the'
-                      ' minus total revenue.')
+      logging.warning(
+          'Best reward is set to zero. Now the regret equals to the'
+          ' minus total revenue.')
     else:
       # compute the best assortment
       self.__best_reward, self.__best_assort = search_best_assortment(
-          reward=self.__reward,
-          card_limit=self.__card_limit)
+          reward=self.__reward, card_limit=self.__card_limit)
       logging.info('Assortment %s has best reward %.2f.',
-                   sorted(list(self.__best_assort)),
-                   self.__best_reward)
+                   sorted(list(self.__best_assort)), self.__best_reward)
 
   def _name(self) -> str:
     """
@@ -467,8 +466,8 @@ class OrdinaryMNLBandit(Bandit):
                         (product_id, self.__product_num))
     if len(assortment) > self.__card_limit:
       raise Exception('Assortment %s has products more than cardinality'
-                      ' constraint %d!' % (sorted(list(assortment)),
-                                           self.__card_limit))
+                      ' constraint %d!' %
+                      (sorted(list(assortment)), self.__card_limit))
 
     preference_params_sum = sum(
         [self.__preference_params[product_id] for product_id in assortment]) +\

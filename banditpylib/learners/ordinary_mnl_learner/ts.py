@@ -29,14 +29,13 @@ class ThompsonSampling(OrdinaryMNLLearner):
       random_neighbors: number of random neighbors to look up if local search is
         used
     """
-    super().__init__(
-        revenues=revenues,
-        horizon=horizon,
-        reward=reward,
-        card_limit=card_limit,
-        name=name,
-        use_local_search=use_local_search,
-        random_neighbors=random_neighbors)
+    super().__init__(revenues=revenues,
+                     horizon=horizon,
+                     reward=reward,
+                     card_limit=card_limit,
+                     name=name,
+                     use_local_search=use_local_search,
+                     random_neighbors=random_neighbors)
 
   def _name(self) -> str:
     """

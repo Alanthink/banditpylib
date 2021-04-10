@@ -15,13 +15,8 @@ class OrdinaryMNLLearner(Learner):
   Product 0 is reserved for non-purchase. And it is assumed that the preference
   parameter for non-purchase is 1.
   """
-  def __init__(self,
-               revenues: np.ndarray,
-               horizon: int,
-               reward: Reward,
-               card_limit: int,
-               name: str,
-               use_local_search: bool,
+  def __init__(self, revenues: np.ndarray, horizon: int, reward: Reward,
+               card_limit: int, name: str, use_local_search: bool,
                random_neighbors: int):
     """
     Args:
@@ -41,8 +36,8 @@ class OrdinaryMNLLearner(Learner):
       raise Exception('Number of products %d is less then 2!' %
                       self.__product_num)
     if revenues[0] != 0:
-      raise Exception(
-          'The revenue of product 0 i.e., %.2f is not 0!' % revenues[0])
+      raise Exception('The revenue of product 0 i.e., %.2f is not 0!' %
+                      revenues[0])
     self.__revenues = revenues
     if card_limit < 1:
       raise Exception('Cardinality limit %d is less than 1!' % card_limit)

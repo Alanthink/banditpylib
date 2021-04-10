@@ -18,7 +18,7 @@ class SR(OrdinaryFBBAILearner):
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     # calculate bar_log_K
-    self.__bar_log_K = 0.5 + sum([1/i for i in range(2, self.arm_num() + 1)])
+    self.__bar_log_K = 0.5 + sum([1 / i for i in range(2, self.arm_num() + 1)])
     if (budget - arm_num) < arm_num * self.__bar_log_K:
       raise Exception('Budget is too small.')
 

@@ -5,7 +5,6 @@ from .ordinary_bandit import OrdinaryBandit
 
 class TestOrdinaryBandit:
   """Test ordinary bandit"""
-
   def test_simple_run(self):
     means = [0, 1]
     arms = [BernoulliArm(mean) for mean in means]

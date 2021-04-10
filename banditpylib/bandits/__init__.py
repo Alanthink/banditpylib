@@ -6,18 +6,9 @@ from .linear_bandit import *
 from .linear_bandit_itf import *
 from .thres_bandit import *
 
-
 __all__ = [
-    'Bandit',
-    'OrdinaryBandit',
-    'OrdinaryBanditItf',
-    'LinearBandit',
-    'LinearBanditItf',
-    'Reward',
-    'MeanReward',
-    'CvarReward',
-    'search_best_assortment',
-    'local_search_best_assortment',
-    'OrdinaryMNLBandit',
-    'ThresholdingBandit'
+    'Bandit', 'OrdinaryBandit', 'OrdinaryBanditItf', 'LinearBandit',
+    'LinearBanditItf', 'Reward', 'MeanReward', 'CvarReward',
+    'search_best_assortment', 'local_search_best_assortment',
+    'OrdinaryMNLBandit', 'ThresholdingBandit'
 ]

@@ -19,13 +19,7 @@ from .uniform import *
 from .ucbv import *
 from .moss import *
 
-
 __all__ = [
-    'OrdinaryLearner',
-    'EpsGreedy',
-    'UCB',
-    'ThompsonSampling',
-    'Uniform',
-    'UCBV',
-    'MOSS'
+    'OrdinaryLearner', 'EpsGreedy', 'UCB', 'ThompsonSampling', 'Uniform',
+    'UCBV', 'MOSS'
 ]

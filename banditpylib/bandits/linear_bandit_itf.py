@@ -8,7 +8,6 @@ from .utils import Bandit
 
 class LinearBanditItf(Bandit):
   """Finite-armed linear bandit interface"""
-
   def context(self):
     """
     Returns:

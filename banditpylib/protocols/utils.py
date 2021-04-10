@@ -28,9 +28,7 @@ class Protocol(ABC):
 
   For each setup, just call :func:`play` to start the game.
   """
-  def __init__(self,
-               bandit: Bandit,
-               learners: List[Learner]):
+  def __init__(self, bandit: Bandit, learners: List[Learner]):
     """
     Args:
       bandit: bandit environment
@@ -112,8 +110,8 @@ class Protocol(ABC):
       # set current learner
       self.__current_learner = learner
 
-      logging.info('start %s\'s play with %s',
-                   self.__current_learner.name, self.__bandit.name)
+      logging.info('start %s\'s play with %s', self.__current_learner.name,
+                   self.__bandit.name)
 
       start_time = time.time()
       self.__output_filename = output_filename

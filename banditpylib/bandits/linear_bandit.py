@@ -16,7 +16,6 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
   + \epsilon`, where :math:`v_i` is the feature of arm :math:`i`, :math:`\theta`
   is an unknown parameter and :math:`\epsilon` is a zero-mean noise.
   """
-
   def __init__(self,
                features: List[np.ndarray],
                theta: np.ndarray,
@@ -46,9 +45,9 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     # each arm in linear bandit can be seen as a Gaussian arm
     self.__arms = [GaussianArm(np.dot(feature, self.__theta), self.__var) \
                    for feature in self.__features]
-    self.__best_arm_id = max(
-        [(arm_id, arm.mean) for (arm_id, arm) in enumerate(self.__arms)],
-        key=lambda x: x[1])[0]
+    self.__best_arm_id = max([(arm_id, arm.mean)
+                              for (arm_id, arm) in enumerate(self.__arms)],
+                             key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
   def _name(self) -> str:
@@ -77,8 +76,8 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
       self.__total_pulls += pulls
     return (em_rewards, None)
 
-  def feed(self,
-           actions: List[Tuple[int, int]]) -> List[Tuple[np.ndarray, None]]:
+  def feed(self, actions: List[Tuple[int,
+                                     int]]) -> List[Tuple[np.ndarray, None]]:
     """Pull multiple arms
 
     Args:

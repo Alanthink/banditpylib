@@ -29,14 +29,13 @@ class UCB(OrdinaryMNLLearner):
       random_neighbors: number of random neighbors to look up if local search is
         used
     """
-    super().__init__(
-        revenues=revenues,
-        horizon=horizon,
-        reward=reward,
-        card_limit=card_limit,
-        name=name,
-        use_local_search=use_local_search,
-        random_neighbors=random_neighbors)
+    super().__init__(revenues=revenues,
+                     horizon=horizon,
+                     reward=reward,
+                     card_limit=card_limit,
+                     name=name,
+                     use_local_search=use_local_search,
+                     random_neighbors=random_neighbors)
 
   def _name(self) -> str:
     """
@@ -104,8 +103,8 @@ class UCB(OrdinaryMNLLearner):
             reward=self.reward,
             random_neighbors=self.random_neighbors,
             card_limit=self.card_limit(),
-            init_assortment=(
-                self.__last_actions[0][0] if self.__last_actions else None))
+            init_assortment=(self.__last_actions[0][0]
+                             if self.__last_actions else None))
       else:
         _, best_assortment = search_best_assortment(
             reward=self.reward, card_limit=self.card_limit())

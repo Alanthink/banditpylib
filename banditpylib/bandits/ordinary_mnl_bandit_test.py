@@ -9,7 +9,6 @@ from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
 
 class TestOrdinaryMNLBandit:
   """Tests in ordinary mnl bandit"""
-
   def test_search_unrestricted(self):
     results = []
     search(assortments=results,
@@ -55,9 +54,7 @@ class TestOrdinaryMNLBandit:
             0.9369761261650644, 0.9444412097177997
         ]))
     product_num = len(reward.revenues) - 1
-    _, best_assortment = search_best_assortment(
-        reward=reward,
-        card_limit=3)
+    _, best_assortment = search_best_assortment(reward=reward, card_limit=3)
     _, local_best_assortment = local_search_best_assortment(
         reward=reward,
         random_neighbors=10,
@@ -67,7 +64,6 @@ class TestOrdinaryMNLBandit:
     # When reward is MeanReward, local search guarantees to output the best
     # assortment.
     assert best_assortment == local_best_assortment
-
 
   def test_cvar_calculation(self):
     reward = CvarReward(alpha=0.5)

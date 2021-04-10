@@ -5,7 +5,6 @@ from .utils import Bandit
 
 class OrdinaryBanditItf(Bandit):
   """Ordinary bandit interface"""
-
   def context(self):
     """
     Returns:

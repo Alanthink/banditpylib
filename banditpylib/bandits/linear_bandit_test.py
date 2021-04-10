@@ -6,7 +6,6 @@ from .linear_bandit import LinearBandit
 
 class TestLinearBandit:
   """Test linear bandit"""
-
   def test_linear_bandit(self):
     features = np.array([[0, 1], [1, 0]])
     theta = np.array([1, 0])

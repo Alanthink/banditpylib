@@ -7,7 +7,6 @@ import numpy as np
 
 class Arm(ABC):
   """Arm"""
-
   def __init__(self, name: Optional[str]):
     """
     Args:

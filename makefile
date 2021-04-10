@@ -1,4 +1,4 @@
-.PHONY = help install clean test lint
+.PHONY = help install clean test lint fix
 
 PYTHON = python3
 
@@ -12,6 +12,8 @@ help:
 	@echo "       run pylint and mypy"
 	@echo "make clean"
 	@echo "       clean cache files"
+	@echo "make fix"
+	@echo "       run yapf to format all .py files"
 
 install_requirements:
 	pip install -r requirements.txt
@@ -36,3 +38,6 @@ clean-pyc:
 
 clean: clean-pyc
 	@echo "Clean cache files"
+
+fix:
+	@yapf -ir --style="{indent_width: 2}" .

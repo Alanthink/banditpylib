@@ -5,7 +5,6 @@ from .sh import SH
 
 class TestSH:
   """Test sequential halving policy"""
-
   def test_simple_run(self):
     arm_num = 5
     budget = 20

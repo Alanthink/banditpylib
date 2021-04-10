@@ -12,8 +12,11 @@ class EpsGreedy(OrdinaryLearner):
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability play the arm with the maximum empirical mean.
   """
-  def __init__(
-      self, arm_num: int, horizon: int, name: str = None, eps: float = 1.0):
+  def __init__(self,
+               arm_num: int,
+               horizon: int,
+               name: str = None,
+               eps: float = 1.0):
     """
     Args:
       arm_num: number of arms
@@ -63,8 +66,7 @@ class EpsGreedy(OrdinaryLearner):
       self.__last_actions = [(np.random.randint(0, self.arm_num()), 1)]
     else:
       self.__last_actions = [
-          (np.argmax(np.array([arm.em_mean
-                               for arm in self.__pseudo_arms])), 1)
+          (np.argmax(np.array([arm.em_mean for arm in self.__pseudo_arms])), 1)
       ]
     return self.__last_actions
 

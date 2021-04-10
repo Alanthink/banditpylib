@@ -15,8 +15,11 @@ class UCB(OrdinaryLearner):
     \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
     \alpha  \ln(t) }{T_i(t)} } \right\}
   """
-  def __init__(self, arm_num: int, horizon: int,
-               name: str = None, alpha: float = 2.0):
+  def __init__(self,
+               arm_num: int,
+               horizon: int,
+               name: str = None,
+               alpha: float = 2.0):
     """
     Args:
       arm_num: number of arms

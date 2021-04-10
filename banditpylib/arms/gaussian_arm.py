@@ -9,7 +9,6 @@ class GaussianArm(Arm):
 
   Arm with rewards generated from a Gaussian distribution.
   """
-
   def __init__(self, mu: float, var: float, name: str = None):
     """
     Args:

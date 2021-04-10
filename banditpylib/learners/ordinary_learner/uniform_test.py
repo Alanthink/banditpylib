@@ -5,7 +5,6 @@ from .uniform import Uniform
 
 class TestUniform:
   """Test uniform policy"""
-
   def test_simple_run(self):
     arm_num = 5
     horizon = 30
@@ -13,5 +12,5 @@ class TestUniform:
     learner.reset()
 
     for time in range(1, horizon + 1):
-      assert learner.actions() == [((time-1) % arm_num, 1)]
+      assert learner.actions() == [((time - 1) % arm_num, 1)]
       learner.update(([np.array([0])], ))

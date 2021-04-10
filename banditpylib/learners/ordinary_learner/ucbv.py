@@ -18,8 +18,11 @@ class UCBV(OrdinaryLearner):
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self, arm_num: int, horizon: int,
-               name: str = None, b: float = 1.0):
+  def __init__(self,
+               arm_num: int,
+               horizon: int,
+               name: str = None,
+               b: float = 1.0):
     """
     Args:
       arm_num: number of arms

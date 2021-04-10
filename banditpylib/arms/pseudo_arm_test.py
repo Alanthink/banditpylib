@@ -4,7 +4,6 @@ from .pseudo_arm import PseudoArm
 
 class TestPseudoArm:
   """Test pseudo-arm"""
-
   def test_empirical_variance(self):
     pseudo_arm = PseudoArm()
     ber_arm = BernoulliArm(0.5)

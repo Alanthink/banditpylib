@@ -16,8 +16,11 @@ class ThompsonSampling(OrdinaryLearner):
   .. warning::
     Reward should be Bernoulli when Beta prior is chosen.
   """
-  def __init__(self, arm_num: int, horizon: int,
-               name: str = None, prior_dist: str = 'beta'):
+  def __init__(self,
+               arm_num: int,
+               horizon: int,
+               name: str = None,
+               prior_dist: str = 'beta'):
     """
     Args:
       arm_num: number of arms

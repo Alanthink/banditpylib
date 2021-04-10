@@ -8,7 +8,6 @@ class BernoulliArm(Arm):
 
   Arm with rewards generated from a Bernoulli distribution.
   """
-
   def __init__(self, mu: float, name: str = None):
     """
     Args:

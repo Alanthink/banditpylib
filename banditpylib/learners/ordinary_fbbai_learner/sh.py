@@ -76,8 +76,7 @@ class SH(OrdinaryFBBAILearner):
       # pulls assigned to each arm
       pulls = math.floor(self.budget() /
                          (len(self.__active_arms) * self.__total_rounds))
-      self.__last_actions = [(arm_id, pulls)
-                             for arm_id in self.__active_arms]
+      self.__last_actions = [(arm_id, pulls) for arm_id in self.__active_arms]
     return self.__last_actions
 
   def update(self, feedback: List[Tuple[Optional[np.ndarray], None]]):
@@ -91,16 +90,16 @@ class SH(OrdinaryFBBAILearner):
       self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
       self.__budget_left -= len(rewards)
     if self.__last_round:
-      self.__best_arm = argmax_tuple([
-          (self.__pseudo_arms[arm_id].em_mean,
-           arm_id) for arm_id in self.__active_arms])
+      self.__best_arm = argmax_tuple([(self.__pseudo_arms[arm_id].em_mean,
+                                       arm_id)
+                                      for arm_id in self.__active_arms])
     else:
       # remove half of the arms with the worst empirical means
       sorted_active_arms = sorted(self.__active_arms,
                                   key=lambda x: self.__pseudo_arms[x].em_mean,
                                   reverse=True)
-      self.__active_arms = sorted_active_arms[:math.
-                                              ceil(len(self.__active_arms) / 2)]
+      self.__active_arms = sorted_active_arms[:math.ceil(
+          len(self.__active_arms) / 2)]
     self.__round += 1
 
   def best_arm(self) -> int:

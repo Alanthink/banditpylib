@@ -85,6 +85,8 @@ make lint
        run pylint and mypy
 make clean
        clean cache files
+make fix
+       run yapf to format all .py files
 ```
 
 We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make lint`.

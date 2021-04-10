@@ -9,10 +9,7 @@ class TestAPT:
     # test actions are in the right range
     arm_num = 10
     budget = 15
-    apt = APT(arm_num=arm_num,
-              budget=budget,
-              theta=0.5,
-              eps=0)
+    apt = APT(arm_num=arm_num, budget=budget, theta=0.5, eps=0)
     apt.reset()
     for _ in range(budget):
       actions = apt.actions()
