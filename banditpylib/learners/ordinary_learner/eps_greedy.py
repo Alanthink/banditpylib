@@ -12,19 +12,14 @@ class EpsGreedy(OrdinaryLearner):
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability play the arm with the maximum empirical mean.
   """
-  def __init__(self,
-               arm_num: int,
-               horizon: int,
-               name: str = None,
-               eps: float = 1.0):
+  def __init__(self, arm_num: int, name: str = None, eps: float = 1.0):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
       name: alias name
       eps: epsilon
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
     if eps <= 0:
       raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
           (eps, self.__name))
@@ -57,16 +52,15 @@ class EpsGreedy(OrdinaryLearner):
     """
     del context
     # pylint: disable=no-member
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    elif self.__time <= self.arm_num():
+    if self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     # with probability eps/t, randomly select an arm to pull
     elif np.random.random() <= self.__eps / self.__time:
       self.__last_actions = [(np.random.randint(0, self.arm_num()), 1)]
     else:
       self.__last_actions = [
-          (np.argmax(np.array([arm.em_mean for arm in self.__pseudo_arms])), 1)
+          (int(np.argmax(np.array([arm.em_mean
+                                   for arm in self.__pseudo_arms]))), 1)
       ]
     return self.__last_actions
 

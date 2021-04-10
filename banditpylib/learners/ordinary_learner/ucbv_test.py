@@ -10,7 +10,7 @@ class TestUCBV:
   def test_simple_run(self):
     arm_num = 5
     horizon = 30
-    learner = UCBV(arm_num=arm_num, horizon=horizon)
+    learner = UCBV(arm_num=arm_num)
     learner.reset()
     mock_ucbv = np.array([1.2, 1, 1, 1, 1])
     learner.UCBV = MagicMock(return_value=mock_ucbv)

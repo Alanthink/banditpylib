@@ -9,7 +9,7 @@ class TestEpsGreedy:
   def test_simple_run(self):
     means = [0, 0.5, 0.7, 1]
     arms = [BernoulliArm(mean) for mean in means]
-    learner = EpsGreedy(arm_num=len(arms), horizon=10)
+    learner = EpsGreedy(arm_num=len(arms))
     learner.reset()
 
     for arm_id in range(len(arms)):

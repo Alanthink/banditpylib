@@ -26,7 +26,10 @@ class MOSS(OrdinaryLearner):
       horizon: total number of time steps
       name: alias name
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
+    if horizon < arm_num:
+      raise Exception('Expected horizon >= %d, got %d' % (arm_num, horizon))
+    self.__horizon = horizon
 
   def _name(self) -> str:
     """
@@ -48,12 +51,12 @@ class MOSS(OrdinaryLearner):
   def MOSS(self) -> np.ndarray:
     """
     Returns:
-      optimistic estimate of arms' real means using horizon
+      optimistic estimate of arms' real means
     """
     moss = np.array([
         arm.em_mean + np.sqrt(
             np.maximum(
-                0, np.log(self.horizon() /
+                0, np.log(self.__horizon /
                           (self.arm_num() * arm.total_pulls()))) /
             arm.total_pulls()) for arm in self.__pseudo_arms
     ])
@@ -68,12 +71,10 @@ class MOSS(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    elif self.__time <= self.arm_num():
+    if self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     else:
-      self.__last_actions = [(np.argmax(self.MOSS()), 1)]
+      self.__last_actions = [(int(np.argmax(self.MOSS())), 1)]
     return self.__last_actions
 
   def update(self, feedback: List[Tuple[np.ndarray, None]]):

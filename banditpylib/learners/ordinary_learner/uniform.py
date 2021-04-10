@@ -10,14 +10,13 @@ class Uniform(OrdinaryLearner):
 
   Play each arm the same number of times.
   """
-  def __init__(self, arm_num: int, horizon: int, name=None):
+  def __init__(self, arm_num: int, name=None):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
       name: alias name
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
 
   def _name(self) -> str:
     """
@@ -44,10 +43,7 @@ class Uniform(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    else:
-      self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
+    self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     return self.__last_actions
 
   def update(self, feedback: List[Tuple[np.ndarray, None]]):

@@ -10,26 +10,21 @@ class ThompsonSampling(OrdinaryLearner):
   r"""Thompson Sampling policy :cite:`agrawal2017near`
 
   Assume a prior distribution for every arm. At time :math:`t`, sample a
-  virtual mean from the posterior distribution for every arm. Play the arm with
-  the maximum sampled virtual mean.
+  virtual mean reward from the posterior distribution for every arm. Play the
+  arm with the maximum sampled virtual mean reward.
 
   .. warning::
     Reward should be Bernoulli when Beta prior is chosen.
   """
-  def __init__(self,
-               arm_num: int,
-               horizon: int,
-               name: str = None,
-               prior_dist: str = 'beta'):
+  def __init__(self, arm_num: int, name: str = None, prior_dist: str = 'beta'):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
       name: alias name
       prior_dist: prior distribution of thompson sampling. Only two priors are
         supported i.e., `beta` and `gaussian`
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
     if prior_dist not in ['gaussian', 'beta']:
       raise Exception('Prior distribution %s is not supported!' % prior_dist)
     self.__prior_dist = prior_dist
@@ -88,13 +83,11 @@ class ThompsonSampling(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    else:
-      self.__last_actions = [(self.actions_from_beta_prior(),
-                              1)] if self.__prior_dist == 'beta' else [
-                                  (self.actions_from_gaussian_prior(), 1)
-                              ]
+
+    self.__last_actions = [(self.actions_from_beta_prior(),
+                            1)] if self.__prior_dist == 'beta' else [
+                                (self.actions_from_gaussian_prior(), 1)
+                            ]
     return self.__last_actions
 
   def update(self, feedback: List[Tuple[np.ndarray, None]]):

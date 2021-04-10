@@ -7,7 +7,7 @@ from .utils import OrdinaryLearner
 
 
 class UCB(OrdinaryLearner):
-  r"""Upper confidence bound policy :cite:`auer2002finite`
+  r"""Upper Confidence Bound policy :cite:`auer2002finite`
 
   At time :math:`t`, play arm
 
@@ -15,19 +15,14 @@ class UCB(OrdinaryLearner):
     \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
     \alpha  \ln(t) }{T_i(t)} } \right\}
   """
-  def __init__(self,
-               arm_num: int,
-               horizon: int,
-               name: str = None,
-               alpha: float = 2.0):
+  def __init__(self, arm_num: int, name: str = None, alpha: float = 2.0):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
       name: alias name
       alpha: alpha
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
     if alpha <= 0:
       raise Exception('Alpha %.2f in %s is no greater than 0!' %
                       (alpha, self.__name))
@@ -71,9 +66,7 @@ class UCB(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    elif self.__time <= self.arm_num():
+    if self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     else:
       self.__last_actions = [(np.argmax(self.UCB()), 1)]

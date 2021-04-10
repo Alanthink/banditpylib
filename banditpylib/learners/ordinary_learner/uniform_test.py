@@ -8,7 +8,7 @@ class TestUniform:
   def test_simple_run(self):
     arm_num = 5
     horizon = 30
-    learner = Uniform(arm_num=arm_num, horizon=horizon)
+    learner = Uniform(arm_num=arm_num)
     learner.reset()
 
     for time in range(1, horizon + 1):

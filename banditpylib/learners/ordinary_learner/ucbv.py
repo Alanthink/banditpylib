@@ -18,19 +18,14 @@ class UCBV(OrdinaryLearner):
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self,
-               arm_num: int,
-               horizon: int,
-               name: str = None,
-               b: float = 1.0):
+  def __init__(self, arm_num: int, name: str = None, b: float = 1.0):
     """
     Args:
       arm_num: number of arms
-      horizon: total number of time steps
       name: alias name
       b: upper bound of reward
     """
-    super().__init__(arm_num=arm_num, horizon=horizon, name=name)
+    super().__init__(arm_num=arm_num, name=name)
     if b <= 0:
       raise Exception('%s: b is set to %.2f which is no greater than 0!' %
                       (self.name, b))
@@ -75,9 +70,7 @@ class UCBV(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    elif self.__time <= self.arm_num():
+    if self.__time <= self.arm_num():
       self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
     else:
       self.__last_actions = [(np.argmax(self.UCBV()), 1)]
