@@ -63,7 +63,7 @@ class ThompsonSampling(OrdinaryLearner):
       b = 1 + self.__pseudo_arms[arm_id].total_pulls(
       ) - self.__pseudo_arms[arm_id].total_rewards()
       virtual_means[arm_id] = np.random.beta(a, b)
-    return np.argmax(virtual_means)
+    return int(np.argmax(virtual_means))
 
   def actions_from_gaussian_prior(self) -> int:
     """
@@ -77,7 +77,7 @@ class ThompsonSampling(OrdinaryLearner):
           self.__pseudo_arms[arm_id].total_pulls() + 1)
       sigma = 1.0 / (self.__pseudo_arms[arm_id].total_pulls() + 1)
       virtual_means[arm_id] = np.random.normal(mu, sigma)
-    return np.argmax(virtual_means)
+    return int(np.argmax(virtual_means))
 
   def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
     """

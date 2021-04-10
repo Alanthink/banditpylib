@@ -83,7 +83,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
         if pseudo_arm.total_pulls() >= (
             1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls())):
           return None
-      self.__last_actions = [(np.argmax(self.ucb()), 1)]
+      self.__last_actions = [(int(np.argmax(self.ucb())), 1)]
     return self.__last_actions
 
   def update(self, feedback: List[Tuple[np.ndarray, None]]):

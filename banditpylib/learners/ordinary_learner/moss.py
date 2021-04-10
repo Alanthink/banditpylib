@@ -50,13 +50,13 @@ class MOSS(OrdinaryLearner):
     Returns:
       optimistic estimate of arms' real means using horizon
     """
-    moss = [
+    moss = np.array([
         arm.em_mean + np.sqrt(
             np.maximum(
                 0, np.log(self.horizon() /
                           (self.arm_num() * arm.total_pulls()))) /
             arm.total_pulls()) for arm in self.__pseudo_arms
-    ]
+    ])
     return moss
 
   def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:

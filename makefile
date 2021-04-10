@@ -40,4 +40,4 @@ clean: clean-pyc
 	@echo "Clean cache files"
 
 fix:
-	@yapf -ir --style="{indent_width: 2}" .
+	@yapf -ir --style="{indent_width: 2}" banditpylib

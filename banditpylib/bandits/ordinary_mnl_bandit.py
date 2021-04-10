@@ -15,7 +15,7 @@ def search(assortments: List[Set[int]],
            product_num: int,
            next_product_id: int,
            assortment: Set[int],
-           card_limit: int = np.inf,
+           card_limit: float = np.inf,
            restricted_products: Set[int] = None):
   """Find all assortments satisfying cardinality limit
 
@@ -49,8 +49,8 @@ class Reward:
       name: alias name
     """
     self.__name = self._name() if name is None else name
-    self.__preference_params = None
-    self.__revenues = None
+    self.__preference_params: Optional[np.ndarray] = None
+    self.__revenues: Optional[np.ndarray] = None
 
   @property
   def name(self) -> str:
@@ -206,7 +206,8 @@ class CvarReward(Reward):
 
 
 def search_best_assortment(reward: Reward,
-                           card_limit: int = np.inf) -> Tuple[float, Set[int]]:
+                           card_limit: float = np.inf
+                           ) -> Tuple[float, Set[int]]:
   """Search assortment with the maximum reward
 
   Args:
@@ -371,7 +372,7 @@ class OrdinaryMNLBandit(Bandit):
   def __init__(self,
                preference_params: np.ndarray,
                revenues: np.ndarray,
-               card_limit: int = np.inf,
+               card_limit: float = np.inf,
                reward: Reward = None,
                zero_best_reward: bool = False,
                name: str = None):
@@ -482,7 +483,8 @@ class OrdinaryMNLBandit(Bandit):
         for sample in sample_results
     ]
     # feedback = (stochastic rewards, choices)
-    feedback = ([self.__revenues[choice] for choice in choices], choices)
+    feedback = (np.array([self.__revenues[choice]
+                          for choice in choices]), choices)
 
     # update regret
     self.__regret += \
@@ -536,7 +538,7 @@ class OrdinaryMNLBandit(Bandit):
     """
     return self.__product_num
 
-  def card_limit(self) -> int:
+  def card_limit(self) -> float:
     """
     Returns:
       cardinality limit

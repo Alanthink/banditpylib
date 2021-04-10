@@ -51,11 +51,11 @@ class APT(ThresBanditLearner):
     Returns:
       metrics of apt for each arm
     """
-    metrics = [
+    metrics = np.array([
         np.sqrt(arm.total_pulls()) *
         (np.abs(arm.em_mean - self.__theta) + self.__eps)
         for arm in self.__pseudo_arms
-    ]
+    ])
     return metrics
 
   def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:

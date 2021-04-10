@@ -57,7 +57,7 @@ For a detailed description, please check the [documentation](https://alanthink.g
 
 ### Installing
 
-Python version requirement: 3.8 or above.
+Python version requirement: 3.7 or above.
 
 Virtual environment: in order not to pollute your own environment, it is suggested to use python virtual environment. The following commands show the details to create and activate a virtual environment.
 
@@ -89,7 +89,7 @@ make fix
        run yapf to format all .py files
 ```
 
-We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make lint`.
+We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make lint` when submitting a PR.
 
 ### Example
 
