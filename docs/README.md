@@ -20,7 +20,13 @@ to preview the changes before pushing the changes. If you are satisfied with the
 
 ## Undesired changes
 
-If there are some undesired changes, please reset the submodule `site` to remote master repository i.e., `git reset --hard origin/master` to avoid polluting the commit history of submodule `site` and then regenerate the documentation.
+If there are some undesired changes, please reset the submodule `site` to remote master repository i.e., 
+
+```bash
+git reset --hard origin/master
+```
+
+to avoid polluting the commit history of submodule `site` and then regenerate the documentation.
 
 # Make commit to the main repository
 

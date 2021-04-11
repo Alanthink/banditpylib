@@ -13,16 +13,17 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../../banditpylib'))
+# sys.path.insert(0, os.path.abspath('../../banditpylib'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
 project = 'banditpylib'
-copyright = '2020, Chester Holtz, Chao Tao'
-author = 'Chester Holtz, Chao Tao'
+copyright = '2020, Chester Holtz, Chao Tao, Guangyu Xi'
+author = 'Chester Holtz, Chao Tao, Guangyu Xi'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '0.9.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -38,6 +39,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
 ]
+
+bibtex_bibfiles = ['references.bib']
 
 todo_include_todos = True
 

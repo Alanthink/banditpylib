@@ -12,7 +12,7 @@ class UCB(OrdinaryLearner):
   At time :math:`t`, play arm
 
   .. math::
-    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{ \frac{
+    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \bar{\mu}_i(t) + \sqrt{ \frac{
     \alpha  \ln(t) }{T_i(t)} } \right\}
   """
   def __init__(self, arm_num: int, name: str = None, alpha: float = 2.0):

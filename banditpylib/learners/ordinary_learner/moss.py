@@ -12,7 +12,7 @@ class MOSS(OrdinaryLearner):
   At time :math:`t`, play arm
 
   .. math::
-    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \hat{\mu}_i(t) + \sqrt{
+    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \bar{\mu}_i(t) + \sqrt{
     \frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}
 
   .. note::
