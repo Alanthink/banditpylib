@@ -1,10 +1,11 @@
-from typing import List, Dict
+from typing import List
 
 import numpy as np
 
 from absl import logging
 
 from banditpylib.bandits import Bandit
+from banditpylib.data_pb2 import OneTrialData
 from banditpylib.learners import Learner
 from .utils import Protocol
 
@@ -21,7 +22,7 @@ class SinglePlayerProtocol(Protocol):
 
   The simulation stopping criteria is one of the following two:
 
-  * actions returned by the learner is `None`;
+  * no actions are returned by the learner;
   * total number of actions achieve `horizon`.
 
   .. note::
@@ -54,7 +55,7 @@ class SinglePlayerProtocol(Protocol):
     """protocol name"""
     return 'single_player_protocol'
 
-  def _one_trial(self, random_seed: int, debug: bool) -> List[Dict]:
+  def _one_trial(self, random_seed: int, debug: bool) -> bytes:
     """One trial of the game
 
     This method defines how to run one trial of the game.
@@ -74,27 +75,25 @@ class SinglePlayerProtocol(Protocol):
     self.bandit.reset()
     self.current_learner.reset()
 
-    one_trial_data = []
+    one_trial_data = OneTrialData()
     rounds = 0
     # number of actions the learner has made
     total_actions = 0
 
     def add_data():
-      one_trial_data.append(
-          dict({
-              'bandit': self.bandit.name,
-              'learner': self.current_learner.name,
-              'rounds': rounds,
-              'total_actions': total_actions,
-              'regret': self.bandit.regret(self.current_learner.goal)
-          }))
+      data_item = one_trial_data.data_items.add()
+      data_item.bandit = self.bandit.name
+      data_item.learner = self.current_learner.name
+      data_item.rounds = rounds
+      data_item.total_actions = total_actions
+      data_item.regret = self.bandit.regret(self.current_learner.goal)
 
     while total_actions < self.__horizon:
       context = self.bandit.context()
       actions = self.current_learner.actions(context)
 
-      # stop the game if actions returned by the learner is None
-      if actions is None:
+      # stop the game if no actions are returned by the learner
+      if not actions.arm_pulls_pairs:
         break
 
       # record intermediate regrets
@@ -105,10 +104,10 @@ class SinglePlayerProtocol(Protocol):
       self.current_learner.update(feedback)
 
       if feedback:
-        for (_, times) in actions:
-          total_actions += int(times)
+        for arm_pulls_pair in actions.arm_pulls_pairs:
+          total_actions += arm_pulls_pair.pulls
         rounds += 1
 
     # record final regret
     add_data()
-    return one_trial_data
+    return one_trial_data.SerializeToString()

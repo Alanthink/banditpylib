@@ -1,9 +1,15 @@
 [MASTER]
+load-plugins=pylint_protobuf
+
+ignore=data_pb2.py, data_pb2.pyi
+
 init-hook='import sys; sys.path.append(".")'
 
 max-line-length=80
 
 indent-string='  '
+
+jobs=4
 
 [MESSAGES CONTROL]
 

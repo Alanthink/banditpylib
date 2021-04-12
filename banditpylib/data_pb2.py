@@ -18,8 +18,8 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='data.proto',
   package='banditpylib',
-  syntax='proto2',
-  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\x11\n\x03\x41rm\x12\n\n\x02id\x18\x01 \x01(\x05\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"@\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"b\n\x08\x44\x61taItem\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12\x0e\n\x06rounds\x18\x03 \x01(\x05\x12\x15\n\rtotal_actions\x18\x04 \x01(\x05\x12\x0e\n\x06regret\x18\x05 \x01(\x02\"2\n\x05Trial\x12)\n\ndata_items\x18\x01 \x03(\x0b\x32\x15.banditpylib.DataItem')
+  syntax='proto3',
+  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\x11\n\x03\x41rm\x12\n\n\x02id\x18\x01 \x01(\x05\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"@\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"b\n\x08\x44\x61taItem\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12\x0e\n\x06rounds\x18\x03 \x01(\x05\x12\x15\n\rtotal_actions\x18\x04 \x01(\x05\x12\x0e\n\x06regret\x18\x05 \x01(\x02\"9\n\x0cOneTrialData\x12)\n\ndata_items\x18\x01 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
 )
 
 
@@ -47,7 +47,7 @@ _ARM = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -85,7 +85,7 @@ _ARMPULLSPAIR = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -116,7 +116,7 @@ _ACTIONS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -154,7 +154,7 @@ _ARMREWARDSPAIR = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -185,7 +185,7 @@ _FEEDBACK = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -244,7 +244,7 @@ _DATAITEM = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
@@ -253,15 +253,15 @@ _DATAITEM = _descriptor.Descriptor(
 )
 
 
-_TRIAL = _descriptor.Descriptor(
-  name='Trial',
-  full_name='banditpylib.Trial',
+_ONETRIALDATA = _descriptor.Descriptor(
+  name='OneTrialData',
+  full_name='banditpylib.OneTrialData',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='data_items', full_name='banditpylib.Trial.data_items', index=0,
+      name='data_items', full_name='banditpylib.OneTrialData.data_items', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -275,26 +275,26 @@ _TRIAL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
-  syntax='proto2',
+  syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
   serialized_start=405,
-  serialized_end=455,
+  serialized_end=462,
 )
 
 _ARMPULLSPAIR.fields_by_name['arm'].message_type = _ARM
 _ACTIONS.fields_by_name['arm_pulls_pairs'].message_type = _ARMPULLSPAIR
 _ARMREWARDSPAIR.fields_by_name['arm'].message_type = _ARM
 _FEEDBACK.fields_by_name['arm_rewards_pairs'].message_type = _ARMREWARDSPAIR
-_TRIAL.fields_by_name['data_items'].message_type = _DATAITEM
+_ONETRIALDATA.fields_by_name['data_items'].message_type = _DATAITEM
 DESCRIPTOR.message_types_by_name['Arm'] = _ARM
 DESCRIPTOR.message_types_by_name['ArmPullsPair'] = _ARMPULLSPAIR
 DESCRIPTOR.message_types_by_name['Actions'] = _ACTIONS
 DESCRIPTOR.message_types_by_name['ArmRewardsPair'] = _ARMREWARDSPAIR
 DESCRIPTOR.message_types_by_name['Feedback'] = _FEEDBACK
 DESCRIPTOR.message_types_by_name['DataItem'] = _DATAITEM
-DESCRIPTOR.message_types_by_name['Trial'] = _TRIAL
+DESCRIPTOR.message_types_by_name['OneTrialData'] = _ONETRIALDATA
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Arm = _reflection.GeneratedProtocolMessageType('Arm', (_message.Message,), dict(
@@ -339,12 +339,12 @@ DataItem = _reflection.GeneratedProtocolMessageType('DataItem', (_message.Messag
   ))
 _sym_db.RegisterMessage(DataItem)
 
-Trial = _reflection.GeneratedProtocolMessageType('Trial', (_message.Message,), dict(
-  DESCRIPTOR = _TRIAL,
+OneTrialData = _reflection.GeneratedProtocolMessageType('OneTrialData', (_message.Message,), dict(
+  DESCRIPTOR = _ONETRIALDATA,
   __module__ = 'data_pb2'
-  # @@protoc_insertion_point(class_scope:banditpylib.Trial)
+  # @@protoc_insertion_point(class_scope:banditpylib.OneTrialData)
   ))
-_sym_db.RegisterMessage(Trial)
+_sym_db.RegisterMessage(OneTrialData)
 
 
 # @@protoc_insertion_point(module_scope)

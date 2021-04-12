@@ -1,7 +1,4 @@
-from typing import List, Tuple, Optional
-
-import numpy as np
-
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryLearner
 
 
@@ -34,7 +31,7 @@ class Uniform(OrdinaryLearner):
     # current time step
     self.__time = 1
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -43,10 +40,14 @@ class Uniform(OrdinaryLearner):
       arms to pull
     """
     del context
-    self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
-    return self.__last_actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    actions = Actions()
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num()
+    arm_pulls_pair.pulls = 1
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:

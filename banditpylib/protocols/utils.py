@@ -1,13 +1,16 @@
-import json
 import multiprocessing
 from multiprocessing import Pool
 import time
-from typing import List, Dict, Union
+from typing import List
 
 from abc import ABC, abstractmethod
 from absl import logging
 
+from google.protobuf.internal.decoder import _DecodeVarint32  # type: ignore
+from google.protobuf.internal.encoder import _VarintBytes  # type: ignore
+
 from banditpylib.bandits import Bandit
+from banditpylib.data_pb2 import OneTrialData
 from banditpylib.learners import Learner
 
 
@@ -19,6 +22,20 @@ def time_seed() -> int:
   """
   tem_time = time.time()
   return int((tem_time - int(tem_time)) * 10000000)
+
+
+def parse_trials_data(data: bytes) -> List[OneTrialData]:
+  trials_data = []
+  next_pos, pos = 0, 0
+  while pos < len(data):
+    one_trial_data = OneTrialData()
+    next_pos, pos = _DecodeVarint32(data, pos)
+    one_trial_data.ParseFromString(data[pos:pos + next_pos])
+
+    # use parsed message
+    pos += next_pos
+    trials_data.append(one_trial_data)
+  return trials_data
 
 
 class Protocol(ABC):
@@ -41,7 +58,7 @@ class Protocol(ABC):
     self.__bandit = bandit
     self.__learners = learners
     # learner the simulator is currently running
-    self.__current_learner: Learner
+    self.__current_learner: Learner = None
 
   @property
   @abstractmethod
@@ -59,8 +76,7 @@ class Protocol(ABC):
     return self.__current_learner
 
   @abstractmethod
-  def _one_trial(self, random_seed: int, debug: bool) -> \
-      Union[Dict, List[Dict]]:
+  def _one_trial(self, random_seed: int, debug: bool) -> bytes:
     """One trial of the game
 
     This method defines how to run one trial of the game.
@@ -73,20 +89,15 @@ class Protocol(ABC):
       result of one trial
     """
 
-  def __write_to_file(self, data: Union[Dict, List[Dict]]):
+  def __write_to_file(self, data: bytes):
     """Write the result of one trial to file
 
     Args:
       data: result of one trial
     """
-    with open(self.__output_filename, 'a') as f:
-      if isinstance(data, list):
-        for data_point in data:
-          json.dump(data_point, f)
-          f.write('\n')
-      else:
-        json.dump(data, f)
-        f.write('\n')
+    with open(self.__output_filename, 'ab') as f:
+      f.write(_VarintBytes(len(data)))
+      f.write(data)
       f.flush()
 
   def play(self, trials: int, output_filename: str, processes=-1, debug=False):

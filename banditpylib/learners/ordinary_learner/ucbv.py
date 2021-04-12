@@ -1,8 +1,7 @@
-from typing import List, Tuple, Optional
-
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryLearner
 
 
@@ -48,7 +47,7 @@ class UCBV(OrdinaryLearner):
     # current time step
     self.__time = 1
 
-  def UCBV(self) -> np.ndarray:
+  def __UCBV(self) -> np.ndarray:
     """
     Returns:
       optimistic estimate of arms' real means using empirical variance
@@ -61,7 +60,7 @@ class UCBV(OrdinaryLearner):
     ])
     return ucbv
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -70,18 +69,26 @@ class UCBV(OrdinaryLearner):
       arms to pull
     """
     del context
-    if self.__time <= self.arm_num():
-      self.__last_actions = [((self.__time - 1) % self.arm_num(), 1)]
-    else:
-      self.__last_actions = [(np.argmax(self.UCBV()), 1)]
-    return self.__last_actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    actions = Actions()
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+
+    if self.__time <= self.arm_num():
+      arm_pulls_pair.arm.id = self.__time - 1
+    else:
+      arm_pulls_pair.arm.id = int(np.argmax(self.__UCBV()))
+
+    arm_pulls_pair.pulls = 1
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
+    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+        np.array(arm_rewards_pair.rewards))
     self.__time += 1

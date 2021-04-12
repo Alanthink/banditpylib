@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional
 
+from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import Goal
 
 
@@ -46,8 +47,7 @@ class Bandit(ABC):
     """
 
   @abstractmethod
-  def feed(self, actions: List[Tuple[Any, int]]) -> \
-      Optional[List[Tuple[Any, Any]]]:
+  def feed(self, actions: Actions) -> Feedback:
     """
     Args:
       actions: actions for the bandit environment to execute

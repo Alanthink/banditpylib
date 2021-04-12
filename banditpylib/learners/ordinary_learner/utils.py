@@ -4,7 +4,6 @@ from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner, Goal, MaxReward
 
 
-# pylint: disable=W0223
 class OrdinaryLearner(Learner):
   """Base class for learners in the ordinary multi-armed bandit
 

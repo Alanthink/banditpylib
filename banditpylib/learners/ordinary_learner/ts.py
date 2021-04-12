@@ -1,8 +1,7 @@
-from typing import List, Tuple, Optional
-
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryLearner
 
 
@@ -46,7 +45,7 @@ class ThompsonSampling(OrdinaryLearner):
     # current time step
     self.__time = 1
 
-  def actions_from_beta_prior(self) -> int:
+  def __sample_from_beta_prior(self) -> int:
     """
     Returns:
       arm to pull using beta prior
@@ -60,7 +59,7 @@ class ThompsonSampling(OrdinaryLearner):
       virtual_means[arm_id] = np.random.beta(a, b)
     return int(np.argmax(virtual_means))
 
-  def actions_from_gaussian_prior(self) -> int:
+  def __sample_from_gaussian_prior(self) -> int:
     """
     Returns:
       arm to pull using gaussian prior
@@ -74,7 +73,7 @@ class ThompsonSampling(OrdinaryLearner):
       virtual_means[arm_id] = np.random.normal(mu, sigma)
     return int(np.argmax(virtual_means))
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -84,18 +83,21 @@ class ThompsonSampling(OrdinaryLearner):
     """
     del context
 
-    self.__last_actions = [(self.actions_from_beta_prior(),
-                            1)] if self.__prior_dist == 'beta' else [
-                                (self.actions_from_gaussian_prior(), 1)
-                            ]
-    return self.__last_actions
+    actions = Actions()
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pulls_pair.arm.id = self.__sample_from_beta_prior(
+    ) if self.__prior_dist == 'beta' else self.__sample_from_gaussian_prior()
+    arm_pulls_pair.pulls = 1
+    return actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    self.__pseudo_arms[self.__last_actions[0][0]].update(feedback[0][0])
+    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+        np.array(arm_rewards_pair.rewards))
     self.__time += 1

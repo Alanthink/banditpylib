@@ -15,6 +15,9 @@ help:
 	@echo "make fix"
 	@echo "       run yapf to format all .py files"
 
+build:
+	protoc -I=banditpylib --python_out=banditpylib banditpylib/data.proto --mypy_out=banditpylib
+
 install_requirements:
 	pip install -r requirements.txt
 
@@ -40,4 +43,4 @@ clean: clean-pyc
 	@echo "Clean cache files"
 
 fix:
-	@yapf -ir --style="{indent_width: 2}" banditpylib
+	@yapf -irp --style="{indent_width: 2}" --exclude 'banditpylib/data_pb2.py' banditpylib
