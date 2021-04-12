@@ -1,9 +1,11 @@
-.PHONY = help install clean test lint fix
+.PHONY = help build install clean test lint freeze fix
 
 PYTHON = python3
 
 .DEFAULT: help
 help:
+	@echo "make build"
+	@echo "       generate protobuf related files"
 	@echo "make install "
 	@echo "       install the library"
 	@echo "make test"
@@ -12,6 +14,8 @@ help:
 	@echo "       run pylint and mypy"
 	@echo "make clean"
 	@echo "       clean cache files"
+	@echo "make freeze"
+	@echo "       generate requirements"
 	@echo "make fix"
 	@echo "       run yapf to format all .py files"
 
@@ -19,6 +23,7 @@ build:
 	protoc -I=banditpylib --python_out=banditpylib banditpylib/data.proto --mypy_out=banditpylib
 
 install_requirements:
+	pip install --upgrade pip
 	pip install -r requirements.txt
 
 install: install_requirements
@@ -41,6 +46,9 @@ clean-pyc:
 
 clean: clean-pyc
 	@echo "Clean cache files"
+
+freeze:
+	python3 -m pip freeze > requirements.txt
 
 fix:
 	@yapf -irp --style="{indent_width: 2}" --exclude 'banditpylib/data_pb2.py' banditpylib
