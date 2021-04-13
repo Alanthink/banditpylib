@@ -3,6 +3,8 @@ from typing import Optional, List, Tuple, Any
 
 import numpy as np
 
+from banditpylib.data_pb2 import Actions, Feedback
+
 
 def argmax(values: List[float]) -> int:
   """Find index with the highest value
@@ -157,7 +159,7 @@ class Learner(ABC):
     """
 
   @abstractmethod
-  def actions(self, context):
+  def actions(self, context) -> Actions:
     """Actions of the learner for one round
 
     Args:
@@ -168,7 +170,7 @@ class Learner(ABC):
     """
 
   @abstractmethod
-  def update(self, feedback):
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:

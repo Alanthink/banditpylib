@@ -1,5 +1,6 @@
 import numpy as np
 
+from banditpylib.data_pb2 import Feedback
 from .sh import SH
 
 
@@ -13,7 +14,13 @@ class TestSH:
 
     while True:
       actions = learner.actions()
-      if actions is None:
+      if not actions.arm_pulls_pairs:
         break
-      learner.update([(np.zeros(pulls), None) for (arm_id, pulls) in actions])
+
+      feedback = Feedback()
+      for arm_pulls_pair in actions.arm_pulls_pairs:
+        arm_rewards_pair = feedback.arm_rewards_pairs.add()
+        arm_rewards_pair.arm.id = arm_pulls_pair.arm.id
+        arm_rewards_pair.rewards.extend(list(np.zeros(arm_pulls_pair.pulls)))
+      learner.update(feedback)
     assert learner.best_arm() in set(range(arm_num))

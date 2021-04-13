@@ -6,11 +6,11 @@ from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner, Goal, BestArmId
 
 
-# pylint: disable=W0223
 class OrdinaryFBBAILearner(Learner):
-  """Base class for bai learners in the ordinary multi-armed bandit
+  """Base class for best-arm identification learners in the ordinary multi-armed
+  bandit
 
-  This learner aims to identify the best arm with fixed budget.
+  This kind of learners aim to identify the best arm with fixed budget.
   """
   def __init__(self, arm_num: int, budget: int, name: Optional[str]):
     """
@@ -21,11 +21,11 @@ class OrdinaryFBBAILearner(Learner):
     """
     super().__init__(name)
     if arm_num <= 1:
-      raise Exception('Number of arms %d is less then 2!' % arm_num)
+      raise Exception('Expected number of arms %d is at least 2.' % arm_num)
     self.__arm_num = arm_num
     if budget < arm_num:
-      raise Exception('Budget %d is less than number of arms %d!' % \
-          (budget, arm_num))
+      raise Exception('Expected budget %d is at least number of arms.' %
+                      budget)
     self.__budget = budget
 
   @property

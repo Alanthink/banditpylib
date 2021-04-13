@@ -1,9 +1,8 @@
-from typing import List, Tuple, Optional
-
 import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryFBBAILearner
 
 
@@ -50,7 +49,7 @@ class SR(OrdinaryFBBAILearner):
     # current round
     self.__round = 1
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -59,31 +58,38 @@ class SR(OrdinaryFBBAILearner):
       arms to pull
     """
     del context
-    if self.__round >= self.arm_num():
-      self.__last_actions = None
-    else:
+
+    actions = Actions()
+
+    if self.__round < self.arm_num():
       if self.__round < self.arm_num() - 1:
-        self.__last_actions = [(arm_id, self.__pulls_per_round[self.__round])
-                               for arm_id in self.__active_arms]
+        for arm_id in self.__active_arms:
+          arm_pulls_pair = actions.arm_pulls_pairs.add()
+          arm_pulls_pair.arm.id = arm_id
+          arm_pulls_pair.pulls = self.__pulls_per_round[self.__round]
       else:
         # use up the left budget when there are only two arms left
         pulls = [self.__budget_left // 2]
         pulls.append(self.__budget_left - pulls[0])
-        self.__last_actions = [(list(self.__active_arms)[i], pulls[i])
-                               for i in range(2)]
-    return self.__last_actions
+        for i in range(2):
+          arm_pulls_pair = actions.arm_pulls_pairs.add()
+          arm_pulls_pair.arm.id = list(self.__active_arms)[i]
+          arm_pulls_pair.pulls = pulls[i]
 
-  def update(self, feedback: List[Tuple[Optional[np.ndarray], None]]):
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    for (ind, (rewards, _)) in enumerate(feedback):
-      if rewards is not None:
-        self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
-        self.__budget_left -= len(rewards)
+    for arm_rewards_pair in feedback.arm_rewards_pairs:
+      if arm_rewards_pair.rewards:
+        self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+            np.array(arm_rewards_pair.rewards))
+        self.__budget_left -= len(arm_rewards_pair.rewards)
     # remove the arm with the least mean
     arm_id_to_remove = min([(arm_id, self.__pseudo_arms[arm_id].em_mean)
                             for arm_id in self.__active_arms],

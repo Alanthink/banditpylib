@@ -5,7 +5,9 @@ from typing import List
 
 from abc import ABC, abstractmethod
 from absl import logging
+import pandas as pd
 
+import google.protobuf.json_format as json_format
 from google.protobuf.internal.decoder import _DecodeVarint32  # type: ignore
 from google.protobuf.internal.encoder import _VarintBytes  # type: ignore
 
@@ -36,6 +38,20 @@ def parse_trials_data(data: bytes) -> List[OneTrialData]:
     pos += next_pos
     trials_data.append(one_trial_data)
   return trials_data
+
+
+def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
+  with open(filename, 'rb') as f:
+    data = []
+    trials_data = parse_trials_data(f.read())
+    for one_trial_data in trials_data:
+      for data_item in one_trial_data.data_items:
+        data.append(
+            json_format.MessageToDict(data_item,
+                                      including_default_value_fields=True,
+                                      preserving_proto_field_name=True))
+    data_df = pd.DataFrame.from_dict(data)
+    return data_df
 
 
 class Protocol(ABC):

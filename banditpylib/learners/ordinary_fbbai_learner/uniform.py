@@ -1,8 +1,7 @@
-from typing import List, Tuple, Optional
-
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import argmax
 from .utils import OrdinaryFBBAILearner
 
@@ -10,8 +9,8 @@ from .utils import OrdinaryFBBAILearner
 class Uniform(OrdinaryFBBAILearner):
   """Uniform sampling policy
 
-  Play each arm the same number of times and then output the arm with the best
-  empirical mean.
+  Play each arm the same number of times and then output the arm with the
+  highest empirical mean.
   """
   def __init__(self, arm_num: int, budget: int, name: str = None):
     """
@@ -37,9 +36,9 @@ class Uniform(OrdinaryFBBAILearner):
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     self.__best_arm = None
-    self.__last_round = False
+    self.__stop = False
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -48,28 +47,34 @@ class Uniform(OrdinaryFBBAILearner):
       arms to pull
     """
     del context
-    if self.__last_round:
-      self.__last_actions = None
-    else:
+
+    actions = Actions()
+
+    if not self.__stop:
       # make sure each arm is sampled at least once
       pulls = np.random.multinomial(self.budget() - self.arm_num(),
                                     np.ones(self.arm_num()) / self.arm_num(),
                                     size=1)[0]
-      self.__last_actions = [(arm_id, pulls[arm_id] + 1)
-                             for arm_id in range(self.arm_num())]
-      self.__last_round = True
-    return self.__last_actions
+      for arm_id in range(self.arm_num()):
+        arm_pulls_pair = actions.arm_pulls_pairs.add()
+        arm_pulls_pair.arm.id = arm_id
+        arm_pulls_pair.pulls = pulls[arm_id] + 1
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+      self.__stop = True
+
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
-        `self.__last_actions`
+        :func:`actions`
     """
-    for (ind, (rewards, _)) in enumerate(feedback):
-      self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
-    if self.__last_round:
+    for arm_rewards_pair in feedback.arm_rewards_pairs:
+      self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+          np.array(arm_rewards_pair.rewards))
+    if self.__stop:
       self.__best_arm = argmax([arm.em_mean for arm in self.__pseudo_arms])
 
   def best_arm(self) -> int:
