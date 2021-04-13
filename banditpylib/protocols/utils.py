@@ -27,6 +27,8 @@ def time_seed() -> int:
 
 
 def parse_trials_data(data: bytes) -> List[OneTrialData]:
+  """Retrieve a list of OneTrialData from bytes data
+  """
   trials_data = []
   next_pos, pos = 0, 0
   while pos < len(data):
@@ -41,6 +43,8 @@ def parse_trials_data(data: bytes) -> List[OneTrialData]:
 
 
 def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
+  """Read a list of OneTrialData from file and transform to pandas DataFrame
+  """
   with open(filename, 'rb') as f:
     data = []
     trials_data = parse_trials_data(f.read())
