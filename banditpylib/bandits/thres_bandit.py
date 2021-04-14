@@ -73,7 +73,7 @@ class ThresholdingBandit(Bandit):
     """
     return self.__arm_num
 
-  def __take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
+  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm
 
     Args:
@@ -113,7 +113,7 @@ class ThresholdingBandit(Bandit):
     """
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
-      arm_rewards_pair = self.__take_action(arm_pulls_pair=arm_pulls_pair)
+      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
       if arm_rewards_pair.rewards:
         feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback

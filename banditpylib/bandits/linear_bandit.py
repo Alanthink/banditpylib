@@ -1,8 +1,9 @@
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 
 from banditpylib.arms import GaussianArm
+from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, BestArmId, MaxReward
 from .ordinary_bandit_itf import OrdinaryBanditItf
 from .linear_bandit_itf import LinearBanditItf
@@ -57,39 +58,51 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
     """
     return 'linear_bandit'
 
-  def _take_action(self, arm_id, pulls=1) -> Tuple[np.ndarray, None]:
+  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm
 
     Args:
-      arm_id: arm id
-      pulls: number of times to pull
+      arm_pulls_pair: arm and its pulls
 
     Returns:
-      feedback where the first dimension denotes the stochastic rewards
+      arm_rewards_pair: arm and its rewards
     """
+    arm_id = arm_pulls_pair.arm.id
+    pulls = arm_pulls_pair.pulls
+
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
-    em_rewards = self.__arms[arm_id].pull(pulls)
-    if em_rewards is not None:
-      self.__regret += (self.__best_arm.mean * pulls - em_rewards)
-      self.__total_pulls += pulls
-    return (em_rewards, None)
 
-  def feed(self, actions: List[Tuple[int,
-                                     int]]) -> List[Tuple[np.ndarray, None]]:
+    arm_rewards_pair = ArmRewardsPair()
+    if pulls < 1:
+      return arm_rewards_pair
+
+    # Empirical rewards when `arm_id` is pulled for `pulls` times
+    em_rewards = self.__arms[arm_id].pull(pulls)
+
+    self.__regret += (self.__best_arm.mean * pulls - em_rewards)
+    self.__total_pulls += pulls
+
+    arm_rewards_pair.arm.id = arm_id
+    arm_rewards_pair.rewards.extend(list(em_rewards))
+
+    return arm_rewards_pair
+
+  def feed(self, actions: Actions) -> Feedback:
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first dimension denotes the arm id and the
-        second dimension is the number of times this arm will be pulled
+      actions: actions to perform
 
     Returns:
-      feedback. For each tuple, the first dimension is the stochatic rewards.
+      feedback after actions are performed
     """
-    feedback = []
-    for (arm_id, pulls) in actions:
-      feedback.append(self._take_action(arm_id, pulls))
+    feedback = Feedback()
+    for arm_pulls_pair in actions.arm_pulls_pairs:
+      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
+      if arm_rewards_pair.rewards:
+        feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
   def reset(self):
