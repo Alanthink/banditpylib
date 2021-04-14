@@ -2,7 +2,7 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import argmax
+from banditpylib.learners import argmax_or_min
 from .utils import OrdinaryFBBAILearner
 
 
@@ -75,7 +75,8 @@ class Uniform(OrdinaryFBBAILearner):
       self.__pseudo_arms[arm_rewards_pair.arm.id].update(
           np.array(arm_rewards_pair.rewards))
     if self.__stop:
-      self.__best_arm = argmax([arm.em_mean for arm in self.__pseudo_arms])
+      self.__best_arm = argmax_or_min(
+          [arm.em_mean for arm in self.__pseudo_arms])
 
   def best_arm(self) -> int:
     """

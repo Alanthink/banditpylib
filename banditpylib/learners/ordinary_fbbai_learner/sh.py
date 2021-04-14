@@ -1,14 +1,19 @@
+from typing import Dict
+
 import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import argmax_tuple
+from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryFBBAILearner
 
 
 class SH(OrdinaryFBBAILearner):
-  """Sequential halving policy :cite:`karnin2013almost`"""
+  """Sequential halving policy :cite:`karnin2013almost`
+
+  Eliminate half of the remaining arms in each round.
+  """
   def __init__(self,
                arm_num: int,
                budget: int,
@@ -42,12 +47,14 @@ class SH(OrdinaryFBBAILearner):
     .. warning::
       This function should be called before the start of the game.
     """
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    self.__active_arms = list(range(self.arm_num()))
+    self.__active_arms: Dict[int, PseudoArm] = dict()
+    for arm_id in range(self.arm_num()):
+      self.__active_arms[arm_id] = PseudoArm()
+
     self.__budget_left = self.budget()
     self.__best_arm = None
     self.__total_rounds = math.ceil(math.log(self.arm_num(), 2))
-    # current round
+    # Current round
     self.__round = 1
     self.__stop = False
 
@@ -98,20 +105,20 @@ class SH(OrdinaryFBBAILearner):
         :func:`actions`
     """
     for arm_rewards_pair in feedback.arm_rewards_pairs:
-      self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+      self.__active_arms[arm_rewards_pair.arm.id].update(
           np.array(arm_rewards_pair.rewards))
       self.__budget_left -= len(arm_rewards_pair.rewards)
     if self.__stop:
-      self.__best_arm = argmax_tuple([(self.__pseudo_arms[arm_id].em_mean,
-                                       arm_id)
-                                      for arm_id in self.__active_arms])
+      self.__best_arm = argmax_or_min_tuple([
+          (self.__active_arms[arm_id].em_mean, arm_id)
+          for arm_id in self.__active_arms
+      ])
     else:
-      # remove half of the arms with the worst empirical means
-      sorted_active_arms = sorted(self.__active_arms,
-                                  key=lambda x: self.__pseudo_arms[x].em_mean,
-                                  reverse=True)
-      self.__active_arms = sorted_active_arms[:math.ceil(
-          len(self.__active_arms) / 2)]
+      # Remove half of the arms with the worst empirical means
+      remaining_arms = sorted(
+          self.__active_arms.items(), key=lambda x: x[1].em_mean,
+          reverse=True)[:math.ceil(len(self.__active_arms) / 2)]
+      self.__active_arms = dict((x, PseudoArm()) for x, _ in remaining_arms)
     self.__round += 1
 
   def best_arm(self) -> int:

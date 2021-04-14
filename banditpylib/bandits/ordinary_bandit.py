@@ -82,7 +82,8 @@ class OrdinaryBandit(OrdinaryBanditItf):
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
       arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
-      feedback.arm_rewards_pairs.append(arm_rewards_pair)
+      if arm_rewards_pair.rewards:
+        feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
   def reset(self):

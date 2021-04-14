@@ -4,7 +4,7 @@ import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
-from banditpylib.learners import argmax_tuple
+from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryFCBAILearner
 
 
@@ -104,6 +104,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     Returns:
       best arm identified by the learner
     """
-    return argmax_tuple([(pseudo_arm.total_pulls(), arm_id)
-                         for (arm_id,
-                              pseudo_arm) in enumerate(self.__pseudo_arms)])
+    return argmax_or_min_tuple([
+        (pseudo_arm.total_pulls(), arm_id)
+        for (arm_id, pseudo_arm) in enumerate(self.__pseudo_arms)
+    ])

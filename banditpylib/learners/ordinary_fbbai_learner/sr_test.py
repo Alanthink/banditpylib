@@ -24,4 +24,4 @@ class TestSR:
         arm_rewards_pair.rewards.extend(
             list(np.random.random(arm_pulls_pair.pulls)))
       learner.update(feedback)
-    assert learner.best_arm() in set(range(arm_num))
+    assert learner.best_arm() in list(range(arm_num))
