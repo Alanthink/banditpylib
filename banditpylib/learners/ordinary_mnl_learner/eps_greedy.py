@@ -58,14 +58,14 @@ class EpsGreedy(OrdinaryMNLLearner):
     .. warning::
       This function should be called before the start of the game.
     """
-    # current time step
+    # Current time step
     self.__time = 1
-    # current episode
+    # Current episode
     self.__episode = 1
-    # number of episodes a product is served until the current episode
+    # Number of episodes a product is served until the current episode
     # (exclusive)
     self.__serving_episodes = np.zeros(self.product_num() + 1)
-    # number of times the customer chooses a product until the current time
+    # Number of times the customer chooses a product until the current time
     # (exclusive)
     self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
@@ -76,7 +76,7 @@ class EpsGreedy(OrdinaryMNLLearner):
     Returns:
       empirical estimate of preference parameters
     """
-    # unbiased estimate of preference parameters
+    # Unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
     unbiased_est[np.isnan(unbiased_est)] = 1
     unbiased_est = np.minimum(unbiased_est, 1)
@@ -89,7 +89,6 @@ class EpsGreedy(OrdinaryMNLLearner):
            next_product_id=1,
            assortment=set(),
            card_limit=self.card_limit())
-    # pylint: disable=no-member
     return assortments[int(np.random.randint(0, len(assortments)))]
 
   def actions(self, context=None) -> Actions:
