@@ -144,7 +144,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
       if self.use_local_search:
         # Initial assortment to start for local search
         if self.__last_actions is not None:
-          init_assortment = self.__last_actions[0][0]
+          init_assortment = set(self.__last_actions.arm_pulls_pairs[0].arm.ids)
         else:
           init_assortment = None
         _, best_assortment = local_search_best_assortment(
@@ -176,7 +176,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
     # No purchase is observed
     if arm_rewards_pair.customer_feedbacks[0] == 0:
-      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set:
+      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.ids:
         self.__serving_episodes[product_id] += 1
       # Check if it is the end of initial warm start stage
       if not self.__done_warm_start and \
