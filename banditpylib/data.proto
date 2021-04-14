@@ -57,6 +57,6 @@ message DataItem {
 
 // Next tag: 2
 // This message stores the data generated within one trial
-message OneTrialData {
+message Trial {
   repeated DataItem data_items  = 1;
 }

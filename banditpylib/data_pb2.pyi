@@ -117,7 +117,7 @@ class DataItem(google.protobuf.message.Message):
     def ClearField(self, field_name: typing_extensions.Literal[u"bandit",b"bandit",u"learner",b"learner",u"regret",b"regret",u"rounds",b"rounds",u"total_actions",b"total_actions"]) -> None: ...
 global___DataItem = DataItem
 
-class OneTrialData(google.protobuf.message.Message):
+class Trial(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
     DATA_ITEMS_FIELD_NUMBER: builtins.int
 
@@ -129,4 +129,4 @@ class OneTrialData(google.protobuf.message.Message):
         data_items : typing.Optional[typing.Iterable[global___DataItem]] = ...,
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal[u"data_items",b"data_items"]) -> None: ...
-global___OneTrialData = OneTrialData
+global___Trial = Trial

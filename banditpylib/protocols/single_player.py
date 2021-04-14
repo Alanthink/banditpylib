@@ -5,7 +5,7 @@ import numpy as np
 from absl import logging
 
 from banditpylib.bandits import Bandit
-from banditpylib.data_pb2 import OneTrialData
+from banditpylib.data_pb2 import Trial
 from banditpylib.learners import Learner
 from .utils import Protocol
 
@@ -75,13 +75,13 @@ class SinglePlayerProtocol(Protocol):
     self.bandit.reset()
     self.current_learner.reset()
 
-    one_trial_data = OneTrialData()
+    trial = Trial()
     rounds = 0
     # number of actions the learner has made
     total_actions = 0
 
     def add_data():
-      data_item = one_trial_data.data_items.add()
+      data_item = trial.data_items.add()
       data_item.bandit = self.bandit.name
       data_item.learner = self.current_learner.name
       data_item.rounds = rounds
@@ -110,4 +110,4 @@ class SinglePlayerProtocol(Protocol):
 
     # record final regret
     add_data()
-    return one_trial_data.SerializeToString()
+    return trial.SerializeToString()

@@ -12,7 +12,7 @@ from google.protobuf.internal.decoder import _DecodeVarint32  # type: ignore
 from google.protobuf.internal.encoder import _VarintBytes  # type: ignore
 
 from banditpylib.bandits import Bandit
-from banditpylib.data_pb2 import OneTrialData
+from banditpylib.data_pb2 import Trial
 from banditpylib.learners import Learner
 
 
@@ -26,31 +26,31 @@ def time_seed() -> int:
   return int((tem_time - int(tem_time)) * 10000000)
 
 
-def parse_trials_data(data: bytes) -> List[OneTrialData]:
-  """Retrieve a list of OneTrialData from bytes data
+def parse_trials_data(data: bytes) -> List[Trial]:
+  """Retrieve a list of Trial from bytes data
   """
   trials_data = []
   next_pos, pos = 0, 0
   while pos < len(data):
-    one_trial_data = OneTrialData()
+    trial = Trial()
     next_pos, pos = _DecodeVarint32(data, pos)
-    one_trial_data.ParseFromString(data[pos:pos + next_pos])
+    trial.ParseFromString(data[pos:pos + next_pos])
 
     # use parsed message
     pos += next_pos
-    trials_data.append(one_trial_data)
+    trials_data.append(trial)
   return trials_data
 
 
 def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
-  """Read file storing a couple of OneTrialData and transform to pandas
+  """Read file storing a couple of Trial and transform to pandas
   DataFrame
   """
   with open(filename, 'rb') as f:
     data = []
     trials_data = parse_trials_data(f.read())
-    for one_trial_data in trials_data:
-      for data_item in one_trial_data.data_items:
+    for trial in trials_data:
+      for data_item in trial.data_items:
         data.append(
             json_format.MessageToDict(data_item,
                                       including_default_value_fields=True,
