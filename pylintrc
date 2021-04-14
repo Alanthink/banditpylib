@@ -1,7 +1,7 @@
 [MASTER]
 load-plugins=pylint_protobuf
 
-ignore=data_pb2.py, data_pb2.pyi
+ignore=data_pb2.py, data_pb2.pyi, README.md
 
 init-hook='import sys; sys.path.append(".")'
 

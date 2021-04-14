@@ -37,9 +37,9 @@ class TestEpsGreedy:
         """
       arm_pulls_pairs {
         arm {
-          set: 2
-          set: 3
-          set: 4
+          ids: 2
+          ids: 3
+          ids: 4
         }
         pulls: 1
       }

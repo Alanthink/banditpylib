@@ -106,7 +106,7 @@ class UCB(OrdinaryMNLLearner):
       _, best_assortment = search_best_assortment(reward=self.reward,
                                                   card_limit=self.card_limit())
 
-    arm_pulls_pair.arm.set.extend(list(best_assortment))
+    arm_pulls_pair.arm.ids.extend(list(best_assortment))
     arm_pulls_pair.pulls = 1
 
     self.__last_actions = actions

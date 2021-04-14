@@ -82,7 +82,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
 
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.set.append(self.__next_product_in_warm_start)
+    arm_pulls_pair.arm.ids.append(self.__next_product_in_warm_start)
     arm_pulls_pair.pulls = 1
     self.__next_product_in_warm_start += 1
     return actions
@@ -156,7 +156,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
         _, best_assortment = search_best_assortment(
             reward=self.reward, card_limit=self.card_limit())
 
-      arm_pulls_pair.arm.set.extend(list(best_assortment))
+      arm_pulls_pair.arm.ids.extend(list(best_assortment))
       arm_pulls_pair.pulls = 1
 
       self.__first_step_after_warm_start = False

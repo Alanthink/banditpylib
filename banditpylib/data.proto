@@ -7,7 +7,7 @@ message Arm {
   // The arm id is an integer
   int32 id = 1;
   // The arm id is a set
-  repeated int32 set = 2;
+  repeated int32 ids = 2;
 }
 
 // Next tag: 3
@@ -29,10 +29,9 @@ message ArmRewardsPair {
   Arm arm = 1;
   // The corresponding rewards
   repeated float rewards = 2;
-  // This field is specific to MNL bandit
-  // When this field is 0 (the default value), it means the customer does not
-  // but any product. Otherwise (>0), it means the customer purchases some
-  // product.
+  // This field is specific to MNL bandit. When this field is 0, it means the
+  // customer does not but any product. Otherwise (>0), it means the customer
+  // purchases some product.
   repeated int32 customer_feedbacks = 3;
 }
 

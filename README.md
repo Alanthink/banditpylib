@@ -32,24 +32,25 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 ### Single Player Protocol
 
-#### Regret Minimization
+#### Ordinary Bandit
 
-| Bandit Type | Policies |
+| Goal | Policies |
 |     :---      |      :--- |
-| Ordinary Bandit   | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
-| Ordinary MNL Bandit   | `EpsGreedy`, `UCB`, `ThompsonSampling` |
+| Regret Minimization  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS` |
+| Fix-Budget BAI   | `Uniform`, `SR`, `SH`|
+| Fix-Confidence BAI   | `ExpGap`, `LilUCBHeuristic`|
 
-#### Fixed Budget Best Arm Identification
+#### Ordinary MNL Bandit
 
-| Bandit Type | Policies |
+| Goal | Policies |
 |     :---      |      :--- |
-| Ordinary Bandit   | `Uniform`, `SR`, `SH`|
+| Regret Minimization  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
-#### Fixed Confidence Best Arm Identification
+#### Thresholding Bandit
 
-| Bandit Type | Policies |
+| Goal | Policies |
 |     :---      |      :--- |
-| Ordinary Bandit   | `ExpGap`, `LilUCBHeuristic`|
+| Simple Regret | `Uniform`, `APT` |
 
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 

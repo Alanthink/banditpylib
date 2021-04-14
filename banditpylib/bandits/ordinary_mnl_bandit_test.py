@@ -99,7 +99,7 @@ class TestOrdinaryMNLBandit:
             """
       arm_pulls_pairs {
         arm {
-          set: 1
+          ids: 1
         }
         pulls: 3
       }
@@ -118,7 +118,7 @@ class TestOrdinaryMNLBandit:
                 """
       arm_pulls_pairs {
         arm {
-          set: 1
+          ids: 1
         }
         pulls: 5
       }
