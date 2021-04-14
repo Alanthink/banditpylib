@@ -1,9 +1,10 @@
-from typing import List, Tuple, Set, Optional
+from typing import List, Set
 
 import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward, search, \
     local_search_best_assortment
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryMNLLearner
 
 
@@ -15,7 +16,6 @@ class EpsGreedy(OrdinaryMNLLearner):
   """
   def __init__(self,
                revenues: np.ndarray,
-               horizon: int,
                reward: Reward,
                card_limit=np.inf,
                name=None,
@@ -25,7 +25,6 @@ class EpsGreedy(OrdinaryMNLLearner):
     """
     Args:
       revenues: product revenues
-      horizon: total number of time steps
       reward: reward the learner wants to maximize
       card_limit: cardinality constraint
       name: alias name
@@ -36,7 +35,6 @@ class EpsGreedy(OrdinaryMNLLearner):
       eps: epsilon
     """
     super().__init__(revenues=revenues,
-                     horizon=horizon,
                      reward=reward,
                      card_limit=card_limit,
                      name=name,
@@ -71,9 +69,9 @@ class EpsGreedy(OrdinaryMNLLearner):
     # (exclusive)
     self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
-    self.__last_feedback = None
+    self.__last_customer_feedback = None
 
-  def em_preference_params(self) -> np.ndarray:
+  def __em_preference_params(self) -> np.ndarray:
     """
     Returns:
       empirical estimate of preference parameters
@@ -84,7 +82,7 @@ class EpsGreedy(OrdinaryMNLLearner):
     unbiased_est = np.minimum(unbiased_est, 1)
     return unbiased_est
 
-  def select_ramdom_assort(self) -> Set[int]:
+  def __select_ramdom_assort(self) -> Set[int]:
     assortments: List[Set[int]] = []
     search(assortments=assortments,
            product_num=self.product_num(),
@@ -94,54 +92,62 @@ class EpsGreedy(OrdinaryMNLLearner):
     # pylint: disable=no-member
     return assortments[int(np.random.randint(0, len(assortments)))]
 
-  def actions(self, context=None) -> Optional[List[Tuple[Set[int], int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Returns:
       assortments to serve
     """
     del context
-    if self.__time > self.horizon():
-      self.__last_actions = None
+
+    actions = Actions()
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+
+    # Check if last observation is a purchase
+    if self.__last_customer_feedback and self.__last_customer_feedback != 0:
+      return self.__last_actions
+
+    # When a non-purchase observation happens, a new episode is started and
+    # a new assortment to be served is calculated
+
+    # With probability eps/t, randomly select an assortment to serve
+    if np.random.random() <= self.__eps / self.__time:
+      arm_pulls_pair.arm.set.extend(list(self.__select_ramdom_assort()))
+      arm_pulls_pair.pulls = 1
+      return actions
+
+    self.reward.set_preference_params(self.__em_preference_params())
+    # Calculate assortment with the maximum reward using optimistic
+    # preference parameters
+    if self.use_local_search:
+      _, best_assortment = local_search_best_assortment(
+          reward=self.reward,
+          random_neighbors=self.random_neighbors,
+          card_limit=self.card_limit(),
+          init_assortment=(self.__last_actions[0][0]
+                           if self.__last_actions else None))
     else:
-      # check if last observation is not a non-purchase
-      if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
-        return self.__last_actions
-      # When a non-purchase observation happens, a new episode is started and
-      # a new assortment to be served is calculated
+      _, best_assortment = search_best_assortment(reward=self.reward,
+                                                  card_limit=self.card_limit())
 
-      # pylint: disable=no-member
-      # with probability eps/t, randomly select an assortment to serve
-      if np.random.random() <= self.__eps / self.__time:
-        self.__last_actions = [(self.select_ramdom_assort(), 1)]
-        return self.__last_actions
+    arm_pulls_pair.arm.set.extend(list(best_assortment))
+    arm_pulls_pair.pulls = 1
 
-      self.reward.set_preference_params(self.em_preference_params())
-      # calculate assortment with the maximum reward using optimistic
-      # preference parameters
-      if self.use_local_search:
-        _, best_assortment = local_search_best_assortment(
-            reward=self.reward,
-            random_neighbors=self.random_neighbors,
-            card_limit=self.card_limit(),
-            init_assortment=(self.__last_actions[0][0]
-                             if self.__last_actions else None))
-      else:
-        _, best_assortment = search_best_assortment(
-            reward=self.reward, card_limit=self.card_limit())
-      self.__last_actions = [(best_assortment, 1)]
-    return self.__last_actions
+    self.__last_actions = actions
+    return actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, List[int]]]):
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    self.__customer_choices[feedback[0][1][0]] += 1
-    self.__last_feedback = feedback
+    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+
+    self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
+    self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
     self.__time += 1
-    if feedback[0][1][0] == 0:
-      for product_id in self.__last_actions[0][0]:
+    if arm_rewards_pair.customer_feedbacks[0] == 0:
+      for product_id in arm_rewards_pair.arm.set:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1

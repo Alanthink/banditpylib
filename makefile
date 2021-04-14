@@ -33,7 +33,7 @@ test:
 	${PYTHON} -m pytest banditpylib
 
 lint:
-	${PYTHON} -m pylint banditpylib
+	${PYTHON} -m pylint --jobs=8 banditpylib
 	${PYTHON} -m mypy banditpylib
 
 clean-pyc:

@@ -2,10 +2,12 @@ syntax = "proto3";
 
 package banditpylib;
 
-// Next tag: 2
+// Next tag: 3
 message Arm {
   // The arm id is an integer
   int32 id = 1;
+  // The arm id is a set
+  repeated int32 set = 2;
 }
 
 // Next tag: 3
@@ -21,12 +23,17 @@ message Actions {
   repeated ArmPullsPair arm_pulls_pairs = 1;
 }
 
-// Next tag: 3
+// Next tag: 4
 message ArmRewardsPair {
   // Arm to be pulled
   Arm arm = 1;
   // The corresponding rewards
   repeated float rewards = 2;
+  // This field is specific to MNL bandit
+  // When this field is 0 (the default value), it means the customer does not
+  // but any product. Otherwise (>0), it means the customer purchases some
+  // product.
+  repeated int32 customer_feedbacks = 3;
 }
 
 // Next tag: 2

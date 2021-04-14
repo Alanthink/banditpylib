@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='data.proto',
   package='banditpylib',
   syntax='proto3',
-  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\x11\n\x03\x41rm\x12\n\n\x02id\x18\x01 \x01(\x05\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"@\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"b\n\x08\x44\x61taItem\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12\x0e\n\x06rounds\x18\x03 \x01(\x05\x12\x15\n\rtotal_actions\x18\x04 \x01(\x05\x12\x0e\n\x06regret\x18\x05 \x01(\x02\"9\n\x0cOneTrialData\x12)\n\ndata_items\x18\x01 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
+  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\x1e\n\x03\x41rm\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0b\n\x03set\x18\x02 \x03(\x05\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"\\\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"b\n\x08\x44\x61taItem\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12\x0e\n\x06rounds\x18\x03 \x01(\x05\x12\x15\n\rtotal_actions\x18\x04 \x01(\x05\x12\x0e\n\x06regret\x18\x05 \x01(\x02\"9\n\x0cOneTrialData\x12)\n\ndata_items\x18\x01 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
 )
 
 
@@ -39,6 +39,13 @@ _ARM = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='set', full_name='banditpylib.Arm.set', index=1,
+      number=2, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -52,7 +59,7 @@ _ARM = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=27,
-  serialized_end=44,
+  serialized_end=57,
 )
 
 
@@ -89,8 +96,8 @@ _ARMPULLSPAIR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=46,
-  serialized_end=106,
+  serialized_start=59,
+  serialized_end=119,
 )
 
 
@@ -120,8 +127,8 @@ _ACTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=108,
-  serialized_end=169,
+  serialized_start=121,
+  serialized_end=182,
 )
 
 
@@ -146,6 +153,13 @@ _ARMREWARDSPAIR = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='customer_feedbacks', full_name='banditpylib.ArmRewardsPair.customer_feedbacks', index=2,
+      number=3, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -158,8 +172,8 @@ _ARMREWARDSPAIR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=171,
-  serialized_end=235,
+  serialized_start=184,
+  serialized_end=276,
 )
 
 
@@ -189,8 +203,8 @@ _FEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=237,
-  serialized_end=303,
+  serialized_start=278,
+  serialized_end=344,
 )
 
 
@@ -248,8 +262,8 @@ _DATAITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=305,
-  serialized_end=403,
+  serialized_start=346,
+  serialized_end=444,
 )
 
 
@@ -279,8 +293,8 @@ _ONETRIALDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=405,
-  serialized_end=462,
+  serialized_start=446,
+  serialized_end=503,
 )
 
 _ARMPULLSPAIR.fields_by_name['arm'].message_type = _ARM

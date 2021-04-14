@@ -1,9 +1,9 @@
-from typing import List, Tuple, Set, Optional
-
+from absl import logging
 import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward, \
     local_search_best_assortment
+from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryMNLLearner
 
 
@@ -30,12 +30,15 @@ class ThompsonSampling(OrdinaryMNLLearner):
         used
     """
     super().__init__(revenues=revenues,
-                     horizon=horizon,
                      reward=reward,
                      card_limit=card_limit,
                      name=name,
                      use_local_search=use_local_search,
                      random_neighbors=random_neighbors)
+    if horizon < self.product_num():
+      logging.warning('Horizon %d is less than number of products %d!' % \
+          (horizon, self.product_num()))
+    self.__horizon = horizon
 
   def _name(self) -> str:
     """
@@ -58,53 +61,57 @@ class ThompsonSampling(OrdinaryMNLLearner):
     # (exclusive)
     self.__serving_episodes = np.zeros(self.product_num() + 1)
     # number of times a product is picked until the current time (exclusive)
-    self.__product_picks = np.zeros(self.product_num() + 1)
+    self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
-    self.__last_feedback = None
+    self.__last_customer_feedback = None
     # flag to denote whether the initial warm start stage has finished
     self.__done_warm_start = False
     # next product to try in the warm start stage
     self.__next_product_in_warm_start = 1
 
-  def warm_start(self) -> List[Tuple[Set[int], int]]:
+  def __warm_start(self) -> Actions:
     """Initial warm start stage
 
     Returns:
       assortments to serve in the warm start stage
     """
-    # check if last observation is a purchase
-    if self.__last_feedback is not None and self.__last_feedback[0][1][0] != 0:
-      # continue serving the same assortment
+    # Check if last observation is a purchase
+    if self.__last_customer_feedback and self.__last_customer_feedback != 0:
+      # Continue serving the same assortment
       return self.__last_actions
-    self.__last_actions = [({self.__next_product_in_warm_start}, 1)]
-    self.__next_product_in_warm_start += 1
-    return self.__last_actions
 
-  def within_warm_start(self) -> bool:
+    actions = Actions()
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pulls_pair.arm.set.append(self.__next_product_in_warm_start)
+    arm_pulls_pair.pulls = 1
+    self.__next_product_in_warm_start += 1
+    return actions
+
+  def __within_warm_start(self) -> bool:
     """
     Returns:
       `True` if the learner is still in warm start stage
     """
     return not self.__done_warm_start
 
-  def correlated_sampling(self) -> np.ndarray:
+  def __correlated_sampling(self) -> np.ndarray:
     """
     Returns:
       correlated sampling of preference parameters
     """
     theta = np.max(np.random.normal(0, 1, self.card_limit()))
-    # unbiased estimate of preference parameters
-    unbiased_est = self.__product_picks / self.__serving_episodes
+    # Unbiased estimate of preference parameters
+    unbiased_est = self.__customer_choices / self.__serving_episodes
     sampled_preference_params = unbiased_est + theta * (
         np.sqrt(50 * unbiased_est *
                 (unbiased_est + 1) / self.__serving_episodes) +
-        75 * np.sqrt(np.log(self.horizon() * self.card_limit())) /
+        75 * np.sqrt(np.log(self.__horizon * self.card_limit())) /
         self.__serving_episodes)
     sampled_preference_params[0] = 1
     sampled_preference_params = np.minimum(sampled_preference_params, 1)
     return sampled_preference_params
 
-  def actions(self, context=None) -> Optional[List[Tuple[Set[int], int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary mnl bandit which should be `None`
@@ -113,26 +120,29 @@ class ThompsonSampling(OrdinaryMNLLearner):
       assortments to serve
     """
     del context
-    # check if the learner should stop the game
-    if self.__time > self.horizon():
-      self.__last_actions = None
-    # check if still in warm start stage
-    elif self.within_warm_start():
-      self.__last_actions = self.warm_start()
+
+    actions: Actions
+
+    # Check if still in warm start stage
+    if self.__within_warm_start():
+      actions = self.__warm_start()
     else:
-      # check if last observation is a purchase
-      if self.__last_feedback and self.__last_feedback[0][1][0] != 0:
-        # continue serving the same assortment
+      actions = Actions()
+      arm_pulls_pair = actions.arm_pulls_pairs.add()
+
+      # Check if last observation is a purchase
+      if self.__last_customer_feedback and self.__last_customer_feedback != 0:
+        # Continue serving the same assortment
         return self.__last_actions
 
       # When a non-purchase observation happens, a new episode is started. Also
       # a new assortment to be served using new estimate of preference
       # parameters is generated.
-      # set preference parameters generated by thompson sampling
-      self.reward.set_preference_params(self.correlated_sampling())
-      # calculate best assortment using the generated preference parameters
+      # Set preference parameters generated by thompson sampling
+      self.reward.set_preference_params(self.__correlated_sampling())
+      # Calculate best assortment using the generated preference parameters
       if self.use_local_search:
-        # initial assortment to start for local search
+        # Initial assortment to start for local search
         if self.__last_actions is not None:
           init_assortment = self.__last_actions[0][0]
         else:
@@ -146,27 +156,33 @@ class ThompsonSampling(OrdinaryMNLLearner):
         _, best_assortment = search_best_assortment(
             reward=self.reward, card_limit=self.card_limit())
 
-      self.__last_actions = [(best_assortment, 1)]
-      self.__first_step_after_warm_start = False
-    return self.__last_actions
+      arm_pulls_pair.arm.set.extend(list(best_assortment))
+      arm_pulls_pair.pulls = 1
 
-  def update(self, feedback: List[Tuple[np.ndarray, List[int]]]):
+      self.__first_step_after_warm_start = False
+
+    self.__last_actions = actions
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    self.__product_picks[feedback[0][1][0]] += 1
-    # no purchase is observed
-    if feedback[0][1][0] == 0:
-      for product_id in self.__last_actions[0][0]:
+    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
+
+    # No purchase is observed
+    if arm_rewards_pair.customer_feedbacks[0] == 0:
+      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set:
         self.__serving_episodes[product_id] += 1
-      # check if it is the end of initial warm start stage
+      # Check if it is the end of initial warm start stage
       if not self.__done_warm_start and \
           self.__next_product_in_warm_start > self.product_num():
         self.__done_warm_start = True
         self.__last_actions = None
       self.__episode += 1
-    self.__last_feedback = feedback
+    self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
     self.__time += 1

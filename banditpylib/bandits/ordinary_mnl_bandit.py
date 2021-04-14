@@ -7,16 +7,18 @@ from absl import logging
 
 import numpy as np
 
+from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, MaxReward
 from .utils import Bandit
 
 
-def search(assortments: List[Set[int]],
-           product_num: int,
-           next_product_id: int,
-           assortment: Set[int],
-           card_limit: float = np.inf,
-           restricted_products: Set[int] = None):
+def search(
+    assortments: List[Set[int]],
+    product_num: int,
+    next_product_id: int,
+    assortment: Set[int],
+    card_limit: int = np.inf,  # type: ignore
+    restricted_products: Set[int] = None):
   """Find all assortments satisfying cardinality limit
 
   Args:
@@ -237,12 +239,13 @@ def search_best_assortment(reward: Reward,
       restricted_products = best_assortment
 
   assortments: List[Set[int]] = []
-  search(assortments=assortments,
-         product_num=product_num,
-         next_product_id=1,
-         assortment=set(),
-         card_limit=card_limit,
-         restricted_products=restricted_products)
+  search(
+      assortments=assortments,
+      product_num=product_num,
+      next_product_id=1,
+      assortment=set(),
+      card_limit=card_limit,  # type: ignore
+      restricted_products=restricted_products)
   # sort assortments according to reward value
   sorted_assort = sorted([(reward.calc(assortment), assortment)
                           for assortment in assortments],
@@ -369,13 +372,14 @@ class OrdinaryMNLBandit(Bandit):
 
   where :math:`S^*` is the optimal assortment.
   """
-  def __init__(self,
-               preference_params: np.ndarray,
-               revenues: np.ndarray,
-               card_limit: float = np.inf,
-               reward: Reward = None,
-               zero_best_reward: bool = False,
-               name: str = None):
+  def __init__(
+      self,
+      preference_params: np.ndarray,
+      revenues: np.ndarray,
+      card_limit: int = np.inf,  # type: ignore
+      reward: Reward = None,
+      zero_best_reward: bool = False,
+      name: str = None):
     """
     Args:
       preference_params: preference parameters (product 0 should be included)
@@ -446,19 +450,18 @@ class OrdinaryMNLBandit(Bandit):
     """
     return 'ordinary_mnl_bandit'
 
-  def _take_action(self, assortment: Set[int], times: int) -> \
-      Tuple[np.ndarray, List[int]]:
+  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Serve one assortment
 
     Args:
-      assortment: assortment to serve
-      times: number of serving times
+      arm_pulls_pair: assortment and number of serving times
 
     Returns:
-      feedback by serving `assortment`. The first dimension is the
-        stochatic rewards, and the second dimension is the choices of the
-        customer.
+      feedbacks of the customer
     """
+    assortment = set(arm_pulls_pair.arm.set)
+    times = arm_pulls_pair.pulls
+
     if not assortment:
       raise Exception('Empty assortment!')
     for product_id in assortment:
@@ -482,31 +485,33 @@ class OrdinaryMNLBandit(Bandit):
         0 if (sample == 0) else sorted_assort[sample - 1]
         for sample in sample_results
     ]
-    # feedback = (stochastic rewards, choices)
-    feedback = (np.array([self.__revenues[choice]
-                          for choice in choices]), choices)
+
+    arm_rewards_pair = ArmRewardsPair()
+    arm_rewards_pair.arm.set.extend(list(assortment))
+    arm_rewards_pair.rewards.extend(
+        np.array([self.__revenues[choice] for choice in choices]))
+    arm_rewards_pair.customer_feedbacks.extend(choices)
 
     # update regret
-    self.__regret += \
-        (self.__best_reward - self.__reward.calc(assortment)) * times
-    return feedback
+    self.__regret += (self.__best_reward -
+                      self.__reward.calc(assortment)) * times
 
-  def feed(self, actions: List[Tuple[Set[int], int]]) -> \
-      List[Tuple[np.ndarray, List[int]]]:
+    return arm_rewards_pair
+
+  def feed(self, actions: Actions) -> Feedback:
     """Serve multiple assortments
 
     Args:
-      actions: for each tuple, the first dimension is the assortment to serve
-        and the second dimension is the number of serving times
+      actions: actions to perform
 
     Returns:
-      feedback by taking `actions`. For each tuple, the first dimension is
-        the stochatic rewards, and the second dimension is the choices of the
-        customer.
+      feedback after actions are performed
     """
-    feedback = []
-    for (assortment, times) in actions:
-      feedback.append(self._take_action(assortment, times))
+    feedback = Feedback()
+    for arm_pulls_pair in actions.arm_pulls_pairs:
+      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
+      if arm_rewards_pair.rewards:
+        feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
   def reset(self):

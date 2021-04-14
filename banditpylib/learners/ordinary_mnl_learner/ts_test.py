@@ -1,8 +1,11 @@
 from unittest.mock import MagicMock
 
+import google.protobuf.text_format as text_format
+
 import numpy as np
 
 from banditpylib.bandits import CvarReward
+from banditpylib.data_pb2 import Actions
 from .ts import ThompsonSampling
 
 
@@ -16,13 +19,34 @@ class TestThompsonSampling:
                                horizon=horizon,
                                reward=reward)
 
-    # test warm start
+    # Test warm start
     learner.reset()
-    assert learner.actions() == [({1}, 1)]
+    assert learner.actions().SerializeToString() == text_format.Parse(
+        """
+      arm_pulls_pairs {
+        arm {
+          set: 1
+        }
+        pulls: 1
+      }
+      """, Actions()).SerializeToString()
 
     learner.reset()
-    learner.within_warm_start = MagicMock(return_value=False)
+    # pylint: disable=protected-access
+    learner._ThompsonSampling__within_warm_start = MagicMock(
+        return_value=False)
     mock_preference_params = np.array([1, 1, 1, 1, 1])
-    learner.correlated_sampling = MagicMock(
+    learner._ThompsonSampling__correlated_sampling = MagicMock(
         return_value=mock_preference_params)
-    assert learner.actions() == [({1, 2, 3, 4}, 1)]
+    assert learner.actions().SerializeToString() == text_format.Parse(
+        """
+      arm_pulls_pairs {
+        arm {
+          set: 1
+          set: 2
+          set: 3
+          set: 4
+        }
+        pulls: 1
+      }
+      """, Actions()).SerializeToString()

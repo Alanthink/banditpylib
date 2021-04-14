@@ -1,6 +1,9 @@
 import numpy as np
 import pytest
 
+import google.protobuf.text_format as text_format
+
+from banditpylib.data_pb2 import Actions
 from banditpylib.learners import MaxReward
 from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
     search, search_best_assortment, MeanReward, CvarReward, \
@@ -69,18 +72,18 @@ class TestOrdinaryMNLBandit:
     reward = CvarReward(alpha=0.5)
     reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
-    # calculate cvar under percentile 0.25
+    # Calculate cvar under percentile 0.25
     cvar_alpha = reward.calc({2, 3})
-    # upper bound of cvar is 1
+    # Upper bound of cvar is 1
     assert cvar_alpha <= 1
 
-    # equivalent to MeanReward
+    # Equivalent to MeanReward
     reward = CvarReward(alpha=1.0)
     reward.set_preference_params(np.array([1, 1, 1, 1]))
     reward.set_revenues(np.array([0, 1, 1, 1]))
-    # calculate cvar under percentile 0.25
+    # Calculate cvar under percentile 0.25
     cvar_alpha = reward.calc({1, 2, 3})
-    # upper bound of cvar is 1
+    # Upper bound of cvar is 1
     assert cvar_alpha == 0.75
 
   def test_regret(self):
@@ -90,8 +93,17 @@ class TestOrdinaryMNLBandit:
     card_limit = 1
     bandit = OrdinaryMNLBandit(preference_params, revenues, card_limit)
     bandit.reset()
-    # serve best assortment {1} for 3 times
-    bandit.feed([({1}, 3)])
+    # Serve best assortment {1} for 3 times
+    bandit.feed(
+        text_format.Parse(
+            """
+      arm_pulls_pairs {
+        arm {
+          set: 1
+        }
+        pulls: 3
+      }
+      """, Actions()))
     assert bandit.regret(MaxReward()) == 0.0
 
   def test_one_product(self):
@@ -99,5 +111,15 @@ class TestOrdinaryMNLBandit:
     revenues = [0.0, 1.0]
     bandit = OrdinaryMNLBandit(preference_params, revenues)
     bandit.reset()
-    # always get no purchase
-    assert set(bandit.feed([({1}, 5)])[0][1]) == {0}
+    # Always get no purchase
+    assert set(
+        bandit.feed(
+            text_format.Parse(
+                """
+      arm_pulls_pairs {
+        arm {
+          set: 1
+        }
+        pulls: 5
+      }
+      """, Actions())).arm_rewards_pairs[0].customer_feedbacks) == {0}

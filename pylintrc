@@ -9,8 +9,6 @@ max-line-length=80
 
 indent-string='  '
 
-jobs=4
-
 [MESSAGES CONTROL]
 
 disable=attribute-defined-outside-init, useless-super-delegation, missing-function-docstring, missing-module-docstring, invalid-name, too-many-instance-attributes, too-few-public-methods, R
