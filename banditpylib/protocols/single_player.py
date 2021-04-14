@@ -103,10 +103,9 @@ class SinglePlayerProtocol(Protocol):
       feedback = self.bandit.feed(actions)
       self.current_learner.update(feedback)
 
-      if feedback:
-        for arm_pulls_pair in actions.arm_pulls_pairs:
-          total_actions += arm_pulls_pair.pulls
-        rounds += 1
+      for arm_pulls_pair in actions.arm_pulls_pairs:
+        total_actions += arm_pulls_pair.pulls
+      rounds += 1
 
     # record final regret
     add_data()
