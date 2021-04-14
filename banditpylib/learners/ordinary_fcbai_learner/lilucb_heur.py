@@ -1,15 +1,14 @@
-from typing import List, Tuple, Optional
-
 import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryFCBAILearner
 
 
 class LilUCBHeuristic(OrdinaryFCBAILearner):
-  """lilUCB heuristic policy :cite:`jamieson2014lil`"""
+  """LilUCB heuristic policy :cite:`jamieson2014lil`"""
   def __init__(self, arm_num: int, confidence: float, name: str = None):
     """
     Args:
@@ -34,16 +33,16 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
       This function should be called before the start of the game.
     """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    # parameters suggested by the paper
+    # Parameters suggested by the paper
     self.__beta = 0.5
     self.__a = 1 + 10 / self.arm_num()
     self.__eps = 0
     self.__delta = (1 - self.confidence()) / 5
-    # total number of pulls used
+    # Total number of pulls used
     self.__total_pulls = 0
     self.__stage = 'initialization'
 
-  def confidence_radius(self, pulls: int) -> float:
+  def __confidence_radius(self, pulls: int) -> float:
     """
     Args:
       pulls: number of pulls
@@ -57,17 +56,17 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
         2 * (1 + self.__eps) *
         math.log(math.log((1 + self.__eps) * pulls) / self.__delta) / pulls)
 
-  def ucb(self) -> np.ndarray:
+  def __ucb(self) -> np.ndarray:
     """
     Returns:
       upper confidence bound
     """
     return np.array([
-        pseudo_arm.em_mean + self.confidence_radius(pseudo_arm.total_pulls())
+        pseudo_arm.em_mean + self.__confidence_radius(pseudo_arm.total_pulls())
         for pseudo_arm in self.__pseudo_arms
     ])
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -76,26 +75,39 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
       arms to pull
     """
     if self.__stage == 'initialization':
-      self.__last_actions = [(arm_id, 1) for arm_id in range(self.arm_num())]
-    else:
-      # self.__stage == 'main'
-      for pseudo_arm in self.__pseudo_arms:
-        if pseudo_arm.total_pulls() >= (
-            1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls())):
-          return None
-      self.__last_actions = [(int(np.argmax(self.ucb())), 1)]
-    return self.__last_actions
+      actions = Actions()
+      for arm_id in range(self.arm_num()):
+        arm_pulls_pair = actions.arm_pulls_pairs.add()
+        arm_pulls_pair.arm.id = arm_id
+        arm_pulls_pair.pulls = 1
+      return actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+    # self.__stage == 'main'
+    actions = Actions()
+
+    for pseudo_arm in self.__pseudo_arms:
+      if pseudo_arm.total_pulls() >= (
+          1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls())):
+        return actions
+
+    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pulls_pair.arm.id = int(np.argmax(self.__ucb()))
+    arm_pulls_pair.pulls = 1
+
+    return actions
+
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
       feedback: feedback returned by the bandit environment by executing
         :func:`actions`
     """
-    for (ind, (rewards, _)) in enumerate(feedback):
-      self.__pseudo_arms[self.__last_actions[ind][0]].update(rewards)
-      self.__total_pulls += len(rewards)
+    for arm_rewards_pair in feedback.arm_rewards_pairs:
+      self.__pseudo_arms[arm_rewards_pair.arm.id].update(
+          np.array(arm_rewards_pair.rewards))
+      self.__total_pulls += len(arm_rewards_pair.rewards)
+
     if self.__stage == 'initialization':
       self.__stage = 'main'
 

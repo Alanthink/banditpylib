@@ -43,7 +43,8 @@ def parse_trials_data(data: bytes) -> List[OneTrialData]:
 
 
 def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
-  """Read a list of OneTrialData from file and transform to pandas DataFrame
+  """Read file storing a couple of OneTrialData and transform to pandas
+  DataFrame
   """
   with open(filename, 'rb') as f:
     data = []

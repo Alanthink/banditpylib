@@ -6,7 +6,6 @@ from banditpylib.bandits import OrdinaryBanditItf
 from banditpylib.learners import Learner, Goal, BestArmId
 
 
-# pylint: disable=W0223
 class OrdinaryFCBAILearner(Learner):
   """Base class for bai learners in the ordinary multi-armed bandit
 

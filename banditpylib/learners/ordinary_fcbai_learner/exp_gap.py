@@ -1,9 +1,11 @@
-from typing import List, Tuple, Optional
+from typing import Dict
 
 import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
+from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryFCBAILearner
 
 
@@ -41,12 +43,15 @@ class ExpGap(OrdinaryFCBAILearner):
     .. warning::
       This function should be called before the start of the game.
     """
-    self.__active_arms = list(range(self.arm_num()))
+    self.__active_arms: Dict[int, PseudoArm] = dict()
+    for arm_id in range(self.arm_num()):
+      self.__active_arms[arm_id] = PseudoArm()
+
     self.__best_arm = None
-    # current round
+    # Current round index
     self.__round = 1
     self.__stage = 'main_loop'
-    # main loop variables
+    # Main loop variables
     self.__eps_r = 0.125
     self.__log_delta_r = math.log((1 - self.confidence()) / 50)
 
@@ -55,25 +60,31 @@ class ExpGap(OrdinaryFCBAILearner):
     """stage of the learner"""
     return self.__stage
 
-  def median_elimination(self) -> List[Tuple[int, int]]:
+  def __median_elimination(self) -> Actions:
     """
     Returns:
       arms to pull in median elimination
     """
-    self.__me_pseudo_arms = [(arm_id, PseudoArm())
-                             for arm_id in self.__me_active_arms]
+    actions = Actions()
+    for arm_id in self.__me_active_arms:
+      self.__me_active_arms[arm_id] = PseudoArm()
+
     if len(self.__me_active_arms) <= self.__threshold:
-      # uniform sampling
+      # Uniform sampling
       pulls = math.ceil(
           0.5 / (self.__me_eps_left**2) *
           (math.log(2 / self.__me_delta_left / len(self.__me_active_arms))))
     else:
       pulls = math.ceil(4 / (self.__me_eps_ell**2) *
                         (math.log(3) - self.__me_log_delta_ell))
-    actions = [(arm_id, pulls) for arm_id in self.__me_active_arms]
+
+    for arm_id in self.__me_active_arms:
+      arm_pulls_pair = actions.arm_pulls_pairs.add()
+      arm_pulls_pair.arm.id = arm_id
+      arm_pulls_pair.pulls = pulls
     return actions
 
-  def actions(self, context=None) -> Optional[List[Tuple[int, int]]]:
+  def actions(self, context=None) -> Actions:
     """
     Args:
       context: context of the ordinary bandit which should be `None`
@@ -82,20 +93,27 @@ class ExpGap(OrdinaryFCBAILearner):
       arms to pull
     """
     if len(self.__active_arms) == 1:
-      self.__last_actions = None
-    elif self.__stage == 'main_loop':
-      self.__pseudo_arms = [(arm_id, PseudoArm())
-                            for arm_id in self.__active_arms]
+      return Actions()
+
+    actions: Actions
+    if self.__stage == 'main_loop':
+      actions = Actions()
+      for arm_id in self.__active_arms:
+        self.__active_arms[arm_id] = PseudoArm()
+
       pulls = math.ceil(2 / (self.__eps_r**2) *
                         (math.log(2) - self.__log_delta_r))
-      self.__last_actions = [(arm_id, pulls) for arm_id in self.__active_arms]
+      for arm_id in self.__active_arms:
+        arm_pulls_pair = actions.arm_pulls_pairs.add()
+        arm_pulls_pair.arm.id = arm_id
+        arm_pulls_pair.pulls = pulls
     else:
       # self.__stage == 'median_elimination'
-      self.__last_actions = self.median_elimination()
+      actions = self.__median_elimination()
 
-    return self.__last_actions
+    return actions
 
-  def update(self, feedback: List[Tuple[np.ndarray, None]]):
+  def update(self, feedback: Feedback):
     """Learner update
 
     Args:
@@ -103,45 +121,55 @@ class ExpGap(OrdinaryFCBAILearner):
         :func:`actions`
     """
     if self.__stage == 'main_loop':
-      for (ind, (rewards, _)) in enumerate(feedback):
-        self.__pseudo_arms[ind][1].update(rewards)
-      # initialization of median elimination
+      for arm_rewards_pair in feedback.arm_rewards_pairs:
+        self.__active_arms[arm_rewards_pair.arm.id].update(
+            np.array(arm_rewards_pair.rewards))
+      # Initialization of median elimination
       self.__stage = 'median_elimination'
       self.__me_ell = 1
       self.__me_eps_ell = self.__eps_r / 8
       self.__me_log_delta_ell = self.__log_delta_r - math.log(2)
       self.__me_eps_left = self.__eps_r / 2
       self.__me_delta_left = math.exp(self.__log_delta_r)
-      self.__me_active_arms = list(self.__active_arms)
+
+      self.__me_active_arms = dict()
+      for arm_id in self.__active_arms:
+        self.__me_active_arms[arm_id] = PseudoArm()
+
     elif self.__stage == 'median_elimination':
-      for (ind, (rewards, _)) in enumerate(feedback):
-        self.__me_pseudo_arms[ind][1].update(rewards)
+      for arm_rewards_pair in feedback.arm_rewards_pairs:
+        self.__me_active_arms[arm_rewards_pair.arm.id].update(
+            np.array(arm_rewards_pair.rewards))
       if len(self.__me_active_arms) > self.__threshold:
         median = np.median(
             np.array([
                 pseudo_arm.em_mean
-                for (arm_id, pseudo_arm) in self.__me_pseudo_arms
+                for (arm_id, pseudo_arm) in self.__me_active_arms.items()
             ]))
-        self.__me_active_arms = [
-            arm_id for (arm_id, pseudo_arm) in self.__me_pseudo_arms
-            if pseudo_arm.em_mean >= median
-        ]
+        for (arm_id, pseudo_arm) in list(self.__me_active_arms.items()):
+          if pseudo_arm.em_mean < median:
+            del self.__me_active_arms[arm_id]
+
         self.__me_eps_left *= 0.75
         self.__me_delta_left *= 0.5
         self.__me_eps_ell *= 0.75
         self.__me_log_delta_ell -= math.log(2)
         self.__me_ell += 1
       else:
-        eps_best_pseudo_arm = max(self.__me_pseudo_arms,
-                                  key=lambda x: x[1].em_mean)[1]
-        # second half of 'main_loop'
-        # use estimated epsilon-best-arm to do elimination
-        self.__active_arms = [
-            arm_id for (arm_id, pseudo_arm) in self.__pseudo_arms
-            if pseudo_arm.em_mean >= eps_best_pseudo_arm.em_mean - self.__eps_r
-        ]
+        # Best arm returned by median elimination
+        best_arm_by_me = argmax_or_min_tuple([
+            (pseudo_arm.em_mean, arm_id)
+            for arm_id, pseudo_arm in self.__me_active_arms.items()
+        ])
+        # Second half of 'main_loop'
+        # Use estimated epsilon-best-arm to do elimination
+        for (arm_id, pseudo_arm) in list(self.__active_arms.items()):
+          if pseudo_arm.em_mean < self.__active_arms[
+              best_arm_by_me].em_mean - self.__eps_r:
+            del self.__active_arms[arm_id]
+
         if len(self.__active_arms) == 1:
-          self.__best_arm = self.__active_arms[0]
+          self.__best_arm = list(self.__active_arms.keys())[0]
         self.__stage = 'main_loop'
         self.__round += 1
         self.__eps_r /= 2
