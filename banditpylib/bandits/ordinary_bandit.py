@@ -57,7 +57,7 @@ class OrdinaryBandit(OrdinaryBanditItf):
     if pulls < 1:
       return arm_rewards_pair
 
-    # empirical rewards when `arm_id` is pulled for `pulls` times
+    # Empirical rewards when `arm_id is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls=pulls)
 
     self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
@@ -72,12 +72,10 @@ class OrdinaryBandit(OrdinaryBanditItf):
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first element is the arm id and the
-        second element is the pull times
+      actions: actions to perform
 
     Returns:
-      feedback after arms are pulled. For each tuple, the first element is
-        the stochstic rewards.
+      feedback after actions are performed
     """
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:

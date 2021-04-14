@@ -1,14 +1,13 @@
-from typing import List, Tuple, Optional
-
-import numpy as np
+from typing import List
 
 from banditpylib.arms import Arm
+from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, MaxCorrectAnswers, AllCorrect
 from .utils import Bandit
 
 
 class ThresholdingBandit(Bandit):
-  r"""Thresholding Bandit Environment
+  r"""Thresholding bandit environment
 
   Arms are indexed from 0 by default. Each time the learner pulls arm :math:`i`,
   she will obtain an `i.i.d.` reward generated from an `unknown` distribution
@@ -36,7 +35,7 @@ class ThresholdingBandit(Bandit):
       raise Exception('The number of arms %d is less than 2.' % len(arms))
     self.__arms = arms
     self.__arm_num = len(arms)
-    # correct answers of all the arms whether its expected rewards is above the
+    # Correct answers of all the arms whether its expected rewards is above the
     # threshold or not
     self.__correct_answers = [
         1 if self.__arms[arm_id].mean >= theta else 0
@@ -74,45 +73,49 @@ class ThresholdingBandit(Bandit):
     """
     return self.__arm_num
 
-  def __take_action(self, arm_id: int, pulls: int) -> \
-      Optional[Tuple[np.ndarray, None]]:
+  def __take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm
 
     Args:
-      arm_id: arm to pull
-      pulls: number of times to pull
+      arm_pulls_pair: arm and its pulls
 
     Returns:
-      stochastic rewards after `arm_id` is pulled. The first element is the
-        stochstic rewards. `None` is returned if `pulls` is less than 1.
+      arm_rewards_pair: arm and its rewards
     """
+    arm_id = arm_pulls_pair.arm.id
+    pulls = arm_pulls_pair.pulls
+
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
+
+    arm_rewards_pair = ArmRewardsPair()
     if pulls < 1:
-      return None
-    # empirical rewards when `arm_id` is pulled for `pulls` times
+      return arm_rewards_pair
+
+    # Empirical rewards when `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls=pulls)
     self.__total_pulls += pulls
-    return (em_rewards, None)
 
-  def feed(self, actions: List[Tuple[int, int]]) -> \
-        List[Tuple[np.ndarray, None]]:
+    arm_rewards_pair.arm.id = arm_id
+    arm_rewards_pair.rewards.extend(list(em_rewards))
+
+    return arm_rewards_pair
+
+  def feed(self, actions: Actions) -> Feedback:
     """Pull multiple arms
 
     Args:
-      actions: for each tuple, the first element is the arm id and the
-        second element is the pull times
+      actions: actions to perform
 
     Returns:
-      feedback after arms are pulled. For each tuple, the first element is
-        the stochstic rewards.
+      feedback after actions are performed
     """
-    feedback = []
-    for (arm_id, pulls) in actions:
-      stochastic_rewards = self.__take_action(arm_id=arm_id, pulls=pulls)
-      if stochastic_rewards is not None:
-        feedback.append(stochastic_rewards)
+    feedback = Feedback()
+    for arm_pulls_pair in actions.arm_pulls_pairs:
+      arm_rewards_pair = self.__take_action(arm_pulls_pair=arm_pulls_pair)
+      if arm_rewards_pair.rewards:
+        feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
   def context(self) -> None:
@@ -131,14 +134,14 @@ class ThresholdingBandit(Bandit):
       regret of the learner
     """
     if isinstance(goal, MaxCorrectAnswers):
-      # aggregate regret which is equal to the number of wrong answers
+      # Aggregate regret which is equal to the number of wrong answers
       agg_regret = 0
       for arm_id in range(self.__arm_num):
         agg_regret += (goal.value[arm_id] !=
                        self.__correct_answers[arm_id]) * self.__weights[arm_id]
       return agg_regret
     elif isinstance(goal, AllCorrect):
-      # simple regret which is 1 when there is at least one wrong answer and 0
+      # Simple regret which is 1 when there is at least one wrong answer and 0
       # otherwise
       for arm_id in range(self.__arm_num):
         if (goal.value[arm_id] !=
