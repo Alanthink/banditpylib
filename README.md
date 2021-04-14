@@ -63,9 +63,9 @@ Python version requirement: 3.7 or above.
 Virtual environment: in order not to pollute your own environment, it is suggested to use python virtual environment. The following commands show the details to create and activate a virtual environment.
 
 ```bash
-# create a virtual environment `.env`
+# Create a virtual environment `.env`
 python3 -m venv .env
-# activate the environment
+# Activate the environment
 source .env/bin/activate
 ```
 
@@ -99,18 +99,20 @@ Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *Thompson Sampling
 #### set up bandit environment
 
 ```python
-# real means of Bernoulli arms
+# type: ignore
+# Real means of Bernoulli arms
 means = [0.3, 0.5, 0.7]
-# create Bernoulli arms
+# Create Bernoulli arms
 arms = [BernoulliArm(mean) for mean in means]
-# create an ordinary multi-armed bandit environment
+# Create an ordinary multi-armed bandit environment
 bandit = OrdinaryBandit(arms=arms)
 ```
 
 #### set up learners
 
 ```python
-# create learners aiming to maximize the total rewards
+# type: ignore
+# Create learners aiming to maximize the total rewards
 learners = [EpsGreedy(arm_num=len(arms)),
             UCB(arm_num=len(arms)),
             ThompsonSampling(arm_num=len(arms))]
@@ -119,16 +121,17 @@ learners = [EpsGreedy(arm_num=len(arms)),
 #### set up simulator and play the game
 
 ```python
-# horizon of the game
+# type: ignore
+# Horizon of the game
 horizon = 2000
-# record intermediate regrets for each trial
+# Record intermediate regrets for each trial
 intermediate_regrets = list(range(0, horizon+1, 50))
-# set up simulator using single-player protocol
+# Set up simulator using single-player protocol
 game = SinglePlayerProtocol(bandit=bandit,
                             learners=learners,
                             intermediate_regrets=intermediate_regrets,
                             horizon=horizon)
-# start playing the game and for each setup we run 200 trials
+# Start playing the game and for each setup we run 200 trials
 game.play(trials=200)
 ```
 
