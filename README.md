@@ -96,7 +96,7 @@ We use `pylint` and `mypy` to check the code style. Please make sure no errors o
 
 Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *Thompson Sampling*, which aim to maximize the total rewards, against the ordinary multi-armed bandit environment with 3 *Bernoulli* arms. The following code blocks show the main logic. 
 
-#### set up bandit environment
+#### Set up bandit environment
 
 ```python
 # type: ignore
@@ -108,7 +108,7 @@ arms = [BernoulliArm(mean) for mean in means]
 bandit = OrdinaryBandit(arms=arms)
 ```
 
-#### set up learners
+#### Set up learners
 
 ```python
 # type: ignore
@@ -118,7 +118,7 @@ learners = [EpsGreedy(arm_num=len(arms)),
             ThompsonSampling(arm_num=len(arms))]
 ```
 
-#### set up simulator and play the game
+#### Set up simulator and play the game
 
 ```python
 # type: ignore
