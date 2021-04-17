@@ -1,20 +1,35 @@
-# Minimal makefile for Sphinx documentation
-#
+.PHONY = help docs preview reset push
 
-# You can set these variables from the command line, and also
-# from the environment for the first two.
-SPHINXOPTS    ?=
-SPHINXBUILD   ?= sphinx-build
+SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
-# Put it first so that "make" without argument is like "make help".
+.DEFAULT: help
 help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) -Q
+	@echo "make docs"
+	@echo "       generate new Sphinx documentation"
+	@echo "make preview"
+	@echo "       preview the new Sphinx documentation"
+	@echo "make reset"
+	@echo "       reset the documentation"
+	@echo "make push"
+	@echo "       push the documentation changes and make a new commit to the main repository"
 
-.PHONY: help Makefile
+docs:
+	rm -rf build/*
+	# Generate Sphinx source code
+	sphinx-apidoc -M -e -o ./source ../banditpylib/
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)"
+	@echo "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"
+	@rm -rf site/* && cp -r build/html/* site/
+	cd site && git add . && msg="rebuilding site $(date)" && git commit -m msg
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) -Q
+preview:
+	open build/html/index.html
+
+reset:
+	cd site && git reset --hard origin/master
+
+push:
+	cd site && git push
+	git add . && msg="update docs $(date)" && git commit -m msg && git push

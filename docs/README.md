@@ -1,33 +1,36 @@
 # Introduction
 
-This directory i.e., `docs` is intended for source code of `sphinx` documentation. All of the subsequent commands if not specified are assumed to be executed in this directory.
+This directory i.e., `docs` is intended for source code of `sphinx` documentation.
 
-# Generate the documentation
+# Generate the Sphinx Documentation
 
-After all the changes, run the following command to regenerate the new documentation.
+After all the changes, run the following command to generate the new documentation.
 
 ```bash
-./generate_doc.sh
+make docs
 ```
 
 This command will make a new commit to submodule `site`. You can use 
 
 ```bash
-./preview.sh
+# open file build/html/index.html
+make preview
 ```
 
-to preview the changes before pushing the changes. If you are satisfied with the changes, you have to do `git push` under `site` directory to push the changes to remote repository.
+to preview the changes before pushing the changes. 
 
-## Undesired changes
-
-If there are some undesired changes, please reset the submodule `site` to remote master repository i.e., 
+If there are some undesired changes, please do 
 
 ```bash
-git reset --hard origin/master
+make reset
 ```
 
-to avoid polluting the commit history of submodule `site` and then regenerate the documentation.
+to reset the submodule `site` such that the commit history of submodule `site` is not polluted.
 
-# Make commit to the main repository
+If you are satisfied with the changes, you can do 
 
-Finally, do not forget to make a commit to the main repository i.e., `banditpylib` for the change of documentation.
+```bash
+make push
+```
+
+to push the changes to remote repository for submodule `site`. This will also make a new commit to the main repository i.e., `banditpylib` to record this update.
