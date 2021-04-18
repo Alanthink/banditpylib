@@ -11,8 +11,8 @@ class MOSS(OrdinaryLearner):
   At time :math:`t`, play arm
 
   .. math::
-    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \bar{\mu}_i(t) + \sqrt{
-    \frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}
+    \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
+    \sqrt{\frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}
 
   .. note::
     MOSS uses time horizon in its confidence interval. Reward has to be bounded

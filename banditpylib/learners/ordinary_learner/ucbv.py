@@ -11,8 +11,9 @@ class UCBV(OrdinaryLearner):
   At time :math:`t`, play arm
 
   .. math::
-    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \bar{\mu}_i(t) + \sqrt{ \frac{ 2
-    \bar{V}_i(t) \ln(t) }{T_i(t)} }+ \frac{ b \ln(t) }{T_i(t)} \right\}
+    \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
+    \sqrt{ \frac{ 2 \bar{V}_i(t) \ln(t) }{T_i(t)} }+
+    \frac{ b \ln(t) }{T_i(t)} \right\}
 
   .. note::
     Reward has to be bounded within :math:`[0, b]`.

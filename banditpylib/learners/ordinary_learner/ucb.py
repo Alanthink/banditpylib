@@ -11,8 +11,8 @@ class UCB(OrdinaryLearner):
   At time :math:`t`, play arm
 
   .. math::
-    \mathrm{argmax}_{i \in [0, N-1]} \left\{ \bar{\mu}_i(t) + \sqrt{ \frac{
-    \alpha  \ln(t) }{T_i(t)} } \right\}
+    \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
+    \sqrt{ \frac{\alpha  \ln(t) }{T_i(t)} } \right\}
   """
   def __init__(self, arm_num: int, name: str = None, alpha: float = 2.0):
     """

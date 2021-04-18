@@ -23,7 +23,7 @@ class EXP3(OrdinaryLearner):
   where :math:`w_i^{t-1}` and :math:`p_i^{t-1}` denote the weight of arm
   :math:`i` and the probability to pull arm :math:`i` at time :math:`(t-1)`
   respectively and initially we set :math:`w_i^0 = 1` for every arm
-  :math:`i \in [0, N-1]`.
+  :math:`i \in \{0, \dots, N-1\}`.
   """
   def __init__(self, arm_num: int, name: str = None, gamma: float = 0.01):
     """
