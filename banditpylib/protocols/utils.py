@@ -51,10 +51,13 @@ def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
     trials_data = parse_trials_data(f.read())
     for trial in trials_data:
       for data_item in trial.data_items:
-        data.append(
-            json_format.MessageToDict(data_item,
-                                      including_default_value_fields=True,
-                                      preserving_proto_field_name=True))
+        tmp_dict = json_format.MessageToDict(
+            data_item,
+            including_default_value_fields=True,
+            preserving_proto_field_name=True)
+        tmp_dict['bandit'] = trial.bandit
+        tmp_dict['learner'] = trial.learner
+        data.append(tmp_dict)
     data_df = pd.DataFrame.from_dict(data)
     return data_df
 

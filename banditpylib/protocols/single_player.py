@@ -71,19 +71,19 @@ class SinglePlayerProtocol(Protocol):
       logging.set_verbosity(logging.DEBUG)
     np.random.seed(random_seed)
 
-    # reset the bandit environment and the learner
+    # Reset the bandit environment and the learner
     self.bandit.reset()
     self.current_learner.reset()
 
     trial = Trial()
+    trial.bandit = self.bandit.name
+    trial.learner = self.current_learner.name
     rounds = 0
-    # number of actions the learner has made
+    # Number of actions the learner has made
     total_actions = 0
 
     def add_data():
       data_item = trial.data_items.add()
-      data_item.bandit = self.bandit.name
-      data_item.learner = self.current_learner.name
       data_item.rounds = rounds
       data_item.total_actions = total_actions
       data_item.regret = self.bandit.regret(self.current_learner.goal)
@@ -92,11 +92,11 @@ class SinglePlayerProtocol(Protocol):
       context = self.bandit.context()
       actions = self.current_learner.actions(context)
 
-      # stop the game if no actions are returned by the learner
+      # Stop the game if no actions are returned by the learner
       if not actions.arm_pulls_pairs:
         break
 
-      # record intermediate regrets
+      # Record intermediate regrets
       if rounds in self.__intermediate_regrets:
         add_data()
 
@@ -107,6 +107,6 @@ class SinglePlayerProtocol(Protocol):
         total_actions += arm_pulls_pair.pulls
       rounds += 1
 
-    # record final regret
+    # Record final regret
     add_data()
     return trial.SerializeToString()
