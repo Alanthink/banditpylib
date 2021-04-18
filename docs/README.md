@@ -33,4 +33,12 @@ If you are satisfied with the changes, you can do
 make push
 ```
 
-to push the changes to remote repository for submodule `site`. This will also make a new commit to the main repository i.e., `banditpylib` to record this update.
+to push the changes to remote repository for submodule `site`. 
+
+Finally, do not forget to do
+
+```bash
+make push_main
+```
+
+to make a new commit to the main repository i.e., `banditpylib` to record this update.
