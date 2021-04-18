@@ -36,7 +36,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Regret Minimization  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3` |
+| Regret Minimization  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3`, `ExploreThenCommit` |
 | Fix-Budget BAI   | `Uniform`, `SR`, `SH`|
 | Fix-Confidence BAI   | `ExpGap`, `LilUCBHeuristic`|
 
