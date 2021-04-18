@@ -10,5 +10,6 @@ Welcome to banditpylib's documentation!
    :maxdepth: 4
    :caption: Contents:
 
+   Readme <readme_link>
    modules
    bibliography

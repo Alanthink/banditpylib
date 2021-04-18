@@ -22,6 +22,7 @@ docs:
 	# Generate Sphinx source code
 	sphinx-apidoc -M -e -o ./source ../banditpylib/
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)"
+	@cp ../example.jpg build/html/
 	@echo "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"
 	@rm -rf site/* && cp -r build/html/* site/
 	cd site && git add . && msg="rebuilding site $(date)" && git commit -m msg

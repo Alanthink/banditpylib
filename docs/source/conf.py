@@ -16,6 +16,23 @@ import sys
 sys.path.insert(0, os.path.abspath('../../banditpylib'))
 sys.path.insert(0, os.path.abspath('../..'))
 
+"""Patching m2r2"""
+import m2r2
+
+current_m2r2_setup = m2r2.setup
+
+def patched_m2r2_setup(app):
+  try:
+    return current_m2r2_setup(app)
+  except (AttributeError):
+    app.add_source_suffix(".md", "markdown")
+    app.add_source_parser(m2r2.M2RParser)
+  return dict(
+    version=m2r2.__version__, parallel_read_safe=True, parallel_write_safe=True,
+  )
+
+m2r2.setup = patched_m2r2_setup
+
 # -- Project information -----------------------------------------------------
 
 project = 'banditpylib'
@@ -38,7 +55,11 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
+    'm2r2',
 ]
+
+# source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 bibtex_bibfiles = ['references.bib']
 
