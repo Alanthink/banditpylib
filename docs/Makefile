@@ -1,4 +1,4 @@
-.PHONY = help docs preview reset push push_main
+.PHONY = help docs preview reset push
 
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
@@ -14,8 +14,6 @@ help:
 	@echo "       reset the documentation"
 	@echo "make push"
 	@echo "       push the documentation changes"
-	@echo "make push_main"
-	@echo "       make a new commit to the main repository"
 
 docs:
 	rm -rf build/*
@@ -35,6 +33,3 @@ reset:
 
 push:
 	cd site && git push
-
-push_main:
-	git add . && msg="update docs $(date)" && git commit -m msg
