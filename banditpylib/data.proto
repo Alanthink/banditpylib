@@ -46,7 +46,7 @@ message DataItem {
   string bandit = 1;
   // Learner name
   string learner = 2;
-  // Total communication rounds which is
+  // Total communication rounds
   int32 rounds = 3;
   // Total actions performed by the learner
   int32 total_actions = 4;
