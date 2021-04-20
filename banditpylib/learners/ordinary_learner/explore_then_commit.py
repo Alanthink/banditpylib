@@ -9,9 +9,9 @@ from .utils import OrdinaryLearner
 class ExploreThenCommit(OrdinaryLearner):
   r"""Explore-Then-Commit policy
 
-  During the first :math:`T' \leq T` time steps, play each arm in a round-robin
-  way. Then for the remaining time steps, play the arm with the maximum
-  empirical mean consistently.
+  During the first :math:`T' \leq T` time steps (exploration period), play each
+  arm in a round-robin way. Then for the remaining time steps, play the arm
+  with the maximum empirical mean reward within exploration period consistently.
   """
   def __init__(self, arm_num: int, T_prime: int, name: str = None):
     """
@@ -76,7 +76,7 @@ class ExploreThenCommit(OrdinaryLearner):
     self.__pseudo_arms[arm_rewards_pair.arm.id].update(
         np.array(arm_rewards_pair.rewards))
     self.__time += 1
-    if self.__time > self.__T_prime:
+    if self.__best_arm < 0 and self.__time > self.__T_prime:
       self.__best_arm = argmax_or_min_tuple([
           (self.__pseudo_arms[arm_id].em_mean, arm_id)
           for arm_id in range(self.arm_num())
