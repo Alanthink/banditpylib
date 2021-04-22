@@ -1,6 +1,6 @@
 from typing import Optional
 
-from banditpylib.bandits import OrdinaryBanditItf
+from banditpylib.bandits import OrdinaryBandit
 from banditpylib.learners import Learner, Goal, MaxReward
 
 
@@ -23,7 +23,7 @@ class OrdinaryLearner(Learner):
   @property
   def running_environment(self) -> type:
     """type of environment the learner works with"""
-    return OrdinaryBanditItf
+    return OrdinaryBandit
 
   def arm_num(self) -> int:
     """

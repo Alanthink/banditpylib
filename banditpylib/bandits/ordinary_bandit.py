@@ -3,23 +3,21 @@ from typing import List
 from banditpylib.arms import Arm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, BestArmId, MaxReward
-from .ordinary_bandit_itf import OrdinaryBanditItf
+from .utils import Bandit
 
 
-class OrdinaryBandit(OrdinaryBanditItf):
+class OrdinaryBandit(Bandit):
   r"""Ordinary bandit
 
   Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
   an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
   beforehand.
   """
-  def __init__(self, arms: List[Arm], name: str = None):
+  def __init__(self, arms: List[Arm]):
     """
     Args:
       arms: arms in ordinary bandit
-      name: alias name
     """
-    super().__init__(name)
     if len(arms) < 2:
       raise Exception('The number of arms %d is less than 2!' % len(arms))
     self.__arms = arms
@@ -36,6 +34,13 @@ class OrdinaryBandit(OrdinaryBanditItf):
       default bandit name
     """
     return 'ordinary_bandit'
+
+  def context(self):
+    """
+    Returns:
+      current state of the bandit environment
+    """
+    return None
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from typing import Any, Optional
+from typing import Any
 
 from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import Goal
@@ -12,17 +12,10 @@ class Bandit(ABC):
   :func:`context` is used to fetch the current state of the environment.
   :func:`feed` is used to pass the actions to the environment for execution.
   """
-  def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name for the bandit environment
-    """
-    self.__name = self._name() if name is None else name
-
   @property
   def name(self) -> str:
     """bandit name"""
-    return self.__name
+    return self._name()
 
   @abstractmethod
   def _name(self) -> str:

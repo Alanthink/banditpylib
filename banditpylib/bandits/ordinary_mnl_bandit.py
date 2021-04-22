@@ -378,8 +378,7 @@ class OrdinaryMNLBandit(Bandit):
       revenues: np.ndarray,
       card_limit: int = np.inf,  # type: ignore
       reward: Reward = None,
-      zero_best_reward: bool = False,
-      name: str = None):
+      zero_best_reward: bool = False):
     """
     Args:
       preference_params: preference parameters (product 0 should be included)
@@ -392,9 +391,7 @@ class OrdinaryMNLBandit(Bandit):
         This is useful when data is too large to compute the best assortment.
         When best reward is set to zero, the regret equals to the minus total
         revenue.
-      name: alias name
     """
-    super().__init__(name)
     if len(preference_params) != len(revenues):
       raise Exception(
           'Number of preference parameters %d does not equal to number of '

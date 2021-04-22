@@ -18,11 +18,7 @@ class ThresholdingBandit(Bandit):
   zone meaning that the answers about the arms with expected rewards within
   :math:`[\theta - \epsilon, \theta + \epsilon]` do not matter.
   """
-  def __init__(self,
-               arms: List[Arm],
-               theta: float,
-               eps: float,
-               name: str = None):
+  def __init__(self, arms: List[Arm], theta: float, eps: float):
     """
     Args:
       arms: arms in thresholding bandit
@@ -30,7 +26,6 @@ class ThresholdingBandit(Bandit):
       eps: radius of indifferent zone
       name: alias name
     """
-    super().__init__(name)
     if len(arms) < 2:
       raise Exception('The number of arms %d is less than 2.' % len(arms))
     self.__arms = arms

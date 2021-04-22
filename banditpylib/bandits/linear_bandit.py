@@ -5,11 +5,10 @@ import numpy as np
 from banditpylib.arms import GaussianArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, BestArmId, MaxReward
-from .ordinary_bandit_itf import OrdinaryBanditItf
-from .linear_bandit_itf import LinearBanditItf
+from .utils import Bandit
 
 
-class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
+class LinearBandit(Bandit):
   r"""Finite-armed linear bandit
 
   Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
@@ -20,16 +19,13 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
   def __init__(self,
                features: List[np.ndarray],
                theta: np.ndarray,
-               var: float = 1.0,
-               name: str = None):
+               var: float = 1.0):
     """
     Args:
       features: features of the arms
       theta: parameter theta
       var: variance of noise
-      name: alias name
     """
-    super().__init__(name)
     if len(features) < 2:
       raise Exception('Number of arms %d is less than 2!' % len(features))
     for (i, feature) in enumerate(features):
@@ -57,6 +53,13 @@ class LinearBandit(OrdinaryBanditItf, LinearBanditItf):
       default bandit name
     """
     return 'linear_bandit'
+
+  def context(self):
+    """
+    Returns:
+      current state of the bandit environment
+    """
+    return None
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm
