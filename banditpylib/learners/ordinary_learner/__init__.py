@@ -23,8 +23,9 @@ from .ucbv import *
 from .moss import *
 from .exp3 import *
 from .explore_then_commit import *
+from .softmax import *
 
 __all__ = [
     'OrdinaryLearner', 'EpsGreedy', 'UCB', 'ThompsonSampling', 'Uniform',
-    'UCBV', 'MOSS', 'EXP3', 'ExploreThenCommit'
+    'UCBV', 'MOSS', 'EXP3', 'ExploreThenCommit', 'Softmax'
 ]
