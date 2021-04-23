@@ -1,9 +1,89 @@
 from abc import ABC, abstractmethod
 
-from typing import Any
+from typing import Any, Tuple
+
+import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import Goal
+
+
+class ContextGenerator(ABC):
+  """Context generator
+
+  This class is used to generate the context of bandit.
+  """
+  def __init__(self, arm_num: int, dimension: int):
+    """
+    Args:
+      arm_num: number of actions
+      dimension: dimension of the context
+    """
+    self.__arm_num = arm_num
+    self.__dimension = dimension
+
+  @property
+  def name(self) -> str:
+    """Context generator name"""
+    return self._name()
+
+  @property
+  def dimension(self) -> int:
+    """dimension of the context"""
+    return self.__dimension
+
+  @property
+  def arm_num(self) -> int:
+    """number of actions"""
+    return self.__arm_num
+
+  @abstractmethod
+  def _name(self) -> str:
+    """
+    Returns:
+      default context generator name
+    """
+
+  @abstractmethod
+  def reset(self):
+    """Reset the context generator"""
+
+  @abstractmethod
+  def context(self) -> Tuple[np.ndarray, np.ndarray]:
+    """Returns:
+      the context and the rewards corresponding to different actions
+    """
+
+
+class RandomContextGenerator(ContextGenerator):
+  """Random context generator
+
+  Fill contexts and rewards information with random numbers in [0, 1].
+  """
+  def __init__(self, arm_num: int, dimension: int):
+    """
+    Args:
+      arm_num: number of actions
+      dimension: dimension of the context
+    """
+    super().__init__(arm_num, dimension)
+
+  def _name(self) -> str:
+    """
+    Returns:
+      default context generator name
+    """
+    return 'random_context_generator'
+
+  def reset(self):
+    """Reset the context generator"""
+
+  def context(self) -> Tuple[np.ndarray, np.ndarray]:
+    """Returns:
+      the context and the rewards corresponding to different actions
+    """
+    return (np.random.random(self.dimension),
+            np.random.random(self.arm_num))
 
 
 class Bandit(ABC):
