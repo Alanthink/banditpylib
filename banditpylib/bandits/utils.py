@@ -82,8 +82,7 @@ class RandomContextGenerator(ContextGenerator):
     """Returns:
       the context and the rewards corresponding to different actions
     """
-    return (np.random.random(self.dimension),
-            np.random.random(self.arm_num))
+    return (np.random.random(self.dimension), np.random.random(self.arm_num))
 
 
 class Bandit(ABC):

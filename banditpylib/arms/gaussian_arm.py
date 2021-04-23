@@ -1,4 +1,6 @@
 import math
+from typing import Union
+
 import numpy as np
 
 from .utils import Arm
@@ -46,8 +48,11 @@ class GaussianArm(Arm):
     """variance of rewards"""
     return self.__var
 
-  def pull(self, pulls: int = 1) -> np.ndarray:
+  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
     """Pull the arm
+
+    When pulls is None, a float number will be returned. Otherwise, a numpy
+    array will be returned.
 
     Args:
       pulls: number of times to pull
@@ -55,4 +60,8 @@ class GaussianArm(Arm):
     Returns:
       stochastic rewards
     """
+    if pulls is None:
+      return np.random.normal(self.__mu, self.__std, 1)[0]
+    if pulls <= 0:
+      raise ValueError('Number of pulls should be at least 1.')
     return np.random.normal(self.__mu, self.__std, pulls)

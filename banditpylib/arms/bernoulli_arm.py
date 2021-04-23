@@ -1,3 +1,5 @@
+from typing import Union
+
 import numpy as np
 
 from .utils import Arm
@@ -33,8 +35,11 @@ class BernoulliArm(Arm):
     """mean of rewards"""
     return self.__mu
 
-  def pull(self, pulls: int = 1) -> np.ndarray:
+  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
     """Pull the arm
+
+    When pulls is None, a float number will be returned. Otherwise, a numpy
+    array will be returned.
 
     Args:
       pulls: number of times to pull
@@ -42,4 +47,8 @@ class BernoulliArm(Arm):
     Returns:
       stochastic rewards
     """
+    if pulls is None:
+      return np.random.binomial(1, self.__mu, 1)[0]
+    if pulls <= 0:
+      raise ValueError('Number of pulls should be at least 1.')
     return np.random.binomial(1, self.__mu, pulls)

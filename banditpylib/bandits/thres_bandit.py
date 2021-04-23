@@ -93,7 +93,7 @@ class ThresholdingBandit(Bandit):
     self.__total_pulls += pulls
 
     arm_rewards_pair.arm.id = arm_id
-    arm_rewards_pair.rewards.extend(list(em_rewards))
+    arm_rewards_pair.rewards.extend(list(em_rewards))  # type: ignore
 
     return arm_rewards_pair
 

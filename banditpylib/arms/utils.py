@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 
@@ -32,8 +32,11 @@ class Arm(ABC):
     """mean of rewards"""
 
   @abstractmethod
-  def pull(self, pulls: int = 1) -> np.ndarray:
+  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
     """Pull the arm
+
+    When pulls is None, a float number will be returned. Otherwise, a numpy
+    array will be returned.
 
     Args:
       pulls: number of times to pull

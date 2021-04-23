@@ -65,11 +65,13 @@ class OrdinaryBandit(Bandit):
     # Empirical rewards when `arm_id is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls=pulls)
 
-    self.__regret += (self.__best_arm.mean * pulls - sum(em_rewards))
+    self.__regret += (
+        self.__best_arm.mean * pulls - sum(em_rewards)  # type: ignore
+    )
     self.__total_pulls += pulls
 
     arm_rewards_pair.arm.id = arm_id
-    arm_rewards_pair.rewards.extend(list(em_rewards))
+    arm_rewards_pair.rewards.extend(list(em_rewards))  # type: ignore
 
     return arm_rewards_pair
 

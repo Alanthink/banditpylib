@@ -12,5 +12,5 @@ class TestGaussianArm:
         1 if (mu - var <= reward <= mu + var) else 0 for reward in rewards
     ]
     assert sum(prob_within_one_std) > 0.68, (
-        'Probability of rewards within one std in N(0, 1) %.2f is '
-        'no greater than 0.68!' % prob_within_one_std)
+        'Probability of rewards within one std in N(0, 1) %.2f should '
+        'be at least 0.68!' % prob_within_one_std)
