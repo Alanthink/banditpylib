@@ -1,9 +1,5 @@
 .PHONY = help docs preview reset push
 
-SPHINXBUILD   = sphinx-build
-SOURCEDIR     = source
-BUILDDIR      = build
-
 .DEFAULT: help
 help:
 	@echo "make docs"
@@ -16,10 +12,11 @@ help:
 	@echo "       push the documentation changes"
 
 docs:
+	# Delete previous built files
 	rm -rf build/*
-	# Generate Sphinx source code
-	sphinx-apidoc -M -e -o ./source ../banditpylib/
-	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)"
+	# Generate Sphinx source code (rst files)
+	sphinx-apidoc -M -e -f -o ./source -t autodoc_templates ../banditpylib/
+	@sphinx-build -M html source build
 	@cp ../example.jpg build/html/
 	@echo "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"
 	@rm -rf site/* && cp -r build/html/* site/
