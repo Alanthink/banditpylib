@@ -13,7 +13,7 @@ class TestOrdinaryBandit:
     arms = [BernoulliArm(mean) for mean in means]
     ordinary_bandit = OrdinaryBandit(arms)
     ordinary_bandit.reset()
-    # pull arm 0 for 100 times
+    # Pull arm 0 for 100 times
     actions = text_format.Parse(
         """
       arm_pulls_pairs {

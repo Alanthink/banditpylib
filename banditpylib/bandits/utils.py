@@ -86,14 +86,14 @@ class RandomContextGenerator(ContextGenerator):
 
 
 class Bandit(ABC):
-  """Bandit environment
+  """Abstract class for bandit environments
 
   :func:`context` is used to fetch the current state of the environment.
   :func:`feed` is used to pass the actions to the environment for execution.
   """
   @property
   def name(self) -> str:
-    """bandit name"""
+    """Bandit name"""
     return self._name()
 
   @abstractmethod
@@ -115,7 +115,7 @@ class Bandit(ABC):
   def context(self) -> Any:
     """
     Returns:
-      current state of the bandit environment
+      contextual information about the bandit environment
     """
 
   @abstractmethod
