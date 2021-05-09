@@ -23,18 +23,9 @@ class APT(ThresBanditLearner):
     self.__eps = eps
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'apt'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # Current time step
     self.__time = 1
@@ -52,13 +43,6 @@ class APT(ThresBanditLearner):
     return metrics
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the thresholding bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
@@ -71,12 +55,6 @@ class APT(ThresBanditLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        `actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__pseudo_arms[arm_rewards_pair.arm.id].update(
         np.array(arm_rewards_pair.rewards))

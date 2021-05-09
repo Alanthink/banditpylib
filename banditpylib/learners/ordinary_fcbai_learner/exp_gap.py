@@ -31,18 +31,9 @@ class ExpGap(OrdinaryFCBAILearner):
     self.__threshold = threshold
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'exp_gap'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__active_arms: Dict[int, PseudoArm] = dict()
     for arm_id in range(self.arm_num()):
       self.__active_arms[arm_id] = PseudoArm()
@@ -57,7 +48,7 @@ class ExpGap(OrdinaryFCBAILearner):
 
   @property
   def stage(self) -> str:
-    """stage of the learner"""
+    """Stage of the learner"""
     return self.__stage
 
   def __median_elimination(self) -> Actions:
@@ -85,13 +76,6 @@ class ExpGap(OrdinaryFCBAILearner):
     return actions
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     if len(self.__active_arms) == 1:
       return Actions()
 
@@ -114,12 +98,6 @@ class ExpGap(OrdinaryFCBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     if self.__stage == 'main_loop':
       for arm_rewards_pair in feedback.arm_rewards_pairs:
         self.__active_arms[arm_rewards_pair.arm.id].update(
@@ -177,10 +155,6 @@ class ExpGap(OrdinaryFCBAILearner):
             (1 - self.confidence()) / 50) - 3 * math.log(self.__round)
 
   def best_arm(self) -> int:
-    """
-    Returns:
-      best arm identified by the learner
-    """
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)
     return self.__best_arm

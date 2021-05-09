@@ -8,7 +8,7 @@ from banditpylib.learners import Learner, Goal, MaxReward
 
 
 class OrdinaryMNLLearner(Learner):
-  """Base class for learners in the ordinary mnl bandit
+  """Abstract class for learners playing with the ordinary mnl bandit
 
   Product 0 is reserved for non-purchase. And it is assumed that the preference
   parameter for non-purchase is 1.
@@ -29,26 +29,27 @@ class OrdinaryMNLLearner(Learner):
     super().__init__(name)
     self.__product_num = len(revenues) - 1
     if self.__product_num < 2:
-      raise Exception('Number of products %d is less then 2!' %
-                      self.__product_num)
+      raise ValueError('Number of products is expected at least 2. Got %d.' %
+                       self.__product_num)
     if revenues[0] != 0:
-      raise Exception('The revenue of product 0 i.e., %.2f is not 0!' %
-                      revenues[0])
+      raise ValueError('The revenue of product 0 is expected 0. Got %.2f.' %
+                       revenues[0])
     self.__revenues = revenues
     if card_limit < 1:
-      raise Exception('Cardinality limit %d is less than 1!' % card_limit)
+      raise ValueError('Cardinality limit is expected at least 1. Got %d.' %
+                       card_limit)
     self.__card_limit = min(card_limit, self.__product_num)
     self.__reward = copy.deepcopy(reward)
     self.__reward.set_revenues(self.__revenues)
     self.__use_local_search = use_local_search
     if 0 <= random_neighbors < 3:
-      raise Exception('Times of local search %d is less than 3!' %
-                      random_neighbors)
+      raise ValueError(
+          'Number of neighbors for local search is expected 3. Got %d.' %
+          random_neighbors)
     self.__random_neighbors = random_neighbors
 
   @property
   def running_environment(self) -> type:
-    """type of environment the learner works with"""
     return OrdinaryMNLBandit
 
   def product_num(self) -> int:
@@ -74,20 +75,19 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def reward(self) -> Reward:
-    """goal of the learner"""
+    """Reward the learner wants to maximize"""
     return self.__reward
 
   @property
   def use_local_search(self) -> bool:
-    """whether local search is enabled"""
+    """Whether local search is enabled"""
     return self.__use_local_search
 
   @property
   def random_neighbors(self) -> int:
-    """number of random neighbors to look up when local search is enabled"""
+    """Number of random neighbors to look up when local search is enabled"""
     return self.__random_neighbors
 
   @property
   def goal(self) -> Goal:
-    """goal of the learner"""
     return MaxReward()

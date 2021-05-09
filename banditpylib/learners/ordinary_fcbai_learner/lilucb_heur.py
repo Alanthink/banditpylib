@@ -20,18 +20,9 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'lilUCB_heur'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
     # Parameters suggested by the paper
     self.__beta = 0.5
@@ -67,13 +58,6 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     ])
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     if self.__stage == 'initialization':
       actions = Actions()
       for arm_id in range(self.arm_num()):
@@ -97,12 +81,6 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     for arm_rewards_pair in feedback.arm_rewards_pairs:
       self.__pseudo_arms[arm_rewards_pair.arm.id].update(
           np.array(arm_rewards_pair.rewards))
@@ -112,10 +90,6 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
       self.__stage = 'main'
 
   def best_arm(self) -> int:
-    """
-    Returns:
-      best arm identified by the learner
-    """
     return argmax_or_min_tuple([
         (pseudo_arm.total_pulls(), arm_id)
         for (arm_id, pseudo_arm) in enumerate(self.__pseudo_arms)

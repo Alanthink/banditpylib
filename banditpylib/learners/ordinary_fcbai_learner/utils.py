@@ -21,16 +21,17 @@ class OrdinaryFCBAILearner(Learner):
     """
     super().__init__(name)
     if arm_num <= 1:
-      raise Exception('Number of arms %d is less then 2!' % arm_num)
+      raise ValueError('Number of arms is expected at least 2. Got %d.' %
+                       arm_num)
     self.__arm_num = arm_num
     if confidence <= 0 or confidence >= 1:
-      raise Exception('Confidence level %.2f is not in range (0, 1)!' % \
-                      confidence)
+      raise ValueError(
+          'Confidence level is expected within range (0, 1). Got %.2f.' %
+          confidence)
     self.__confidence = confidence
 
   @property
   def running_environment(self) -> type:
-    """type of environment the learner works with"""
     return OrdinaryBandit
 
   def arm_num(self) -> int:
@@ -47,13 +48,6 @@ class OrdinaryFCBAILearner(Learner):
     """
     return self.__confidence
 
-  def set_confidence(self, confidence: float):
-    """
-    Args:
-      confidence: new confidence level of the learner
-    """
-    self.__confidence = confidence
-
   @abstractmethod
   def best_arm(self) -> int:
     """
@@ -63,5 +57,4 @@ class OrdinaryFCBAILearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    """goal of the learner"""
     return BestArmId(best_arm=self.best_arm())

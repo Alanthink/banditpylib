@@ -41,23 +41,13 @@ class EpsGreedy(OrdinaryMNLLearner):
                      use_local_search=use_local_search,
                      random_neighbors=random_neighbors)
     if eps <= 0:
-      raise Exception('Epsilon %.2f in %s is no greater than 0!' % \
-          (eps, self.__name))
+      raise ValueError('Epsilon is expected greater than 0. Got %.2f.' % eps)
     self.__eps = eps
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'epsilon_greedy'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     # Current time step
     self.__time = 1
     # Current episode
@@ -92,10 +82,6 @@ class EpsGreedy(OrdinaryMNLLearner):
     return assortments[int(np.random.randint(0, len(assortments)))]
 
   def actions(self, context=None) -> Actions:
-    """
-    Returns:
-      assortments to serve
-    """
     del context
 
     actions = Actions()
@@ -135,12 +121,6 @@ class EpsGreedy(OrdinaryMNLLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
 
     self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1

@@ -5,7 +5,7 @@ from banditpylib.learners import Learner
 
 
 class ThresBanditLearner(Learner):
-  """Base class for learners in thresholding bandit"""
+  """Abstract class for learners playing with thresholding bandit"""
   def __init__(self, arm_num: int, name: Optional[str]):
     """
     Args:
@@ -15,12 +15,12 @@ class ThresBanditLearner(Learner):
     """
     super().__init__(name)
     if arm_num < 2:
-      raise Exception('Number of arms %d is less then 2.' % arm_num)
+      raise ValueError('Number of arms is expected at least 2. Got %d.' %
+                       arm_num)
     self.__arm_num = arm_num
 
   @property
   def running_environment(self) -> type:
-    """type of environment the learner works with"""
     return ThresholdingBandit
 
   def arm_num(self) -> int:

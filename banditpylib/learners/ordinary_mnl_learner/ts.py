@@ -48,25 +48,20 @@ class ThompsonSampling(OrdinaryMNLLearner):
     return 'thompson_sampling'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
-    # current time step
+    # Current time step
     self.__time = 1
-    # current episode
+    # Current episode
     self.__episode = 1
-    # number of episodes a product is served until the current episode
+    # Number of episodes a product is served until the current episode
     # (exclusive)
     self.__serving_episodes = np.zeros(self.product_num() + 1)
-    # number of times a product is picked until the current time (exclusive)
+    # Number of times a product is picked until the current time (exclusive)
     self.__customer_choices = np.zeros(self.product_num() + 1)
     self.__last_actions = None
     self.__last_customer_feedback = None
-    # flag to denote whether the initial warm start stage has finished
+    # Flag to denote whether the initial warm start stage has finished
     self.__done_warm_start = False
-    # next product to try in the warm start stage
+    # Next product to try in the warm start stage
     self.__next_product_in_warm_start = 1
 
   def __warm_start(self) -> Actions:
@@ -112,13 +107,6 @@ class ThompsonSampling(OrdinaryMNLLearner):
     return sampled_preference_params
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary mnl bandit which should be `None`
-
-    Returns:
-      assortments to serve
-    """
     del context
 
     actions: Actions
@@ -165,12 +153,6 @@ class ThompsonSampling(OrdinaryMNLLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
 

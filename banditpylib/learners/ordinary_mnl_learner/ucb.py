@@ -41,11 +41,6 @@ class UCB(OrdinaryMNLLearner):
     return 'risk_aware_ucb'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     # Current time step
     self.__time = 1
     # Current episode
@@ -75,13 +70,6 @@ class UCB(OrdinaryMNLLearner):
     return ucb
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary mnl bandit which should be `None`
-
-    Returns:
-      assortments to serve
-    """
     del context
 
     actions = Actions()
@@ -113,12 +101,6 @@ class UCB(OrdinaryMNLLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
 
