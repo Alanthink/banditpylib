@@ -7,8 +7,8 @@ from banditpylib.learners import Learner, Goal, BestArmId
 
 
 class OrdinaryFBBAILearner(Learner):
-  """Base class for best-arm identification learners in the ordinary multi-armed
-  bandit
+  """Abstract class for best-arm identification learners playing with the
+  ordinary multi-armed bandit
 
   This kind of learners aim to identify the best arm with fixed budget.
   """
@@ -21,16 +21,16 @@ class OrdinaryFBBAILearner(Learner):
     """
     super().__init__(name)
     if arm_num <= 1:
-      raise Exception('Expected number of arms %d is at least 2.' % arm_num)
+      raise ValueError('Number of arms is expected at least 2. Got %d.' %
+                       arm_num)
     self.__arm_num = arm_num
     if budget < arm_num:
-      raise Exception('Expected budget %d is at least number of arms.' %
-                      budget)
+      raise ValueError('Budget is expected at least %d. Got %d.' %
+                       (self.__arm_num, budget))
     self.__budget = budget
 
   @property
   def running_environment(self) -> type:
-    """type of environment the learner works with"""
     return OrdinaryBandit
 
   def arm_num(self) -> int:
@@ -47,13 +47,6 @@ class OrdinaryFBBAILearner(Learner):
     """
     return self.__budget
 
-  def set_budget(self, budget: int):
-    """
-    Args:
-      budget: new budget of the learner
-    """
-    self.__budget = budget
-
   @abstractmethod
   def best_arm(self) -> int:
     """
@@ -63,5 +56,4 @@ class OrdinaryFBBAILearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    """goal of the learner"""
     return BestArmId(best_arm=self.best_arm())

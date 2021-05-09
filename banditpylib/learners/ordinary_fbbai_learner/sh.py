@@ -29,24 +29,17 @@ class SH(OrdinaryFBBAILearner):
     """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     if threshold < 2:
-      raise Exception('Thredhold %d is less than 2!' % threshold)
+      raise ValueError('Thredhold is expected at least 2. Got %d.' % threshold)
     self.__threshold = threshold
     if budget < (arm_num * math.ceil(math.log(self.arm_num(), 2))):
-      raise Exception('Budget is too small.')
+      raise ValueError(
+          'Budget is expected at least %d. Got %d.' %
+          ((arm_num * math.ceil(math.log(self.arm_num(), 2))), budget))
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'sh'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__active_arms: Dict[int, PseudoArm] = dict()
     for arm_id in range(self.arm_num()):
       self.__active_arms[arm_id] = PseudoArm()
@@ -59,13 +52,6 @@ class SH(OrdinaryFBBAILearner):
     self.__stop = False
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -74,7 +60,7 @@ class SH(OrdinaryFBBAILearner):
       return actions
 
     if len(self.__active_arms) <= self.__threshold:
-      # uniform sampling
+      # Uniform sampling
       pulls = np.random.multinomial(self.__budget_left,
                                     np.ones(len(self.__active_arms)) /
                                     len(self.__active_arms),
@@ -87,7 +73,7 @@ class SH(OrdinaryFBBAILearner):
         i = i + 1
       self.__stop = True
     else:
-      # pulls assigned to each arm
+      # Pulls assigned to each arm
       pulls = math.floor(self.budget() /
                          (len(self.__active_arms) * self.__total_rounds))
       for arm_id in self.__active_arms:
@@ -98,12 +84,6 @@ class SH(OrdinaryFBBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     for arm_rewards_pair in feedback.arm_rewards_pairs:
       self.__active_arms[arm_rewards_pair.arm.id].update(
           np.array(arm_rewards_pair.rewards))
@@ -122,10 +102,6 @@ class SH(OrdinaryFBBAILearner):
     self.__round += 1
 
   def best_arm(self) -> int:
-    """
-    Returns:
-      best arm identified by the learner
-    """
     if self.__best_arm is None:
-      raise Exception('%s: I don\'t have an answer yet!' % self.name)
+      raise Exception('I don\'t have an answer yet!')
     return self.__best_arm

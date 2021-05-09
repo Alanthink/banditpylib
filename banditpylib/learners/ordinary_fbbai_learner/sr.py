@@ -25,22 +25,14 @@ class SR(OrdinaryFBBAILearner):
     # calculate bar_log_K
     self.__bar_log_K = 0.5 + sum([1 / i for i in range(2, self.arm_num() + 1)])
     if (budget - arm_num) < arm_num * self.__bar_log_K:
-      raise Exception('Budget is too small.')
+      raise Exception('Budget is expected at least %d. Got %d.' %
+                      (arm_num * self.__bar_log_K + arm_num, budget))
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'sr'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
-    # calculate pulls assigned to each arm per_round
+    # Calculate pulls assigned to each arm per round
     self.__pulls_per_round = [-1]
     nk = [0]
     for k in range(1, self.arm_num()):
@@ -55,17 +47,10 @@ class SR(OrdinaryFBBAILearner):
 
     self.__budget_left = self.budget()
     self.__best_arm = None
-    # current round
+    # Current round
     self.__round = 1
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -87,12 +72,6 @@ class SR(OrdinaryFBBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     for arm_rewards_pair in feedback.arm_rewards_pairs:
       self.__active_arms[arm_rewards_pair.arm.id].update(
           np.array(arm_rewards_pair.rewards))
@@ -110,10 +89,6 @@ class SR(OrdinaryFBBAILearner):
     self.__round += 1
 
   def best_arm(self) -> int:
-    """
-    Returns:
-      best arm identified by the learner
-    """
     if self.__best_arm is None:
-      raise Exception('%s: I don\'t have an answer yet!' % self.name)
+      raise Exception('I don\'t have an answer yet.')
     return self.__best_arm
