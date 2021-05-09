@@ -34,34 +34,18 @@ class EXP3(OrdinaryLearner):
     """
     super().__init__(arm_num=arm_num, name=name)
     if gamma < 0 or gamma > 1:
-      raise Exception('Gamma %.2f is out of range [0, 1].' % gamma)
+      raise ValueError('Gamma is expected in [0, 1]. Got %.2f.' % gamma)
     self.__gamma = gamma
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'exp3'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__weights = np.array([1] * self.arm_num())
     # Current time step
     self.__time = 1
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -75,12 +59,6 @@ class EXP3(OrdinaryLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     arm_id = arm_rewards_pair.arm.id
     reward = arm_rewards_pair.rewards[0]

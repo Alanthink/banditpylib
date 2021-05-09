@@ -25,24 +25,15 @@ class ThompsonSampling(OrdinaryLearner):
     """
     super().__init__(arm_num=arm_num, name=name)
     if prior_dist not in ['gaussian', 'beta']:
-      raise Exception('Prior distribution %s is not supported!' % prior_dist)
+      raise ValueError('Prior distribution %s is not supported.' % prior_dist)
     self.__prior_dist = prior_dist
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'thompson_sampling'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    # current time step
+    # Current time step
     self.__time = 1
 
   def __sample_from_beta_prior(self) -> int:
@@ -50,7 +41,7 @@ class ThompsonSampling(OrdinaryLearner):
     Returns:
       arm to pull using beta prior
     """
-    # the mean of each arm has a uniform prior Beta(1, 1)
+    # The average reward of each arm has a uniform prior Beta(1, 1)
     virtual_means = np.zeros(self.arm_num())
     for arm_id in range(self.arm_num()):
       a = 1 + self.__pseudo_arms[arm_id].total_rewards()
@@ -64,7 +55,7 @@ class ThompsonSampling(OrdinaryLearner):
     Returns:
       arm to pull using gaussian prior
     """
-    # the mean of each arm has a Gaussian prior Normal(0, 1)
+    # The average reward of each arm has a Gaussian prior Normal(0, 1)
     virtual_means = np.zeros(self.arm_num())
     for arm_id in range(self.arm_num()):
       mu = self.__pseudo_arms[arm_id].total_rewards() / (
@@ -74,13 +65,6 @@ class ThompsonSampling(OrdinaryLearner):
     return int(np.argmax(virtual_means))
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -91,12 +75,6 @@ class ThompsonSampling(OrdinaryLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__pseudo_arms[arm_rewards_pair.arm.id].update(
         np.array(arm_rewards_pair.rewards))

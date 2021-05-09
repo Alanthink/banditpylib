@@ -23,29 +23,19 @@ class UCBV(OrdinaryLearner):
     Args:
       arm_num: number of arms
       name: alias name
-      b: upper bound of reward
+      b: upper bound of rewards
     """
     super().__init__(arm_num=arm_num, name=name)
     if b <= 0:
-      raise Exception('%s: b is set to %.2f which is no greater than 0!' %
-                      (self.name, b))
+      raise ValueError('B is expected greater than 0. Got %.2f.' % b)
     self.__b = b
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'ucbv'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    # current time step
+    # Current time step
     self.__time = 1
 
   def __UCBV(self) -> np.ndarray:
@@ -62,13 +52,6 @@ class UCBV(OrdinaryLearner):
     return ucbv
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -83,12 +66,6 @@ class UCBV(OrdinaryLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__pseudo_arms[arm_rewards_pair.arm.id].update(
         np.array(arm_rewards_pair.rewards))

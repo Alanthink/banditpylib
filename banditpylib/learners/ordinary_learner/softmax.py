@@ -32,35 +32,18 @@ class Softmax(OrdinaryLearner):
     """
     super().__init__(arm_num=arm_num, name=name)
     if gamma <= 0:
-      raise ValueError('Gamma %.2f in %s should be greater than 0.' % \
-          (gamma, self.__name))
+      raise ValueError('Gamma is expected greater than 0. Got %.2f.' % gamma)
     self.__gamma = gamma
 
   def _name(self) -> str:
-    """
-    Returns:
-      default learner name
-    """
     return 'softmax'
 
   def reset(self):
-    """Reset the learner
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
-    # current time step
+    # Current time step
     self.__time = 1
 
   def actions(self, context=None) -> Actions:
-    """
-    Args:
-      context: context of the ordinary bandit which should be `None`
-
-    Returns:
-      arms to pull
-    """
     del context
 
     actions = Actions()
@@ -81,12 +64,6 @@ class Softmax(OrdinaryLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    """Learner update
-
-    Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
-    """
     arm_rewards_pair = feedback.arm_rewards_pairs[0]
     self.__pseudo_arms[arm_rewards_pair.arm.id].update(
         np.array(arm_rewards_pair.rewards))

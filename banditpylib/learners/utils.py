@@ -121,11 +121,7 @@ class AllCorrect(Goal):
 
 
 class Learner(ABC):
-  """Abstract class for learners
-
-  :func:`actions` returns the actions the learner wants to take. :func:`update`
-  is used to pass the feedback of the environment to the learner.
-  """
+  """Abstract class for learners"""
   def __init__(self, name: Optional[str]):
     """
     Args:
@@ -135,7 +131,7 @@ class Learner(ABC):
 
   @property
   def name(self) -> str:
-    """learner name"""
+    """Name of the learner"""
     return self.__name
 
   @abstractmethod
@@ -148,7 +144,7 @@ class Learner(ABC):
   @property
   @abstractmethod
   def running_environment(self) -> type:
-    """type of environment the learner is running in"""
+    """Type of bandit environment the learner plays with"""
 
   @abstractmethod
   def reset(self):
@@ -160,10 +156,10 @@ class Learner(ABC):
 
   @abstractmethod
   def actions(self, context) -> Actions:
-    """Actions of the learner for one round
+    """Actions of the learner
 
     Args:
-      context: state of the bandit environment
+      context: contextual information about the bandit environment
 
     Returns:
       actions to take
@@ -171,14 +167,14 @@ class Learner(ABC):
 
   @abstractmethod
   def update(self, feedback: Feedback):
-    """Learner update
+    """Update the learner
 
     Args:
-      feedback: feedback returned by the bandit environment by executing
-        :func:`actions`
+      feedback: feedback returned by the bandit environment after
+        :func:`actions` is executed
     """
 
   @property
   @abstractmethod
   def goal(self) -> Goal:
-    """goal of the learner"""
+    """Goal of the learner"""

@@ -32,9 +32,8 @@ class LinearBandit(Bandit):
                        len(features))
     for (i, feature) in enumerate(features):
       if feature.shape != theta.shape:
-        raise ValueError(
-            'Dimension of arm %d\'s feature vector is expected '
-            'the same as theta\'s. Got %d.' % (i, len(feature)))
+        raise ValueError('Dimension of arm %d\'s feature vector is expected '
+                         'the same as theta\'s. Got %d.' % (i, len(feature)))
     self.__features = features
     self.__theta = theta
     self.__arm_num = len(features)
