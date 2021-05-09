@@ -41,7 +41,7 @@ def argmax_or_min_tuple(values: List[Tuple[float, int]],
 
 
 class Goal(ABC):
-  """Base class for the goal of a learner"""
+  """Abstract class for the goal of a learner"""
   def __init__(self, value: Any):
     """
     Args:
@@ -52,11 +52,11 @@ class Goal(ABC):
   @property
   @abstractmethod
   def name(self) -> str:
-    """name of the goal"""
+    """Name of the goal"""
 
   @property
   def value(self):
-    """value obtained by the learner"""
+    """Value obtained by the learner"""
     return self.__value
 
 
@@ -71,7 +71,6 @@ class BestArmId(Goal):
 
   @property
   def name(self) -> str:
-    """name of the goal"""
     return 'best_arm_id'
 
 
@@ -86,12 +85,14 @@ class MaxReward(Goal):
 
   @property
   def name(self) -> str:
-    """name of the goal"""
     return 'reward_maximization'
 
 
 class MaxCorrectAnswers(Goal):
-  """Maximize correct answers"""
+  """Maximize correct answers
+
+  This is used by thresholding bandit learners.
+  """
   def __init__(self, answers: List[int]):
     """
     Args:
@@ -101,12 +102,14 @@ class MaxCorrectAnswers(Goal):
 
   @property
   def name(self) -> str:
-    """name of the goal"""
     return 'max_correct_answers'
 
 
 class AllCorrect(Goal):
-  """Make all answers correct"""
+  """Make all answers correct
+
+  This is used by thresholding bandit learners.
+  """
   def __init__(self, answers: List[int]):
     """
     Args:
@@ -116,7 +119,6 @@ class AllCorrect(Goal):
 
   @property
   def name(self) -> str:
-    """name of the goal"""
     return 'make_all_correct'
 
 
