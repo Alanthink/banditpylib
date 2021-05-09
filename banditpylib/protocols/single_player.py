@@ -52,21 +52,9 @@ class SinglePlayerProtocol(Protocol):
 
   @property
   def name(self) -> str:
-    """protocol name"""
     return 'single_player_protocol'
 
   def _one_trial(self, random_seed: int, debug: bool) -> bytes:
-    """One trial of the game
-
-    This method defines how to run one trial of the game.
-
-    Args:
-      random_seed: random seed
-      debug: whether to run the trial in debug mode
-
-    Returns:
-      result of one trial
-    """
     if debug:
       logging.set_verbosity(logging.DEBUG)
     np.random.seed(random_seed)

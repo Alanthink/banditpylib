@@ -27,8 +27,7 @@ def time_seed() -> int:
 
 
 def parse_trials_data(data: bytes) -> List[Trial]:
-  """Retrieve a list of Trial from bytes data
-  """
+  """Retrieve trials data from bytes data"""
   trials_data = []
   next_pos, pos = 0, 0
   while pos < len(data):
@@ -36,16 +35,14 @@ def parse_trials_data(data: bytes) -> List[Trial]:
     next_pos, pos = _DecodeVarint32(data, pos)
     trial.ParseFromString(data[pos:pos + next_pos])
 
-    # use parsed message
+    # Proceed to next message
     pos += next_pos
     trials_data.append(trial)
   return trials_data
 
 
 def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
-  """Read file storing a couple of Trial and transform to pandas
-  DataFrame
-  """
+  """Read file storing trials data and transform to pandas DataFrame"""
   with open(filename, 'rb') as f:
     data = []
     trials_data = parse_trials_data(f.read())
@@ -63,17 +60,14 @@ def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
 
 
 class Protocol(ABC):
-  """
-  Abstract class for a protocol which is used to coordinate the interactions
+  """Abstract class for a protocol which is used to coordinate the interactions
   between the learner and the bandit environment.
-
-  For each setup, just call :func:`play` to start the game.
   """
   def __init__(self, bandit: Bandit, learners: List[Learner]):
     """
     Args:
       bandit: bandit environment
-      learners: learners to be compared with
+      learners: learners used to run simulations
     """
     for learner in learners:
       if not isinstance(bandit, learner.running_environment):
@@ -81,22 +75,22 @@ class Protocol(ABC):
                         (learner.name, bandit.name))
     self.__bandit = bandit
     self.__learners = learners
-    # learner the simulator is currently running
+    # The learner used by the simulator currently
     self.__current_learner: Learner = None
 
   @property
   @abstractmethod
   def name(self) -> str:
-    """protocol name"""
+    """Protocol name"""
 
   @property
   def bandit(self) -> Bandit:
-    """bandit environment the simulator is running in"""
+    """Bandit environment the simulator is using the learners to play with"""
     return self.__bandit
 
   @property
   def current_learner(self) -> Learner:
-    """current learner the simulator is using"""
+    """The learner used by the simulator currently"""
     return self.__current_learner
 
   @abstractmethod
@@ -110,14 +104,14 @@ class Protocol(ABC):
       debug: whether to run the trial in debug mode
 
     Returns:
-      result of one trial
+      one trial data
     """
 
   def __write_to_file(self, data: bytes):
     """Write the result of one trial to file
 
     Args:
-      data: result of one trial
+      data: one trial data
     """
     with open(self.__output_filename, 'ab') as f:
       f.write(_VarintBytes(len(data)))
@@ -142,7 +136,7 @@ class Protocol(ABC):
       trials = 1
 
     for learner in self.__learners:
-      # set current learner
+      # Set current learner
       self.__current_learner = learner
 
       logging.info('start %s\'s play with %s', self.__current_learner.name,
@@ -161,11 +155,11 @@ class Protocol(ABC):
 
         trial_results.append(result)
 
-      # can not apply for processes any more
+      # Can not apply for processes any more
       pool.close()
       pool.join()
 
-      # check if there are exceptions during the trials
+      # Check if there are exceptions during the trials
       for result in trial_results:
         result.get()
 
