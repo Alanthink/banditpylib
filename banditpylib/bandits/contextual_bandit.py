@@ -26,17 +26,9 @@ class ContextualBandit(Bandit):
     self.__regret = 0.0
 
   def _name(self) -> str:
-    """
-    Returns:
-      default bandit name
-    """
     return 'contextual_bandit'
 
   def context(self) -> np.ndarray:
-    """
-    Returns:
-      current state of the bandit environment
-    """
     self.__context_and_rewards = self.__context_generator.context()
     return self.__context_and_rewards[0]
 
@@ -80,14 +72,6 @@ class ContextualBandit(Bandit):
     return arm_rewards_pair
 
   def feed(self, actions: Actions) -> Feedback:
-    """Pull multiple arms
-
-    Args:
-      actions: actions to perform
-
-    Returns:
-      feedback after actions are performed
-    """
     feedback = Feedback()
 
     for arm_pulls_pair in actions.arm_pulls_pairs:
@@ -97,11 +81,6 @@ class ContextualBandit(Bandit):
     return feedback
 
   def reset(self):
-    """Reset the bandit environment
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__context_generator.reset()
     self.__total_pulls = 0
     self.__regret = 0.0
@@ -121,13 +100,6 @@ class ContextualBandit(Bandit):
     return self.__total_pulls
 
   def regret(self, goal: Goal) -> float:
-    """
-    Args:
-      goal: goal of the learner
-
-    Returns:
-      regret of the learner
-    """
     if isinstance(goal, MaxReward):
       return self.__regret
     raise ValueError('Only goal MaxReward is supported.')

@@ -115,20 +115,9 @@ class MeanReward(Reward):
     super().__init__(name)
 
   def _name(self) -> str:
-    """
-    Returns:
-      default reward name
-    """
     return 'mean_reward'
 
   def calc(self, assortment: Set[int]) -> float:
-    """
-    Args:
-      assortment: assortment to calculate
-
-    Returns:
-      reward of the assortment
-    """
     preference_params_sum = (
         sum([self.preference_params[product]
              for product in assortment]) + self.preference_params[0])
@@ -156,39 +145,28 @@ class CvarReward(Reward):
     self.__alpha = alpha if alpha <= 1.0 else 1.0
 
   def _name(self) -> str:
-    """
-    Returns:
-      default reward name
-    """
     return 'cvar_reward'
 
   @property
   def alpha(self) -> float:
-    """percentile of cvar"""
+    """Percentile of cvar"""
     return self.__alpha
 
   def calc(self, assortment: Set[int]) -> float:
-    """
-    Args:
-      assortment: assortment to calculate
-
-    Returns:
-      reward of the assortment
-    """
     preference_params_sum = sum(
         [self.preference_params[product]
          for product in assortment]) + self.preference_params[0]
-    # sort according to revenue of product
+    # Sort according to revenue of product
     revenue_prob = sorted([
         (self.revenues[0], self.preference_params[0] / preference_params_sum)
     ] + [(self.revenues[product],
           self.preference_params[product] / preference_params_sum)
          for product in assortment],
                           key=lambda x: x[0])
-    # the minimum revenue should be 0, which is the revenue of non-purchase
+    # The minimum revenue should be 0, which is the revenue of non-purchase
     if revenue_prob[0][0] != 0:
       raise Exception('CVaR calculation error!')
-    # find the index of revenue_prob such that the accumulate probability is at
+    # Find the index of revenue_prob such that the accumulate probability is at
     # least alpha
     accumulate_prob = revenue_prob[0][1]
     next_ind = 1
@@ -246,11 +224,11 @@ def search_best_assortment(reward: Reward,
       assortment=set(),
       card_limit=card_limit,  # type: ignore
       restricted_products=restricted_products)
-  # sort assortments according to reward value
+  # Sort assortments according to reward value
   sorted_assort = sorted([(reward.calc(assortment), assortment)
                           for assortment in assortments],
                          key=lambda x: x[0])
-  # randomly select one assortment with the maximum reward
+  # Randomly select one assortment with the maximum reward
   ind = len(sorted_assort) - 1
   while (ind > 0 and sorted_assort[ind - 1][0] == sorted_assort[ind][0]):
     ind -= 1
@@ -285,10 +263,10 @@ def local_search_best_assortment(
 
   product_num = len(reward.revenues) - 1
 
-  # all available products
+  # All available products
   all_products = set(range(1, product_num + 1))
   if init_assortment is None:
-    # randomly generate an assortment initially
+    # Randomly generate an assortment initially
     best_assortment = set(
         np.random.choice(list(all_products), card_limit, replace=False))
     best_reward = reward.calc(best_assortment)
@@ -313,7 +291,7 @@ def local_search_best_assortment(
       operation = np.random.choice(available_operations)
 
       if operation == 'replace':
-        # replace one product
+        # Replace one product
         product_to_remove = np.random.choice(list(best_assortment))
         product_to_add = np.random.choice(list(remaining_products))
         new_assortment = set(best_assortment)
@@ -321,14 +299,14 @@ def local_search_best_assortment(
         new_assortment.add(product_to_add)
         new_reward = reward.calc(new_assortment)
       elif operation == 'remove':
-        # remove one product
+        # Remove one product
         product_to_remove = np.random.choice(list(best_assortment))
         new_assortment = set(best_assortment)
         new_assortment.remove(product_to_remove)
         new_reward = reward.calc(new_assortment)
       else:
         # operation = 'add'
-        # add one product
+        # Add one product
         product_to_add = np.random.choice(list(remaining_products))
         new_assortment = set(best_assortment)
         new_assortment.add(product_to_add)
@@ -393,35 +371,36 @@ class OrdinaryMNLBandit(Bandit):
         revenue.
     """
     if len(preference_params) != len(revenues):
-      raise Exception(
-          'Number of preference parameters %d does not equal to number of '
-          'revenues %d!' % (len(preference_params), len(revenues)))
+      raise ValueError(
+          'Number of preference parameters %d is expected equal to number of '
+          'revenues %d.' % (len(preference_params), len(revenues)))
     for (i, param) in enumerate(preference_params):
       if param > 1 or param < 0:
-        raise Exception('The %d-th preference parameter is '
-                        'out of range [0, 1]' % i)
+        raise ValueError('The %d-th preference parameter is '
+                         'expected within [0, 1].' % i)
     if preference_params[0] != 1:
-      raise Exception(
-          'The preference parameter of product 0 i.e., %.2f is not 1!' %
+      raise ValueError(
+          'The preference parameter of product 0 is expected 1. Got %.2f.' %
           preference_params[0])
     for (i, revenue) in enumerate(revenues):
       if i > 0 and revenue <= 0:
-        raise Exception('The %d-th revenue is no greater than 0!' % i)
+        raise ValueError('The %d-th revenue is expected greater than 0.' % i)
     if revenues[0] != 0:
-      raise Exception('The revenue of product 0 i.e., %.2f is not 0!' %
-                      revenues[0])
+      raise ValueError('The revenue of product 0 is expected 0. Got %.2f.' %
+                       revenues[0])
 
     self.__preference_params = preference_params
     self.__revenues = revenues
-    # product 0 is reserved for non-purchase
+    # Product 0 is reserved for non-purchase
     self.__product_num = len(self.__preference_params) - 1
     if self.__product_num == 0:
-      raise Exception('Number of products %d is 0!' % self.__product_num)
+      raise ValueError('Number of products is expected at least 1. Got 0.')
     if card_limit < 1:
-      raise Exception('Cardinality limit %d is less than 1!' % card_limit)
+      raise ValueError('Cardinality limit is expected at least 1. Got %d.' %
+                       card_limit)
     self.__card_limit = min(card_limit, self.__product_num)
 
-    # maximizing the mean of rewards is the default goal
+    # Maximizing the rewards is the default goal
     self.__reward = MeanReward() if reward is None else copy.deepcopy(reward)
     self.__reward.set_preference_params(self.__preference_params)
     self.__reward.set_revenues(self.__revenues)
@@ -434,17 +413,13 @@ class OrdinaryMNLBandit(Bandit):
           'Best reward is set to zero. Now the regret equals to the'
           ' minus total revenue.')
     else:
-      # compute the best assortment
+      # Compute the best assortment
       self.__best_reward, self.__best_assort = search_best_assortment(
           reward=self.__reward, card_limit=self.__card_limit)
       logging.info('Assortment %s has best reward %.2f.',
                    sorted(list(self.__best_assort)), self.__best_reward)
 
   def _name(self) -> str:
-    """
-    Returns:
-      default bandit name
-    """
     return 'ordinary_mnl_bandit'
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
@@ -489,21 +464,13 @@ class OrdinaryMNLBandit(Bandit):
         np.array([self.__revenues[choice] for choice in choices]))
     arm_rewards_pair.customer_feedbacks.extend(choices)
 
-    # update regret
+    # Update regret
     self.__regret += (self.__best_reward -
                       self.__reward.calc(assortment)) * times
 
     return arm_rewards_pair
 
   def feed(self, actions: Actions) -> Feedback:
-    """Serve multiple assortments
-
-    Args:
-      actions: actions to perform
-
-    Returns:
-      feedback after actions are performed
-    """
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
       arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
@@ -512,18 +479,9 @@ class OrdinaryMNLBandit(Bandit):
     return feedback
 
   def reset(self):
-    """Reset the bandit environment
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__regret = 0.0
 
   def context(self):
-    """
-    Returns:
-      current state of the ordinary mnl bandit
-    """
     return None
 
   def revenues(self) -> np.ndarray:
@@ -548,13 +506,6 @@ class OrdinaryMNLBandit(Bandit):
     return self.__card_limit
 
   def regret(self, goal: Goal) -> float:
-    """
-    Args:
-      goal: goal of the learner
-
-    Returns:
-      regret of the learner
-    """
     if isinstance(goal, MaxReward):
       return self.__regret
     raise Exception('Goal %s is not supported!' % goal.name)

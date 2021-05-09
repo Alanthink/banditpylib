@@ -9,7 +9,7 @@ from banditpylib.learners import Goal
 
 
 class ContextGenerator(ABC):
-  """Context generator
+  """Abstract context generator class
 
   This class is used to generate the context of bandit.
   """
@@ -29,12 +29,12 @@ class ContextGenerator(ABC):
 
   @property
   def dimension(self) -> int:
-    """dimension of the context"""
+    """Dimension of the context"""
     return self.__dimension
 
   @property
   def arm_num(self) -> int:
-    """number of actions"""
+    """Number of actions"""
     return self.__arm_num
 
   @abstractmethod
@@ -69,19 +69,12 @@ class RandomContextGenerator(ContextGenerator):
     super().__init__(arm_num, dimension)
 
   def _name(self) -> str:
-    """
-    Returns:
-      default context generator name
-    """
     return 'random_context_generator'
 
   def reset(self):
-    """Reset the context generator"""
+    pass
 
   def context(self) -> Tuple[np.ndarray, np.ndarray]:
-    """Returns:
-      the context and the rewards corresponding to different actions
-    """
     return (np.random.random(self.dimension), np.random.random(self.arm_num))
 
 

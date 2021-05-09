@@ -27,7 +27,8 @@ class ThresholdingBandit(Bandit):
       name: alias name
     """
     if len(arms) < 2:
-      raise Exception('The number of arms %d is less than 2.' % len(arms))
+      raise ValueError('Number of arms is expected at least 2. Got %d.' %
+                       len(arms))
     self.__arms = arms
     self.__arm_num = len(arms)
     # Correct answers of all the arms whether its expected rewards is above the
@@ -37,7 +38,9 @@ class ThresholdingBandit(Bandit):
         for arm_id in range(self.__arm_num)
     ]
     if eps < 0:
-      raise Exception('Radius of indifference zone is less than 0!')
+      raise ValueError(
+          'Radius of indifference zone is expected at least 0. Got %.2f.' %
+          eps)
     # The answer of the learner does not matter if the expected rewards of an
     # arm is within the range [theta-eps, theta+eps]. Hence weight assigned to
     # such an arm is 0.
@@ -47,18 +50,9 @@ class ThresholdingBandit(Bandit):
     ]
 
   def _name(self) -> str:
-    """
-    Returns:
-      default bandit name
-    """
     return 'thresholding_bandit'
 
   def reset(self):
-    """Reset the bandit environment
-
-    .. warning::
-      This function should be called before the start of the game.
-    """
     self.__total_pulls = 0
 
   def arm_num(self) -> int:
@@ -98,14 +92,6 @@ class ThresholdingBandit(Bandit):
     return arm_rewards_pair
 
   def feed(self, actions: Actions) -> Feedback:
-    """Pull multiple arms
-
-    Args:
-      actions: actions to perform
-
-    Returns:
-      feedback after actions are performed
-    """
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
       arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
@@ -114,20 +100,9 @@ class ThresholdingBandit(Bandit):
     return feedback
 
   def context(self) -> None:
-    """
-    Returns:
-      current context of the bandit environment
-    """
     return None
 
   def regret(self, goal: Goal) -> float:
-    """
-    Args:
-      goal: goal of the learner
-
-    Returns:
-      regret of the learner
-    """
     if isinstance(goal, MaxCorrectAnswers):
       # Aggregate regret which is equal to the number of wrong answers
       agg_regret = 0
