@@ -1,6 +1,5 @@
-banditpylib.bandits package
+banditpylib.bandits Package
 ===========================
 
-.. automodule:: banditpylib.bandits
-   :members:
-   :show-inheritance:
+.. automodapi:: banditpylib.bandits
+   :no-heading:

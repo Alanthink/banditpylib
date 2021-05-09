@@ -1,6 +1,6 @@
-banditpylib.learners.thres\_bandit\_learner package
-===================================================
+banditpylib.learners.thres_bandit_learner Package
+=================================================
 
-.. automodule:: banditpylib.learners.thres_bandit_learner
-   :members:
-   :show-inheritance:
+
+.. automodapi:: banditpylib.learners.thres_bandit_learner
+   :no-heading:

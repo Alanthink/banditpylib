@@ -48,10 +48,10 @@ release = '0.9.0'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx.ext.autodoc',
     'sphinxcontrib.bibtex',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+    'sphinx_automodapi.automodapi',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'm2r2',
@@ -65,12 +65,16 @@ bibtex_bibfiles = ['references.bib']
 todo_include_todos = True
 
 autodoc_default_options = {
+    'members': None,
+    'show-inheritance': None,
     'member-order': 'bysource',
     'special-members': '__init__',
 }
 
+automodsumm_inherited_members = False
+
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = []
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

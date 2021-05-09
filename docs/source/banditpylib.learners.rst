@@ -1,14 +1,16 @@
-banditpylib.learners package
+banditpylib.learners Package
 ============================
 
-.. automodule:: banditpylib.learners
-   :members:
-   :show-inheritance:
+
+.. automodapi:: banditpylib.learners
+   :no-heading:
+
 
 Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 2
 
    banditpylib.learners.ordinary_fbbai_learner
    banditpylib.learners.ordinary_fcbai_learner

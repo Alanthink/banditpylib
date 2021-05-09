@@ -14,8 +14,6 @@ help:
 docs:
 	# Delete previous built files
 	rm -rf build/*
-	# Generate Sphinx source code (rst files)
-	sphinx-apidoc -M -e -f -o ./source -t autodoc_templates ../banditpylib/
 	@sphinx-build -M html source build
 	@cp ../example.jpg build/html/
 	@echo "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"

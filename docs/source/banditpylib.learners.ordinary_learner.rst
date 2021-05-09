@@ -1,6 +1,5 @@
-banditpylib.learners.ordinary\_learner package
+banditpylib.learners.ordinary\_learner Package
 ==============================================
 
-.. automodule:: banditpylib.learners.ordinary_learner
-   :members:
-   :show-inheritance:
+.. automodapi:: banditpylib.learners.ordinary_learner
+   :no-heading:

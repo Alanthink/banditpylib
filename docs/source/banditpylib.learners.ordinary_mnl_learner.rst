@@ -1,6 +1,6 @@
-banditpylib.learners.ordinary\_mnl\_learner package
-===================================================
+banditpylib.learners.ordinary_mnl_learner Package
+=================================================
 
-.. automodule:: banditpylib.learners.ordinary_mnl_learner
-   :members:
-   :show-inheritance:
+
+.. automodapi:: banditpylib.learners.ordinary_mnl_learner
+   :no-heading:

@@ -1,6 +1,6 @@
-banditpylib.arms package
+banditpylib.arms Package
 ========================
 
-.. automodule:: banditpylib.arms
-   :members:
-   :show-inheritance:
+
+.. automodapi:: banditpylib.arms
+   :no-heading:

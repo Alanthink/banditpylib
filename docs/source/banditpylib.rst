@@ -1,14 +1,9 @@
-banditpylib package
-===================
-
-.. automodule:: banditpylib
-   :members:
-   :show-inheritance:
-
 Subpackages
------------
+===========
+
 
 .. toctree::
+   :maxdepth: 2
 
    banditpylib.arms
    banditpylib.bandits

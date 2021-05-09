@@ -1,6 +1,6 @@
-banditpylib.learners.ordinary\_fbbai\_learner package
+banditpylib.learners.ordinary\_fbbai\_learner Package
 =====================================================
 
-.. automodule:: banditpylib.learners.ordinary_fbbai_learner
-   :members:
-   :show-inheritance:
+
+.. automodapi:: banditpylib.learners.ordinary_fbbai_learner
+   :no-heading:
