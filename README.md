@@ -30,9 +30,9 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 ## Implemented Policies
 
-### Single Player Protocol
+### Single player protocol
 
-#### Ordinary Bandit
+#### Ordinary bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
@@ -40,13 +40,13 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 | Fix-Budget BAI   | `Uniform`, `SR`, `SH`|
 | Fix-Confidence BAI   | `ExpGap`, `LilUCBHeuristic`|
 
-#### Ordinary MNL Bandit
+#### Ordinary MNL bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
 | Regret Minimization  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
-#### Thresholding Bandit
+#### Thresholding bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
