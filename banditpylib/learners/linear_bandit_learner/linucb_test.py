@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import tempfile
 import seaborn as sns
 sns.set(style="darkgrid")
 
@@ -23,14 +22,13 @@ bandit = LinearBandit(features, theta)
 learners = [LinUCB(num_arms, features, 1 / horizon, 1e-3)]
 
 intermediate_regrets = list(range(0, horizon + 1, 50))
-temp_file = tempfile.NamedTemporaryFile()
 
 game = SinglePlayerProtocol(
     bandit, learners,
     intermediate_regrets=intermediate_regrets, horizon=horizon)
 
-# game.play(trials=1, output_filename=temp_file.name)
+game.play(trials=100, output_filename="temp_output.txt")
 
-data_df = trial_data_messages_to_dict(temp_file.name)
+data_df = trial_data_messages_to_dict("temp_output.txt")
 sns.lineplot(x='total_actions', y='regret', hue='learner', data=data_df)
 plt.show()

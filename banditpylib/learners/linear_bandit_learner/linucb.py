@@ -88,8 +88,6 @@ class LinUCB(LinearBanditLearner):
         #     ucb[i] = np.dot(a.T, self.__theta_hat_t) +\
         #         root_beta_t * np.sqrt(a.T @ np.linalg.pinv(self.__Vt) @ a)
 
-        print(self.__feature_matrix.shape, self.__summation_AtXt.shape,
-              self.__Vt.shape, self.__theta_hat_t.shape)
         # vectorized:
         ucb = self.__feature_matrix.T @ self.__theta_hat_t + root_beta_t *\
             np.sqrt((self.__feature_matrix.T @ np.linalg.pinv(self.__Vt) @
@@ -115,7 +113,6 @@ class LinUCB(LinearBanditLearner):
         Xt = np.array(arm_rewards_pair.rewards)
 
         At = self.__feature_matrix[:, pulled_arm_index].reshape(-1, 1)
-        print(At.shape, Xt.shape, (At * Xt).shape)
         self.__Vt += (At @ At.T)
         self.__summation_AtXt += At * Xt
         self.__theta_hat_t = np.linalg.pinv(self.__Vt) @ self.__summation_AtXt
