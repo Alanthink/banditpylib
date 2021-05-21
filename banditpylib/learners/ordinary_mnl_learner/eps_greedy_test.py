@@ -32,7 +32,6 @@ class TestEpsGreedy:
     # pylint: disable=protected-access
     learner._EpsGreedy__select_ramdom_assort = MagicMock(
         return_value=mock_random_assortment)
-    print(learner.actions())
     assert learner.actions().SerializeToString() == text_format.Parse(
         """
       arm_pulls_pairs {
