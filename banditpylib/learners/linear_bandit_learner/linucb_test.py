@@ -12,7 +12,6 @@ from .linucb import LinUCB
 class TestLinUCB:
   """Test LinUCB Policy"""
   def test_simple_run(self):
-    arm_num = 5
     horizon = 10
     features = [
         np.array([1, 0]),
@@ -21,7 +20,7 @@ class TestLinUCB:
         np.array([1, 0]),
         np.array([0, 1])
     ]
-    learner = LinUCB(arm_num, features, 0.1, 1e-3)
+    learner = LinUCB(features, 0.1, 1e-3)
     learner.reset()
     mock_ucb = np.array([1.2, 1, 1, 1, 1])
     # pylint: disable=protected-access
