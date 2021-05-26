@@ -15,7 +15,6 @@ class TestEpsGreedy:
 
     # Pull each arm once during the initial steps
     for time in range(1, len(arms) + 1):
-      print(learner.actions())
       assert learner.actions().SerializeToString() == text_format.Parse(
           """
         arm_pulls_pairs <
