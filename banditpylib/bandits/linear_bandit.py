@@ -11,22 +11,22 @@ from .utils import Bandit
 class LinearBandit(Bandit):
   r"""Finite-armed linear bandit  
 
-    Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate  
-    an `i.i.d.` reward from distribution :math:`\langle \theta, v_i \rangle  
-    + \epsilon`, where :math:`v_i` is the feature vector of arm :math:`i`,  
-    :math:`\theta` is the unknown parameter and :math:`\epsilon` is a zero-mean  
-    noise.  
+  Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate  
+  an `i.i.d.` reward from distribution :math:`\langle \theta, v_i \rangle  
+  + \epsilon`, where :math:`v_i` is the feature vector of arm :math:`i`,  
+  :math:`\theta` is the unknown parameter and :math:`\epsilon` is a zero-mean  
+  noise.  
   """
   def __init__(self,
                features: List[np.ndarray],
                theta: np.ndarray,
                var: float = 1.0):
     """
-                        Args:
-                          features: feature vectors of the arms
-                          theta: unknown parameter theta
-                          var: variance of noise
-                        """
+    Args:
+      features: feature vectors of the arms
+      theta: unknown parameter theta
+      var: variance of noise
+    """
     if len(features) < 2:
       raise ValueError('The number of arms is expected at least 2. Got %d.' %
                        len(features))
@@ -60,13 +60,12 @@ class LinearBandit(Bandit):
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm
+    Args:
+      arm_pulls_pair: arm id and its pulls
 
-                        Args:
-                          arm_pulls_pair: arm id and its pulls
-
-                        Returns:
-                          arm_rewards_pair: arm id and its rewards
-                        """
+    Returns:
+      arm_rewards_pair: arm id and its rewards
+    """
     arm_id = arm_pulls_pair.arm.id
     pulls = arm_pulls_pair.pulls
 
@@ -101,33 +100,33 @@ class LinearBandit(Bandit):
 
   def arm_num(self) -> int:
     """
-                        Returns:
-                          total number of arms
-                        """
+    Returns:
+      total number of arms
+    """
     return self.__arm_num
 
   def total_pulls(self) -> int:
     """
-                        Returns:
-                          total number of pulls
-                        """
+    Returns:
+      total number of pulls
+    """
     return self.__total_pulls
 
   def features(self) -> List[np.ndarray]:
     """
-                        Returns:
-                          feature vectors
-                        """
+    Returns:
+      feature vectors
+    """
     return self.__features
 
   def __best_arm_regret(self, arm_id) -> int:
     """
-                        Args:
-                          arm_id: best arm identified by the learner
+    Args:
+      arm_id: best arm identified by the learner
 
-                        Returns:
-                          0 if `arm_id` is the best arm else 1
-                        """
+    Returns:
+      0 if `arm_id` is the best arm else 1
+    """
     return int(self.__best_arm_id != arm_id)
 
   def regret(self, goal: Goal) -> float:
