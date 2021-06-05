@@ -10,13 +10,12 @@ from .utils import LinearBanditLearner
 
 class LinUCB(LinearBanditLearner):
   # incorrect description, to be filled later
-  r"""Linear Upper Confidence Bound policy :cite:`auer2002finite`
+  r"""Linear Upper Confidence Bound policy from the Tor Lattimore book(chapter 19)
 
-  At time :math:`t`, play arm
-
-  .. math::
-                          \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
-                          \sqrt{ \frac{\alpha  \ln(t) }{T_i(t)} } \right\}
+  At time :math:`t`, 
+  play arm with highest ucb value (argmax_(a∈A_t) UCB_t (a))
+  UCB_t (a) = <θ_(t−1) , a> + root_β_t||a||_(V_(t−1))^-1
+  β_t is an increasing sequence, with exact formulation given in the code
   """
   def __init__(self,
                features: List[np.ndarray],
