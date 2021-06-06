@@ -1,5 +1,7 @@
 import copy
 
+from typing import List, Union
+
 import numpy as np
 
 from banditpylib.bandits import OrdinaryMNLBandit
@@ -49,7 +51,7 @@ class OrdinaryMNLLearner(Learner):
     self.__random_neighbors = random_neighbors
 
   @property
-  def running_environment(self) -> type:
+  def running_environment(self) -> Union[type, List[type]]:
     return OrdinaryMNLBandit
 
   def product_num(self) -> int:
