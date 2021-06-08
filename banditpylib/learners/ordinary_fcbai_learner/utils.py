@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from typing import Optional
+from typing import Optional, Union, List
 
 from banditpylib.bandits import OrdinaryBandit
 from banditpylib.learners import Learner, Goal, BestArmId
@@ -31,7 +31,7 @@ class OrdinaryFCBAILearner(Learner):
     self.__confidence = confidence
 
   @property
-  def running_environment(self) -> type:
+  def running_environment(self) -> Union[type, List[type]]:
     return OrdinaryBandit
 
   def arm_num(self) -> int:
