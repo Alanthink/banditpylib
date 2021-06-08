@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Optional, List, Union
 
-from banditpylib.bandits import OrdinaryBandit
+from banditpylib.bandits import OrdinaryBandit, LinearBandit
 from banditpylib.learners import Learner, Goal, MaxReward
 
 
@@ -22,8 +22,8 @@ class OrdinaryLearner(Learner):
     self.__arm_num = arm_num
 
   @property
-  def running_environment(self) -> type:
-    return OrdinaryBandit
+  def running_environment(self) -> Union[type, List[type]]:
+    return [OrdinaryBandit, LinearBandit]
 
   def arm_num(self) -> int:
     """

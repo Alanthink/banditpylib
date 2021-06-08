@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List, Tuple, Any
+from typing import Optional, List, Tuple, Any, Union
 
 import numpy as np
 
@@ -145,7 +145,7 @@ class Learner(ABC):
 
   @property
   @abstractmethod
-  def running_environment(self) -> type:
+  def running_environment(self) -> Union[type, List[type]]:
     """Type of bandit environment the learner plays with"""
 
   @abstractmethod

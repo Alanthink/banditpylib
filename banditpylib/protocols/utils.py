@@ -70,12 +70,24 @@ class Protocol(ABC):
       learners: learners used to run simulations
     """
     for learner in learners:
-      if not isinstance(bandit, learner.running_environment):
-        raise Exception('Learner %s can not recognize environment %s!' %
-                        (learner.name, bandit.name))
+      if not isinstance(learner.running_environment, List):
+        if not isinstance(bandit, learner.running_environment):
+          raise Exception('Learner %s can not recognize environment %s.' %
+                          (learner.name, bandit.name))
+      else:
+        # learner.running_environment is a list
+        environment_is_recognizable = False
+        for env in learner.running_environment:
+          if isinstance(bandit, env):
+            environment_is_recognizable = True
+
+        if not environment_is_recognizable:
+          raise Exception('Learner %s can not recognize environment %s.' %
+                          (learner.name, bandit.name))
+
     self.__bandit = bandit
     self.__learners = learners
-    # The learner used by the simulator currently
+    # The learner simulated currently
     self.__current_learner: Learner = None
 
   @property

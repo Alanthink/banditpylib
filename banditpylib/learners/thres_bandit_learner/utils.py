@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union, List
 
 from banditpylib.bandits import ThresholdingBandit
 from banditpylib.learners import Learner
@@ -20,7 +20,7 @@ class ThresBanditLearner(Learner):
     self.__arm_num = arm_num
 
   @property
-  def running_environment(self) -> type:
+  def running_environment(self) -> Union[type, List[type]]:
     return ThresholdingBandit
 
   def arm_num(self) -> int:
