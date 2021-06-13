@@ -28,16 +28,16 @@ Classes
 - :py:class:`Goal`:
   Abstract class for the goal of a learner
 
-- :py:class:`BestArmId`:
+- :py:class:`IdentifyBestArm`:
   Best arm identification
 
-- :py:class:`MaxReward`:
+- :py:class:`MaximizeTotalRewards`:
   Reward maximization
 
-- :py:class:`MaxCorrectAnswers`:
+- :py:class:`MaximizeCorrectAnswers`:
   Maximize correct answers
 
-- :py:class:`AllCorrect`:
+- :py:class:`MakeAllAnswersCorrect`:
   Make all answers correct
 
 - :py:class:`Learner`:
@@ -51,32 +51,32 @@ Classes
    .. inheritance-diagram:: Goal
       :parts: 1
 
-.. autoclass:: BestArmId
+.. autoclass:: IdentifyBestArm
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: BestArmId
+   .. inheritance-diagram:: IdentifyBestArm
       :parts: 1
 
-.. autoclass:: MaxReward
+.. autoclass:: MaximizeTotalRewards
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: MaxReward
+   .. inheritance-diagram:: MaximizeTotalRewards
       :parts: 1
 
-.. autoclass:: MaxCorrectAnswers
+.. autoclass:: MaximizeCorrectAnswers
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: MaxCorrectAnswers
+   .. inheritance-diagram:: MaximizeCorrectAnswers
       :parts: 1
 
-.. autoclass:: AllCorrect
+.. autoclass:: MakeAllAnswersCorrect
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: AllCorrect
+   .. inheritance-diagram:: MakeAllAnswersCorrect
       :parts: 1
 
 .. autoclass:: Learner
