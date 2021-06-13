@@ -85,19 +85,13 @@ class ContextualBandit(Bandit):
     self.__total_pulls = 0
     self.__regret = 0.0
 
+  @property
   def arm_num(self) -> int:
     """
     Returns:
       total number of arms
     """
     return self.__arm_num
-
-  def total_pulls(self) -> int:
-    """
-    Returns:
-      total number of pulls so far
-    """
-    return self.__total_pulls
 
   def regret(self, goal: Goal) -> float:
     if isinstance(goal, MaximizeTotalRewards):

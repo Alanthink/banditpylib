@@ -97,6 +97,7 @@ class LinearBandit(Bandit):
     self.__total_pulls = 0
     self.__regret = 0.0
 
+  @property
   def arm_num(self) -> int:
     """
     Returns:
@@ -104,13 +105,7 @@ class LinearBandit(Bandit):
     """
     return self.__arm_num
 
-  def total_pulls(self) -> int:
-    """
-    Returns:
-      total number of pulls
-    """
-    return self.__total_pulls
-
+  @property
   def features(self) -> List[np.ndarray]:
     """
     Returns:
