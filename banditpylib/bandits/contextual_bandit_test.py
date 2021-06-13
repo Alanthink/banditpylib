@@ -3,7 +3,7 @@ import google.protobuf.text_format as text_format
 from banditpylib.data_pb2 import Actions
 from banditpylib.learners import MaximizeTotalRewards
 from .contextual_bandit import ContextualBandit
-from .utils import RandomContextGenerator
+from .contextual_bandit_utils import RandomContextGenerator
 
 
 class TestContextualBandit:

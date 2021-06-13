@@ -2,7 +2,8 @@ import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, MaximizeTotalRewards
-from .utils import Bandit, ContextGenerator
+from .contextual_bandit_utils import ContextGenerator
+from .utils import Bandit
 
 
 class ContextualBandit(Bandit):
