@@ -87,7 +87,8 @@ class UCB(OrdinaryMNLLearner):
           reward=self.reward,
           random_neighbors=self.random_neighbors,
           card_limit=self.card_limit(),
-          init_assortment=(set(self.__last_actions.arm_pulls_pairs[0].arm.ids)
+          init_assortment=(set(
+              self.__last_actions.arm_pulls_pairs[0].arm.set.id)
                            if self.__last_actions else None))
     else:
       _, best_assortment = search_best_assortment(reward=self.reward,
@@ -106,6 +107,6 @@ class UCB(OrdinaryMNLLearner):
     self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
     self.__time += 1
     if arm_rewards_pair.customer_feedbacks[0] == 0:
-      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.ids:
+      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set.id:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1
