@@ -5,9 +5,9 @@ import google.protobuf.text_format as text_format
 
 from banditpylib.data_pb2 import Actions
 from banditpylib.learners import MaximizeTotalRewards
-from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
-    search, search_best_assortment, MeanReward, CvarReward, \
-    local_search_best_assortment
+from .ordinary_mnl_bandit import OrdinaryMNLBandit
+from .ordinary_mnl_bandit_utils import search, search_best_assortment, \
+    MeanReward, CvarReward, local_search_best_assortment
 
 
 class TestOrdinaryMNLBandit:
