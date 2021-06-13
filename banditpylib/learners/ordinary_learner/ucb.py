@@ -13,14 +13,12 @@ class UCB(OrdinaryLearner):
   .. math::
     \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
     \sqrt{ \frac{\alpha  \ln(t) }{T_i(t)} } \right\}
+
+  :param int arm_num: number of arms
+  :param str name: alias name
+  :param float alpha: alpha
   """
   def __init__(self, arm_num: int, name: str = None, alpha: float = 2.0):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      alpha: alpha
-    """
     super().__init__(arm_num=arm_num, name=name)
     if alpha <= 0:
       raise ValueError('Alpha is expected greater than 0. Got %.2f.' % alpha)

@@ -6,12 +6,11 @@ import numpy as np
 
 
 class Arm(ABC):
-  """Arm"""
+  """Arm
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name for the arm
-    """
     self.__name = self._name() if name is None else name
 
   @property
@@ -28,12 +27,11 @@ class Arm(ABC):
 
 
 class StochasticArm(Arm):
-  """Stochastic arm"""
+  """Stochastic arm
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name for the arm
-    """
     super().__init__(name)
 
   @property

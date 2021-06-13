@@ -9,15 +9,13 @@ from .utils import ThresBanditLearner
 class APT(ThresBanditLearner):
   """Anytime Parameter-free Thresholding algorithm
   :cite:`DBLP:conf/icml/LocatelliGC16`
+
+  :param int arm_num: number of arms
+  :param float theta: threshold
+  :param float eps: radius of indifferent zone
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, theta: float, eps: float, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      theta: threshold
-      eps: radius of indifferent zone
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, name=name)
     self.__theta = theta
     self.__eps = eps

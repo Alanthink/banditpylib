@@ -6,13 +6,11 @@ class Uniform(OrdinaryLearner):
   r"""Uniform policy
 
   Play each arm in a round-robin way.
+
+  :param int arm_num: number of arms
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, name=None):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, name=name)
 
   def _name(self) -> str:

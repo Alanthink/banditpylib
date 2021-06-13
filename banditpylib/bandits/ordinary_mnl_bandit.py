@@ -44,12 +44,11 @@ def search(
 
 
 class Reward:
-  """General reward class"""
+  """General reward class
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name
-    """
     self.__name = self._name() if name is None else name
     self.__preference_params: Optional[np.ndarray] = None
     self.__revenues: Optional[np.ndarray] = None
@@ -106,12 +105,11 @@ class Reward:
 
 
 class MeanReward(Reward):
-  """Mean reward"""
+  """Mean reward
+
+  :param str name: alias name
+  """
   def __init__(self, name: str = None):
-    """
-    Args:
-      name: alias name
-    """
     super().__init__(name)
 
   def _name(self) -> str:
@@ -128,13 +126,12 @@ class MeanReward(Reward):
 
 
 class CvarReward(Reward):
-  """CVaR reward"""
+  """CVaR reward
+
+  :param float alpha: percentile of cvar
+  :param str name: alias name
+  """
   def __init__(self, alpha: float, name: str = None):
-    """
-    Args:
-      alpha: percentile of cvar
-      name: alias name
-    """
     super().__init__(name)
     if alpha <= 0:
       raise Exception('Alpha %.2f is no greater than 0!' % alpha)
@@ -349,6 +346,18 @@ class OrdinaryMNLBandit(Bandit):
     T U(F(S^*)) - \sum_{t = 1}^T U(F(S_t))
 
   where :math:`S^*` is the optimal assortment.
+
+  :param np.ndarray reference_params: preference parameters (product 0 should
+    be included)
+  :param np.ndarray revenue: revenue of products (product 0 should be included)
+  :param int card_limit: cardinality constraint of an assortment meaning the
+    total number of products provided at a time is no greater than this number
+  :param Reward reward: reward the learner wants to maximize. The default goal
+    is mean of rewards
+  :param bool zero_best_reward: whether to set the reward of the best
+    assortment to 0. This is useful when data is too large to compute the best
+    assortment. When best reward is set to zero, the regret equals to the minus
+    total revenue.
   """
   def __init__(
       self,
@@ -357,19 +366,6 @@ class OrdinaryMNLBandit(Bandit):
       card_limit: int = np.inf,  # type: ignore
       reward: Reward = None,
       zero_best_reward: bool = False):
-    """
-    Args:
-      preference_params: preference parameters (product 0 should be included)
-      revenue: revenue of products (product 0 should be included)
-      card_limit: cardinality constraint of an assortment meaning the total
-        number of products provided at a time is no greater than this number
-      reward: reward the learner wants to maximize. The default goal is mean of
-        rewards
-      zero_best_reward: whether to set the reward of the best assortment to 0.
-        This is useful when data is too large to compute the best assortment.
-        When best reward is set to zero, the regret equals to the minus total
-        revenue.
-    """
     if len(preference_params) != len(revenues):
       raise ValueError(
           'Number of preference parameters %d is expected equal to number of '

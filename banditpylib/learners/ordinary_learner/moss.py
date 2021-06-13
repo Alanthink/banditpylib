@@ -14,17 +14,15 @@ class MOSS(OrdinaryLearner):
     \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
     \sqrt{\frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}
 
+  :param int arm_num: number of arms
+  :param int horizon: total number of time steps
+  :param str name: alias name
+
   .. note::
     MOSS uses time horizon in its confidence interval. Reward has to be bounded
     in [0, 1].
   """
   def __init__(self, arm_num: int, horizon: int, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      horizon: total number of time steps
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, name=name)
     if horizon < arm_num:
       raise Exception('Horizon is expected at least %d. Got %d.' %

@@ -13,20 +13,18 @@ class SH(OrdinaryFBBAILearner):
   """Sequential halving policy :cite:`karnin2013almost`
 
   Eliminate half of the remaining arms in each round.
+
+  :param int arm_num: number of arms
+  :param int budget: total number of pulls
+  :param int threshold: do uniform sampling when the number of arms left is no
+    greater than this number
+  :param str name: alias name
   """
   def __init__(self,
                arm_num: int,
                budget: int,
                threshold: int = 2,
                name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      budget: total number of pulls
-      threshold: do uniform sampling when the number of arms left is no greater
-        than this number
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     if threshold < 2:
       raise ValueError('Thredhold is expected at least 2. Got %d.' % threshold)

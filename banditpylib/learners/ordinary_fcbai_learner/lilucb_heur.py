@@ -8,15 +8,14 @@ from .utils import OrdinaryFCBAILearner
 
 
 class LilUCBHeuristic(OrdinaryFCBAILearner):
-  """LilUCB heuristic policy :cite:`jamieson2014lil`"""
+  """LilUCB heuristic policy :cite:`jamieson2014lil`
+
+  :param int arm_num: number of arms
+  :param float confidence: confidence level. It should be within (0, 1). The
+    algorithm should output the best arm with probability at least this value.
+  :param str name: alias name
+  """
   def __init__(self, arm_num: int, confidence: float, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1). The algorithm
-        should output the best arm with probability at least this value.
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
 
   def _name(self) -> str:

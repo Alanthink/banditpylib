@@ -12,14 +12,12 @@ class ExploreThenCommit(OrdinaryLearner):
   During the first :math:`T' \leq T` time steps (exploration period), play each
   arm in a round-robin way. Then for the remaining time steps, play the arm
   with the maximum empirical mean reward within exploration period consistently.
+
+  :param int arm_num: number of arms
+  :param int T_prime: time steps to explore
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, T_prime: int, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      T_prime: time steps to explore
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, name=name)
     if T_prime < arm_num:
       raise ValueError('T\' is expected at least %d. got %d.' %

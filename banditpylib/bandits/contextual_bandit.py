@@ -14,12 +14,10 @@ class ContextualBandit(Bandit):
   :math:`r_i^t` is the reward when arm :math:`i` is pulled. After receiving
   learner's action :math:`a_t`, the reward :math:`r_{a_t}^t` will be revealed to
   the learner. The batched version can be defined in a similar way.
+
+  :param ContextGenerator context_generator: context generator
   """
   def __init__(self, context_generator: ContextGenerator):
-    """
-    Args:
-      context_generator: context generator
-    """
     self.__context_generator = context_generator
     self.__arm_num = self.__context_generator.arm_num
     # Maximum rewards the learner can obtain

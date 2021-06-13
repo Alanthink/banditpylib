@@ -24,14 +24,12 @@ class EXP3(OrdinaryLearner):
   :math:`i` and the probability to pull arm :math:`i` at time :math:`(t-1)`
   respectively and initially we set :math:`w_i^0 = 1` for every arm
   :math:`i \in \{0, \dots, N-1\}`.
+
+  :param int arm_num: number of arms
+  :param str name: alias name
+  :param float gamma: probability to do uniform sampling
   """
   def __init__(self, arm_num: int, name: str = None, gamma: float = 0.01):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      gamma: probability to do uniform sampling
-    """
     super().__init__(arm_num=arm_num, name=name)
     if gamma < 0 or gamma > 1:
       raise ValueError('Gamma is expected in [0, 1]. Got %.2f.' % gamma)

@@ -13,6 +13,16 @@ class EpsGreedy(OrdinaryMNLLearner):
 
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability serve the assortment with the maximum empirical reward.
+
+  :param np.ndarray revenues: product revenues
+  :param Reward reward: reward the learner wants to maximize
+  :param int card_limit: cardinality constraint
+  :param str name: alias name
+  :param bool use_local_search: whether to use local search for searching the
+    best assortment
+  :param int random_neighbors: number of random neighbors to look up if local
+    search is enabled
+  :param float eps: epsilon
   """
   def __init__(self,
                revenues: np.ndarray,
@@ -22,18 +32,6 @@ class EpsGreedy(OrdinaryMNLLearner):
                use_local_search=False,
                random_neighbors=10,
                eps=1.0):
-    """
-    Args:
-      revenues: product revenues
-      reward: reward the learner wants to maximize
-      card_limit: cardinality constraint
-      name: alias name
-      use_local_search: whether to use local search for searching the best
-        assortment
-      random_neighbors: number of random neighbors to look up if local search is
-        used
-      eps: epsilon
-    """
     super().__init__(revenues=revenues,
                      reward=reward,
                      card_limit=card_limit,

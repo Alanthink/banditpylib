@@ -11,14 +11,12 @@ class Uniform(OrdinaryFBBAILearner):
 
   Play each arm the same number of times and then output the arm with the
   highest empirical mean.
+
+  :param int arm_num: number of arms
+  :param int budget: total number of pulls
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, budget: int, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      budget: total number of pulls
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
 
   def _name(self) -> str:

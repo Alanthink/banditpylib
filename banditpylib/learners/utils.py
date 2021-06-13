@@ -5,12 +5,11 @@ from banditpylib.data_pb2 import Actions, Feedback
 
 
 class Goal(ABC):
-  """Abstract class for the goal of a learner"""
+  """Abstract class for the goal of a learner
+
+  :param Any value: value obtained by the learner
+  """
   def __init__(self, value: Any):
-    """
-    Args:
-      value: value obtained by the learner
-    """
     self.__value = value
 
   @property
@@ -25,12 +24,11 @@ class Goal(ABC):
 
 
 class BestArmId(Goal):
-  """Best arm identification"""
+  """Best arm identification
+
+  :param int best_arm: best arm identified by the learner
+  """
   def __init__(self, best_arm: int):
-    """
-    Args:
-      best_arm: best arm identified by the learner
-    """
     super().__init__(value=best_arm)
 
   @property
@@ -41,10 +39,6 @@ class BestArmId(Goal):
 class MaxReward(Goal):
   """Reward maximization"""
   def __init__(self):
-    """
-    Args:
-      rewards: rewards obtained by the learner
-    """
     super().__init__(value=None)
 
   @property
@@ -56,12 +50,10 @@ class MaxCorrectAnswers(Goal):
   """Maximize correct answers
 
   This is used by thresholding bandit learners.
+
+  :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    """
-    Args:
-      answers: answers obtained by the learner
-    """
     super().__init__(value=answers)
 
   @property
@@ -73,12 +65,10 @@ class AllCorrect(Goal):
   """Make all answers correct
 
   This is used by thresholding bandit learners.
+
+  :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    """
-    Args:
-      answers: answers obtained by the learner
-    """
     super().__init__(value=answers)
 
   @property
@@ -87,12 +77,11 @@ class AllCorrect(Goal):
 
 
 class Learner(ABC):
-  """Abstract class for learners"""
+  """Abstract class for learners
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name
-    """
     self.__name = self._name() if name is None else name
 
   @property

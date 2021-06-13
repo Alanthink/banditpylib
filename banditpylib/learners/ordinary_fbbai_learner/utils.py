@@ -11,14 +11,12 @@ class OrdinaryFBBAILearner(Learner):
   ordinary multi-armed bandit
 
   This kind of learners aim to identify the best arm with fixed budget.
+
+  :param int arm_num: number of arms
+  :param int budget: total number of pulls
+  :param Optional[str] name: alias name
   """
   def __init__(self, arm_num: int, budget: int, name: Optional[str]):
-    """
-    Args:
-      arm_num: number of arms
-      budget: total number of pulls
-      name: alias name
-    """
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %

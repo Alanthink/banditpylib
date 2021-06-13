@@ -9,13 +9,11 @@ class BernoulliArm(StochasticArm):
   """Bernoulli arm
 
   Arm with rewards generated from a Bernoulli distribution.
+
+  :param float mu: mean of rewards
+  :param str name: alias name
   """
   def __init__(self, mu: float, name: str = None):
-    """
-    Args:
-      mu: mean of rewards
-      name: alias name
-    """
     super().__init__(name)
     if (mu < 0) or (mu > 1):
       raise Exception('Mean of rewards is expected within [0, 1]. Got %.2f.' %

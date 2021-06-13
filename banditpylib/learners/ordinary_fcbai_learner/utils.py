@@ -10,15 +10,13 @@ class OrdinaryFCBAILearner(Learner):
   """Base class for bai learners in the ordinary multi-armed bandit
 
   This learner aims to identify the best arm with fixed confidence.
+
+  :param int arm_num: number of arms
+  :param float confidence: confidence level. It should be within (0, 1). The
+    algorithm should output the best arm with probability at least this value.
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, confidence: float, name: Optional[str]):
-    """
-    Args:
-      arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1). The algorithm
-        should output the best arm with probability at least this value.
-      name: alias name
-    """
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %

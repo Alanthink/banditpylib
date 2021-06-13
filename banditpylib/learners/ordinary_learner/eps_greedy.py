@@ -10,14 +10,12 @@ class EpsGreedy(OrdinaryLearner):
 
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the
   remaining probability play the arm with the maximum empirical mean.
+
+  :param int arm_num: number of arms
+  :param str name: alias name
+  :param float eps: epsilon
   """
   def __init__(self, arm_num: int, name: str = None, eps: float = 1.0):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      eps: epsilon
-    """
     super().__init__(arm_num=arm_num, name=name)
     if eps <= 0:
       raise ValueError('Epsilon is expected greater than 0. Got %.2f.' % eps)

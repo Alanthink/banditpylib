@@ -12,13 +12,11 @@ class ContextGenerator(ABC):
   """Abstract context generator class
 
   This class is used to generate the context of bandit.
+
+  :param int arm_num: number of actions
+  :param int dimension: dimension of the context
   """
   def __init__(self, arm_num: int, dimension: int):
-    """
-    Args:
-      arm_num: number of actions
-      dimension: dimension of the context
-    """
     self.__arm_num = arm_num
     self.__dimension = dimension
 
@@ -59,13 +57,11 @@ class RandomContextGenerator(ContextGenerator):
   """Random context generator
 
   Fill contexts and rewards information with random numbers in [0, 1].
+
+  :param int arm_num: number of actions
+  :param int dimension: dimension of the context
   """
   def __init__(self, arm_num: int, dimension: int):
-    """
-    Args:
-      arm_num: number of actions
-      dimension: dimension of the context
-    """
     super().__init__(arm_num, dimension)
 
   def _name(self) -> str:

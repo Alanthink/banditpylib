@@ -15,16 +15,14 @@ class UCBV(OrdinaryLearner):
     \sqrt{ \frac{ 2 \bar{V}_i(t) \ln(t) }{T_i(t)} }+
     \frac{ b \ln(t) }{T_i(t)} \right\}
 
+  :param int arm_num: number of arms
+  :param str name: alias name
+  :param float b: upper bound of rewards
+
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
   def __init__(self, arm_num: int, name: str = None, b: float = 1.0):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      b: upper bound of rewards
-    """
     super().__init__(arm_num=arm_num, name=name)
     if b <= 0:
       raise ValueError('B is expected greater than 0. Got %.2f.' % b)

@@ -17,15 +17,13 @@ class ThresholdingBandit(Bandit):
   accepts a parameter :math:`\epsilon >= 0` which is the radius of indifference
   zone meaning that the answers about the arms with expected rewards within
   :math:`[\theta - \epsilon, \theta + \epsilon]` do not matter.
+
+
+  :param List[StochasticArm] arms: arms in thresholding bandit
+  :param float theta: threshold
+  :param float eps: radius of indifferent zone
   """
   def __init__(self, arms: List[StochasticArm], theta: float, eps: float):
-    """
-    Args:
-      arms: arms in thresholding bandit
-      theta: threshold
-      eps: radius of indifferent zone
-      name: alias name
-    """
     if len(arms) < 2:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
                        len(arms))

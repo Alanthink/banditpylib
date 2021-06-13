@@ -13,14 +13,12 @@ class SR(OrdinaryFBBAILearner):
   """Successive rejects policy :cite:`audibert2010best`
 
   Eliminate one arm in each round.
+
+  :param int arm_num: number of arms
+  :param int budget: total number of pulls
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, budget: int, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      budget: total number of pulls
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     # calculate bar_log_K
     self.__bar_log_K = 0.5 + sum([1 / i for i in range(2, self.arm_num() + 1)])

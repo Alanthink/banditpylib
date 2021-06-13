@@ -10,6 +10,11 @@ class Uniform(ThresBanditLearner):
   """Uniform Sampling
 
   Sample each arm in a round-robin way.
+
+  :param int arm_num: number of arms
+  :param float theta: threshold
+  :param float eps: radius of indifferent zone
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, theta: float, eps: float, name: str = None):
     """

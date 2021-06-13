@@ -9,14 +9,12 @@ class GaussianArm(StochasticArm):
   """Gaussian arm
 
   Arm with rewards generated from a Gaussian distribution.
+
+  :param float mu: mean of rewards
+  :param float std: standard deviation of rewards
+  :param str name: alias name
   """
   def __init__(self, mu: float, std: float, name: str = None):
-    """
-    Args:
-      mu: mean of rewards
-      std: standard deviation of rewards
-      name: alias name
-    """
     super().__init__(name)
     if std <= 0:
       raise ValueError(

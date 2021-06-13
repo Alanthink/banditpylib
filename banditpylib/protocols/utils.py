@@ -62,13 +62,11 @@ def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
 class Protocol(ABC):
   """Abstract class for a protocol which is used to coordinate the interactions
   between the learner and the bandit environment.
+
+  :param Bandit bandit: bandit environment
+  :param List[Learner] learners: learners used to run simulations
   """
   def __init__(self, bandit: Bandit, learners: List[Learner]):
-    """
-    Args:
-      bandit: bandit environment
-      learners: learners used to run simulations
-    """
     for learner in learners:
       if not isinstance(learner.running_environment, List):
         if not isinstance(bandit, learner.running_environment):

@@ -10,21 +10,21 @@ from .utils import OrdinaryFCBAILearner
 
 
 class ExpGap(OrdinaryFCBAILearner):
-  """Exponential-gap elimination policy :cite:`karnin2013almost`"""
+  """Exponential-gap elimination policy :cite:`karnin2013almost`
+
+  :param int arm_num: number of arms
+  :param float confidence confidence: confidence level. It should be within
+    (0, 1). The algorithm should output the best arm with probability at least
+    this value.
+  :param int threshold: do uniform sampling when the active arms are no greater
+    than the threshold within median elimination
+  :param str name: alias name
+  """
   def __init__(self,
                arm_num: int,
                confidence: float,
                threshold: int = 2,
                name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1). The algorithm
-        should output the best arm with probability at least this value.
-      threshold: do uniform sampling when the active arms are no greater than
-        the threshold within median elimination
-      name: alias name
-    """
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if threshold < 2:
       raise Exception('Thredhold %d is less than 2!' % threshold)

@@ -9,12 +9,10 @@ class PseudoArm(Arm):
   """Pseudo arm
 
   This class is used to store empirical information of an arm.
+
+  :param str name: alias name
   """
   def __init__(self, name: str = None):
-    """
-    Args:
-      name: alias name
-    """
     super().__init__(name)
     self.reset()
 

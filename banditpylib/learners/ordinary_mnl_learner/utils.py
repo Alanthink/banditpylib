@@ -14,20 +14,18 @@ class OrdinaryMNLLearner(Learner):
 
   Product 0 is reserved for non-purchase. And it is assumed that the preference
   parameter for non-purchase is 1.
+
+  :param np.ndarray revenues: product revenues
+  :param Reward reward: reward the learner wants to maximize
+  :param int card_limit: cardinality constraint
+  :param str name: alias name
+  :param bool use_local_search: whether to use local search for searching the
+    best assortment
+  :param int random_neighbors: number of random neighbors to look up if local
+    search is enabled
   """
   def __init__(self, revenues: np.ndarray, reward: Reward, card_limit: int,
                name: str, use_local_search: bool, random_neighbors: int):
-    """
-    Args:
-      revenues: product revenues
-      reward: reward the learner wants to maximize
-      card_limit: cardinality constraint
-      name: alias name
-      use_local_search: whether to use local search for searching the best
-        assortment
-      random_neighbors: number of random neighbors to look up if local search is
-        enabled
-    """
     super().__init__(name)
     self.__product_num = len(revenues) - 1
     if self.__product_num < 2:

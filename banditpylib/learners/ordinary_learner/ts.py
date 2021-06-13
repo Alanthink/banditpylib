@@ -12,17 +12,15 @@ class ThompsonSampling(OrdinaryLearner):
   virtual mean reward from the posterior distribution for every arm. Play the
   arm with the maximum sampled virtual mean reward.
 
+  :param int arm_num: number of arms
+  :param str name: alias name
+  :param str prior_dist: prior distribution of thompson sampling. Only two
+    priors are supported i.e., `beta` and `gaussian`
+
   .. warning::
     Reward should be Bernoulli when Beta prior is chosen.
   """
   def __init__(self, arm_num: int, name: str = None, prior_dist: str = 'beta'):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      prior_dist: prior distribution of thompson sampling. Only two priors are
-        supported i.e., `beta` and `gaussian`
-    """
     super().__init__(arm_num=arm_num, name=name)
     if prior_dist not in ['gaussian', 'beta']:
       raise ValueError('Prior distribution %s is not supported.' % prior_dist)

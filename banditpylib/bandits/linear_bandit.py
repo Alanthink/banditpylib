@@ -16,17 +16,15 @@ class LinearBandit(Bandit):
   + \epsilon`, where :math:`v_i` is the feature vector of arm :math:`i`,
   :math:`\theta` is the unknown parameter and :math:`\epsilon` is a zero-mean
   noise.
+
+  :param List[np.ndarray] features: feature vectors of the arms
+  :param np.ndarray theta: unknown parameter theta
+  :param float std: standard variance of noise
   """
   def __init__(self,
                features: List[np.ndarray],
                theta: np.ndarray,
                std: float = 1.0):
-    """
-    Args:
-      features: feature vectors of the arms
-      theta: unknown parameter theta
-      std: standard variance of noise
-    """
     if len(features) < 2:
       raise ValueError('The number of arms is expected at least 2. Got %d.' %
                        len(features))

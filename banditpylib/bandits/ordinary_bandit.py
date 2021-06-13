@@ -12,12 +12,10 @@ class OrdinaryBandit(Bandit):
   Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
   an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
   beforehand.
+
+  :param List[StochasticArm] arms: available arms
   """
   def __init__(self, arms: List[StochasticArm]):
-    """
-    Args:
-      arms: available arms
-    """
     if len(arms) < 2:
       raise ValueError('The number of arms is expected at least 2. Got %d.' %
                        len(arms))
