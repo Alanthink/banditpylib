@@ -21,7 +21,7 @@ class SR(OrdinaryFBBAILearner):
   def __init__(self, arm_num: int, budget: int, name: str = None):
     super().__init__(arm_num=arm_num, budget=budget, name=name)
     # calculate bar_log_K
-    self.__bar_log_K = 0.5 + sum([1 / i for i in range(2, self.arm_num() + 1)])
+    self.__bar_log_K = 0.5 + sum([1 / i for i in range(2, self.arm_num + 1)])
     if (budget - arm_num) < arm_num * self.__bar_log_K:
       raise Exception('Budget is expected at least %d. Got %d.' %
                       (arm_num * self.__bar_log_K + arm_num, budget))
@@ -33,17 +33,17 @@ class SR(OrdinaryFBBAILearner):
     # Calculate pulls assigned to each arm per round
     self.__pulls_per_round = [-1]
     nk = [0]
-    for k in range(1, self.arm_num()):
+    for k in range(1, self.arm_num):
       nk.append(
-          math.ceil(1 / self.__bar_log_K * (self.budget() - self.arm_num()) /
-                    (self.arm_num() + 1 - k)))
+          math.ceil(1 / self.__bar_log_K * (self.budget - self.arm_num) /
+                    (self.arm_num + 1 - k)))
       self.__pulls_per_round.append(nk[k] - nk[k - 1])
 
     self.__active_arms: Dict[int, PseudoArm] = dict()
-    for arm_id in range(self.arm_num()):
+    for arm_id in range(self.arm_num):
       self.__active_arms[arm_id] = PseudoArm()
 
-    self.__budget_left = self.budget()
+    self.__budget_left = self.budget
     self.__best_arm = None
     # Current round
     self.__round = 1
@@ -53,8 +53,8 @@ class SR(OrdinaryFBBAILearner):
 
     actions = Actions()
 
-    if self.__round < self.arm_num():
-      if self.__round < self.arm_num() - 1:
+    if self.__round < self.arm_num:
+      if self.__round < self.arm_num - 1:
         for arm_id in self.__active_arms:
           arm_pulls_pair = actions.arm_pulls_pairs.add()
           arm_pulls_pair.arm.id = arm_id
@@ -82,10 +82,11 @@ class SR(OrdinaryFBBAILearner):
         find_min=True)
     del self.__active_arms[arm_id_to_remove]
 
-    if self.__round == self.arm_num() - 1:
+    if self.__round == self.arm_num - 1:
       self.__best_arm = list(self.__active_arms.keys())[0]
     self.__round += 1
 
+  @property
   def best_arm(self) -> int:
     if self.__best_arm is None:
       raise Exception('I don\'t have an answer yet.')

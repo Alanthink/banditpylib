@@ -29,7 +29,7 @@ class ExploreThenCommit(OrdinaryLearner):
     return 'explore_then_commit'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -40,7 +40,7 @@ class ExploreThenCommit(OrdinaryLearner):
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
     if self.__time <= self.__T_prime:
-      arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num()
+      arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num
     else:
       arm_pulls_pair.arm.id = self.__best_arm
 
@@ -55,5 +55,5 @@ class ExploreThenCommit(OrdinaryLearner):
     if self.__best_arm < 0 and self.__time > self.__T_prime:
       self.__best_arm = argmax_or_min_tuple([
           (self.__pseudo_arms[arm_id].em_mean, arm_id)
-          for arm_id in range(self.arm_num())
+          for arm_id in range(self.arm_num)
       ])

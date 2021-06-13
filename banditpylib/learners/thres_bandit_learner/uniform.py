@@ -32,14 +32,14 @@ class Uniform(ThresBanditLearner):
     return 'uniform_sampling'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
   def actions(self, context=None) -> Actions:
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num()
+    arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num
     arm_pulls_pair.pulls = 1
     return actions
 

@@ -23,11 +23,9 @@ class OrdinaryLearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return [OrdinaryBandit, LinearBandit]
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      number of arms
-    """
+    """Number of arms"""
     return self.__arm_num
 
   @property

@@ -28,7 +28,7 @@ class UCB(OrdinaryLearner):
     return 'ucb'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -50,7 +50,7 @@ class UCB(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       arm_pulls_pair.arm.id = int(np.argmax(self.__UCB()))

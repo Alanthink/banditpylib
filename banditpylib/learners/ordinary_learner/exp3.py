@@ -39,7 +39,7 @@ class EXP3(OrdinaryLearner):
     return 'exp3'
 
   def reset(self):
-    self.__weights = np.array([1] * self.arm_num())
+    self.__weights = np.array([1] * self.arm_num)
     # Current time step
     self.__time = 1
 
@@ -49,8 +49,8 @@ class EXP3(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
     self.__probabilities = (1 - self.__gamma) * self.__weights / sum(
-        self.__weights) + self.__gamma / self.arm_num()
-    arm_pulls_pair.arm.id = np.random.choice(self.arm_num(),
+        self.__weights) + self.__gamma / self.arm_num
+    arm_pulls_pair.arm.id = np.random.choice(self.arm_num,
                                              1,
                                              p=self.__probabilities)[0]
     arm_pulls_pair.pulls = 1
@@ -61,6 +61,6 @@ class EXP3(OrdinaryLearner):
     arm_id = arm_rewards_pair.arm.id
     reward = arm_rewards_pair.rewards[0]
     estimated_mean = reward / self.__probabilities[arm_id]
-    self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num() *
+    self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num *
                                      estimated_mean)
     self.__time += 1

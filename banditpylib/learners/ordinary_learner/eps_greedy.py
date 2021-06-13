@@ -25,7 +25,7 @@ class EpsGreedy(OrdinaryLearner):
     return 'epsilon_greedy'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -35,11 +35,11 @@ class EpsGreedy(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     # With probability eps/t, randomly select an arm to pull
     elif np.random.random() <= self.__eps / self.__time:
-      arm_pulls_pair.arm.id = np.random.randint(0, self.arm_num())
+      arm_pulls_pair.arm.id = np.random.randint(0, self.arm_num)
     else:
       arm_pulls_pair.arm.id = int(
           np.argmax(np.array([arm.em_mean for arm in self.__pseudo_arms])))

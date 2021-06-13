@@ -22,12 +22,12 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     return 'lilUCB_heur'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Parameters suggested by the paper
     self.__beta = 0.5
-    self.__a = 1 + 10 / self.arm_num()
+    self.__a = 1 + 10 / self.arm_num
     self.__eps = 0
-    self.__delta = (1 - self.confidence()) / 5
+    self.__delta = (1 - self.confidence) / 5
     # Total number of pulls used
     self.__total_pulls = 0
     self.__stage = 'initialization'
@@ -59,7 +59,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
   def actions(self, context=None) -> Actions:
     if self.__stage == 'initialization':
       actions = Actions()
-      for arm_id in range(self.arm_num()):
+      for arm_id in range(self.arm_num):
         arm_pulls_pair = actions.arm_pulls_pairs.add()
         arm_pulls_pair.arm.id = arm_id
         arm_pulls_pair.pulls = 1
@@ -88,6 +88,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     if self.__stage == 'initialization':
       self.__stage = 'main'
 
+  @property
   def best_arm(self) -> int:
     return argmax_or_min_tuple([
         (pseudo_arm.total_pulls, arm_id)

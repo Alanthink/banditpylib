@@ -34,9 +34,9 @@ class ThompsonSampling(OrdinaryMNLLearner):
                      name=name,
                      use_local_search=use_local_search,
                      random_neighbors=random_neighbors)
-    if horizon < self.product_num():
+    if horizon < self.product_num:
       logging.warning('Horizon %d is less than number of products %d!' % \
-          (horizon, self.product_num()))
+          (horizon, self.product_num))
     self.__horizon = horizon
 
   def _name(self) -> str:
@@ -53,9 +53,9 @@ class ThompsonSampling(OrdinaryMNLLearner):
     self.__episode = 1
     # Number of episodes a product is served until the current episode
     # (exclusive)
-    self.__serving_episodes = np.zeros(self.product_num() + 1)
+    self.__serving_episodes = np.zeros(self.product_num + 1)
     # Number of times a product is picked until the current time (exclusive)
-    self.__customer_choices = np.zeros(self.product_num() + 1)
+    self.__customer_choices = np.zeros(self.product_num + 1)
     self.__last_actions = None
     self.__last_customer_feedback = None
     # Flag to denote whether the initial warm start stage has finished
@@ -93,13 +93,13 @@ class ThompsonSampling(OrdinaryMNLLearner):
     Returns:
       correlated sampling of preference parameters
     """
-    theta = np.max(np.random.normal(0, 1, self.card_limit()))
+    theta = np.max(np.random.normal(0, 1, self.card_limit))
     # Unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
     sampled_preference_params = unbiased_est + theta * (
         np.sqrt(50 * unbiased_est *
                 (unbiased_est + 1) / self.__serving_episodes) +
-        75 * np.sqrt(np.log(self.__horizon * self.card_limit())) /
+        75 * np.sqrt(np.log(self.__horizon * self.card_limit)) /
         self.__serving_episodes)
     sampled_preference_params[0] = 1
     sampled_preference_params = np.minimum(sampled_preference_params, 1)
@@ -138,11 +138,11 @@ class ThompsonSampling(OrdinaryMNLLearner):
         _, best_assortment = local_search_best_assortment(
             reward=self.reward,
             random_neighbors=self.random_neighbors,
-            card_limit=self.card_limit(),
+            card_limit=self.card_limit,
             init_assortment=init_assortment)
       else:
-        _, best_assortment = search_best_assortment(
-            reward=self.reward, card_limit=self.card_limit())
+        _, best_assortment = search_best_assortment(reward=self.reward,
+                                                    card_limit=self.card_limit)
 
       arm_pulls_pair.arm.set.id.extend(list(best_assortment))
       arm_pulls_pair.pulls = 1
@@ -162,7 +162,7 @@ class ThompsonSampling(OrdinaryMNLLearner):
         self.__serving_episodes[product_id] += 1
       # Check if it is the end of initial warm start stage
       if not self.__done_warm_start and \
-          self.__next_product_in_warm_start > self.product_num():
+          self.__next_product_in_warm_start > self.product_num:
         self.__done_warm_start = True
         self.__last_actions = None
       self.__episode += 1

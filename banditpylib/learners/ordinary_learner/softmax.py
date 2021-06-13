@@ -37,7 +37,7 @@ class Softmax(OrdinaryLearner):
     return 'softmax'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -47,16 +47,15 @@ class Softmax(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       weights = np.array([
           math.exp(self.__pseudo_arms[arm_id].em_mean / self.__gamma)
-          for arm_id in range(self.arm_num())
+          for arm_id in range(self.arm_num)
       ])
       arm_pulls_pair.arm.id = np.random.choice(
-          self.arm_num(), 1,
-          p=[weight / sum(weights) for weight in weights])[0]
+          self.arm_num, 1, p=[weight / sum(weights) for weight in weights])[0]
 
     arm_pulls_pair.pulls = 1
     return actions

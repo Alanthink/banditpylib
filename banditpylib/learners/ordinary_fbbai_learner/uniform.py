@@ -23,7 +23,7 @@ class Uniform(OrdinaryFBBAILearner):
     return 'uniform'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     self.__best_arm = None
     self.__stop = False
 
@@ -34,10 +34,10 @@ class Uniform(OrdinaryFBBAILearner):
 
     if not self.__stop:
       # Make sure each arm is sampled at least once
-      pulls = np.random.multinomial(self.budget() - self.arm_num(),
-                                    np.ones(self.arm_num()) / self.arm_num(),
+      pulls = np.random.multinomial(self.budget - self.arm_num,
+                                    np.ones(self.arm_num) / self.arm_num,
                                     size=1)[0]
-      for arm_id in range(self.arm_num()):
+      for arm_id in range(self.arm_num):
         arm_pulls_pair = actions.arm_pulls_pairs.add()
         arm_pulls_pair.arm.id = arm_id
         arm_pulls_pair.pulls = pulls[arm_id] + 1
@@ -54,6 +54,7 @@ class Uniform(OrdinaryFBBAILearner):
       self.__best_arm = argmax_or_min(
           [arm.em_mean for arm in self.__pseudo_arms])
 
+  @property
   def best_arm(self) -> int:
     if self.__best_arm is None:
       raise Exception('I don\'t have an answer yet.')

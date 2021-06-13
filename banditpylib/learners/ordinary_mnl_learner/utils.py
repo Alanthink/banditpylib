@@ -52,25 +52,19 @@ class OrdinaryMNLLearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return OrdinaryMNLBandit
 
+  @property
   def product_num(self) -> int:
-    """
-    Returns:
-      product numbers
-    """
+    """Product numbers (not including product 0)"""
     return self.__product_num
 
+  @property
   def revenues(self) -> np.ndarray:
-    """
-    Returns:
-      revenues of products (product 0 is included)
-    """
+    """Revenues of products (product 0 is included)"""
     return self.__revenues
 
+  @property
   def card_limit(self) -> int:
-    """
-    Returns:
-      cardinality limit
-    """
+    """Cardinality limit"""
     return self.__card_limit
 
   @property

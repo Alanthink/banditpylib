@@ -21,9 +21,7 @@ class ThresBanditLearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return ThresholdingBandit
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      number of arms
-    """
+    """Number of arms"""
     return self.__arm_num

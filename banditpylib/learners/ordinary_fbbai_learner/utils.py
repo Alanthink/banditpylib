@@ -32,29 +32,23 @@ class OrdinaryFBBAILearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return OrdinaryBandit
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      number of arms
-    """
+    """Number of arms"""
     return self.__arm_num
 
+  @property
   def budget(self) -> int:
-    """
-    Returns:
-      budget of the learner
-    """
+    """Budget of the learner"""
     return self.__budget
 
+  @property
   @abstractmethod
   def best_arm(self) -> int:
-    """
-    Returns:
-      index of the best arm identified by the learner
-    """
+    """Index of the best arm identified by the learner"""
 
   @property
   def goal(self) -> Goal:
     arm = Arm()
-    arm.id = self.best_arm()
+    arm.id = self.best_arm
     return IdentifyBestArm(best_arm=arm)

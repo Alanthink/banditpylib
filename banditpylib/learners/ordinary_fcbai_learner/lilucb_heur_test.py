@@ -27,4 +27,4 @@ class TestLilUCBHeuristic:
                                  arm_pulls_pair.pulls)))
       learner.update(feedback)
 
-    assert learner.best_arm() in list(range(arm_num))
+    assert learner.best_arm in list(range(arm_num))

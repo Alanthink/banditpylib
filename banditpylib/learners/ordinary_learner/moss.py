@@ -33,7 +33,7 @@ class MOSS(OrdinaryLearner):
     return 'moss'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -46,8 +46,8 @@ class MOSS(OrdinaryLearner):
         arm.em_mean + np.sqrt(
             np.maximum(
                 0, np.log(self.__horizon /
-                          (self.arm_num() * arm.total_pulls))) /
-            arm.total_pulls) for arm in self.__pseudo_arms
+                          (self.arm_num * arm.total_pulls))) / arm.total_pulls)
+        for arm in self.__pseudo_arms
     ])
     return moss
 
@@ -57,7 +57,7 @@ class MOSS(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       arm_pulls_pair.arm.id = int(np.argmax(self.__MOSS()))

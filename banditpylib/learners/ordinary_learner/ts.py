@@ -30,7 +30,7 @@ class ThompsonSampling(OrdinaryLearner):
     return 'thompson_sampling'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -40,11 +40,11 @@ class ThompsonSampling(OrdinaryLearner):
       arm to pull using beta prior
     """
     # The average reward of each arm has a uniform prior Beta(1, 1)
-    virtual_means = np.zeros(self.arm_num())
-    for arm_id in range(self.arm_num()):
+    virtual_means = np.zeros(self.arm_num)
+    for arm_id in range(self.arm_num):
       a = 1 + self.__pseudo_arms[arm_id].total_rewards
-      b = 1 + self.__pseudo_arms[arm_id].total_pulls(
-      ) - self.__pseudo_arms[arm_id].total_rewards
+      b = 1 + self.__pseudo_arms[arm_id].total_pulls - self.__pseudo_arms[
+          arm_id].total_rewards
       virtual_means[arm_id] = np.random.beta(a, b)
     return int(np.argmax(virtual_means))
 
@@ -54,8 +54,8 @@ class ThompsonSampling(OrdinaryLearner):
       arm to pull using gaussian prior
     """
     # The average reward of each arm has a Gaussian prior Normal(0, 1)
-    virtual_means = np.zeros(self.arm_num())
-    for arm_id in range(self.arm_num()):
+    virtual_means = np.zeros(self.arm_num)
+    for arm_id in range(self.arm_num):
       mu = self.__pseudo_arms[arm_id].total_rewards / (
           self.__pseudo_arms[arm_id].total_pulls + 1)
       sigma = 1.0 / (self.__pseudo_arms[arm_id].total_pulls + 1)

@@ -46,10 +46,10 @@ class UCB(OrdinaryMNLLearner):
     self.__episode = 1
     # Number of episodes a product is served until the current episode
     # (exclusive)
-    self.__serving_episodes = np.zeros(self.product_num() + 1)
+    self.__serving_episodes = np.zeros(self.product_num + 1)
     # Number of times the customer chooses a product until the current time
     # (exclusive)
-    self.__customer_choices = np.zeros(self.product_num() + 1)
+    self.__customer_choices = np.zeros(self.product_num + 1)
     self.__last_actions = None
     self.__last_customer_feedback = None
 
@@ -61,7 +61,7 @@ class UCB(OrdinaryMNLLearner):
     # Unbiased estimate of preference parameters
     unbiased_est = self.__customer_choices / self.__serving_episodes
     # Temperary result
-    tmp_result = 48 * np.log(np.sqrt(self.product_num()) * self.__episode +
+    tmp_result = 48 * np.log(np.sqrt(self.product_num) * self.__episode +
                              1) / self.__serving_episodes
     ucb = unbiased_est + np.sqrt(unbiased_est * tmp_result) + tmp_result
     ucb[np.isnan(ucb)] = 1
@@ -86,13 +86,13 @@ class UCB(OrdinaryMNLLearner):
       _, best_assortment = local_search_best_assortment(
           reward=self.reward,
           random_neighbors=self.random_neighbors,
-          card_limit=self.card_limit(),
+          card_limit=self.card_limit,
           init_assortment=(set(
               self.__last_actions.arm_pulls_pairs[0].arm.set.id)
                            if self.__last_actions else None))
     else:
       _, best_assortment = search_best_assortment(reward=self.reward,
-                                                  card_limit=self.card_limit())
+                                                  card_limit=self.card_limit)
 
     arm_pulls_pair.arm.set.id.extend(list(best_assortment))
     arm_pulls_pair.pulls = 1

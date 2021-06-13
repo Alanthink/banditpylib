@@ -35,7 +35,7 @@ class ExpGap(OrdinaryFCBAILearner):
 
   def reset(self):
     self.__active_arms: Dict[int, PseudoArm] = dict()
-    for arm_id in range(self.arm_num()):
+    for arm_id in range(self.arm_num):
       self.__active_arms[arm_id] = PseudoArm()
 
     self.__best_arm = None
@@ -44,7 +44,7 @@ class ExpGap(OrdinaryFCBAILearner):
     self.__stage = 'main_loop'
     # Main loop variables
     self.__eps_r = 0.125
-    self.__log_delta_r = math.log((1 - self.confidence()) / 50)
+    self.__log_delta_r = math.log((1 - self.confidence) / 50)
 
   @property
   def stage(self) -> str:
@@ -152,8 +152,9 @@ class ExpGap(OrdinaryFCBAILearner):
         self.__round += 1
         self.__eps_r /= 2
         self.__log_delta_r = math.log(
-            (1 - self.confidence()) / 50) - 3 * math.log(self.__round)
+            (1 - self.confidence) / 50) - 3 * math.log(self.__round)
 
+  @property
   def best_arm(self) -> int:
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)
