@@ -31,6 +31,7 @@ six>=1.15.0
 tblib>=1.7.0
 toml>=0.10.2
 typed-ast>=1.4.3
+types-protobuf>=0.1.12
 typing-extensions>=3.7.4.3
 wrapt>=1.12.1
 yapf>=0.31.0
