@@ -6,9 +6,9 @@ from .contextual_bandit import ContextualBandit
 from .utils import RandomContextGenerator
 
 
-class TestLinearBandit:
-  """Test linear bandit"""
-  def test_linear_bandit(self):
+class TestContextualBandit:
+  """Test contextual bandit"""
+  def test_contextual_bandit(self):
     arm_num = 10
     dimension = 10
     contextual_bandit = ContextualBandit(
@@ -21,7 +21,7 @@ class TestLinearBandit:
               """
       arm_pulls_pairs {
         arm {
-          ids: 1
+          id: 1
         }
         pulls: 1
       }

@@ -94,7 +94,7 @@ class EpsGreedy(OrdinaryMNLLearner):
 
     # With probability eps/t, randomly select an assortment to serve
     if np.random.random() <= self.__eps / self.__time:
-      arm_pulls_pair.arm.ids.extend(list(self.__select_ramdom_assort()))
+      arm_pulls_pair.arm.set.id.extend(list(self.__select_ramdom_assort()))
       arm_pulls_pair.pulls = 1
       return actions
 
@@ -112,7 +112,7 @@ class EpsGreedy(OrdinaryMNLLearner):
       _, best_assortment = search_best_assortment(reward=self.reward,
                                                   card_limit=self.card_limit())
 
-    arm_pulls_pair.arm.ids.extend(list(best_assortment))
+    arm_pulls_pair.arm.set.id.extend(list(best_assortment))
     arm_pulls_pair.pulls = 1
 
     self.__last_actions = actions
@@ -125,6 +125,6 @@ class EpsGreedy(OrdinaryMNLLearner):
     self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
     self.__time += 1
     if arm_rewards_pair.customer_feedbacks[0] == 0:
-      for product_id in arm_rewards_pair.arm.ids:
+      for product_id in arm_rewards_pair.arm.set.id:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1

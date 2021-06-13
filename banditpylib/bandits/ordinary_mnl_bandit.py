@@ -427,7 +427,7 @@ class OrdinaryMNLBandit(Bandit):
     Returns:
       feedbacks of the customer
     """
-    assortment = set(arm_pulls_pair.arm.ids)
+    assortment = set(arm_pulls_pair.arm.set.id)
     times = arm_pulls_pair.pulls
 
     if not assortment:
@@ -455,7 +455,7 @@ class OrdinaryMNLBandit(Bandit):
     ]
 
     arm_rewards_pair = ArmRewardsPair()
-    arm_rewards_pair.arm.ids.extend(list(assortment))
+    arm_rewards_pair.arm.set.id.extend(list(assortment))
     arm_rewards_pair.rewards.extend(
         np.array([self.__revenues[choice] for choice in choices]))
     arm_rewards_pair.customer_feedbacks.extend(choices)

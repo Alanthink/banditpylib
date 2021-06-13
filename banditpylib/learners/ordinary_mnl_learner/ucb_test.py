@@ -24,10 +24,12 @@ class TestUCB:
         """
       arm_pulls_pairs {
         arm {
-          ids: 1
-          ids: 2
-          ids: 3
-          ids: 4
+          set {
+            id: 1
+            id: 2
+            id: 3
+            id: 4
+          }
         }
         pulls: 1
       }
