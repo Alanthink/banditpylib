@@ -53,6 +53,7 @@ class LinearBandit(Bandit):
   def name(self) -> str:
     return 'linear_bandit'
 
+  @property
   def context(self):
     return None
 

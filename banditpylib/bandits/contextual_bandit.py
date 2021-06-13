@@ -28,6 +28,7 @@ class ContextualBandit(Bandit):
   def name(self) -> str:
     return 'contextual_bandit'
 
+  @property
   def context(self) -> np.ndarray:
     self.__context_and_rewards = self.__context_generator.context()
     return self.__context_and_rewards[0]

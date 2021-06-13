@@ -167,6 +167,7 @@ class OrdinaryMNLBandit(Bandit):
   def reset(self):
     self.__regret = 0.0
 
+  @property
   def context(self):
     return None
 

@@ -31,6 +31,7 @@ class OrdinaryBandit(Bandit):
   def name(self) -> str:
     return 'ordinary_bandit'
 
+  @property
   def context(self):
     return None
 

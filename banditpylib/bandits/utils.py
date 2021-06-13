@@ -25,12 +25,10 @@ class Bandit(ABC):
       This function should be called before the start of the game.
     """
 
+  @property
   @abstractmethod
   def context(self) -> Any:
-    """
-    Returns:
-      contextual information about the bandit environment
-    """
+    """Contextual information about the bandit environment"""
 
   @abstractmethod
   def feed(self, actions: Actions) -> Feedback:

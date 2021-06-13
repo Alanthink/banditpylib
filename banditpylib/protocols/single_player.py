@@ -76,8 +76,7 @@ class SinglePlayerProtocol(Protocol):
       data_item.regret = self.bandit.regret(self.current_learner.goal)
 
     while total_actions < self.__horizon:
-      context = self.bandit.context()
-      actions = self.current_learner.actions(context)
+      actions = self.current_learner.actions(self.bandit.context)
 
       # Stop the game if no actions are returned by the learner
       if not actions.arm_pulls_pairs:

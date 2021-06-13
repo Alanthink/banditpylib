@@ -97,6 +97,7 @@ class ThresholdingBandit(Bandit):
         feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
+  @property
   def context(self) -> None:
     return None
 

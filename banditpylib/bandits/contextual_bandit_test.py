@@ -15,7 +15,7 @@ class TestContextualBandit:
         RandomContextGenerator(arm_num=arm_num, dimension=dimension))
     contextual_bandit.reset()
     for _ in range(20):
-      contextual_bandit.context()
+      _ = contextual_bandit.context
       contextual_bandit.feed(
           text_format.Parse(
               """
