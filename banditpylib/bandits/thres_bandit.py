@@ -55,11 +55,9 @@ class ThresholdingBandit(Bandit):
   def reset(self):
     self.__total_pulls = 0
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      total number of arms
-    """
+    """Total number of arms"""
     return self.__arm_num
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:

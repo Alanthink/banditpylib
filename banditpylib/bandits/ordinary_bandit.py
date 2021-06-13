@@ -79,10 +79,7 @@ class OrdinaryBandit(Bandit):
 
   @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      total number of arms
-    """
+    """Total number of arms"""
     return self.__arm_num
 
   def __best_arm_regret(self, arm_id: int) -> int:

@@ -87,10 +87,7 @@ class ContextualBandit(Bandit):
 
   @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      total number of arms
-    """
+    """Total number of arms"""
     return self.__arm_num
 
   def regret(self, goal: Goal) -> float:
