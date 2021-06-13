@@ -20,12 +20,12 @@ class LinearBandit(Bandit):
   def __init__(self,
                features: List[np.ndarray],
                theta: np.ndarray,
-               var: float = 1.0):
+               std: float = 1.0):
     """
     Args:
       features: feature vectors of the arms
       theta: unknown parameter theta
-      var: variance of noise
+      std: standard variance of noise
     """
     if len(features) < 2:
       raise ValueError('The number of arms is expected at least 2. Got %d.' %
@@ -38,12 +38,13 @@ class LinearBandit(Bandit):
     self.__theta = theta
     self.__arm_num = len(features)
 
-    if var < 0:
-      raise ValueError('Variance of noise is expected at least 0. Got %.2f' %
-                       var)
-    self.__var = var
+    if std < 0:
+      raise ValueError(
+          'Standard deviation of noise is expected greater than 0. Got %.2f' %
+          std)
+    self.__std = std
     # Each arm in linear bandit can be seen as a Gaussian arm
-    self.__arms = [GaussianArm(np.dot(feature, self.__theta), self.__var) \
+    self.__arms = [GaussianArm(np.dot(feature, self.__theta), self.__std) \
                    for feature in self.__features]
     self.__best_arm_id = max([(arm_id, arm.mean)
                               for (arm_id, arm) in enumerate(self.__arms)],

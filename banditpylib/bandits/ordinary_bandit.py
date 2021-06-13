@@ -1,6 +1,6 @@
 from typing import List
 
-from banditpylib.arms import Arm
+from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, BestArmId, MaxReward
 from .utils import Bandit
@@ -13,7 +13,7 @@ class OrdinaryBandit(Bandit):
   an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
   beforehand.
   """
-  def __init__(self, arms: List[Arm]):
+  def __init__(self, arms: List[StochasticArm]):
     """
     Args:
       arms: available arms

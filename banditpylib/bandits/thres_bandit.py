@@ -1,6 +1,6 @@
 from typing import List
 
-from banditpylib.arms import Arm
+from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
 from banditpylib.learners import Goal, MaxCorrectAnswers, AllCorrect
 from .utils import Bandit
@@ -18,7 +18,7 @@ class ThresholdingBandit(Bandit):
   zone meaning that the answers about the arms with expected rewards within
   :math:`[\theta - \epsilon, \theta + \epsilon]` do not matter.
   """
-  def __init__(self, arms: List[Arm], theta: float, eps: float):
+  def __init__(self, arms: List[StochasticArm], theta: float, eps: float):
     """
     Args:
       arms: arms in thresholding bandit
