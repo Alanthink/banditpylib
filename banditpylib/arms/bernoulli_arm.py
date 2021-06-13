@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 
 import numpy as np
 
@@ -11,9 +11,9 @@ class BernoulliArm(StochasticArm):
   Arm with rewards generated from a Bernoulli distribution.
 
   :param float mu: mean of rewards
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, mu: float, name: str = None):
+  def __init__(self, mu: float, name: Optional[str] = None):
     super().__init__(name)
     if (mu < 0) or (mu > 1):
       raise Exception('Mean of rewards is expected within [0, 1]. Got %.2f.' %
@@ -27,7 +27,7 @@ class BernoulliArm(StochasticArm):
   def mean(self) -> float:
     return self.__mu
 
-  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
+  def pull(self, pulls: Optional[int] = None) -> Union[float, np.ndarray]:
     if pulls is None:
       return np.random.binomial(1, self.__mu, 1)[0]
     if pulls <= 0:

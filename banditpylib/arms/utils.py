@@ -40,7 +40,7 @@ class StochasticArm(Arm):
     """Mean of rewards"""
 
   @abstractmethod
-  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
+  def pull(self, pulls: Optional[int] = None) -> Union[float, np.ndarray]:
     """Pull the arm
 
     When `pulls` is `None`, a float number will be returned. Otherwise, a numpy

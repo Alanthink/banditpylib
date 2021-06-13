@@ -1,5 +1,7 @@
 import math
 
+from typing import Optional
+
 import numpy as np
 
 from .utils import Arm
@@ -10,9 +12,9 @@ class PseudoArm(Arm):
 
   This class is used to store empirical information of an arm.
 
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, name: str = None):
+  def __init__(self, name: Optional[str] = None):
     super().__init__(name)
     self.reset()
 

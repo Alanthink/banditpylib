@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 
 import numpy as np
 
@@ -12,9 +12,9 @@ class GaussianArm(StochasticArm):
 
   :param float mu: mean of rewards
   :param float std: standard deviation of rewards
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, mu: float, std: float, name: str = None):
+  def __init__(self, mu: float, std: float, name: Optional[str] = None):
     super().__init__(name)
     if std <= 0:
       raise ValueError(
@@ -34,7 +34,7 @@ class GaussianArm(StochasticArm):
     """Standard deviation of rewards"""
     return self.__std
 
-  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
+  def pull(self, pulls: Optional[int] = None) -> Union[float, np.ndarray]:
     if pulls is None:
       return np.random.normal(self.__mu, self.__std, 1)[0]
     if pulls <= 0:
