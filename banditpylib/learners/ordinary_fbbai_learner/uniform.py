@@ -1,8 +1,8 @@
 import numpy as np
 
+from banditpylib import argmax_or_min
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import argmax_or_min
 from .utils import OrdinaryFBBAILearner
 
 
