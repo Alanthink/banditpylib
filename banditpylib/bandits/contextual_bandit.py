@@ -23,7 +23,8 @@ class ContextualBandit(Bandit):
     # Maximum rewards the learner can obtain
     self.__regret = 0.0
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'contextual_bandit'
 
   def context(self) -> np.ndarray:

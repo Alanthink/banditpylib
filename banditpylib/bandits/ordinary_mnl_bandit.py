@@ -415,7 +415,8 @@ class OrdinaryMNLBandit(Bandit):
       logging.info('Assortment %s has best reward %.2f.',
                    sorted(list(self.__best_assort)), self.__best_reward)
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'ordinary_mnl_bandit'
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:

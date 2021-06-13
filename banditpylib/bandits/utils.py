@@ -81,16 +81,9 @@ class Bandit(ABC):
   :func:`feed` is used to pass the actions to the environment for execution.
   """
   @property
+  @abstractmethod
   def name(self) -> str:
     """Bandit name"""
-    return self._name()
-
-  @abstractmethod
-  def _name(self) -> str:
-    """
-    Returns:
-      default bandit name
-    """
 
   @abstractmethod
   def reset(self):

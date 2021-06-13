@@ -48,7 +48,8 @@ class ThresholdingBandit(Bandit):
         for arm_id in range(self.__arm_num)
     ]
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'thresholding_bandit'
 
   def reset(self):

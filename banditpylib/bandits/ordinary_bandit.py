@@ -27,7 +27,8 @@ class OrdinaryBandit(Bandit):
                              key=lambda x: x[1])[0]
     self.__best_arm = self.__arms[self.__best_arm_id]
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'ordinary_bandit'
 
   def context(self):
