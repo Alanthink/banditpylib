@@ -43,8 +43,8 @@ class UCBV(OrdinaryLearner):
     """
     ucbv = np.array([
         arm.em_mean +
-        np.sqrt(2 * arm.em_var * np.log(self.__time) / arm.total_pulls()) +
-        self.__b * np.log(self.__time) / arm.total_pulls()
+        np.sqrt(2 * arm.em_var * np.log(self.__time) / arm.total_pulls) +
+        self.__b * np.log(self.__time) / arm.total_pulls
         for arm in self.__pseudo_arms
     ])
     return ucbv

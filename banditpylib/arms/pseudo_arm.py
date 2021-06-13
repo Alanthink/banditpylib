@@ -21,18 +21,14 @@ class PseudoArm(Arm):
   def _name(self) -> str:
     return 'pseudo_arm'
 
+  @property
   def total_pulls(self) -> int:
-    """
-    Returns:
-      total number of pulls
-    """
+    """Total number of pulls"""
     return self.__total_pulls
 
+  @property
   def total_rewards(self) -> float:
-    """
-    Returns:
-      total rewards obtained so far
-    """
+    """Total rewards obtained so far"""
     return self.__total_rewards
 
   @property

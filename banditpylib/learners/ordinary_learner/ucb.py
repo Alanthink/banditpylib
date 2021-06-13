@@ -39,7 +39,7 @@ class UCB(OrdinaryLearner):
     """
     ucb = np.array([
         arm.em_mean +
-        np.sqrt(self.__alpha * np.log(self.__time) / arm.total_pulls())
+        np.sqrt(self.__alpha * np.log(self.__time) / arm.total_pulls)
         for arm in self.__pseudo_arms
     ])
     return ucb

@@ -46,8 +46,8 @@ class MOSS(OrdinaryLearner):
         arm.em_mean + np.sqrt(
             np.maximum(
                 0, np.log(self.__horizon /
-                          (self.arm_num() * arm.total_pulls()))) /
-            arm.total_pulls()) for arm in self.__pseudo_arms
+                          (self.arm_num() * arm.total_pulls))) /
+            arm.total_pulls) for arm in self.__pseudo_arms
     ])
     return moss
 

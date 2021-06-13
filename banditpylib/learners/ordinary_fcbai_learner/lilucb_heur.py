@@ -52,7 +52,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
       upper confidence bound
     """
     return np.array([
-        pseudo_arm.em_mean + self.__confidence_radius(pseudo_arm.total_pulls())
+        pseudo_arm.em_mean + self.__confidence_radius(pseudo_arm.total_pulls)
         for pseudo_arm in self.__pseudo_arms
     ])
 
@@ -69,8 +69,8 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
     actions = Actions()
 
     for pseudo_arm in self.__pseudo_arms:
-      if pseudo_arm.total_pulls() >= (
-          1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls())):
+      if pseudo_arm.total_pulls >= (
+          1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls)):
         return actions
 
     arm_pulls_pair = actions.arm_pulls_pairs.add()
@@ -90,6 +90,6 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
 
   def best_arm(self) -> int:
     return argmax_or_min_tuple([
-        (pseudo_arm.total_pulls(), arm_id)
+        (pseudo_arm.total_pulls, arm_id)
         for (arm_id, pseudo_arm) in enumerate(self.__pseudo_arms)
     ])
