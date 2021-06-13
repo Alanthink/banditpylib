@@ -171,25 +171,19 @@ class OrdinaryMNLBandit(Bandit):
   def context(self):
     return None
 
+  @property
   def revenues(self) -> np.ndarray:
-    """
-    Returns:
-      revenues of products (product 0 is included, which is always 0.0)
-    """
+    """Revenues of products (product 0 is included, which is always 0.0)"""
     return self.__revenues
 
+  @property
   def product_num(self) -> int:
-    """
-    Returns:
-      number of products (not including product 0)
-    """
+    """Number of products (not including product 0)"""
     return self.__product_num
 
+  @property
   def card_limit(self) -> float:
-    """
-    Returns:
-      cardinality limit
-    """
+    """Cardinality limit"""
     return self.__card_limit
 
   def regret(self, goal: Goal) -> float:
