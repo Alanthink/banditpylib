@@ -1,7 +1,7 @@
 import google.protobuf.text_format as text_format
 
 from banditpylib.data_pb2 import Actions
-from banditpylib.learners import MaxReward
+from banditpylib.learners import MaximizeTotalRewards
 from .contextual_bandit import ContextualBandit
 from .utils import RandomContextGenerator
 
@@ -27,4 +27,4 @@ class TestContextualBandit:
       }
       """, Actions()))
 
-    assert contextual_bandit.regret(MaxReward()) <= 20
+    assert contextual_bandit.regret(MaximizeTotalRewards()) <= 20

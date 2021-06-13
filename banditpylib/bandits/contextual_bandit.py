@@ -1,7 +1,7 @@
 import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
-from banditpylib.learners import Goal, MaxReward
+from banditpylib.learners import Goal, MaximizeTotalRewards
 from .utils import Bandit, ContextGenerator
 
 
@@ -98,6 +98,6 @@ class ContextualBandit(Bandit):
     return self.__total_pulls
 
   def regret(self, goal: Goal) -> float:
-    if isinstance(goal, MaxReward):
+    if isinstance(goal, MaximizeTotalRewards):
       return self.__regret
-    raise ValueError('Only goal MaxReward is supported.')
+    raise ValueError('Goal %s is not supported.' % goal.name)

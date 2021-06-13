@@ -2,7 +2,8 @@ from typing import List
 
 from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
-from banditpylib.learners import Goal, MaxCorrectAnswers, AllCorrect
+from banditpylib.learners import Goal, MaximizeCorrectAnswers, \
+    MakeAllAnswersCorrect
 from .utils import Bandit
 
 
@@ -101,18 +102,18 @@ class ThresholdingBandit(Bandit):
     return None
 
   def regret(self, goal: Goal) -> float:
-    if isinstance(goal, MaxCorrectAnswers):
+    if isinstance(goal, MaximizeCorrectAnswers):
       # Aggregate regret which is equal to the number of wrong answers
       agg_regret = 0
       for arm_id in range(self.__arm_num):
-        agg_regret += (goal.value[arm_id] !=
+        agg_regret += (goal.answers[arm_id] !=
                        self.__correct_answers[arm_id]) * self.__weights[arm_id]
       return agg_regret
-    elif isinstance(goal, AllCorrect):
+    elif isinstance(goal, MakeAllAnswersCorrect):
       # Simple regret which is 1 when there is at least one wrong answer and 0
       # otherwise
       for arm_id in range(self.__arm_num):
-        if (goal.value[arm_id] !=
+        if (goal.answers[arm_id] !=
             self.__correct_answers[arm_id]) and self.__weights[arm_id] == 1:
           return 1
       return 0

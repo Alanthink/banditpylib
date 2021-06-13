@@ -3,7 +3,8 @@ from abc import abstractmethod
 from typing import Optional, Union, List
 
 from banditpylib.bandits import OrdinaryBandit
-from banditpylib.learners import Learner, Goal, BestArmId
+from banditpylib.data_pb2 import Arm
+from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
 
 class OrdinaryFBBAILearner(Learner):
@@ -54,4 +55,6 @@ class OrdinaryFBBAILearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    return BestArmId(best_arm=self.best_arm())
+    arm = Arm()
+    arm.id = self.best_arm()
+    return IdentifyBestArm(best_arm=arm)

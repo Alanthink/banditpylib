@@ -2,7 +2,7 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import Goal, AllCorrect
+from banditpylib.learners import Goal, MakeAllAnswersCorrect
 from .utils import ThresBanditLearner
 
 
@@ -54,4 +54,4 @@ class Uniform(ThresBanditLearner):
     answers = [
         1 if arm.em_mean >= self.__theta else 0 for arm in self.__pseudo_arms
     ]
-    return AllCorrect(answers=answers)
+    return MakeAllAnswersCorrect(answers=answers)

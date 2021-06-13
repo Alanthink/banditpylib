@@ -1,8 +1,8 @@
 import google.protobuf.text_format as text_format
 
 from banditpylib.arms import BernoulliArm
-from banditpylib.data_pb2 import Actions
-from banditpylib.learners import MaxReward, BestArmId
+from banditpylib.data_pb2 import Arm, Actions
+from banditpylib.learners import MaximizeTotalRewards, IdentifyBestArm
 from .ordinary_bandit import OrdinaryBandit
 
 
@@ -24,5 +24,7 @@ class TestOrdinaryBandit:
       }
       """, Actions())
     ordinary_bandit.feed(actions)
-    assert ordinary_bandit.regret(MaxReward()) == 100
-    assert ordinary_bandit.regret(BestArmId(best_arm=1)) == 0
+    assert ordinary_bandit.regret(MaximizeTotalRewards()) == 100
+    arm = Arm()
+    arm.id = 1
+    assert ordinary_bandit.regret(IdentifyBestArm(best_arm=arm)) == 0

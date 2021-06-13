@@ -1,52 +1,42 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List, Any, Union
+from typing import Optional, List, Union
 
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Arm, Actions, Feedback
 
 
 class Goal(ABC):
-  """Abstract class for the goal of a learner
-
-  :param Any value: value obtained by the learner
-  """
-  def __init__(self, value: Any):
-    self.__value = value
-
+  """Abstract class for the goal of a learner"""
   @property
   @abstractmethod
   def name(self) -> str:
     """Name of the goal"""
 
-  @property
-  def value(self):
-    """Value obtained by the learner"""
-    return self.__value
 
-
-class BestArmId(Goal):
+class IdentifyBestArm(Goal):
   """Best arm identification
 
-  :param int best_arm: best arm identified by the learner
+  :param Arm best_arm: best arm identified by the learner
   """
-  def __init__(self, best_arm: int):
-    super().__init__(value=best_arm)
+  def __init__(self, best_arm: Arm):
+    self.__best_arm = best_arm
 
   @property
   def name(self) -> str:
     return 'best_arm_id'
 
+  @property
+  def best_arm(self) -> Arm:
+    return self.__best_arm
 
-class MaxReward(Goal):
+
+class MaximizeTotalRewards(Goal):
   """Reward maximization"""
-  def __init__(self):
-    super().__init__(value=None)
-
   @property
   def name(self) -> str:
     return 'reward_maximization'
 
 
-class MaxCorrectAnswers(Goal):
+class MaximizeCorrectAnswers(Goal):
   """Maximize correct answers
 
   This is used by thresholding bandit learners.
@@ -54,14 +44,18 @@ class MaxCorrectAnswers(Goal):
   :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    super().__init__(value=answers)
+    self.__answers = answers
 
   @property
   def name(self) -> str:
     return 'max_correct_answers'
 
+  @property
+  def answers(self) -> List[int]:
+    return self.__answers
 
-class AllCorrect(Goal):
+
+class MakeAllAnswersCorrect(Goal):
   """Make all answers correct
 
   This is used by thresholding bandit learners.
@@ -69,11 +63,15 @@ class AllCorrect(Goal):
   :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    super().__init__(value=answers)
+    self.__answers = answers
 
   @property
   def name(self) -> str:
     return 'make_all_correct'
+
+  @property
+  def answers(self) -> List[int]:
+    return self.__answers
 
 
 class Learner(ABC):

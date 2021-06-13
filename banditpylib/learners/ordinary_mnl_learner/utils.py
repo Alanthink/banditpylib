@@ -6,7 +6,7 @@ import numpy as np
 
 from banditpylib.bandits import OrdinaryMNLBandit
 from banditpylib.bandits import Reward
-from banditpylib.learners import Learner, Goal, MaxReward
+from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
 
 
 class OrdinaryMNLLearner(Learner):
@@ -90,4 +90,4 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    return MaxReward()
+    return MaximizeTotalRewards()

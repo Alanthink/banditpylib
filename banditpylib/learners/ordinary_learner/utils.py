@@ -1,7 +1,7 @@
 from typing import Optional, List, Union
 
 from banditpylib.bandits import OrdinaryBandit, LinearBandit
-from banditpylib.learners import Learner, Goal, MaxReward
+from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
 
 
 class OrdinaryLearner(Learner):
@@ -32,4 +32,4 @@ class OrdinaryLearner(Learner):
 
   @property
   def goal(self) -> Goal:
-    return MaxReward()
+    return MaximizeTotalRewards()

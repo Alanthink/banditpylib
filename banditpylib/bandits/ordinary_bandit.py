@@ -2,7 +2,7 @@ from typing import List
 
 from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
-from banditpylib.learners import Goal, BestArmId, MaxReward
+from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
 
 
@@ -101,8 +101,8 @@ class OrdinaryBandit(Bandit):
     return int(self.__best_arm_id != arm_id)
 
   def regret(self, goal: Goal) -> float:
-    if isinstance(goal, BestArmId):
-      return self.__best_arm_regret(goal.value)
-    elif isinstance(goal, MaxReward):
+    if isinstance(goal, IdentifyBestArm):
+      return self.__best_arm_regret(goal.best_arm.id)
+    elif isinstance(goal, MaximizeTotalRewards):
       return self.__regret
     raise Exception('Goal %s is not supported.' % goal.name)
