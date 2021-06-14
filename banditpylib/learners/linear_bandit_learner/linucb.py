@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional, List
 
 import numpy as np
 
@@ -8,25 +8,21 @@ from .utils import LinearBanditLearner
 
 
 class LinUCB(LinearBanditLearner):
-  # incorrect description, to be filled later
-  r"""Linear Upper Confidence Bound policy from Tor Lattimore's book(ch 19)
+  r"""Linear Upper Confidence Bound policy
 
-  At time :math:`t`,
-  play arm with highest ucb value (argmax_(a∈A_t) UCB_t (a))
-  UCB_t (a) = <θ_(t−1) , a> + root_β_t||a||_(V_(t−1))^-1
-  β_t is an increasing sequence, with exact formulation given in the code
+  .. todo::
+    Add algorithm description.
+
+  :param List[np.ndarray] features: feature vector of each arm in a list
+  :param float delta: delta
+  :param float lambda_reg: lambda for regularization
+  :param Optional[str] name: alias name
   """
   def __init__(self,
                features: List[np.ndarray],
                delta: float,
                lambda_reg: float,
-               name: str = None):
-    """Args:
-            name: alias name
-            features: feature vector of each arm in a list
-            delta: delta
-            lambda_reg: lambda for regularization
-    """
+               name: Optional[str] = None):
     super().__init__(arm_num=len(features), name=name)
     if delta <= 0 or delta >= 1:
       raise ValueError('Delta is expected within (0, 1). Got %.2f.' % delta)
@@ -62,9 +58,10 @@ class LinUCB(LinearBanditLearner):
     self.__time = 1
 
   def __LinUCB(self) -> np.ndarray:
-    """
+    """Optimistic estimate of arms' real means
+
     Returns:
-            optimistic estimate of arms' real means
+      optimistic estimate of arms' real means
     """
     root_beta_t = np.sqrt(
         self.__lambda_reg) + np.sqrt(2 * np.log(1 / self.__delta) + self.__d *

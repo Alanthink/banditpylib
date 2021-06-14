@@ -5,14 +5,12 @@ from banditpylib.learners import Learner
 
 
 class LinearBanditLearner(Learner):
-  """Abstract class for learners playing with linear bandit"""
+  """Abstract class for learners playing with linear bandit
+
+  :param int arm_num: number of arms
+  :param Optional[str] name: alias name
+  """
   def __init__(self, arm_num: int, name: Optional[str]):
-    """
-            Args:
-              arm_num: number of arms
-              budget: total number of pulls
-              name: alias name
-            """
     super().__init__(name)
     if arm_num < 2:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
@@ -23,9 +21,7 @@ class LinearBanditLearner(Learner):
   def running_environment(self) -> type:
     return LinearBandit
 
+  @property
   def arm_num(self) -> int:
-    """
-            Returns:
-              number of arms
-            """
+    """Number of arms"""
     return self.__arm_num
