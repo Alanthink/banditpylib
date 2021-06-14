@@ -51,11 +51,21 @@ extensions = [
     'sphinxcontrib.bibtex',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    'sphinx_automodapi.automodapi',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'm2r2',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.inheritance_diagram',
+    'autoapi.sphinx'
 ]
+
+autoapi_modules = {
+  'banditpylib': {
+    'prune': True,
+    'override': True,
+    'output': 'auto'
+  }
+}
 
 # source_suffix = '.rst'
 source_suffix = ['.rst', '.md']
@@ -63,15 +73,6 @@ source_suffix = ['.rst', '.md']
 bibtex_bibfiles = ['references.bib']
 
 todo_include_todos = True
-
-autodoc_default_options = {
-    'members': None,
-    'show-inheritance': None,
-    'member-order': 'bysource',
-    'special-members': '__init__',
-}
-
-automodsumm_inherited_members = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = []

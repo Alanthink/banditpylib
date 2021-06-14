@@ -25,6 +25,14 @@ class SinglePlayerProtocol(Protocol):
   * no actions are returned by the learner;
   * total number of actions achieve `horizon`.
 
+
+  :param Bandit bandit: bandit environment
+  :param List[Learner] learner: learners to be compared with
+  :param List[int] intermediate_regrets: a list of rounds. If set, the regrets
+    after these rounds will be recorded
+  :param int horizon: horizon of the game (i.e., total number of actions a
+    leaner can make)
+
   .. note::
     During a round, a learner may want to perform multiple actions, which is
     so-called batched learner. The total number of rounds shows how often the
@@ -36,15 +44,6 @@ class SinglePlayerProtocol(Protocol):
                learners: List[Learner],
                intermediate_regrets: List[int] = None,
                horizon: int = np.inf):  # type: ignore
-    """
-    Args:
-      bandit: bandit environment
-      learner: learners to be compared with
-      intermediate_regrets: a list of rounds. If set, the regrets after these
-        rounds will be recorded
-      horizon: horizon of the game (i.e., total number of actions a leaner can
-        make)
-    """
     super().__init__(bandit=bandit, learners=learners)
     self.__intermediate_regrets = \
         intermediate_regrets if intermediate_regrets is not None else []
@@ -77,8 +76,7 @@ class SinglePlayerProtocol(Protocol):
       data_item.regret = self.bandit.regret(self.current_learner.goal)
 
     while total_actions < self.__horizon:
-      context = self.bandit.context()
-      actions = self.current_learner.actions(context)
+      actions = self.current_learner.actions(self.bandit.context)
 
       # Stop the game if no actions are returned by the learner
       if not actions.arm_pulls_pairs:

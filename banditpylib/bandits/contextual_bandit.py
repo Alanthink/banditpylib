@@ -1,8 +1,9 @@
 import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
-from banditpylib.learners import Goal, MaxReward
-from .utils import Bandit, ContextGenerator
+from banditpylib.learners import Goal, MaximizeTotalRewards
+from .contextual_bandit_utils import ContextGenerator
+from .utils import Bandit
 
 
 class ContextualBandit(Bandit):
@@ -14,20 +15,20 @@ class ContextualBandit(Bandit):
   :math:`r_i^t` is the reward when arm :math:`i` is pulled. After receiving
   learner's action :math:`a_t`, the reward :math:`r_{a_t}^t` will be revealed to
   the learner. The batched version can be defined in a similar way.
+
+  :param ContextGenerator context_generator: context generator
   """
   def __init__(self, context_generator: ContextGenerator):
-    """
-    Args:
-      context_generator: context generator
-    """
     self.__context_generator = context_generator
     self.__arm_num = self.__context_generator.arm_num
     # Maximum rewards the learner can obtain
     self.__regret = 0.0
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'contextual_bandit'
 
+  @property
   def context(self) -> np.ndarray:
     self.__context_and_rewards = self.__context_generator.context()
     return self.__context_and_rewards[0]
@@ -85,21 +86,12 @@ class ContextualBandit(Bandit):
     self.__total_pulls = 0
     self.__regret = 0.0
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      total number of arms
-    """
+    """Total number of arms"""
     return self.__arm_num
 
-  def total_pulls(self) -> int:
-    """
-    Returns:
-      total number of pulls so far
-    """
-    return self.__total_pulls
-
   def regret(self, goal: Goal) -> float:
-    if isinstance(goal, MaxReward):
+    if isinstance(goal, MaximizeTotalRewards):
       return self.__regret
-    raise ValueError('Only goal MaxReward is supported.')
+    raise ValueError('Goal %s is not supported.' % goal.name)

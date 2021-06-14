@@ -1,23 +1,27 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import Goal, AllCorrect
+from banditpylib.learners import Goal, MakeAllAnswersCorrect
 from .utils import ThresBanditLearner
 
 
 class APT(ThresBanditLearner):
   """Anytime Parameter-free Thresholding algorithm
   :cite:`DBLP:conf/icml/LocatelliGC16`
+
+  :param int arm_num: number of arms
+  :param float theta: threshold
+  :param float eps: radius of indifferent zone
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, theta: float, eps: float, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      theta: threshold
-      eps: radius of indifferent zone
-      name: alias name
-    """
+  def __init__(self,
+               arm_num: int,
+               theta: float,
+               eps: float,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     self.__theta = theta
     self.__eps = eps
@@ -26,7 +30,7 @@ class APT(ThresBanditLearner):
     return 'apt'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -36,7 +40,7 @@ class APT(ThresBanditLearner):
       metrics of apt for each arm
     """
     metrics = np.array([
-        np.sqrt(arm.total_pulls()) *
+        np.sqrt(arm.total_pulls) *
         (np.abs(arm.em_mean - self.__theta) + self.__eps)
         for arm in self.__pseudo_arms
     ])
@@ -46,7 +50,7 @@ class APT(ThresBanditLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       arm_pulls_pair.arm.id = int(np.argmin(self.__metrics()))
@@ -65,4 +69,4 @@ class APT(ThresBanditLearner):
     answers = [
         1 if arm.em_mean >= self.__theta else 0 for arm in self.__pseudo_arms
     ]
-    return AllCorrect(answers=answers)
+    return MakeAllAnswersCorrect(answers=answers)

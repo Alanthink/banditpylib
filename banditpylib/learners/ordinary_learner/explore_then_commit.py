@@ -1,8 +1,10 @@
+from typing import Optional
+
 import numpy as np
 
+from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryLearner
 
 
@@ -12,14 +14,12 @@ class ExploreThenCommit(OrdinaryLearner):
   During the first :math:`T' \leq T` time steps (exploration period), play each
   arm in a round-robin way. Then for the remaining time steps, play the arm
   with the maximum empirical mean reward within exploration period consistently.
+
+  :param int arm_num: number of arms
+  :param int T_prime: time steps to explore
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, T_prime: int, name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      T_prime: time steps to explore
-      name: alias name
-    """
+  def __init__(self, arm_num: int, T_prime: int, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if T_prime < arm_num:
       raise ValueError('T\' is expected at least %d. got %d.' %
@@ -31,7 +31,7 @@ class ExploreThenCommit(OrdinaryLearner):
     return 'explore_then_commit'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -42,7 +42,7 @@ class ExploreThenCommit(OrdinaryLearner):
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
     if self.__time <= self.__T_prime:
-      arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num()
+      arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num
     else:
       arm_pulls_pair.arm.id = self.__best_arm
 
@@ -57,5 +57,5 @@ class ExploreThenCommit(OrdinaryLearner):
     if self.__best_arm < 0 and self.__time > self.__T_prime:
       self.__best_arm = argmax_or_min_tuple([
           (self.__pseudo_arms[arm_id].em_mean, arm_id)
-          for arm_id in range(self.arm_num())
+          for arm_id in range(self.arm_num)
       ])

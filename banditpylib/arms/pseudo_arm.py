@@ -1,52 +1,57 @@
+import math
+
+from typing import Optional
+
 import numpy as np
 
+from .utils import Arm
 
-class PseudoArm:
+
+class PseudoArm(Arm):
   """Pseudo arm
 
-  This class is used to store empirical information of an arm. Currently, only
-  the information regarding the first and second moments of empirical rewards
-  i.e., mean and variance are stored.
+  This class is used to store empirical information of an arm.
+
+  :param Optional[str] name: alias name
   """
-  def __init__(self, name: str = None):
-    """
-    Args:
-      name: alias name
-    """
-    self.__name = 'pseudo_arm' if name is None else name
+  def __init__(self, name: Optional[str] = None):
+    super().__init__(name)
     self.reset()
 
-  @property
-  def name(self) -> str:
-    """arm name"""
-    return self.__name
+  def _name(self) -> str:
+    return 'pseudo_arm'
 
+  @property
   def total_pulls(self) -> int:
-    """
-    Returns:
-      total number of pulls
-    """
+    """Total number of pulls"""
     return self.__total_pulls
 
+  @property
   def total_rewards(self) -> float:
-    """
-    Returns:
-      total rewards obtained so far
-    """
+    """Total rewards obtained so far"""
     return self.__total_rewards
 
   @property
   def em_mean(self) -> float:
-    """empirical mean of rewards"""
+    """Empirical mean of rewards"""
     if self.__total_pulls == 0:
-      raise Exception('Number of pulls is 0. No empirical mean!')
+      raise Exception('Number of pulls is 0. No empirical mean.')
     return self.__total_rewards / self.__total_pulls
 
   @property
-  def em_var(self) -> float:
-    """empirical variance of rewards"""
+  def em_std(self) -> float:
+    """Empirical standard variance of rewards"""
     if self.__total_pulls == 0:
-      raise Exception('Number of pulls is 0. No empirical variance!')
+      raise Exception('Number of pulls is 0. No empirical standard deviation.')
+    return math.sqrt(
+        (self.__sum_of_square_reward -
+         self.__total_rewards**2 / self.__total_pulls) / self.__total_pulls)
+
+  @property
+  def em_var(self) -> float:
+    """Empirical variance of rewards"""
+    if self.__total_pulls == 0:
+      raise Exception('Number of pulls is 0. No empirical variance.')
     return (self.__sum_of_square_reward -
             self.__total_rewards**2 / self.__total_pulls) / self.__total_pulls
 

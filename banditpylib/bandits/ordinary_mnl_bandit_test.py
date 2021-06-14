@@ -4,10 +4,10 @@ import pytest
 import google.protobuf.text_format as text_format
 
 from banditpylib.data_pb2 import Actions
-from banditpylib.learners import MaxReward
-from .ordinary_mnl_bandit import OrdinaryMNLBandit, \
-    search, search_best_assortment, MeanReward, CvarReward, \
-    local_search_best_assortment
+from banditpylib.learners import MaximizeTotalRewards
+from .ordinary_mnl_bandit import OrdinaryMNLBandit
+from .ordinary_mnl_bandit_utils import search, search_best_assortment, \
+    MeanReward, CvarReward, local_search_best_assortment
 
 
 class TestOrdinaryMNLBandit:
@@ -99,12 +99,14 @@ class TestOrdinaryMNLBandit:
             """
       arm_pulls_pairs {
         arm {
-          ids: 1
+          set {
+            id: 1
+          }
         }
         pulls: 3
       }
       """, Actions()))
-    assert bandit.regret(MaxReward()) == 0.0
+    assert bandit.regret(MaximizeTotalRewards()) == 0.0
 
   def test_one_product(self):
     preference_params = [1.0, 0.0]
@@ -118,7 +120,9 @@ class TestOrdinaryMNLBandit:
                 """
       arm_pulls_pairs {
         arm {
-          ids: 1
+          set {
+            id: 1
+          }
         }
         pulls: 5
       }

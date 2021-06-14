@@ -5,7 +5,8 @@ from .pseudo_arm import *
 
 __all__ = [
     'Arm',
+    'PseudoArm',
+    'StochasticArm',
     'BernoulliArm',
     'GaussianArm',
-    'PseudoArm',
 ]

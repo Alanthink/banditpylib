@@ -62,7 +62,7 @@ Python version requirement: 3.7 or above.
 
 Virtual environment: in order not to pollute your own environment, it is suggested to use python virtual environment. The following commands show the details to create and activate a virtual environment.
 
-```bash
+```Bash
 # Create a virtual environment `.env`
 python3 -m venv .env
 # Activate the environment
@@ -71,7 +71,7 @@ source .env/bin/activate
 
 Then you can run the following command to install the `banditpylib` library.
 
-```bash
+```Bash
 make install
 ```
 
@@ -79,7 +79,7 @@ After finishing the usage of the library, you can use `deactivate` to deactive t
 
 The following shows other useful make commands.
 
-```bash
+```Bash
 make test
        run tests
 make lint
@@ -98,8 +98,7 @@ Suppose we want to run algorithms *Epsilon Greedy*, *UCB* and *Thompson Sampling
 
 #### Set up bandit environment
 
-```python
-# type: ignore
+```Python
 # Real means of Bernoulli arms
 means = [0.3, 0.5, 0.7]
 # Create Bernoulli arms
@@ -110,8 +109,7 @@ bandit = OrdinaryBandit(arms=arms)
 
 #### Set up learners
 
-```python
-# type: ignore
+```Python
 # Create learners aiming to maximize the total rewards
 learners = [EpsGreedy(arm_num=len(arms)),
             UCB(arm_num=len(arms)),
@@ -120,8 +118,7 @@ learners = [EpsGreedy(arm_num=len(arms)),
 
 #### Set up simulator and play the game
 
-```python
-# type: ignore
+```Python
 # Horizon of the game
 horizon = 2000
 # Record intermediate regrets for each trial

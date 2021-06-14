@@ -1,67 +1,43 @@
-import math
-from typing import Union
+from typing import Optional, Union
 
 import numpy as np
 
-from .utils import Arm
+from .utils import StochasticArm
 
 
-class GaussianArm(Arm):
+class GaussianArm(StochasticArm):
   """Gaussian arm
 
   Arm with rewards generated from a Gaussian distribution.
+
+  :param float mu: mean of rewards
+  :param float std: standard deviation of rewards
+  :param Optional[str] name: alias name
   """
-  def __init__(self, mu: float, var: float, name: str = None):
-    """
-    Args:
-      mu: mean of rewards
-      var: variance of rewards
-      name: alias name
-    """
+  def __init__(self, mu: float, std: float, name: Optional[str] = None):
     super().__init__(name)
+    if std <= 0:
+      raise ValueError(
+          'Standard deviation of rewards is expected > 0. Got %.2f.' % std)
     self.__mu = mu
-    if var < 0:
-      raise Exception('Variance of rewards %.2f is negative!' % var)
-    self.__var = var
-    # standard deviation
-    self.__std = math.sqrt(var)
+    self.__std = std
 
   def _name(self) -> str:
-    """
-    Returns:
-      default arm name
-    """
     return 'gaussian_arm'
 
   @property
   def mean(self) -> float:
-    """mean of rewards"""
     return self.__mu
 
   @property
   def std(self) -> float:
-    """standard deviation of rewards"""
+    """Standard deviation of rewards"""
     return self.__std
 
-  @property
-  def var(self) -> float:
-    """variance of rewards"""
-    return self.__var
-
-  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
-    """Pull the arm
-
-    When pulls is None, a float number will be returned. Otherwise, a numpy
-    array will be returned.
-
-    Args:
-      pulls: number of times to pull
-
-    Returns:
-      stochastic rewards
-    """
+  def pull(self, pulls: Optional[int] = None) -> Union[float, np.ndarray]:
     if pulls is None:
       return np.random.normal(self.__mu, self.__std, 1)[0]
     if pulls <= 0:
-      raise ValueError('Number of pulls should be at least 1.')
+      raise ValueError('Number of pulls is expected at least 1. Got %d.' %
+                       pulls)
     return np.random.normal(self.__mu, self.__std, pulls)

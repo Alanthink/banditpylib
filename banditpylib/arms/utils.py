@@ -6,17 +6,16 @@ import numpy as np
 
 
 class Arm(ABC):
-  """Arm"""
+  """Arm
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name for the arm
-    """
     self.__name = self._name() if name is None else name
 
   @property
   def name(self) -> str:
-    """arm name"""
+    """Arm name"""
     return self.__name
 
   @abstractmethod
@@ -26,21 +25,30 @@ class Arm(ABC):
       default arm name
     """
 
+
+class StochasticArm(Arm):
+  """Stochastic arm
+
+  :param Optional[str] name: alias name
+  """
+  def __init__(self, name: Optional[str]):
+    super().__init__(name)
+
   @property
   @abstractmethod
   def mean(self) -> float:
-    """mean of rewards"""
+    """Mean of rewards"""
 
   @abstractmethod
-  def pull(self, pulls: int = None) -> Union[float, np.ndarray]:
+  def pull(self, pulls: Optional[int] = None) -> Union[float, np.ndarray]:
     """Pull the arm
 
-    When pulls is None, a float number will be returned. Otherwise, a numpy
+    When `pulls` is `None`, a float number will be returned. Otherwise, a numpy
     array will be returned.
 
     Args:
       pulls: number of times to pull
 
     Returns:
-      rewards
+      stochastic rewards
     """

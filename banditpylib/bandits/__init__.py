@@ -1,9 +1,11 @@
 from .utils import *
 from .ordinary_bandit import *
 from .ordinary_mnl_bandit import *
+from .ordinary_mnl_bandit_utils import *
 from .linear_bandit import *
 from .thres_bandit import *
 from .contextual_bandit import *
+from .contextual_bandit_utils import *
 
 __all__ = [
     'Bandit', 'OrdinaryBandit', 'LinearBandit', 'Reward', 'MeanReward',

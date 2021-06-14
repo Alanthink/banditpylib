@@ -2,12 +2,20 @@ syntax = "proto3";
 
 package banditpylib;
 
-// Next tag: 3
+
 message Arm {
-  // The arm id is an integer
-  int32 id = 1;
-  // The arm id is a set
-  repeated int32 ids = 2;
+  // Next tag 2
+  message Set {
+    repeated int32 id = 1;
+  }
+
+  // Next tag: 3
+  oneof Arm {
+    // The arm id is an integer
+    int32 id = 1;
+    // The arm id is a set
+    Set set = 2;
+  }
 }
 
 // Next tag: 3

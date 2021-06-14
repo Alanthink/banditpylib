@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -15,16 +17,14 @@ class UCBV(OrdinaryLearner):
     \sqrt{ \frac{ 2 \bar{V}_i(t) \ln(t) }{T_i(t)} }+
     \frac{ b \ln(t) }{T_i(t)} \right\}
 
+  :param int arm_num: number of arms
+  :param float b: upper bound of rewards
+  :param Optional[str] name: alias name
+
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self, arm_num: int, name: str = None, b: float = 1.0):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      b: upper bound of rewards
-    """
+  def __init__(self, arm_num: int, b: float = 1.0, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if b <= 0:
       raise ValueError('B is expected greater than 0. Got %.2f.' % b)
@@ -34,7 +34,7 @@ class UCBV(OrdinaryLearner):
     return 'ucbv'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -45,8 +45,8 @@ class UCBV(OrdinaryLearner):
     """
     ucbv = np.array([
         arm.em_mean +
-        np.sqrt(2 * arm.em_var * np.log(self.__time) / arm.total_pulls()) +
-        self.__b * np.log(self.__time) / arm.total_pulls()
+        np.sqrt(2 * arm.em_var * np.log(self.__time) / arm.total_pulls) +
+        self.__b * np.log(self.__time) / arm.total_pulls
         for arm in self.__pseudo_arms
     ])
     return ucbv
@@ -57,7 +57,7 @@ class UCBV(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       arm_pulls_pair.arm.id = int(np.argmax(self.__UCBV()))

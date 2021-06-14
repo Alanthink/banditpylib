@@ -3,7 +3,8 @@ from abc import abstractmethod
 from typing import Optional, Union, List
 
 from banditpylib.bandits import OrdinaryBandit
-from banditpylib.learners import Learner, Goal, BestArmId
+from banditpylib.data_pb2 import Arm
+from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
 
 class OrdinaryFBBAILearner(Learner):
@@ -11,14 +12,12 @@ class OrdinaryFBBAILearner(Learner):
   ordinary multi-armed bandit
 
   This kind of learners aim to identify the best arm with fixed budget.
+
+  :param int arm_num: number of arms
+  :param int budget: total number of pulls
+  :param Optional[str] name: alias name
   """
   def __init__(self, arm_num: int, budget: int, name: Optional[str]):
-    """
-    Args:
-      arm_num: number of arms
-      budget: total number of pulls
-      name: alias name
-    """
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
@@ -33,27 +32,23 @@ class OrdinaryFBBAILearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return OrdinaryBandit
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      number of arms
-    """
+    """Number of arms"""
     return self.__arm_num
 
+  @property
   def budget(self) -> int:
-    """
-    Returns:
-      budget of the learner
-    """
+    """Budget of the learner"""
     return self.__budget
 
+  @property
   @abstractmethod
   def best_arm(self) -> int:
-    """
-    Returns:
-      index of the best arm identified by the learner
-    """
+    """Index of the best arm identified by the learner"""
 
   @property
   def goal(self) -> Goal:
-    return BestArmId(best_arm=self.best_arm())
+    arm = Arm()
+    arm.id = self.best_arm
+    return IdentifyBestArm(best_arm=arm)

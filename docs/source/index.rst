@@ -7,9 +7,9 @@ Welcome to banditpylib's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 4
+   :hidden:
    :caption: Contents:
 
    Readme <readme_link>
-   modules
+   auto/banditpylib
    bibliography

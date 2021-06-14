@@ -1,5 +1,5 @@
 from banditpylib.arms import BernoulliArm
-from banditpylib.learners import MaxCorrectAnswers, AllCorrect
+from banditpylib.learners import MaximizeCorrectAnswers, MakeAllAnswersCorrect
 from .thres_bandit import ThresholdingBandit
 
 
@@ -10,5 +10,5 @@ class TestThresholdingBandit:
     arms = [BernoulliArm(mean) for mean in means]
     thres_bandit = ThresholdingBandit(arms=arms, theta=0.5, eps=0)
     thres_bandit.reset()
-    assert thres_bandit.regret(MaxCorrectAnswers(answers=[0, 1, 1])) == 0
-    assert thres_bandit.regret(AllCorrect(answers=[0, 1, 0])) == 1
+    assert thres_bandit.regret(MaximizeCorrectAnswers(answers=[0, 1, 1])) == 0
+    assert thres_bandit.regret(MakeAllAnswersCorrect(answers=[0, 1, 0])) == 1

@@ -1,30 +1,30 @@
-from typing import Dict
+from typing import Optional, Dict
 
 import math
 import numpy as np
 
+from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import argmax_or_min_tuple
 from .utils import OrdinaryFCBAILearner
 
 
 class ExpGap(OrdinaryFCBAILearner):
-  """Exponential-gap elimination policy :cite:`karnin2013almost`"""
+  """Exponential-gap elimination policy :cite:`karnin2013almost`
+
+  :param int arm_num: number of arms
+  :param float confidence confidence: confidence level. It should be within
+    (0, 1). The algorithm should output the best arm with probability at least
+    this value.
+  :param int threshold: do uniform sampling when the active arms are no greater
+    than the threshold within median elimination
+  :param Optional[str] name: alias name
+  """
   def __init__(self,
                arm_num: int,
                confidence: float,
                threshold: int = 2,
-               name: str = None):
-    """
-    Args:
-      arm_num: number of arms
-      confidence: confidence level. It should be within (0, 1). The algorithm
-        should output the best arm with probability at least this value.
-      threshold: do uniform sampling when the active arms are no greater than
-        the threshold within median elimination
-      name: alias name
-    """
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if threshold < 2:
       raise Exception('Thredhold %d is less than 2!' % threshold)
@@ -35,7 +35,7 @@ class ExpGap(OrdinaryFCBAILearner):
 
   def reset(self):
     self.__active_arms: Dict[int, PseudoArm] = dict()
-    for arm_id in range(self.arm_num()):
+    for arm_id in range(self.arm_num):
       self.__active_arms[arm_id] = PseudoArm()
 
     self.__best_arm = None
@@ -44,7 +44,7 @@ class ExpGap(OrdinaryFCBAILearner):
     self.__stage = 'main_loop'
     # Main loop variables
     self.__eps_r = 0.125
-    self.__log_delta_r = math.log((1 - self.confidence()) / 50)
+    self.__log_delta_r = math.log((1 - self.confidence) / 50)
 
   @property
   def stage(self) -> str:
@@ -152,8 +152,9 @@ class ExpGap(OrdinaryFCBAILearner):
         self.__round += 1
         self.__eps_r /= 2
         self.__log_delta_r = math.log(
-            (1 - self.confidence()) / 50) - 3 * math.log(self.__round)
+            (1 - self.confidence) / 50) - 3 * math.log(self.__round)
 
+  @property
   def best_arm(self) -> int:
     if self.__best_arm is None:
       raise Exception('%s: I don\'t have an answer yet!' % self.name)

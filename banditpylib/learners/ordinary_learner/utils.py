@@ -1,20 +1,18 @@
 from typing import Optional, List, Union
 
 from banditpylib.bandits import OrdinaryBandit, LinearBandit
-from banditpylib.learners import Learner, Goal, MaxReward
+from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
 
 
 class OrdinaryLearner(Learner):
   """Abstract class for learners playing with the ordinary multi-armed bandit
 
   This type of learners aim to maximize the total collected rewards.
+
+  :param int arm_num: number of arms
+  :param Optional[str] name: alias name
   """
   def __init__(self, arm_num: int, name: Optional[str]):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-    """
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d' %
@@ -25,13 +23,11 @@ class OrdinaryLearner(Learner):
   def running_environment(self) -> Union[type, List[type]]:
     return [OrdinaryBandit, LinearBandit]
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      number of arms
-    """
+    """Number of arms"""
     return self.__arm_num
 
   @property
   def goal(self) -> Goal:
-    return MaxReward()
+    return MaximizeTotalRewards()

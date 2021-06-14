@@ -1,3 +1,5 @@
+from typing import Optional
+
 import math
 
 import numpy as np
@@ -17,19 +19,20 @@ class Softmax(OrdinaryLearner):
 
   where :math:`\gamma` is a parameter to control how much exploration we want.
 
+  :param int arm_num: number of arms
+  :param float gamma: gamma
+  :param Optional[str] name: alias name
+
   .. note::
     When :math:`\gamma` approaches 0, the learner will have an increasing
     probability to select the arm with the maximum empirical mean rewards. When
     :math:`\gamma` approaches to infinity, the policy of the learner tends to
     become uniform sampling.
   """
-  def __init__(self, arm_num: int, name: str = None, gamma: float = 1.0):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      gamma: gamma
-    """
+  def __init__(self,
+               arm_num: int,
+               gamma: float = 1.0,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if gamma <= 0:
       raise ValueError('Gamma is expected greater than 0. Got %.2f.' % gamma)
@@ -39,7 +42,7 @@ class Softmax(OrdinaryLearner):
     return 'softmax'
 
   def reset(self):
-    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num())]
+    self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
@@ -49,16 +52,15 @@ class Softmax(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
 
-    if self.__time <= self.arm_num():
+    if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
       weights = np.array([
           math.exp(self.__pseudo_arms[arm_id].em_mean / self.__gamma)
-          for arm_id in range(self.arm_num())
+          for arm_id in range(self.arm_num)
       ])
       arm_pulls_pair.arm.id = np.random.choice(
-          self.arm_num(), 1,
-          p=[weight / sum(weights) for weight in weights])[0]
+          self.arm_num, 1, p=[weight / sum(weights) for weight in weights])[0]
 
     arm_pulls_pair.pulls = 1
     return actions

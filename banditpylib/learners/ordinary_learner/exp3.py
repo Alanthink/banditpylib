@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback
@@ -24,14 +26,15 @@ class EXP3(OrdinaryLearner):
   :math:`i` and the probability to pull arm :math:`i` at time :math:`(t-1)`
   respectively and initially we set :math:`w_i^0 = 1` for every arm
   :math:`i \in \{0, \dots, N-1\}`.
+
+  :param int arm_num: number of arms
+  :param float gamma: probability to do uniform sampling
+  :param str name: alias name
   """
-  def __init__(self, arm_num: int, name: str = None, gamma: float = 0.01):
-    """
-    Args:
-      arm_num: number of arms
-      name: alias name
-      gamma: probability to do uniform sampling
-    """
+  def __init__(self,
+               arm_num: int,
+               gamma: float = 0.01,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if gamma < 0 or gamma > 1:
       raise ValueError('Gamma is expected in [0, 1]. Got %.2f.' % gamma)
@@ -41,7 +44,7 @@ class EXP3(OrdinaryLearner):
     return 'exp3'
 
   def reset(self):
-    self.__weights = np.array([1] * self.arm_num())
+    self.__weights = np.array([1] * self.arm_num)
     # Current time step
     self.__time = 1
 
@@ -51,8 +54,8 @@ class EXP3(OrdinaryLearner):
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
     self.__probabilities = (1 - self.__gamma) * self.__weights / sum(
-        self.__weights) + self.__gamma / self.arm_num()
-    arm_pulls_pair.arm.id = np.random.choice(self.arm_num(),
+        self.__weights) + self.__gamma / self.arm_num
+    arm_pulls_pair.arm.id = np.random.choice(self.arm_num,
                                              1,
                                              p=self.__probabilities)[0]
     arm_pulls_pair.pulls = 1
@@ -63,6 +66,6 @@ class EXP3(OrdinaryLearner):
     arm_id = arm_rewards_pair.arm.id
     reward = arm_rewards_pair.rewards[0]
     estimated_mean = reward / self.__probabilities[arm_id]
-    self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num() *
+    self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num *
                                      estimated_mean)
     self.__time += 1

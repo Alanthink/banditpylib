@@ -1,134 +1,85 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List, Tuple, Any, Union
+from typing import Optional, List, Union
 
-import numpy as np
-
-from banditpylib.data_pb2 import Actions, Feedback
-
-
-def argmax_or_min(values: List[float], find_min: bool = False) -> int:
-  """Find index with the highest or smallest value
-
-  Args:
-    values: a list of values
-    find_min: whether to select smallest value
-
-  Returns:
-    index with the highest or smallest value. When there is a tie, randomly
-    output one of the indexes.
-  """
-  extremum = min(values) if find_min else max(values)
-  indexes = [index for index, value in enumerate(values) if value == extremum]
-  return np.random.choice(indexes)
-
-
-def argmax_or_min_tuple(values: List[Tuple[float, int]],
-                        find_min: bool = False) -> int:
-  """Find the second element of the tuple with the highest or smallest value
-
-  Args:
-    values: a list of tuples
-    find_min: whether to select smallest value
-
-  Returns:
-    the second element of the tuple with the highest or smallest value.
-    When there is a tie, randomly output one of them.
-  """
-  extremum = min([value for value, _ in values]) if find_min else max(
-      [value for value, _ in values])
-  indexes = [index for (value, index) in values if value == extremum]
-  return np.random.choice(indexes)
+from banditpylib.data_pb2 import Arm, Actions, Feedback
 
 
 class Goal(ABC):
   """Abstract class for the goal of a learner"""
-  def __init__(self, value: Any):
-    """
-    Args:
-      value: value obtained by the learner
-    """
-    self.__value = value
-
   @property
   @abstractmethod
   def name(self) -> str:
     """Name of the goal"""
 
-  @property
-  def value(self):
-    """Value obtained by the learner"""
-    return self.__value
 
+class IdentifyBestArm(Goal):
+  """Best arm identification
 
-class BestArmId(Goal):
-  """Best arm identification"""
-  def __init__(self, best_arm: int):
-    """
-    Args:
-      best_arm: best arm identified by the learner
-    """
-    super().__init__(value=best_arm)
+  :param Arm best_arm: best arm identified by the learner
+  """
+  def __init__(self, best_arm: Arm):
+    self.__best_arm = best_arm
 
   @property
   def name(self) -> str:
     return 'best_arm_id'
 
+  @property
+  def best_arm(self) -> Arm:
+    return self.__best_arm
 
-class MaxReward(Goal):
+
+class MaximizeTotalRewards(Goal):
   """Reward maximization"""
-  def __init__(self):
-    """
-    Args:
-      rewards: rewards obtained by the learner
-    """
-    super().__init__(value=None)
-
   @property
   def name(self) -> str:
     return 'reward_maximization'
 
 
-class MaxCorrectAnswers(Goal):
+class MaximizeCorrectAnswers(Goal):
   """Maximize correct answers
 
   This is used by thresholding bandit learners.
+
+  :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    """
-    Args:
-      answers: answers obtained by the learner
-    """
-    super().__init__(value=answers)
+    self.__answers = answers
 
   @property
   def name(self) -> str:
     return 'max_correct_answers'
 
+  @property
+  def answers(self) -> List[int]:
+    return self.__answers
 
-class AllCorrect(Goal):
+
+class MakeAllAnswersCorrect(Goal):
   """Make all answers correct
 
   This is used by thresholding bandit learners.
+
+  :param List[int] answers: answers obtained by the learner
   """
   def __init__(self, answers: List[int]):
-    """
-    Args:
-      answers: answers obtained by the learner
-    """
-    super().__init__(value=answers)
+    self.__answers = answers
 
   @property
   def name(self) -> str:
     return 'make_all_correct'
 
+  @property
+  def answers(self) -> List[int]:
+    return self.__answers
+
 
 class Learner(ABC):
-  """Abstract class for learners"""
+  """Abstract class for learners
+
+  :param Optional[str] name: alias name
+  """
   def __init__(self, name: Optional[str]):
-    """
-    Args:
-      name: alias name
-    """
     self.__name = self._name() if name is None else name
 
   @property

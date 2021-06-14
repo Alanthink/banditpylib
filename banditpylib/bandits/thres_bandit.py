@@ -1,8 +1,9 @@
 from typing import List
 
-from banditpylib.arms import Arm
+from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
-from banditpylib.learners import Goal, MaxCorrectAnswers, AllCorrect
+from banditpylib.learners import Goal, MaximizeCorrectAnswers, \
+    MakeAllAnswersCorrect
 from .utils import Bandit
 
 
@@ -17,15 +18,13 @@ class ThresholdingBandit(Bandit):
   accepts a parameter :math:`\epsilon >= 0` which is the radius of indifference
   zone meaning that the answers about the arms with expected rewards within
   :math:`[\theta - \epsilon, \theta + \epsilon]` do not matter.
+
+
+  :param List[StochasticArm] arms: arms in thresholding bandit
+  :param float theta: threshold
+  :param float eps: radius of indifferent zone
   """
-  def __init__(self, arms: List[Arm], theta: float, eps: float):
-    """
-    Args:
-      arms: arms in thresholding bandit
-      theta: threshold
-      eps: radius of indifferent zone
-      name: alias name
-    """
+  def __init__(self, arms: List[StochasticArm], theta: float, eps: float):
     if len(arms) < 2:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
                        len(arms))
@@ -49,17 +48,16 @@ class ThresholdingBandit(Bandit):
         for arm_id in range(self.__arm_num)
     ]
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'thresholding_bandit'
 
   def reset(self):
     self.__total_pulls = 0
 
+  @property
   def arm_num(self) -> int:
-    """
-    Returns:
-      total number of arms
-    """
+    """Total number of arms"""
     return self.__arm_num
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
@@ -99,22 +97,23 @@ class ThresholdingBandit(Bandit):
         feedback.arm_rewards_pairs.append(arm_rewards_pair)
     return feedback
 
+  @property
   def context(self) -> None:
     return None
 
   def regret(self, goal: Goal) -> float:
-    if isinstance(goal, MaxCorrectAnswers):
+    if isinstance(goal, MaximizeCorrectAnswers):
       # Aggregate regret which is equal to the number of wrong answers
       agg_regret = 0
       for arm_id in range(self.__arm_num):
-        agg_regret += (goal.value[arm_id] !=
+        agg_regret += (goal.answers[arm_id] !=
                        self.__correct_answers[arm_id]) * self.__weights[arm_id]
       return agg_regret
-    elif isinstance(goal, AllCorrect):
+    elif isinstance(goal, MakeAllAnswersCorrect):
       # Simple regret which is 1 when there is at least one wrong answer and 0
       # otherwise
       for arm_id in range(self.__arm_num):
-        if (goal.value[arm_id] !=
+        if (goal.answers[arm_id] !=
             self.__correct_answers[arm_id]) and self.__weights[arm_id] == 1:
           return 1
       return 0
