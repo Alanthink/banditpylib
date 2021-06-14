@@ -39,26 +39,15 @@ def search(
 
 
 class Reward:
-  """General reward class
-
-  :param Optional[str] name: alias name
-  """
-  def __init__(self, name: Optional[str]):
-    self.__name = self._name() if name is None else name
+  """General reward class"""
+  def __init__(self):
     self.__preference_params: Optional[np.ndarray] = None
     self.__revenues: Optional[np.ndarray] = None
 
   @property
-  def name(self) -> str:
-    """reward name"""
-    return self.__name
-
   @abstractmethod
-  def _name(self) -> str:
-    """
-    Returns:
-      default reward name
-    """
+  def name(self) -> str:
+    """Reward name"""
 
   @abstractmethod
   def calc(self, assortment: Set[int]) -> float:
@@ -74,14 +63,14 @@ class Reward:
   def preference_params(self) -> np.ndarray:
     """preference parameters (product 0 is included)"""
     if self.__preference_params is None:
-      raise Exception('Preference parameters are not set yet!')
+      raise Exception('Preference parameters are not set yet.')
     return self.__preference_params
 
   @property
   def revenues(self) -> np.ndarray:
     """revenues (product 0 is included)"""
     if self.__revenues is None:
-      raise Exception('Revenues of products are not set yet!')
+      raise Exception('Revenues of products are not set yet.')
     return self.__revenues
 
   def set_preference_params(self, preference_params: np.ndarray):
@@ -100,14 +89,12 @@ class Reward:
 
 
 class MeanReward(Reward):
-  """Mean reward
+  """Mean reward"""
+  def __init__(self):
+    super().__init__()
 
-  :param str name: alias name
-  """
-  def __init__(self, name: str = None):
-    super().__init__(name)
-
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'mean_reward'
 
   def calc(self, assortment: Set[int]) -> float:
@@ -124,19 +111,19 @@ class CvarReward(Reward):
   """CVaR reward
 
   :param float alpha: percentile of cvar
-  :param str name: alias name
   """
-  def __init__(self, alpha: float, name: str = None):
-    super().__init__(name)
+  def __init__(self, alpha: float):
+    super().__init__()
     if alpha <= 0:
-      raise Exception('Alpha %.2f is no greater than 0!' % alpha)
+      raise ValueError('Alpha is expected greater than 0. Got %.2f.' % alpha)
     # alpha is at most 1.0
     if alpha > 1.0:
-      logging.error('Alpha %.2f is greater than 1! I am setting it to 1.' %
+      logging.error('Alpha %.2f is expected at most 1. I am setting it to 1.' %
                     alpha)
     self.__alpha = alpha if alpha <= 1.0 else 1.0
 
-  def _name(self) -> str:
+  @property
+  def name(self) -> str:
     return 'cvar_reward'
 
   @property
@@ -177,9 +164,10 @@ class CvarReward(Reward):
     return cvar_alpha
 
 
-def search_best_assortment(reward: Reward,
-                           card_limit: float = np.inf
-                           ) -> Tuple[float, Set[int]]:
+def search_best_assortment(
+    reward: Reward,
+    card_limit: int = np.inf  # type: ignore
+) -> Tuple[float, Set[int]]:
   """Search assortment with the maximum reward
 
   Args:

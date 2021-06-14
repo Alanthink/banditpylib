@@ -22,14 +22,15 @@ class ThompsonSampling(OrdinaryMNLLearner):
     search is enabled
   :param Optional[str] name: alias name
   """
-  def __init__(self,
-               revenues: np.ndarray,
-               horizon: int,
-               reward: Reward,
-               card_limit: int = np.inf, # type: ignore
-               use_local_search: bool = False,
-               random_neighbors: int = 10,
-               name: Optional[str] = None):
+  def __init__(
+      self,
+      revenues: np.ndarray,
+      horizon: int,
+      reward: Reward,
+      card_limit: int = np.inf,  # type: ignore
+      use_local_search: bool = False,
+      random_neighbors: int = 10,
+      name: Optional[str] = None):
     super().__init__(revenues=revenues,
                      reward=reward,
                      card_limit=card_limit,
