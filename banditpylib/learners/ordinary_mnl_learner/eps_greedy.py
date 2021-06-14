@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import Optional, List, Set
 
 import numpy as np
 
@@ -17,27 +17,27 @@ class EpsGreedy(OrdinaryMNLLearner):
   :param np.ndarray revenues: product revenues
   :param Reward reward: reward the learner wants to maximize
   :param int card_limit: cardinality constraint
-  :param str name: alias name
   :param bool use_local_search: whether to use local search for searching the
     best assortment
   :param int random_neighbors: number of random neighbors to look up if local
     search is enabled
   :param float eps: epsilon
+  :param Optional[str] name: alias name
   """
   def __init__(self,
                revenues: np.ndarray,
                reward: Reward,
-               card_limit=np.inf,
-               name=None,
-               use_local_search=False,
-               random_neighbors=10,
-               eps=1.0):
+               card_limit: int = np.inf, # type: ignore
+               use_local_search: bool = False,
+               random_neighbors: int = 10,
+               eps: float = 1.0,
+               name: Optional[str] = None):
     super().__init__(revenues=revenues,
                      reward=reward,
                      card_limit=card_limit,
-                     name=name,
                      use_local_search=use_local_search,
-                     random_neighbors=random_neighbors)
+                     random_neighbors=random_neighbors,
+                     name=name)
     if eps <= 0:
       raise ValueError('Epsilon is expected greater than 0. Got %.2f.' % eps)
     self.__eps = eps

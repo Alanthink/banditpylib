@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -16,13 +18,13 @@ class UCBV(OrdinaryLearner):
     \frac{ b \ln(t) }{T_i(t)} \right\}
 
   :param int arm_num: number of arms
-  :param str name: alias name
   :param float b: upper bound of rewards
+  :param Optional[str] name: alias name
 
   .. note::
     Reward has to be bounded within :math:`[0, b]`.
   """
-  def __init__(self, arm_num: int, name: str = None, b: float = 1.0):
+  def __init__(self, arm_num: int, b: float = 1.0, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if b <= 0:
       raise ValueError('B is expected greater than 0. Got %.2f.' % b)

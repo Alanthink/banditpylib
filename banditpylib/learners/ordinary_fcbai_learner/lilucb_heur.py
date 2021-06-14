@@ -1,3 +1,5 @@
+from typing import Optional
+
 import math
 import numpy as np
 
@@ -13,9 +15,12 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
   :param int arm_num: number of arms
   :param float confidence: confidence level. It should be within (0, 1). The
     algorithm should output the best arm with probability at least this value.
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, confidence: float, name: str = None):
+  def __init__(self,
+               arm_num: int,
+               confidence: float,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
 
   def _name(self) -> str:

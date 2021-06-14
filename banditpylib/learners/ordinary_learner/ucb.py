@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -15,10 +17,13 @@ class UCB(OrdinaryLearner):
     \sqrt{ \frac{\alpha  \ln(t) }{T_i(t)} } \right\}
 
   :param int arm_num: number of arms
-  :param str name: alias name
   :param float alpha: alpha
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, name: str = None, alpha: float = 2.0):
+  def __init__(self,
+               arm_num: int,
+               alpha: float = 2.0,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if alpha <= 0:
       raise ValueError('Alpha is expected greater than 0. Got %.2f.' % alpha)

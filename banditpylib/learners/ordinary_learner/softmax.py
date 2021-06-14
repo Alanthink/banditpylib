@@ -1,3 +1,5 @@
+from typing import Optional
+
 import math
 
 import numpy as np
@@ -18,8 +20,8 @@ class Softmax(OrdinaryLearner):
   where :math:`\gamma` is a parameter to control how much exploration we want.
 
   :param int arm_num: number of arms
-  :param str name: alias name
   :param float gamma: gamma
+  :param Optional[str] name: alias name
 
   .. note::
     When :math:`\gamma` approaches 0, the learner will have an increasing
@@ -27,7 +29,10 @@ class Softmax(OrdinaryLearner):
     :math:`\gamma` approaches to infinity, the policy of the learner tends to
     become uniform sampling.
   """
-  def __init__(self, arm_num: int, name: str = None, gamma: float = 1.0):
+  def __init__(self,
+               arm_num: int,
+               gamma: float = 1.0,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if gamma <= 0:
       raise ValueError('Gamma is expected greater than 0. Got %.2f.' % gamma)

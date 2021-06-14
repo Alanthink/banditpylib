@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -16,13 +18,13 @@ class MOSS(OrdinaryLearner):
 
   :param int arm_num: number of arms
   :param int horizon: total number of time steps
-  :param str name: alias name
+  :param Optional[str] name: alias name
 
   .. note::
     MOSS uses time horizon in its confidence interval. Reward has to be bounded
     in [0, 1].
   """
-  def __init__(self, arm_num: int, horizon: int, name: str = None):
+  def __init__(self, arm_num: int, horizon: int, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if horizon < arm_num:
       raise Exception('Horizon is expected at least %d. Got %d.' %

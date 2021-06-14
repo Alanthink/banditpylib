@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib import argmax_or_min_tuple
@@ -15,9 +17,9 @@ class ExploreThenCommit(OrdinaryLearner):
 
   :param int arm_num: number of arms
   :param int T_prime: time steps to explore
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, T_prime: int, name: str = None):
+  def __init__(self, arm_num: int, T_prime: int, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if T_prime < arm_num:
       raise ValueError('T\' is expected at least %d. got %d.' %

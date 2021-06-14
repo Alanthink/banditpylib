@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Optional, Dict
 
 import math
 import numpy as np
@@ -18,13 +18,13 @@ class ExpGap(OrdinaryFCBAILearner):
     this value.
   :param int threshold: do uniform sampling when the active arms are no greater
     than the threshold within median elimination
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
   def __init__(self,
                arm_num: int,
                confidence: float,
                threshold: int = 2,
-               name: str = None):
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if threshold < 2:
       raise Exception('Thredhold %d is less than 2!' % threshold)

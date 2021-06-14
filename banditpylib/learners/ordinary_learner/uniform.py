@@ -1,3 +1,5 @@
+from typing import Optional
+
 from banditpylib.data_pb2 import Actions, Feedback
 from .utils import OrdinaryLearner
 
@@ -8,9 +10,9 @@ class Uniform(OrdinaryLearner):
   Play each arm in a round-robin way.
 
   :param int arm_num: number of arms
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, name=None):
+  def __init__(self, arm_num: int, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
 
   def _name(self) -> str:

@@ -1,6 +1,6 @@
 import copy
 
-from typing import List, Union
+from typing import Optional, List, Union
 
 import numpy as np
 
@@ -18,14 +18,15 @@ class OrdinaryMNLLearner(Learner):
   :param np.ndarray revenues: product revenues
   :param Reward reward: reward the learner wants to maximize
   :param int card_limit: cardinality constraint
-  :param str name: alias name
   :param bool use_local_search: whether to use local search for searching the
     best assortment
   :param int random_neighbors: number of random neighbors to look up if local
     search is enabled
+  :param Optional[str] name: alias name
   """
   def __init__(self, revenues: np.ndarray, reward: Reward, card_limit: int,
-               name: str, use_local_search: bool, random_neighbors: int):
+               use_local_search: bool, random_neighbors: int,
+               name: Optional[str]):
     super().__init__(name)
     self.__product_num = len(revenues) - 1
     if self.__product_num < 2:

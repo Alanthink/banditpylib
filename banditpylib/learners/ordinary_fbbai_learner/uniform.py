@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib import argmax_or_min
@@ -14,9 +16,9 @@ class Uniform(OrdinaryFBBAILearner):
 
   :param int arm_num: number of arms
   :param int budget: total number of pulls
-  :param str name: alias name
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, budget: int, name: str = None):
+  def __init__(self, arm_num: int, budget: int, name: Optional[str] = None):
     super().__init__(arm_num=arm_num, budget=budget, name=name)
 
   def _name(self) -> str:

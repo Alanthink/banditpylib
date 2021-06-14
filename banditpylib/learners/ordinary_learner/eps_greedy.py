@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.arms import PseudoArm
@@ -12,10 +14,13 @@ class EpsGreedy(OrdinaryLearner):
   remaining probability play the arm with the maximum empirical mean.
 
   :param int arm_num: number of arms
-  :param str name: alias name
   :param float eps: epsilon
+  :param Optional[str] name: alias name
   """
-  def __init__(self, arm_num: int, name: str = None, eps: float = 1.0):
+  def __init__(self,
+               arm_num: int,
+               eps: float = 1.0,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if eps <= 0:
       raise ValueError('Epsilon is expected greater than 0. Got %.2f.' % eps)

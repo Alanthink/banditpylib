@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback
@@ -26,10 +28,13 @@ class EXP3(OrdinaryLearner):
   :math:`i \in \{0, \dots, N-1\}`.
 
   :param int arm_num: number of arms
-  :param str name: alias name
   :param float gamma: probability to do uniform sampling
+  :param str name: alias name
   """
-  def __init__(self, arm_num: int, name: str = None, gamma: float = 0.01):
+  def __init__(self,
+               arm_num: int,
+               gamma: float = 0.01,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     if gamma < 0 or gamma > 1:
       raise ValueError('Gamma is expected in [0, 1]. Got %.2f.' % gamma)
