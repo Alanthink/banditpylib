@@ -2,7 +2,6 @@ from typing import List
 
 import numpy as np
 
-from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
 from banditpylib.learners import MaximizeTotalRewards, Goal
 from .utils import LinearBanditLearner
@@ -10,9 +9,9 @@ from .utils import LinearBanditLearner
 
 class LinUCB(LinearBanditLearner):
   # incorrect description, to be filled later
-  r"""Linear Upper Confidence Bound policy from the Tor Lattimore book(chapter 19)
+  r"""Linear Upper Confidence Bound policy from Tor Lattimore's book(ch 19)
 
-  At time :math:`t`, 
+  At time :math:`t`,
   play arm with highest ucb value (argmax_(a∈A_t) UCB_t (a))
   UCB_t (a) = <θ_(t−1) , a> + root_β_t||a||_(V_(t−1))^-1
   β_t is an increasing sequence, with exact formulation given in the code
@@ -44,8 +43,8 @@ class LinUCB(LinearBanditLearner):
 
     # feature_matrix: d x k matrix of features stacked
     self.__feature_matrix = np.zeros((self.__d, self.__k))
-    for i in range(len(features)):
-      self.__feature_matrix[:, i] = features[i].reshape(-1)
+    for i, feature in enumerate(features):
+      self.__feature_matrix[:, i] = feature.reshape(-1)
 
   def _name(self) -> str:
     return 'linucb'

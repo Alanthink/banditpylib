@@ -5,7 +5,6 @@ import google.protobuf.text_format as text_format
 import numpy as np
 
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.bandits import LinearBandit
 from .linucb import LinUCB
 
 
@@ -28,7 +27,7 @@ class TestLinUCB:
 
     # Always 0th arm is picked
     # not the most efficient test
-    for time in range(1, horizon + 1):
+    for _ in range(1, horizon + 1):
       assert learner.actions().SerializeToString() == text_format.Parse(
           """
             arm_pulls_pairs <
