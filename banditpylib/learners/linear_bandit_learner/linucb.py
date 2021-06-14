@@ -4,7 +4,7 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Actions, Feedback
-from banditpylib.learners import MaxReward, Goal
+from banditpylib.learners import MaximizeTotalRewards, Goal
 from .utils import LinearBanditLearner
 
 
@@ -106,4 +106,4 @@ class LinUCB(LinearBanditLearner):
 
   @property
   def goal(self) -> Goal:
-    return MaxReward()
+    return MaximizeTotalRewards()
