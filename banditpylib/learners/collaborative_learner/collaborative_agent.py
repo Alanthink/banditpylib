@@ -11,9 +11,14 @@ from .utils import CollaborativeLearner
 from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
 
 class CollaborativeAgent(CollaborativeLearner):
-  r"""One individual agent
-  stages:
-    preparation: assign arms and find best one using central algo
+  r"""One individual agent of the Collaborative Learning Algorithm
+
+  :param int arm_num: number of arms of the bandit
+  :param int num_rounds: number of rounds of communication allowed
+    (this agent uses one more)
+  :param int time_horizon: maximum number of pulls the agent can make
+    (over all rounds combined)
+  :param str name: alias name
   """
 
   def __init__(self, arm_num: int, num_rounds: int, time_horizon: int, name: str = None):
@@ -26,18 +31,18 @@ class CollaborativeAgent(CollaborativeLearner):
   def _name(self) -> str:
     return 'collaborative_agent'
 
+  def reset(self):
+    self.__total_pulls = 0
+    self.__round_pulls = 0
+    self.__round_num = 0
+    self.__stage = "unassigned"
+
   def assign_arms(self, arms):
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
     self.__central_algo = LilUCBHeuristicCollaborative(self.arm_num, 0.01, self.__assigned_arms)
     self.__central_algo.reset()
     self.__stage = "preparation"
-
-  def reset(self):
-    self.__total_pulls = 0
-    self.__round_pulls = 0
-    self.__round_num = 0
-    self.__stage = "unassigned"
 
   def complete_round(self):
     # completes round

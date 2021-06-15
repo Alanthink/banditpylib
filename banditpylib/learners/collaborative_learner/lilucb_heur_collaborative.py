@@ -14,16 +14,14 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
   """LilUCB heuristic policy :cite:`jamieson2014lil`
   Modified implementation to supplement CollaborativeAgent
   along with additional functionality to work on only a subset of arms
+
+  :param int arm_num: number of arms of the bandit
+  :param float confidence: confidence level. It should be within (0, 1). The
+    algorithm should output the best arm with probability at least this value.
+  :param np.ndarray assigned_arms: arm indices the learner has to work with
+  :param str name: alias name
   """
   def __init__(self, arm_num: int, confidence: float, assigned_arms: np.ndarray = None, name: str = None):
-    """
-    Args:
-      arm_num: number of arms of the bandit
-      confidence: confidence level. It should be within (0, 1). The algorithm
-        should output the best arm with probability at least this value.
-      assigned_arms: arm indices the learner has to work with
-      name: alias name
-    """
     assert np.max(assigned_arms)<arm_num and len(assigned_arms)<=arm_num, (
       "assigned_arms should be a subset [arm_num], with unique arm indices")
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
