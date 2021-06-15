@@ -31,6 +31,18 @@ message Actions {
   repeated ArmPullsPair arm_pulls_pairs = 1;
 }
 
+// Next tag: 3
+message CollaborativeActions {
+  repeated ArmPullsPair arm_pulls_pairs = 1;
+
+  enum StateType {
+    NORMAL = 0;   // wants to take actions [default]
+    WAIT = 1;     // wants to communicate  
+    STOP = 2;     // terminated
+  }
+  StateType state = 2;
+}
+
 // Next tag: 4
 message ArmRewardsPair {
   // Arm to be pulled

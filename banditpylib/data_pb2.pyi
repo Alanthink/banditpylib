@@ -5,6 +5,7 @@ isort:skip_file
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
+import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import typing
 import typing_extensions
@@ -72,6 +73,34 @@ class Actions(google.protobuf.message.Message):
         ) -> None: ...
     def ClearField(self, field_name: typing_extensions.Literal[u"arm_pulls_pairs",b"arm_pulls_pairs"]) -> None: ...
 global___Actions = Actions
+
+class CollaborativeActions(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    class _StateType(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[StateType.V], builtins.type):
+        DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor = ...
+        NORMAL = CollaborativeActions.StateType.V(0)
+        WAIT = CollaborativeActions.StateType.V(1)
+        STOP = CollaborativeActions.StateType.V(2)
+    class StateType(metaclass=_StateType):
+        V = typing.NewType('V', builtins.int)
+    NORMAL = CollaborativeActions.StateType.V(0)
+    WAIT = CollaborativeActions.StateType.V(1)
+    STOP = CollaborativeActions.StateType.V(2)
+
+    ARM_PULLS_PAIRS_FIELD_NUMBER: builtins.int
+    STATE_FIELD_NUMBER: builtins.int
+    state: global___CollaborativeActions.StateType.V = ...
+
+    @property
+    def arm_pulls_pairs(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ArmPullsPair]: ...
+
+    def __init__(self,
+        *,
+        arm_pulls_pairs : typing.Optional[typing.Iterable[global___ArmPullsPair]] = ...,
+        state : global___CollaborativeActions.StateType.V = ...,
+        ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal[u"arm_pulls_pairs",b"arm_pulls_pairs",u"state",b"state"]) -> None: ...
+global___CollaborativeActions = CollaborativeActions
 
 class ArmRewardsPair(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
