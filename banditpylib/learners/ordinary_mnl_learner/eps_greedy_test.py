@@ -5,7 +5,7 @@ import google.protobuf.text_format as text_format
 import numpy as np
 
 from banditpylib.bandits import MeanReward
-from banditpylib.data_pb2 import Actions
+from banditpylib.data_pb2 import Actions, Context
 from .eps_greedy import EpsGreedy
 
 
@@ -32,7 +32,7 @@ class TestEpsGreedy:
     # pylint: disable=protected-access
     learner._EpsGreedy__select_ramdom_assort = MagicMock(
         return_value=mock_random_assortment)
-    assert learner.actions().SerializeToString() == text_format.Parse(
+    assert learner.actions(Context()).SerializeToString() == text_format.Parse(
         """
       arm_pulls_pairs {
         arm {

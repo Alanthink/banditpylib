@@ -1,6 +1,6 @@
 import google.protobuf.text_format as text_format
 
-from banditpylib.data_pb2 import Feedback
+from banditpylib.data_pb2 import Context, Feedback
 from .exp3 import EXP3
 
 
@@ -13,7 +13,7 @@ class TestEXP3:
     learner.reset()
 
     for _ in range(1, horizon + 1):
-      actions = learner.actions()
+      actions = learner.actions(Context())
       assert len(actions.arm_pulls_pairs) == 1
       arm_pulls_pair = actions.arm_pulls_pairs[0]
       arm_id = arm_pulls_pair.arm.id

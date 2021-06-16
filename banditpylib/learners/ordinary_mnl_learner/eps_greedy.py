@@ -4,7 +4,7 @@ import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward, search, \
     local_search_best_assortment
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryMNLLearner
 
 
@@ -80,7 +80,7 @@ class EpsGreedy(OrdinaryMNLLearner):
            card_limit=self.card_limit)
     return assortments[int(np.random.randint(0, len(assortments)))]
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

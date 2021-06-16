@@ -1,7 +1,8 @@
 from typing import List
 
 from banditpylib.arms import StochasticArm
-from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+    ArmRewardsPair
 from banditpylib.learners import Goal, MaximizeCorrectAnswers, \
     MakeAllAnswersCorrect
 from .utils import Bandit
@@ -98,8 +99,8 @@ class ThresholdingBandit(Bandit):
     return feedback
 
   @property
-  def context(self) -> None:
-    return None
+  def context(self) -> Context:
+    return Context()
 
   def regret(self, goal: Goal) -> float:
     if isinstance(goal, MaximizeCorrectAnswers):

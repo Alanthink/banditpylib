@@ -5,7 +5,7 @@ import google.protobuf.text_format as text_format
 import numpy as np
 
 from banditpylib.bandits import CvarReward
-from banditpylib.data_pb2 import Actions
+from banditpylib.data_pb2 import Actions, Context
 from .ucb import UCB
 
 
@@ -20,7 +20,7 @@ class TestUCB:
     mock_preference_params = np.array([1, 1, 1, 1, 1])
     # pylint: disable=protected-access
     learner._UCB__UCB = MagicMock(return_value=mock_preference_params)
-    assert learner.actions().SerializeToString() == text_format.Parse(
+    assert learner.actions(Context()).SerializeToString() == text_format.Parse(
         """
       arm_pulls_pairs {
         arm {

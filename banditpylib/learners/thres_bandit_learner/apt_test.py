@@ -1,6 +1,6 @@
 import google.protobuf.text_format as text_format
 
-from banditpylib.data_pb2 import Feedback
+from banditpylib.data_pb2 import Context, Feedback
 from .apt import APT
 
 
@@ -13,7 +13,7 @@ class TestAPT:
     apt = APT(arm_num=arm_num, theta=0.5, eps=0)
     apt.reset()
     for _ in range(budget):
-      actions = apt.actions()
+      actions = apt.actions(Context())
       assert len(actions.arm_pulls_pairs) == 1
 
       arm_id = actions.arm_pulls_pairs[0].arm.id

@@ -3,14 +3,37 @@ syntax = "proto3";
 package banditpylib;
 
 
+// Next tag 2
+message SequentialContext {
+  repeated float value = 1;
+}
+
+// Next tag 2
+message Vector {
+  repeated float value = 1;
+}
+
+// Next tag: 2
+message VectorizedContext {
+  repeated Vector vectors = 1;
+}
+
+// Next tag: 3
+message Context {
+  oneof context_oneof {
+    SequentialContext sequential_context = 1;
+    VectorizedContext vectorized_context = 2;
+  }
+}
+
+// Next tag: 3
 message Arm {
   // Next tag 2
   message Set {
     repeated int32 id = 1;
   }
 
-  // Next tag: 3
-  oneof Arm {
+  oneof arm_oneof {
     // The arm id is an integer
     int32 id = 1;
     // The arm id is a set

@@ -1,7 +1,8 @@
 from typing import List
 
 from banditpylib.arms import StochasticArm
-from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+    ArmRewardsPair
 from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
 
@@ -32,8 +33,8 @@ class OrdinaryBandit(Bandit):
     return 'ordinary_bandit'
 
   @property
-  def context(self):
-    return None
+  def context(self) -> Context:
+    return Context()
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm

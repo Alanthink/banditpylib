@@ -3,7 +3,8 @@ from typing import List
 import numpy as np
 
 from banditpylib.arms import GaussianArm
-from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+    ArmRewardsPair
 from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
 
@@ -54,8 +55,8 @@ class LinearBandit(Bandit):
     return 'linear_bandit'
 
   @property
-  def context(self):
-    return None
+  def context(self) -> Context:
+    return Context()
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Pull one arm

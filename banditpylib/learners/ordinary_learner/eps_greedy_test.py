@@ -1,7 +1,7 @@
 import google.protobuf.text_format as text_format
 
 from banditpylib.arms import BernoulliArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .eps_greedy import EpsGreedy
 
 
@@ -15,8 +15,9 @@ class TestEpsGreedy:
 
     # Pull each arm once during the initial steps
     for time in range(1, len(arms) + 1):
-      assert learner.actions().SerializeToString() == text_format.Parse(
-          """
+      assert learner.actions(
+          Context()).SerializeToString() == text_format.Parse(
+              """
         arm_pulls_pairs <
           arm <
             id: {arm_id}

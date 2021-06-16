@@ -4,7 +4,7 @@ import numpy as np
 
 from banditpylib.bandits import search_best_assortment, Reward, \
     local_search_best_assortment
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryMNLLearner
 
 
@@ -71,7 +71,7 @@ class UCB(OrdinaryMNLLearner):
     ucb = np.minimum(ucb, 1)
     return ucb
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

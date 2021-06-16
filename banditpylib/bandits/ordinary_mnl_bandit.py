@@ -5,7 +5,8 @@ from absl import logging
 
 import numpy as np
 
-from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+    ArmRewardsPair
 from banditpylib.learners import Goal, MaximizeTotalRewards
 from .ordinary_mnl_bandit_utils import Reward, MeanReward, \
     search_best_assortment
@@ -168,8 +169,8 @@ class OrdinaryMNLBandit(Bandit):
     self.__regret = 0.0
 
   @property
-  def context(self):
-    return None
+  def context(self) -> Context:
+    return Context()
 
   @property
   def revenues(self) -> np.ndarray:

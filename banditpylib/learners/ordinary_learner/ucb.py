@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryLearner
 
 
@@ -49,7 +49,7 @@ class UCB(OrdinaryLearner):
     ])
     return ucb
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

@@ -1,6 +1,6 @@
 import google.protobuf.text_format as text_format
 
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .uniform import Uniform
 
 
@@ -13,8 +13,9 @@ class TestUniform:
     learner.reset()
 
     for time in range(1, horizon + 1):
-      assert learner.actions().SerializeToString() == text_format.Parse(
-          """
+      assert learner.actions(
+          Context()).SerializeToString() == text_format.Parse(
+              """
         arm_pulls_pairs <
           arm <
             id: {arm_id}
@@ -22,7 +23,7 @@ class TestUniform:
           pulls: 1
         >
         """.format(arm_id=(time - 1) % arm_num),
-          Actions()).SerializeToString()
+              Actions()).SerializeToString()
       learner.update(
           text_format.Parse(
               """

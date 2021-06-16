@@ -2,7 +2,7 @@ from typing import Optional, List
 
 import numpy as np
 
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from banditpylib.learners import MaximizeTotalRewards, Goal
 from .utils import LinearBanditLearner
 
@@ -72,7 +72,7 @@ class LinUCB(LinearBanditLearner):
                  self.__feature_matrix).diagonal()).reshape(-1, 1)
     return ucb
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

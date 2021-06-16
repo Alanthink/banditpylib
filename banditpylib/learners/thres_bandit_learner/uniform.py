@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from banditpylib.learners import Goal, MakeAllAnswersCorrect
 from .utils import ThresBanditLearner
 
@@ -35,7 +35,7 @@ class Uniform(ThresBanditLearner):
     # Current time step
     self.__time = 1
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     actions = Actions()
     arm_pulls_pair = actions.arm_pulls_pairs.add()
     arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num

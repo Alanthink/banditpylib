@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryLearner
 
 
@@ -48,7 +48,7 @@ class EXP3(OrdinaryLearner):
     # Current time step
     self.__time = 1
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

@@ -5,7 +5,7 @@ import numpy as np
 
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryFCBAILearner
 
 
@@ -61,7 +61,7 @@ class LilUCBHeuristic(OrdinaryFCBAILearner):
         for pseudo_arm in self.__pseudo_arms
     ])
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     if self.__stage == 'initialization':
       actions = Actions()
       for arm_id in range(self.arm_num):

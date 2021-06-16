@@ -5,7 +5,7 @@ import numpy as np
 
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryFBBAILearner
 
 
@@ -48,7 +48,7 @@ class SR(OrdinaryFBBAILearner):
     # Current round
     self.__round = 1
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()

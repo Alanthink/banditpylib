@@ -1,6 +1,6 @@
 import numpy as np
 
-from banditpylib.data_pb2 import Feedback
+from banditpylib.data_pb2 import Context, Feedback
 from .lilucb_heur import LilUCBHeuristic
 
 
@@ -13,7 +13,7 @@ class TestLilUCBHeuristic:
     learner.reset()
 
     while True:
-      actions = learner.actions()
+      actions = learner.actions(Context())
       if not actions.arm_pulls_pairs:
         break
 

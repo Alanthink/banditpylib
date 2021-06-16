@@ -4,7 +4,7 @@ import numpy as np
 
 from banditpylib import argmax_or_min
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from .utils import OrdinaryFBBAILearner
 
 
@@ -29,7 +29,7 @@ class Uniform(OrdinaryFBBAILearner):
     self.__best_arm = None
     self.__stop = False
 
-  def actions(self, context=None) -> Actions:
+  def actions(self, context: Context) -> Actions:
     del context
 
     actions = Actions()
