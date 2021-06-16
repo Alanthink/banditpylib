@@ -3,7 +3,6 @@ from typing import Optional, List
 import numpy as np
 
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from banditpylib.learners import MaximizeTotalRewards, Goal
 from .utils import LinearBanditLearner
 
 
@@ -99,7 +98,3 @@ class LinUCB(LinearBanditLearner):
     self.__theta_hat_t = np.linalg.pinv(self.__Vt) @ self.__summation_AtXt
 
     self.__time += 1
-
-  @property
-  def goal(self) -> Goal:
-    return MaximizeTotalRewards()

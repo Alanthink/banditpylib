@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, Union, List
 
 from banditpylib.bandits import LinearBandit
-from banditpylib.learners import Learner
+from banditpylib.learners import Learner, MaximizeTotalRewards, Goal
 
 
 class LinearBanditLearner(Learner):
@@ -18,10 +18,14 @@ class LinearBanditLearner(Learner):
     self.__arm_num = arm_num
 
   @property
-  def running_environment(self) -> type:
+  def running_environment(self) -> Union[type, List[type]]:
     return LinearBandit
 
   @property
   def arm_num(self) -> int:
     """Number of arms"""
     return self.__arm_num
+
+  @property
+  def goal(self) -> Goal:
+    return MaximizeTotalRewards()
