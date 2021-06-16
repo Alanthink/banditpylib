@@ -13,6 +13,7 @@ Submodules
 
 .. toctree::
 
+   banditpylib.learners.linear_bandit_learner
    banditpylib.learners.ordinary_fbbai_learner
    banditpylib.learners.ordinary_fcbai_learner
    banditpylib.learners.ordinary_learner
