@@ -1,19 +1,19 @@
-=============================================
-``banditpylib.learners.thres_bandit_learner``
-=============================================
+====================================================
+``banditpylib.learners.thresholding_bandit_learner``
+====================================================
 
-.. automodule:: banditpylib.learners.thres_bandit_learner
+.. automodule:: banditpylib.learners.thresholding_bandit_learner
 
    .. contents::
       :local:
 
-.. currentmodule:: banditpylib.learners.thres_bandit_learner
+.. currentmodule:: banditpylib.learners.thresholding_bandit_learner
 
 
 Classes
 =======
 
-- :py:class:`ThresBanditLearner`:
+- :py:class:`ThresholdingBanditLearner`:
   Abstract class for learners playing with thresholding bandit
 
 - :py:class:`APT`:
@@ -23,11 +23,11 @@ Classes
   Uniform Sampling
 
 
-.. autoclass:: ThresBanditLearner
+.. autoclass:: ThresholdingBanditLearner
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: ThresBanditLearner
+   .. inheritance-diagram:: ThresholdingBanditLearner
       :parts: 1
 
 .. autoclass:: APT

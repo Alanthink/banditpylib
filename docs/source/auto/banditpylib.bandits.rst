@@ -31,8 +31,8 @@ Classes
 - :py:class:`Bandit`:
   Abstract class for bandit environments
 
-- :py:class:`OrdinaryBandit`:
-  Ordinary bandit
+- :py:class:`MultiArmedBandit`:
+  Multi-armed bandit
 
 - :py:class:`LinearBandit`:
   Finite-armed linear bandit
@@ -46,8 +46,8 @@ Classes
 - :py:class:`CvarReward`:
   CVaR reward
 
-- :py:class:`OrdinaryMNLBandit`:
-  Ordinary MNL bandit
+- :py:class:`MNLBandit`:
+  MNL bandit
 
 - :py:class:`ThresholdingBandit`:
   Thresholding bandit environment
@@ -69,11 +69,11 @@ Classes
    .. inheritance-diagram:: Bandit
       :parts: 1
 
-.. autoclass:: OrdinaryBandit
+.. autoclass:: MultiArmedBandit
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryBandit
+   .. inheritance-diagram:: MultiArmedBandit
       :parts: 1
 
 .. autoclass:: LinearBandit
@@ -104,11 +104,11 @@ Classes
    .. inheritance-diagram:: CvarReward
       :parts: 1
 
-.. autoclass:: OrdinaryMNLBandit
+.. autoclass:: MNLBandit
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryMNLBandit
+   .. inheritance-diagram:: MNLBandit
       :parts: 1
 
 .. autoclass:: ThresholdingBandit

@@ -1,20 +1,20 @@
-=============================================
-``banditpylib.learners.ordinary_mnl_learner``
-=============================================
+===========================================
+``banditpylib.learners.mnl_bandit_learner``
+===========================================
 
-.. automodule:: banditpylib.learners.ordinary_mnl_learner
+.. automodule:: banditpylib.learners.mnl_bandit_learner
 
    .. contents::
       :local:
 
-.. currentmodule:: banditpylib.learners.ordinary_mnl_learner
+.. currentmodule:: banditpylib.learners.mnl_bandit_learner
 
 
 Classes
 =======
 
-- :py:class:`OrdinaryMNLLearner`:
-  Abstract class for learners playing with the ordinary mnl bandit
+- :py:class:`MNLBanditLearner`:
+  Abstract class for learners playing with mnl bandit
 
 - :py:class:`UCB`:
   UCB policy :cite:`DBLP:journals/ior/AgrawalAGZ19`
@@ -26,11 +26,11 @@ Classes
   Thompson sampling policy :cite:`DBLP:conf/colt/AgrawalAGZ17`
 
 
-.. autoclass:: OrdinaryMNLLearner
+.. autoclass:: MNLBanditLearner
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryMNLLearner
+   .. inheritance-diagram:: MNLBanditLearner
       :parts: 1
 
 .. autoclass:: UCB

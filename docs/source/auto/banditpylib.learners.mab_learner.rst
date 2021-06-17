@@ -1,19 +1,19 @@
-=========================================
-``banditpylib.learners.ordinary_learner``
-=========================================
+====================================
+``banditpylib.learners.mab_learner``
+====================================
 
-.. automodule:: banditpylib.learners.ordinary_learner
+.. automodule:: banditpylib.learners.mab_learner
 
    .. contents::
       :local:
 
-.. currentmodule:: banditpylib.learners.ordinary_learner
+.. currentmodule:: banditpylib.learners.mab_learner
 
 
 Classes
 =======
 
-- :py:class:`OrdinaryLearner`:
+- :py:class:`MABLearner`:
   Abstract class for learners playing with the ordinary multi-armed bandit
 
 - :py:class:`EpsGreedy`:
@@ -44,11 +44,11 @@ Classes
   Softmax policy
 
 
-.. autoclass:: OrdinaryLearner
+.. autoclass:: MABLearner
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryLearner
+   .. inheritance-diagram:: MABLearner
       :parts: 1
 
 .. autoclass:: EpsGreedy

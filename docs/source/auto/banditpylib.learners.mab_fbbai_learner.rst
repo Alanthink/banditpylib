@@ -1,19 +1,19 @@
-===============================================
-``banditpylib.learners.ordinary_fbbai_learner``
-===============================================
+==========================================
+``banditpylib.learners.mab_fbbai_learner``
+==========================================
 
-.. automodule:: banditpylib.learners.ordinary_fbbai_learner
+.. automodule:: banditpylib.learners.mab_fbbai_learner
 
    .. contents::
       :local:
 
-.. currentmodule:: banditpylib.learners.ordinary_fbbai_learner
+.. currentmodule:: banditpylib.learners.mab_fbbai_learner
 
 
 Classes
 =======
 
-- :py:class:`OrdinaryFBBAILearner`:
+- :py:class:`MABFixedBudgetBAILearner`:
   Abstract class for best-arm identification learners playing with the
 
 - :py:class:`Uniform`:
@@ -26,11 +26,11 @@ Classes
   Successive rejects policy :cite:`audibert2010best`
 
 
-.. autoclass:: OrdinaryFBBAILearner
+.. autoclass:: MABFixedBudgetBAILearner
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryFBBAILearner
+   .. inheritance-diagram:: MABFixedBudgetBAILearner
       :parts: 1
 
 .. autoclass:: Uniform

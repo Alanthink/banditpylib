@@ -1,19 +1,19 @@
-===============================================
-``banditpylib.learners.ordinary_fcbai_learner``
-===============================================
+==========================================
+``banditpylib.learners.mab_fcbai_learner``
+==========================================
 
-.. automodule:: banditpylib.learners.ordinary_fcbai_learner
+.. automodule:: banditpylib.learners.mab_fcbai_learner
 
    .. contents::
       :local:
 
-.. currentmodule:: banditpylib.learners.ordinary_fcbai_learner
+.. currentmodule:: banditpylib.learners.mab_fcbai_learner
 
 
 Classes
 =======
 
-- :py:class:`OrdinaryFCBAILearner`:
+- :py:class:`MABFixedConfidenceBAILearner`:
   Base class for bai learners in the ordinary multi-armed bandit
 
 - :py:class:`ExpGap`:
@@ -23,11 +23,11 @@ Classes
   LilUCB heuristic policy :cite:`jamieson2014lil`
 
 
-.. autoclass:: OrdinaryFCBAILearner
+.. autoclass:: MABFixedConfidenceBAILearner
    :members:
 
    .. rubric:: Inheritance
-   .. inheritance-diagram:: OrdinaryFCBAILearner
+   .. inheritance-diagram:: MABFixedConfidenceBAILearner
       :parts: 1
 
 .. autoclass:: ExpGap
