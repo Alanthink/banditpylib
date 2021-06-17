@@ -4,10 +4,10 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class EpsGreedy(OrdinaryLearner):
+class EpsGreedy(MABLearner):
   r"""Epsilon-Greedy policy
 
   With probability :math:`\frac{\epsilon}{t}` do uniform sampling and with the

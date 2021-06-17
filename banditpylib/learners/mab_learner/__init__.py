@@ -26,6 +26,6 @@ from .explore_then_commit import *
 from .softmax import *
 
 __all__ = [
-    'OrdinaryLearner', 'EpsGreedy', 'UCB', 'ThompsonSampling', 'Uniform',
-    'UCBV', 'MOSS', 'EXP3', 'ExploreThenCommit', 'Softmax'
+    'MABLearner', 'EpsGreedy', 'UCB', 'ThompsonSampling', 'Uniform', 'UCBV',
+    'MOSS', 'EXP3', 'ExploreThenCommit', 'Softmax'
 ]

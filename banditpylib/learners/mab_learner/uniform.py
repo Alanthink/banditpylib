@@ -1,10 +1,10 @@
 from typing import Optional
 
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class Uniform(OrdinaryLearner):
+class Uniform(MABLearner):
   r"""Uniform policy
 
   Play each arm in a round-robin way.

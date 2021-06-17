@@ -2,7 +2,7 @@ import tempfile
 
 from banditpylib.arms import BernoulliArm
 from banditpylib.bandits import MultiArmedBandit
-from banditpylib.learners.ordinary_learner import EpsGreedy
+from banditpylib.learners.mab_learner import EpsGreedy
 from .single_player import SinglePlayerProtocol
 from .utils import parse_trials_data
 

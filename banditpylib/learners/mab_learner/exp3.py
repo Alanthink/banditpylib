@@ -3,10 +3,10 @@ from typing import Optional
 import numpy as np
 
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class EXP3(OrdinaryLearner):
+class EXP3(MABLearner):
   r"""EXP3 policy :cite:`DBLP:journals/siamcomp/AuerCFS02`
 
   At time :math:`t`, with probability :math:`\gamma`, uniformly randomly sample

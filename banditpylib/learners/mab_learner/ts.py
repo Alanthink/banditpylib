@@ -4,10 +4,10 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class ThompsonSampling(OrdinaryLearner):
+class ThompsonSampling(MABLearner):
   r"""Thompson Sampling policy :cite:`agrawal2017near`
 
   Assume a prior distribution for every arm. At time :math:`t`, sample a

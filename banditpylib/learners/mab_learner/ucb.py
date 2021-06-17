@@ -4,54 +4,50 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class MOSS(OrdinaryLearner):
-  r"""MOSS policy :cite:`audibert2009minimax`
+class UCB(MABLearner):
+  r"""Upper Confidence Bound policy :cite:`auer2002finite`
 
   At time :math:`t`, play arm
 
   .. math::
     \mathrm{argmax}_{i \in \{0, \dots, N-1\}} \left\{ \bar{\mu}_i(t) +
-    \sqrt{\frac{\mathrm{max}(\ln( \frac{T}{N T_i(t)} ), 0 ) }{T_i(t)} } \right\}
+    \sqrt{ \frac{\alpha  \ln(t) }{T_i(t)} } \right\}
 
   :param int arm_num: number of arms
-  :param int horizon: total number of time steps
+  :param float alpha: alpha
   :param Optional[str] name: alias name
-
-  .. note::
-    MOSS uses time horizon in its confidence interval. Reward has to be bounded
-    in [0, 1].
   """
-  def __init__(self, arm_num: int, horizon: int, name: Optional[str] = None):
+  def __init__(self,
+               arm_num: int,
+               alpha: float = 2.0,
+               name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
-    if horizon < arm_num:
-      raise Exception('Horizon is expected at least %d. Got %d.' %
-                      (arm_num, horizon))
-    self.__horizon = horizon
+    if alpha <= 0:
+      raise ValueError('Alpha is expected greater than 0. Got %.2f.' % alpha)
+    self.__alpha = alpha
 
   def _name(self) -> str:
-    return 'moss'
+    return 'ucb'
 
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
     self.__time = 1
 
-  def __MOSS(self) -> np.ndarray:
+  def __UCB(self) -> np.ndarray:
     """
     Returns:
       optimistic estimate of arms' real means
     """
-    moss = np.array([
-        arm.em_mean + np.sqrt(
-            np.maximum(
-                0, np.log(self.__horizon /
-                          (self.arm_num * arm.total_pulls))) / arm.total_pulls)
+    ucb = np.array([
+        arm.em_mean +
+        np.sqrt(self.__alpha * np.log(self.__time) / arm.total_pulls)
         for arm in self.__pseudo_arms
     ])
-    return moss
+    return ucb
 
   def actions(self, context: Context) -> Actions:
     del context
@@ -62,7 +58,7 @@ class MOSS(OrdinaryLearner):
     if self.__time <= self.arm_num:
       arm_pulls_pair.arm.id = self.__time - 1
     else:
-      arm_pulls_pair.arm.id = int(np.argmax(self.__MOSS()))
+      arm_pulls_pair.arm.id = int(np.argmax(self.__UCB()))
 
     arm_pulls_pair.pulls = 1
     return actions

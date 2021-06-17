@@ -5,10 +5,10 @@ import numpy as np
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class ExploreThenCommit(OrdinaryLearner):
+class ExploreThenCommit(MABLearner):
   r"""Explore-Then-Commit policy
 
   During the first :math:`T' \leq T` time steps (exploration period), play each

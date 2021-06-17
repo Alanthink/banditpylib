@@ -6,10 +6,10 @@ import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryLearner
+from .utils import MABLearner
 
 
-class Softmax(OrdinaryLearner):
+class Softmax(MABLearner):
   r"""Softmax policy
 
   At time :math:`t`, sample arm :math:`i` to play with sampling weight
