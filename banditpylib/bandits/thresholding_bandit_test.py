@@ -1,6 +1,6 @@
 from banditpylib.arms import BernoulliArm
 from banditpylib.learners import MaximizeCorrectAnswers, MakeAllAnswersCorrect
-from .thres_bandit import ThresholdingBandit
+from .thresholding_bandit import ThresholdingBandit
 
 
 class TestThresholdingBandit:

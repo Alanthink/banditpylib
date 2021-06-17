@@ -3,7 +3,7 @@ from .ordinary_bandit import *
 from .mnl_bandit import *
 from .mnl_bandit_utils import *
 from .linear_bandit import *
-from .thres_bandit import *
+from .thresholding_bandit import *
 from .contextual_bandit import *
 from .contextual_bandit_utils import *
 
