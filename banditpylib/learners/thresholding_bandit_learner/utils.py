@@ -4,7 +4,7 @@ from banditpylib.bandits import ThresholdingBandit
 from banditpylib.learners import Learner
 
 
-class ThresBanditLearner(Learner):
+class ThresholdingBanditLearner(Learner):
   """Abstract class for learners playing with thresholding bandit
 
   :param int arm_num: number of arms
