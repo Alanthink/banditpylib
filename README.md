@@ -32,7 +32,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 ### Single player protocol
 
-#### Ordinary bandit
+#### Multi-armed bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
@@ -40,7 +40,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 | Fix-Budget BAI   | `Uniform`, `SR`, `SH`|
 | Fix-Confidence BAI   | `ExpGap`, `LilUCBHeuristic`|
 
-#### Ordinary MNL bandit
+#### MNL bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
@@ -51,6 +51,12 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 | Goal | Policies |
 |     :---      |      :--- |
 | Simple Regret | `Uniform`, `APT` |
+
+#### Linear bandit
+
+| Goal | Policies |
+|     :---      |      :--- |
+| Regret Minimization  | `LinUCB` |
 
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
@@ -104,7 +110,7 @@ means = [0.3, 0.5, 0.7]
 # Create Bernoulli arms
 arms = [BernoulliArm(mean) for mean in means]
 # Create an ordinary multi-armed bandit environment
-bandit = OrdinaryBandit(arms=arms)
+bandit = MultiArmedBandit(arms=arms)
 ```
 
 #### Set up learners
