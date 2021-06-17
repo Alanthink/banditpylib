@@ -3,7 +3,7 @@ import google.protobuf.text_format as text_format
 from banditpylib.arms import BernoulliArm
 from banditpylib.data_pb2 import Arm, Actions
 from banditpylib.learners import MaximizeTotalRewards, IdentifyBestArm
-from .ordinary_bandit import OrdinaryBandit
+from .multi_armed_bandit import MultiArmedBandit
 
 
 class TestOrdinaryBandit:
@@ -11,7 +11,7 @@ class TestOrdinaryBandit:
   def test_simple_run(self):
     means = [0, 1]
     arms = [BernoulliArm(mean) for mean in means]
-    ordinary_bandit = OrdinaryBandit(arms)
+    ordinary_bandit = MultiArmedBandit(arms)
     ordinary_bandit.reset()
     # Pull arm 0 for 100 times
     actions = text_format.Parse(

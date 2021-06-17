@@ -7,8 +7,8 @@ from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
 
 
-class OrdinaryBandit(Bandit):
-  r"""Ordinary bandit
+class MultiArmedBandit(Bandit):
+  r"""Multi-armed bandit
 
   Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate
   an `i.i.d.` reward from distribution :math:`\mathcal{D}_i`, which is unknown
@@ -30,7 +30,7 @@ class OrdinaryBandit(Bandit):
 
   @property
   def name(self) -> str:
-    return 'ordinary_bandit'
+    return 'multi_armed_bandit'
 
   @property
   def context(self) -> Context:

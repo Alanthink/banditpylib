@@ -1,7 +1,7 @@
 import tempfile
 
 from banditpylib.arms import BernoulliArm
-from banditpylib.bandits import OrdinaryBandit
+from banditpylib.bandits import MultiArmedBandit
 from banditpylib.learners.ordinary_learner import EpsGreedy
 from .single_player import SinglePlayerProtocol
 from .utils import parse_trials_data
@@ -12,7 +12,7 @@ class TestSinglePlayer:
   def test_simple_run(self):
     means = [0.3, 0.5, 0.7]
     arms = [BernoulliArm(mean) for mean in means]
-    ordinary_bandit = OrdinaryBandit(arms)
+    ordinary_bandit = MultiArmedBandit(arms)
     eps_greedy_learner = EpsGreedy(arm_num=3)
     single_player = SinglePlayerProtocol(bandit=ordinary_bandit,
                                          learners=[eps_greedy_learner],

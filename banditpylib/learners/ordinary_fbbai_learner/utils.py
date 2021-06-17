@@ -2,7 +2,7 @@ from abc import abstractmethod
 
 from typing import Optional, Union, List
 
-from banditpylib.bandits import OrdinaryBandit
+from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
@@ -30,7 +30,7 @@ class OrdinaryFBBAILearner(Learner):
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
-    return OrdinaryBandit
+    return MultiArmedBandit
 
   @property
   def arm_num(self) -> int:
