@@ -7,7 +7,7 @@ from banditpylib.data_pb2 import Arm
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
 
-class OrdinaryFCBAILearner(Learner):
+class MABFixedConfidenceBAILearner(Learner):
   """Base class for bai learners in the ordinary multi-armed bandit
 
   This learner aims to identify the best arm with fixed confidence.

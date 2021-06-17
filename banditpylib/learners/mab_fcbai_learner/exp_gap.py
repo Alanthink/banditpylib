@@ -6,10 +6,10 @@ import numpy as np
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryFCBAILearner
+from .utils import MABFixedConfidenceBAILearner
 
 
-class ExpGap(OrdinaryFCBAILearner):
+class ExpGap(MABFixedConfidenceBAILearner):
   """Exponential-gap elimination policy :cite:`karnin2013almost`
 
   :param int arm_num: number of arms
