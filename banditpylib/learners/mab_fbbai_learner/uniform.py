@@ -5,10 +5,10 @@ import numpy as np
 from banditpylib import argmax_or_min
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryFBBAILearner
+from .utils import MABFixedBudgetBAILearner
 
 
-class Uniform(OrdinaryFBBAILearner):
+class Uniform(MABFixedBudgetBAILearner):
   """Uniform sampling policy
 
   Play each arm the same number of times and then output the arm with the

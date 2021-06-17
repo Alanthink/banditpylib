@@ -7,7 +7,7 @@ from banditpylib.data_pb2 import Arm
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
 
-class OrdinaryFBBAILearner(Learner):
+class MABFixedBudgetBAILearner(Learner):
   """Abstract class for best-arm identification learners playing with the
   ordinary multi-armed bandit
 

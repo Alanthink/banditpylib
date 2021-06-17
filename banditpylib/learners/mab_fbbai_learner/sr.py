@@ -6,10 +6,10 @@ import numpy as np
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryFBBAILearner
+from .utils import MABFixedBudgetBAILearner
 
 
-class SR(OrdinaryFBBAILearner):
+class SR(MABFixedBudgetBAILearner):
   """Successive rejects policy :cite:`audibert2010best`
 
   Eliminate one arm in each round.

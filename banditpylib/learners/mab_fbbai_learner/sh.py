@@ -6,10 +6,10 @@ import numpy as np
 from banditpylib import argmax_or_min_tuple
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryFBBAILearner
+from .utils import MABFixedBudgetBAILearner
 
 
-class SH(OrdinaryFBBAILearner):
+class SH(MABFixedBudgetBAILearner):
   """Sequential halving policy :cite:`karnin2013almost`
 
   Eliminate half of the remaining arms in each round.
