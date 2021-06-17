@@ -5,10 +5,10 @@ import numpy as np
 from banditpylib.bandits import search_best_assortment, Reward, \
     local_search_best_assortment
 from banditpylib.data_pb2 import Context, Actions, Feedback
-from .utils import OrdinaryMNLLearner
+from .utils import MNLBanditLearner
 
 
-class UCB(OrdinaryMNLLearner):
+class UCB(MNLBanditLearner):
   """UCB policy :cite:`DBLP:journals/ior/AgrawalAGZ19`
 
   :param np.ndarray revenues: product revenues

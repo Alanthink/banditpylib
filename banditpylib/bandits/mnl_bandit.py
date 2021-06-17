@@ -8,13 +8,12 @@ import numpy as np
 from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
     ArmRewardsPair
 from banditpylib.learners import Goal, MaximizeTotalRewards
-from .ordinary_mnl_bandit_utils import Reward, MeanReward, \
-    search_best_assortment
+from .mnl_bandit_utils import Reward, MeanReward, search_best_assortment
 from .utils import Bandit
 
 
-class OrdinaryMNLBandit(Bandit):
-  r"""Ordinary MNL bandit
+class MNLBandit(Bandit):
+  r"""MNL bandit
 
   There are a total of :math:`N` products, where products are numbered from 1 by
   default. During each time step :math:`t`, when an assortment :math:`S_t` which
@@ -107,7 +106,7 @@ class OrdinaryMNLBandit(Bandit):
 
   @property
   def name(self) -> str:
-    return 'ordinary_mnl_bandit'
+    return 'mnl_bandit'
 
   def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
     """Serve one assortment

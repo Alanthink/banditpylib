@@ -4,13 +4,13 @@ from typing import Optional, List, Union
 
 import numpy as np
 
-from banditpylib.bandits import OrdinaryMNLBandit
+from banditpylib.bandits import MNLBandit
 from banditpylib.bandits import Reward
 from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
 
 
-class OrdinaryMNLLearner(Learner):
-  """Abstract class for learners playing with the ordinary mnl bandit
+class MNLBanditLearner(Learner):
+  """Abstract class for learners playing with mnl bandit
 
   Product 0 is reserved for non-purchase. And it is assumed that the preference
   parameter for non-purchase is 1.
@@ -51,7 +51,7 @@ class OrdinaryMNLLearner(Learner):
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
-    return OrdinaryMNLBandit
+    return MNLBandit
 
   @property
   def product_num(self) -> int:

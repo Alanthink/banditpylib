@@ -5,13 +5,13 @@ import google.protobuf.text_format as text_format
 
 from banditpylib.data_pb2 import Actions
 from banditpylib.learners import MaximizeTotalRewards
-from .ordinary_mnl_bandit import OrdinaryMNLBandit
-from .ordinary_mnl_bandit_utils import search, search_best_assortment, \
-    MeanReward, CvarReward, local_search_best_assortment
+from .mnl_bandit import MNLBandit
+from .mnl_bandit_utils import search, search_best_assortment, MeanReward, \
+    CvarReward, local_search_best_assortment
 
 
-class TestOrdinaryMNLBandit:
-  """Tests in ordinary mnl bandit"""
+class TestMNLBandit:
+  """Tests in mnl bandit"""
   def test_search_unrestricted(self):
     results = []
     search(assortments=results,
@@ -91,7 +91,7 @@ class TestOrdinaryMNLBandit:
         [1.0, 1.0, 1.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5])
     revenues = np.array([0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     card_limit = 1
-    bandit = OrdinaryMNLBandit(preference_params, revenues, card_limit)
+    bandit = MNLBandit(preference_params, revenues, card_limit)
     bandit.reset()
     # Serve best assortment {1} for 3 times
     bandit.feed(
@@ -111,7 +111,7 @@ class TestOrdinaryMNLBandit:
   def test_one_product(self):
     preference_params = [1.0, 0.0]
     revenues = [0.0, 1.0]
-    bandit = OrdinaryMNLBandit(preference_params, revenues)
+    bandit = MNLBandit(preference_params, revenues)
     bandit.reset()
     # Always get no purchase
     assert set(
