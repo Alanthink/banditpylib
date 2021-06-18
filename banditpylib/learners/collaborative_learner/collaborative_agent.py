@@ -36,6 +36,8 @@ class CollaborativeAgent(CollaborativeLearner):
     self.__round_pulls = 0
     self.__round_num = 0
     self.__stage = "unassigned"
+    self.__central_algo_action_taken = False # True if action forwarded from central algo
+
 
   def assign_arms(self, arms):
     self.__assigned_arms = np.array(arms)
@@ -48,7 +50,7 @@ class CollaborativeAgent(CollaborativeLearner):
     # completes round
     self.__round_num += 1
     self.__round_pulls = 0
-    self.__central_algo_action_taken = False # True if action forwarded from central algo
+    self.__central_algo_action_taken = False
     if self.__round_num < self.__R + 1:
       self.__stage = "unassigned"
     else:
@@ -135,7 +137,7 @@ class CollaborativeAgent(CollaborativeLearner):
 
     self.__central_algo_action_taken = False
     
-
+  @property
   def best_arm(self) -> int:
     # returns arm that the agent chose (could be None)
     return self.__i_l_r

@@ -94,11 +94,11 @@ class CollaborativeLearningProtocol(Protocol):
 
     def add_data():
       data_item = trial.data_items.add()
-      data_item.rounds = rounds
+      data_item.rounds = current_round
       data_item.total_actions = total_actions
-      data_item.regret = self.bandit.regret(self.current_learner.goal)
+      data_item.regret = self.bandit.regret(self.__agents[0].goal)
 
-    self.active_arms = list(range(self.__num_agents))
+    self.active_arms = list(range(self.bandit.arm_num))
     while current_round < self.__rounds + 1 and total_actions < self.__horizon and \
       len(self.active_arms)>1:
       # assigning arms
@@ -128,8 +128,8 @@ class CollaborativeLearningProtocol(Protocol):
         agent.assign_arms(arms_assign_list[i])
 
       # preparation and learning
-      waiting_agents = [False]*num_agents # waiting for communication
-      stopped_agents = [False]*num_agents # terminated
+      waiting_agents = [False] * self.__num_agents # waiting for communication
+      stopped_agents = [False] * self.__num_agents # terminated
       while sum(waiting_agents) + sum(stopped_agents) != self.__num_agents:
         for i, agent in enumerate(self.__agents):
           if not (waiting_agents[i] or stopped_agents[i]):
@@ -151,7 +151,7 @@ class CollaborativeLearningProtocol(Protocol):
           i_l_r_list.append(i_l_r)
           p_l_r_list.append(p_l_r)
 
-      self.total_actions += max(pulls_used_list)
+      total_actions += max(pulls_used_list)
 
       s_tilde_r = np.array(list(set(i_l_r_list)))
       q_tilde_r = np.zeros_like(s_tilde_r)

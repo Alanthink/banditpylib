@@ -23,7 +23,8 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
   """
   def __init__(self, arm_num: int, confidence: float, assigned_arms: np.ndarray = None, name: str = None):
     assert np.max(assigned_arms)<arm_num and len(assigned_arms)<=arm_num, (
-      "assigned_arms should be a subset [arm_num], with unique arm indices")
+      "assigned_arms should be a subset of [arm_num], with unique arm indices\nReceived "
+        + str(assigned_arms))
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if assigned_arms is not None:
       self.__assigned_arms = assigned_arms

@@ -9,22 +9,19 @@ sns.set(style="darkgrid")
 
 from banditpylib.arms import GaussianArm
 from banditpylib.bandits import OrdinaryBandit
-from banditpylib.protocols import CollaborativeLearnerProtocol, trial_data_messages_to_dict
-from banditpylib.learners.ordinary_fcbai_learner import CollaborativeAgent, LilUCBHeuristic
+from banditpylib.protocols import CollaborativeLearningProtocol, trial_data_messages_to_dict
+from banditpylib.learners.collaborative_learner import CollaborativeAgent
 
 confidence = 0.95
 means = [0.3, 0.5, 0.7]
-arms = [GaussianArm(mu=mean, var=1) for mean in means]
+arms = [GaussianArm(mu=mean, std=1) for mean in means]
 bandit = OrdinaryBandit(arms=arms)
 agent = CollaborativeAgent(arm_num=len(
     arms), name='Collaborative Agent', num_rounds=10, time_horizon=1000)
-agent.assign_arms([2])
-agent.reset()
 trials = 20
-learners = [LilUCBHeuristic(arm_num=len(
-    arms), confidence=confidence, name='Heuristic lilUCB'), agent]
 
-game = CollaborativeLearnerProtocol(bandit=bandit, learners=learners)
+game = CollaborativeLearningProtocol(bandit=bandit, agent=agent,
+    num_agents=10, rounds=10, horizon=1000)
 game.play(trials=trials, output_filename="trial_outputs.txt")
 
 print(agent.broadcast())
