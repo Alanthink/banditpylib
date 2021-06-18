@@ -176,7 +176,7 @@ class CollaborativeLearningProtocol(Protocol):
       for agent in self.__agents:
         agent.complete_round()
 
-      add_data()
+    add_data()
 
     return trial.SerializeToString()
             
