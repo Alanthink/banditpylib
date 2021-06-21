@@ -83,7 +83,6 @@ class CollaborativeLearningProtocol(Protocol):
       data_item.rounds = self.current_learner.num_rounds_completed
       data_item.total_actions = self.current_learner.total_pulls
       try:
-        print(self.current_learner.best_arm)
         data_item.regret = self.bandit.regret(self.current_learner.goal)
       except:
         data_item.regret = 1

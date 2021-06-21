@@ -1,0 +1,17 @@
+1. LilUCBHeuristicCollaborative:
+    added a few extra methods for use with CollaborativeActions
+    added functionality to work on a subset of arms out of the total
+
+2. CollaborativeAgent:
+    implementation of one agent
+    follows the steps of the algorithm for the set of arms assigned to it
+
+3. CollaborativeMaster:
+    maintains a set of agents
+    interacts with agents during the communication step
+    returns the overall best arm as per the algorithm
+
+4. CollaborativeLearningProtocol:
+    the collaborative master has slightly different mechanics
+    hence, the SinglePlayerProtocol could not work with it
+    this protocol is pretty specific to the current algorithm, but is useful to compare similar versions of this algorithm or this algorithm with other single player learners by creating two separate "games"
