@@ -1,3 +1,7 @@
+0. CollaborativeActions in data.proto
+    same as an Action but has one extra attribute: state
+    state is one of NORMAL, WAIT, STOP
+
 1. LilUCBHeuristicCollaborative:
     added a few extra methods for use with CollaborativeActions
     added functionality to work on a subset of arms out of the total
