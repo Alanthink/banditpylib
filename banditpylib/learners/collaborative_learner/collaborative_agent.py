@@ -1,15 +1,11 @@
-import numpy as np
-import math
 import random
-from typing import Tuple
-from typing import Iterable
+from typing import Tuple, Iterable
 from copy import deepcopy as dcopy
 
-from banditpylib.arms import PseudoArm
+import numpy as np
 from banditpylib.data_pb2 import Feedback, CollaborativeActions
-from banditpylib import argmax_or_min_tuple
 
-from .utils import CollaborativeLearner
+from .utils import CollaborativeLearner, CollaborativeMaster
 from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
 
 class CollaborativeAgent(CollaborativeLearner):
@@ -23,9 +19,9 @@ class CollaborativeAgent(CollaborativeLearner):
   :param str name: alias name
   """
 
-  def __init__(self, arm_num: int, num_rounds: int, time_horizon: int, name: str = None):
-    # unknown confidence
-    super().__init__(arm_num=arm_num, confidence=0.99, name=name)
+  def __init__(self, arm_num: int, num_rounds: int,
+    time_horizon: int, name: str = None):
+    super().__init__(arm_num=arm_num, name=name)
     self.__R = num_rounds
     self.__T = time_horizon
     self.__num_pulls_learning = int(0.5 * time_horizon / num_rounds)
@@ -38,13 +34,16 @@ class CollaborativeAgent(CollaborativeLearner):
     self.__round_pulls = 0
     self.__round_num = 0
     self.__stage = "unassigned"
-    self.__central_algo_action_taken = False # True if action forwarded from central algo
+
+    self.__central_algo_action_taken = False
+    # True if action forwarded from central algo
 
 
   def assign_arms(self, arms):
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
-    self.__central_algo = LilUCBHeuristicCollaborative(self.arm_num, 0.01, self.__assigned_arms)
+    self.__central_algo = LilUCBHeuristicCollaborative(self.arm_num,
+      0.99, self.__assigned_arms)
     self.__central_algo.reset()
     self.__stage = "preparation"
 
@@ -100,10 +99,11 @@ class CollaborativeAgent(CollaborativeLearner):
       if self.__i_l_r is None:
         actions.state = CollaborativeActions.WAIT
         return actions
-      arm_pulls_pair = actions.arm_pulls_pairs.add()
-      arm_pulls_pair.arm.id = self.__i_l_r
-      arm_pulls_pair.pulls = self.__num_pulls_learning
-      return actions
+      else:
+        arm_pulls_pair = actions.arm_pulls_pairs.add()
+        arm_pulls_pair.arm.id = self.__i_l_r # pylint: disable=protobuf-type-error
+        arm_pulls_pair.pulls = self.__num_pulls_learning
+        return actions
 
     elif self.__stage == "communication":
       actions = CollaborativeActions()
@@ -116,7 +116,8 @@ class CollaborativeAgent(CollaborativeLearner):
       return actions
 
     else:
-      raise Exception(self.name + ": " + self.__stage + " does not allow actions to be played")
+      raise Exception(self.name + ": " + self.__stage +
+        " does not allow actions to be played")
 
   def update(self, feedback: Feedback):
     # update total pulls
@@ -138,7 +139,7 @@ class CollaborativeAgent(CollaborativeLearner):
     # else ignore feedback (which is empty)
 
     self.__central_algo_action_taken = False
-    
+
   @property
   def best_arm(self) -> int:
     # returns arm that the agent chose (could be None)
@@ -154,7 +155,7 @@ class CollaborativeAgent(CollaborativeLearner):
     return self.__i_l_r, self.__p_l_r, self.__round_pulls
 
 
-class CollaborativeMaster(CollaborativeLearner):
+class MyCollaborativeMaster(CollaborativeMaster):
   r"""Controlling master of the Collaborative Learning Algorithm
 
   :param int arm_num: number of arms of the bandit
@@ -168,8 +169,8 @@ class CollaborativeMaster(CollaborativeLearner):
 
   def __init__(self, arm_num: int, num_rounds: int,
     time_horizon: int, num_agents: int, name: str = None):
-    # unknown confidence
-    super().__init__(arm_num=arm_num, confidence=0.99, name=name)
+    super().__init__(arm_num=arm_num, num_agents=num_agents,
+      agent_class=CollaborativeAgent, name=name)
     self.__R = num_rounds
     self.__T = time_horizon
     self.__agents = []
@@ -178,7 +179,7 @@ class CollaborativeMaster(CollaborativeLearner):
         agent_name = "collaborative_agent_" + str(i)
       else:
         agent_name = name + "_agent_" + str(i)
-      self.__agents.append(CollaborativeAgent(
+      self.__agents.append(self.agent_class(
         arm_num, num_rounds, time_horizon, agent_name))
 
   def __assign_arms(self):
@@ -191,7 +192,7 @@ class CollaborativeMaster(CollaborativeLearner):
       # rounded to 20 with probability 0.3
       frac_x = x - int(x)
       if np.random.uniform() > frac_x:
-          return int(x)
+        return int(x)
       return int(x) + 1
 
     if len(self.__active_arms) < len(self.__agents):
@@ -211,7 +212,7 @@ class CollaborativeMaster(CollaborativeLearner):
       for i, arm in enumerate(__active_arms_copy[:len(self.__agents)]):
         arms_assign_list[i].append(arm)
       for arm in __active_arms_copy[len(self.__agents):]:
-        agent_idx = np.random.randint(len(self.__agents))
+        agent_idx = int(np.random.randint(len(self.__agents)))
         arms_assign_list[agent_idx].append(arm)
 
     for i, agent in enumerate(self.__agents):
@@ -228,33 +229,42 @@ class CollaborativeMaster(CollaborativeLearner):
   def _name(self) -> str:
     return 'collaborative_master'
 
-
-  def preparation_learning(self, context=None) -> Iterable[CollaborativeActions]:
-    self.__stage = "preparation_learning"
-    waiting_agents = [False] * len(self.__agents) # waiting for communication
-    stopped_agents = [False] * len(self.__agents) # terminated
-    while sum(waiting_agents) + sum(stopped_agents) != len(self.__agents):
-      for i, agent in enumerate(self.__agents):
-        self.__current_agent_idx = i # to be used in update
-        if not (waiting_agents[i] or stopped_agents[i]):
-          actions = agent.actions(context)
-          if actions.state == CollaborativeActions.WAIT:
-            waiting_agents[i] = True
-          elif actions.state == CollaborativeActions.STOP:
-            stopped_agents[i] = True
-          else:
-            yield actions
-
-  def actions(self) -> CollaborativeActions:
-    # only a filler
-    return None
-
   def update(self, feedback: Feedback):
     if self.__stage == "preparation_learning":
       self.__agents[self.__current_agent_idx].update(feedback)
 
     else:
       raise Exception("%s: cannot update with this feedback" % self.name)
+
+  def iterable_actions(self, context=None) \
+    -> Iterable[CollaborativeActions]:
+    while self.__round_num < self.__R + 1 \
+      and self.__total_pulls < self.__T and \
+      len(self.__active_arms)>1:
+
+      # preparation and learning
+      self.__stage = "preparation_learning"
+      waiting_agents = [False] * len(self.__agents) # waiting for communication
+      stopped_agents = [False] * len(self.__agents) # terminated
+      while sum(waiting_agents) + sum(stopped_agents) != len(self.__agents):
+        for i, agent in enumerate(self.__agents):
+          self.__current_agent_idx = i # to be used in update
+          if not (waiting_agents[i] or stopped_agents[i]):
+            actions = agent.actions(context)
+            if actions.state == CollaborativeActions.WAIT:
+              waiting_agents[i] = True
+            elif actions.state == CollaborativeActions.STOP:
+              stopped_agents[i] = True
+            else:
+              yield actions
+      # other stages
+      self.__communication_aggregation_elimination()
+
+      # complete_round routine
+      self.__round_num += 1
+      for agent in self.__agents:
+        agent.complete_round()
+      self.__assign_arms()
 
   def __communication_aggregation_elimination(self):
     self.__stage = "communication_aggregation_elimination"
@@ -286,28 +296,8 @@ class CollaborativeMaster(CollaborativeLearner):
       s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
     )
 
-  def complete_round(self):
-    # called after action-feedback loop
-    self.__communication_aggregation_elimination()
-    self.__round_num += 1
-    for agent in self.__agents:
-      agent.complete_round()
-    self.__assign_arms()
-
   @property
   def best_arm(self):
     if len(self.__active_arms) == 1:
       return self.__active_arms[0]
     raise Exception('%s: I don\'t have an answer yet!' % self.name)
-
-  @property
-  def total_pulls(self):
-    return self.__total_pulls
-
-  @property
-  def num_rounds_completed(self):
-    return self.__round_num
-
-  @property
-  def num_active_arms(self):
-    return len(self.__active_arms)

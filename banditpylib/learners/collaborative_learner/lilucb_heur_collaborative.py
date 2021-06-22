@@ -1,16 +1,12 @@
-import numpy as np
 import math
-import random
-from copy import deepcopy as dcopy
-from typing import Tuple
+import numpy as np
 
 from banditpylib.arms import PseudoArm
 from banditpylib.data_pb2 import Feedback, CollaborativeActions
 from banditpylib import argmax_or_min_tuple
+from banditpylib.learners.mab_fcbai_learner import MABFixedConfidenceBAILearner
 
-from banditpylib.learners.ordinary_fcbai_learner import OrdinaryFCBAILearner
-
-class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
+class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
   """LilUCB heuristic policy :cite:`jamieson2014lil`
   Modified implementation to supplement CollaborativeAgent
   along with additional functionality to work on only a subset of arms
@@ -21,9 +17,10 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
   :param np.ndarray assigned_arms: arm indices the learner has to work with
   :param str name: alias name
   """
-  def __init__(self, arm_num: int, confidence: float, assigned_arms: np.ndarray = None, name: str = None):
+  def __init__(self, arm_num: int, confidence: float,
+    assigned_arms: np.ndarray = None, name: str = None):
     assert np.max(assigned_arms)<arm_num and len(assigned_arms)<=arm_num, (
-      "assigned_arms should be a subset of [arm_num], with unique arm indices\nReceived "
+      "assigned arms should be a subset of [arm_num]\nReceived: "
         + str(assigned_arms))
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if assigned_arms is not None:
@@ -73,6 +70,7 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
     ])
 
   def actions(self, context=None) -> CollaborativeActions:
+    del context
     if self.__stage == 'initialization':
       actions = CollaborativeActions() # default state is normal
 
@@ -102,7 +100,8 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
   def update(self, feedback: Feedback):
     for arm_rewards_pair in feedback.arm_rewards_pairs:
       # reverse map from bandit index to local index
-      pseudo_arm_index = np.where(self.__assigned_arms==arm_rewards_pair.arm.id)[0][0]
+      pseudo_arm_index = np.where(
+        self.__assigned_arms==arm_rewards_pair.arm.id)[0][0]
       self.__pseudo_arms[pseudo_arm_index].update(
           np.array(arm_rewards_pair.rewards))
       self.__total_pulls += len(arm_rewards_pair.rewards)
@@ -110,6 +109,7 @@ class LilUCBHeuristicCollaborative(OrdinaryFCBAILearner):
     if self.__stage == 'initialization':
       self.__stage = 'main'
 
+  @property
   def best_arm(self) -> int:
     # map best arm local index to actual bandit index
     return self.__assigned_arms[

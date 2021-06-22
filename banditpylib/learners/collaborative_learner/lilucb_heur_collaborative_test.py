@@ -9,7 +9,8 @@ class TestLilUCBHeuristicCollaborative:
   def test_simple_run(self):
     arm_num = 3
     confidence = 0.95
-    learner = LilUCBHeuristicCollaborative(arm_num=arm_num, confidence=confidence, assigned_arms=np.arange(arm_num))
+    learner = LilUCBHeuristicCollaborative(arm_num=arm_num,
+      confidence=confidence, assigned_arms=np.arange(arm_num))
     learner.reset()
 
     while True:
@@ -27,4 +28,4 @@ class TestLilUCBHeuristicCollaborative:
                                  arm_pulls_pair.pulls)))
       learner.update(feedback)
 
-    assert learner.best_arm() in list(range(arm_num))
+    assert learner.best_arm in list(range(arm_num))

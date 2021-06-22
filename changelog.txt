@@ -10,7 +10,7 @@
     implementation of one agent
     follows the steps of the algorithm for the set of arms assigned to it
 
-3. CollaborativeMaster:
+3. MyCollaborativeMaster:
     maintains a set of agents
     interacts with agents during the communication step
     returns the overall best arm as per the algorithm
