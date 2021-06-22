@@ -128,9 +128,9 @@ class CollaborativeAgent(CollaborativeLearner):
     self.__round_pulls += num_pulls
 
     # handle feedback
+    self.__p_l_r = None # default in case i_l_r is None
     if self.__central_algo_action_taken:
       self.__central_algo.update(feedback)
-    self.__p_l_r = None # default in case i_l_r is None
     elif num_pulls>0:
       # non-zero pulls not by central_algo => learning step was done
       for arm_rewards_pair in feedback.arm_rewards_pairs:
