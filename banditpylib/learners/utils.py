@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, List, Union
 
 from banditpylib.data_pb2 import (
-  Context, Arm, Actions, CollaborativeActions, Feedback)
+  Context, Arm, Actions, Feedback)
 
 
 class Goal(ABC):
@@ -109,7 +109,7 @@ class Learner(ABC):
     """
 
   @abstractmethod
-  def actions(self, context: Context) -> Union[Actions, CollaborativeActions]:
+  def actions(self, context: Context) -> Actions:
     """Actions of the learner
 
     Args:

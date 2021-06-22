@@ -3,7 +3,7 @@ from abc import abstractmethod
 from typing import Optional, Union, List, Iterable, Tuple
 
 from banditpylib.bandits import MultiArmedBandit
-from banditpylib.data_pb2 import Arm, CollaborativeActions, Context
+from banditpylib.data_pb2 import Arm, Actions, Context
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
 
@@ -85,14 +85,14 @@ class CollaborativeMaster(Learner):
     """Class of agents being used"""
     return self.__agent_class
 
-  def actions(self, context=None) -> CollaborativeActions:
+  def actions(self, context=None) -> Actions:
     """this is not required, only a filler"""
     del context
-    return CollaborativeActions()
+    return Actions()
 
   @abstractmethod
   def iterable_actions(self, context: Context) \
-    -> Iterable[CollaborativeActions]:
+    -> Iterable[Actions]:
     """Iterable function that returns the actions that need feedback"""
 
   @property

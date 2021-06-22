@@ -49,21 +49,16 @@ message ArmPullsPair {
   int32 pulls = 2;
 }
 
-// Next tag: 2
-message Actions {
-  repeated ArmPullsPair arm_pulls_pairs = 1;
-}
-
 // Next tag: 3
-message CollaborativeActions {
+message Actions {
   repeated ArmPullsPair arm_pulls_pairs = 1;
 
   enum StateType {
-    NORMAL = 0;   // wants to take actions [default]
-    WAIT = 1;     // wants to communicate  
-    STOP = 2;     // terminated
+    DEFAULT_NORMAL = 0;   // wants to take actions [default]
+    WAIT = 1;             // wants to communicate  
+    STOP = 2;             // terminated
   }
-  StateType state = 2;
+  StateType state = 2;    // used by collaborative learners
 }
 
 // Next tag: 4

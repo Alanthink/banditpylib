@@ -3,7 +3,7 @@ from typing import Tuple, Iterable
 from copy import deepcopy as dcopy
 
 import numpy as np
-from banditpylib.data_pb2 import Feedback, CollaborativeActions
+from banditpylib.data_pb2 import Feedback, Actions
 
 from .utils import CollaborativeLearner, CollaborativeMaster
 from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
@@ -58,7 +58,7 @@ class CollaborativeAgent(CollaborativeLearner):
       self.__stage = "termination"
 
 
-  def actions(self, context=None) -> CollaborativeActions:
+  def actions(self, context=None) -> Actions:
     # a core assumption is all non-empty actions immediately receive feedback
     # and hence stage is changed here and not when feedback is received
     del context
@@ -94,10 +94,10 @@ class CollaborativeAgent(CollaborativeLearner):
     #   if i_l_r is none, do no pulls and move to communication
     #   else pull i_l_r for a fixed number of times and move to communication
     elif self.__stage == "learning":
-      actions = CollaborativeActions()
+      actions = Actions()
       self.__stage = "communication"
       if self.__i_l_r is None:
-        actions.state = CollaborativeActions.WAIT
+        actions.state = Actions.WAIT
         return actions
       else:
         arm_pulls_pair = actions.arm_pulls_pairs.add()
@@ -106,13 +106,13 @@ class CollaborativeAgent(CollaborativeLearner):
         return actions
 
     elif self.__stage == "communication":
-      actions = CollaborativeActions()
-      actions.state = CollaborativeActions.WAIT
+      actions = Actions()
+      actions.state = Actions.WAIT
       return actions
 
     elif self.__stage == "termination":
-      actions = CollaborativeActions()
-      actions.state = CollaborativeActions.STOP
+      actions = Actions()
+      actions.state = Actions.STOP
       return actions
 
     else:
@@ -237,7 +237,7 @@ class MyCollaborativeMaster(CollaborativeMaster):
       raise Exception("%s: cannot update with this feedback" % self.name)
 
   def iterable_actions(self, context=None) \
-    -> Iterable[CollaborativeActions]:
+    -> Iterable[Actions]:
     while self.__round_num < self.__R + 1 \
       and self.__total_pulls < self.__T and \
       len(self.__active_arms)>1:
@@ -251,9 +251,9 @@ class MyCollaborativeMaster(CollaborativeMaster):
           self.__current_agent_idx = i # to be used in update
           if not (waiting_agents[i] or stopped_agents[i]):
             actions = agent.actions(context)
-            if actions.state == CollaborativeActions.WAIT:
+            if actions.state == Actions.WAIT:
               waiting_agents[i] = True
-            elif actions.state == CollaborativeActions.STOP:
+            elif actions.state == Actions.STOP:
               stopped_agents[i] = True
             else:
               yield actions

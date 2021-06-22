@@ -19,20 +19,20 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x96\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0f\n\rcontext_oneof\"X\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\x0b\n\tarm_oneof\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"\xb3\x01\n\x14\x43ollaborativeActions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\x12:\n\x05state\x18\x02 \x01(\x0e\x32+.banditpylib.CollaborativeActions.StateType\"+\n\tStateType\x12\n\n\x06NORMAL\x10\x00\x12\x08\n\x04WAIT\x10\x01\x12\x08\n\x04STOP\x10\x02\"\\\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3'
+  serialized_pb=b'\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x96\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0f\n\rcontext_oneof\"X\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\x0b\n\tarm_oneof\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"\xa1\x01\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\x12-\n\x05state\x18\x02 \x01(\x0e\x32\x1e.banditpylib.Actions.StateType\"3\n\tStateType\x12\x12\n\x0e\x44\x45\x46\x41ULT_NORMAL\x10\x00\x12\x08\n\x04WAIT\x10\x01\x12\x08\n\x04STOP\x10\x02\"\\\n\x0e\x41rmRewardsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\"B\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12\x36\n\x11\x61rm_rewards_pairs\x18\x01 \x03(\x0b\x32\x1b.banditpylib.ArmRewardsPair\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3'
 )
 
 
 
-_COLLABORATIVEACTIONS_STATETYPE = _descriptor.EnumDescriptor(
+_ACTIONS_STATETYPE = _descriptor.EnumDescriptor(
   name='StateType',
-  full_name='banditpylib.CollaborativeActions.StateType',
+  full_name='banditpylib.Actions.StateType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='NORMAL', index=0, number=0,
+      name='DEFAULT_NORMAL', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -49,10 +49,10 @@ _COLLABORATIVEACTIONS_STATETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=652,
-  serialized_end=695,
+  serialized_start=563,
+  serialized_end=614,
 )
-_sym_db.RegisterEnumDescriptor(_COLLABORATIVEACTIONS_STATETYPE)
+_sym_db.RegisterEnumDescriptor(_ACTIONS_STATETYPE)
 
 
 _SEQUENTIALCONTEXT = _descriptor.Descriptor(
@@ -324,40 +324,8 @@ _ACTIONS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=452,
-  serialized_end=513,
-)
-
-
-_COLLABORATIVEACTIONS = _descriptor.Descriptor(
-  name='CollaborativeActions',
-  full_name='banditpylib.CollaborativeActions',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='arm_pulls_pairs', full_name='banditpylib.CollaborativeActions.arm_pulls_pairs', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='state', full_name='banditpylib.CollaborativeActions.state', index=1,
+      name='state', full_name='banditpylib.Actions.state', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -368,7 +336,7 @@ _COLLABORATIVEACTIONS = _descriptor.Descriptor(
   ],
   nested_types=[],
   enum_types=[
-    _COLLABORATIVEACTIONS_STATETYPE,
+    _ACTIONS_STATETYPE,
   ],
   serialized_options=None,
   is_extendable=False,
@@ -376,8 +344,8 @@ _COLLABORATIVEACTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=516,
-  serialized_end=695,
+  serialized_start=453,
+  serialized_end=614,
 )
 
 
@@ -422,8 +390,8 @@ _ARMREWARDSPAIR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=697,
-  serialized_end=789,
+  serialized_start=616,
+  serialized_end=708,
 )
 
 
@@ -454,8 +422,8 @@ _FEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=791,
-  serialized_end=857,
+  serialized_start=710,
+  serialized_end=776,
 )
 
 
@@ -507,8 +475,8 @@ _DATAITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=859,
-  serialized_end=939,
+  serialized_start=778,
+  serialized_end=858,
 )
 
 
@@ -553,8 +521,8 @@ _TRIAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=941,
-  serialized_end=1024,
+  serialized_start=860,
+  serialized_end=943,
 )
 
 _VECTORIZEDCONTEXT.fields_by_name['vectors'].message_type = _VECTOR
@@ -576,9 +544,8 @@ _ARM.oneofs_by_name['arm_oneof'].fields.append(
 _ARM.fields_by_name['set'].containing_oneof = _ARM.oneofs_by_name['arm_oneof']
 _ARMPULLSPAIR.fields_by_name['arm'].message_type = _ARM
 _ACTIONS.fields_by_name['arm_pulls_pairs'].message_type = _ARMPULLSPAIR
-_COLLABORATIVEACTIONS.fields_by_name['arm_pulls_pairs'].message_type = _ARMPULLSPAIR
-_COLLABORATIVEACTIONS.fields_by_name['state'].enum_type = _COLLABORATIVEACTIONS_STATETYPE
-_COLLABORATIVEACTIONS_STATETYPE.containing_type = _COLLABORATIVEACTIONS
+_ACTIONS.fields_by_name['state'].enum_type = _ACTIONS_STATETYPE
+_ACTIONS_STATETYPE.containing_type = _ACTIONS
 _ARMREWARDSPAIR.fields_by_name['arm'].message_type = _ARM
 _FEEDBACK.fields_by_name['arm_rewards_pairs'].message_type = _ARMREWARDSPAIR
 _TRIAL.fields_by_name['data_items'].message_type = _DATAITEM
@@ -589,7 +556,6 @@ DESCRIPTOR.message_types_by_name['Context'] = _CONTEXT
 DESCRIPTOR.message_types_by_name['Arm'] = _ARM
 DESCRIPTOR.message_types_by_name['ArmPullsPair'] = _ARMPULLSPAIR
 DESCRIPTOR.message_types_by_name['Actions'] = _ACTIONS
-DESCRIPTOR.message_types_by_name['CollaborativeActions'] = _COLLABORATIVEACTIONS
 DESCRIPTOR.message_types_by_name['ArmRewardsPair'] = _ARMREWARDSPAIR
 DESCRIPTOR.message_types_by_name['Feedback'] = _FEEDBACK
 DESCRIPTOR.message_types_by_name['DataItem'] = _DATAITEM
@@ -652,13 +618,6 @@ Actions = _reflection.GeneratedProtocolMessageType('Actions', (_message.Message,
   # @@protoc_insertion_point(class_scope:banditpylib.Actions)
   })
 _sym_db.RegisterMessage(Actions)
-
-CollaborativeActions = _reflection.GeneratedProtocolMessageType('CollaborativeActions', (_message.Message,), {
-  'DESCRIPTOR' : _COLLABORATIVEACTIONS,
-  '__module__' : 'data_pb2'
-  # @@protoc_insertion_point(class_scope:banditpylib.CollaborativeActions)
-  })
-_sym_db.RegisterMessage(CollaborativeActions)
 
 ArmRewardsPair = _reflection.GeneratedProtocolMessageType('ArmRewardsPair', (_message.Message,), {
   'DESCRIPTOR' : _ARMREWARDSPAIR,

@@ -2,7 +2,7 @@ import math
 import numpy as np
 
 from banditpylib.arms import PseudoArm
-from banditpylib.data_pb2 import Feedback, CollaborativeActions
+from banditpylib.data_pb2 import Feedback, Actions
 from banditpylib import argmax_or_min_tuple
 from banditpylib.learners.mab_fcbai_learner import MABFixedConfidenceBAILearner
 
@@ -69,10 +69,10 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
         for pseudo_arm in self.__pseudo_arms
     ])
 
-  def actions(self, context=None) -> CollaborativeActions:
+  def actions(self, context=None) -> Actions:
     del context
     if self.__stage == 'initialization':
-      actions = CollaborativeActions() # default state is normal
+      actions = Actions() # default state is normal
 
       # 1 pull each for every assigned arm
       for arm_id in self.__assigned_arms:
@@ -82,7 +82,7 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
       return actions
 
     # self.__stage == 'main'
-    actions = CollaborativeActions()
+    actions = Actions()
 
     for pseudo_arm in self.__pseudo_arms:
       if pseudo_arm.total_pulls >= (
