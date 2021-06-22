@@ -130,9 +130,9 @@ class CollaborativeAgent(CollaborativeLearner):
     # handle feedback
     if self.__central_algo_action_taken:
       self.__central_algo.update(feedback)
+    self.__p_l_r = None # default in case i_l_r is None
     elif num_pulls>0:
       # non-zero pulls not by central_algo => learning step was done
-      self.__p_l_r = None # default in case i_l_r is None
       for arm_rewards_pair in feedback.arm_rewards_pairs:
         if arm_rewards_pair.arm.id == self.__i_l_r:
           self.__p_l_r = np.array(arm_rewards_pair.rewards).mean()
