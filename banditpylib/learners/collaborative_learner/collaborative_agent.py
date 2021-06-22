@@ -85,7 +85,7 @@ class CollaborativeAgent(CollaborativeLearner):
       if not central_algo_actions.arm_pulls_pairs:
         # central algo terminated before T/2 pulls
         self.__stage = "learning"
-        self.__i_l_r = self.__central_algo.best_arm()
+        self.__i_l_r = self.__central_algo.best_arm
         return self.actions()
       self.__central_algo_action_taken = True
       return central_algo_actions
