@@ -38,7 +38,9 @@ class ContextGenerator(ABC):
 
   @abstractmethod
   def context(self) -> Tuple[np.ndarray, np.ndarray]:
-    """Returns:
+    """Context
+
+    Returns:
       the context and the rewards corresponding to different actions
     """
 

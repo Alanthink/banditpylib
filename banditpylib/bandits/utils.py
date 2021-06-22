@@ -1,17 +1,11 @@
 from abc import ABC, abstractmethod
 
-from typing import Any
-
-from banditpylib.data_pb2 import Actions, Feedback
+from banditpylib.data_pb2 import Context, Actions, Feedback
 from banditpylib.learners import Goal
 
 
 class Bandit(ABC):
-  """Abstract class for bandit environments
-
-  :func:`context` is used to fetch the current state of the environment.
-  :func:`feed` is used to pass the actions to the environment for execution.
-  """
+  """Abstract class for bandit environments"""
   @property
   @abstractmethod
   def name(self) -> str:
@@ -27,7 +21,7 @@ class Bandit(ABC):
 
   @property
   @abstractmethod
-  def context(self) -> Any:
+  def context(self) -> Context:
     """Contextual information about the bandit environment"""
 
   @abstractmethod

@@ -1,6 +1,5 @@
-import numpy as np
-
-from banditpylib.data_pb2 import Actions, Feedback, ArmPullsPair, ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+    ArmRewardsPair
 from banditpylib.learners import Goal, MaximizeTotalRewards
 from .contextual_bandit_utils import ContextGenerator
 from .utils import Bandit
@@ -29,9 +28,11 @@ class ContextualBandit(Bandit):
     return 'contextual_bandit'
 
   @property
-  def context(self) -> np.ndarray:
+  def context(self) -> Context:
     self.__context_and_rewards = self.__context_generator.context()
-    return self.__context_and_rewards[0]
+    context = Context()
+    context.sequential_context.value.extend(self.__context_and_rewards[0])
+    return context
 
   def __update_regret(self, arm_id: int):
     """Update the regret
