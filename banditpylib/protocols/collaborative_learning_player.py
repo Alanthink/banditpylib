@@ -72,8 +72,7 @@ class CollaborativeLearningProtocol(Protocol):
 
     def add_data():
       data_item = trial.data_items.add()
-      data_item.rounds = self.current_learner.num_rounds_completed
-      data_item.total_actions = self.current_learner.total_pulls
+      data_item.rounds, data_item.total_actions = self.current_learner.data
       try:
         data_item.regret = self.bandit.regret(self.current_learner.goal)
       except Exception: # pylint: disable=broad-except

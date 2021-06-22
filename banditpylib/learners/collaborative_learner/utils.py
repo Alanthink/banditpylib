@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from typing import Optional, Union, List, Iterable
+from typing import Optional, Union, List, Iterable, Tuple
 
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm, CollaborativeActions, Context
@@ -99,6 +99,11 @@ class CollaborativeMaster(Learner):
   @abstractmethod
   def best_arm(self) -> int:
     """Index of the best arm identified by the learner"""
+
+  @property
+  @abstractmethod
+  def data(self) -> Tuple[int, int]:
+    """data for Trial object in protocol"""
 
   @property
   def goal(self) -> Goal:

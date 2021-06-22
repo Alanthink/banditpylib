@@ -301,3 +301,7 @@ class MyCollaborativeMaster(CollaborativeMaster):
     if len(self.__active_arms) == 1:
       return self.__active_arms[0]
     raise Exception('%s: I don\'t have an answer yet!' % self.name)
+
+  @property
+  def data(self):
+    return (self.__round_num, self.__total_pulls)
