@@ -143,7 +143,7 @@ class CollaborativeLearningProtocol(Protocol):
     # Initialization
     self.__bandits = []
     self.__agents = []
-    for _ in self.current_learner.num_agents:
+    for _ in range(self.current_learner.num_agents):
       self.__bandits.append(dcopy(self.bandit))
       self.__agents.append(dcopy(self.current_learner))
       # reset all bandits and agents
