@@ -1,11 +1,9 @@
-import random
-from typing import Tuple, Iterable
-from copy import deepcopy as dcopy
+from typing import Tuple
 
 import numpy as np
 from banditpylib.data_pb2 import Feedback, Actions
 
-from .utils import CollaborativeLearner, CollaborativeMaster
+from .utils import CollaborativeLearner
 from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
 
 class CollaborativeAgent(CollaborativeLearner):
@@ -16,14 +14,14 @@ class CollaborativeAgent(CollaborativeLearner):
     (this agent uses one more)
   :param int time_horizon: maximum number of pulls the agent can make
     (over all rounds combined)
+  :param int num_agents: total number of agents involved
   :param str name: alias name
   """
 
   def __init__(self, arm_num: int, num_rounds: int,
-    time_horizon: int, name: str = None):
-    super().__init__(arm_num=arm_num, name=name)
-    self.__R = num_rounds
-    self.__T = time_horizon
+    time_horizon: int, num_agents: int, name: str = None):
+    super().__init__(arm_num=arm_num, name=name, rounds=num_rounds,
+      horizon=time_horizon, num_agents=num_agents)
     self.__num_pulls_learning = int(0.5 * time_horizon / num_rounds)
 
   def _name(self) -> str:
@@ -38,7 +36,6 @@ class CollaborativeAgent(CollaborativeLearner):
     self.__central_algo_action_taken = False
     # True if action forwarded from central algo
 
-
   def assign_arms(self, arms):
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
@@ -52,11 +49,10 @@ class CollaborativeAgent(CollaborativeLearner):
     self.__round_num += 1
     self.__round_pulls = 0
     self.__central_algo_action_taken = False
-    if self.__round_num < self.__R + 1:
+    if self.__round_num < self.rounds + 1:
       self.__stage = "unassigned"
     else:
       self.__stage = "termination"
-
 
   def actions(self, context=None) -> Actions:
     # a core assumption is all non-empty actions immediately receive feedback
@@ -76,7 +72,7 @@ class CollaborativeAgent(CollaborativeLearner):
         self.__stage = "learning"
         self.__i_l_r = self.__assigned_arms[0]
         return self.actions()
-      if self.__central_algo.get_total_pulls() >= self.__T//2:
+      if self.__central_algo.get_total_pulls() >= self.horizon//2:
         self.__stage = "learning"
         self.__i_l_r = None
         return self.actions()
@@ -155,153 +151,154 @@ class CollaborativeAgent(CollaborativeLearner):
     return self.__i_l_r, self.__p_l_r, self.__round_pulls
 
 
-class MyCollaborativeMaster(CollaborativeMaster):
-  r"""Controlling master of the Collaborative Learning Algorithm
+# class MyCollaborativeMaster(CollaborativeMaster):
+#   r"""Controlling master of the Collaborative Learning Algorithm
 
-  :param int arm_num: number of arms of the bandit
-  :param int num_rounds: number of rounds of communication allowed
-    (this agent uses one more)
-  :param int time_horizon: maximum number of pulls the agent can make
-    (over all rounds combined)
-  :param int num_agents: number of agents
-  :param str name: alias name
-  """
+#   :param int arm_num: number of arms of the bandit
+#   :param int num_rounds: number of rounds of communication allowed
+#     (this agent uses one more)
+#   :param int time_horizon: maximum number of pulls the agent can make
+#     (over all rounds combined)
+#   :param int num_agents: number of agents
+#   :param str name: alias name
+#   """
 
-  def __init__(self, arm_num: int, num_rounds: int,
-    time_horizon: int, num_agents: int, name: str = None):
-    super().__init__(arm_num=arm_num, num_agents=num_agents,
-      agent_class=CollaborativeAgent, name=name)
-    self.__R = num_rounds
-    self.__T = time_horizon
-    self.__agents = []
-    for i in range(num_agents):
-      if name is None:
-        agent_name = "collaborative_agent_" + str(i)
-      else:
-        agent_name = name + "_agent_" + str(i)
-      self.__agents.append(self.agent_class(
-        arm_num, num_rounds, time_horizon, agent_name))
+#   def __init__(self, arm_num: int, num_rounds: int,
+#     time_horizon: int, num_agents: int, name: str = None):
+#     super().__init__(arm_num=arm_num, num_agents=num_agents,
+#       agent_class=CollaborativeAgent, name=name)
+#     self.__R = num_rounds
+#     self.__T = time_horizon
+#     self.__agents = []
+#     for i in range(num_agents):
+#       if name is None:
+#         agent_name = "collaborative_agent_" + str(i)
+#       else:
+#         agent_name = name + "_agent_" + str(i)
+#       self.__agents.append(self.agent_class(
+#         arm_num, num_rounds, time_horizon, agent_name))
 
-  def __assign_arms(self):
-    self.__stage = "assign_arms"
-    arms_assign_list = []
+#   def __assign_arms(self):
+#     self.__stage = "assign_arms"
+#     arms_assign_list = []
 
-    def random_round(x: float) -> int:
-      # x = 19.3
-      # rounded to 19 with probability 0.7
-      # rounded to 20 with probability 0.3
-      frac_x = x - int(x)
-      if np.random.uniform() > frac_x:
-        return int(x)
-      return int(x) + 1
+#     def random_round(x: float) -> int:
+#       # x = 19.3
+#       # rounded to 19 with probability 0.7
+#       # rounded to 20 with probability 0.3
+#       frac_x = x - int(x)
+#       if np.random.uniform() > frac_x:
+#         return int(x)
+#       return int(x) + 1
 
-    if len(self.__active_arms) < len(self.__agents):
-      num_agents_per_arm = len(self.__agents) / len(self.__active_arms)
-      for arm in self.__active_arms[:-1]:
-        arms_assign_list += [[arm]] * \
-          random_round(num_agents_per_arm)
-      arms_assign_list += [[self.__active_arms[-1]]] * \
-        (len(self.__agents) - len(arms_assign_list))
-      random.shuffle(arms_assign_list)
-    else:
-      __active_arms_copy = dcopy(self.__active_arms)
-      random.shuffle(__active_arms_copy)
-      for _ in range(len(self.__agents)):
-        arms_assign_list.append([])
+#     if len(self.__active_arms) < len(self.__agents):
+#       num_agents_per_arm = len(self.__agents) / len(self.__active_arms)
+#       for arm in self.__active_arms[:-1]:
+#         arms_assign_list += [[arm]] * \
+#           random_round(num_agents_per_arm)
+#       arms_assign_list += [[self.__active_arms[-1]]] * \
+#         (len(self.__agents) - len(arms_assign_list))
+#       random.shuffle(arms_assign_list)
+#     else:
+#       __active_arms_copy = dcopy(self.__active_arms)
+#       random.shuffle(__active_arms_copy)
+#       for _ in range(len(self.__agents)):
+#         arms_assign_list.append([])
 
-      for i, arm in enumerate(__active_arms_copy[:len(self.__agents)]):
-        arms_assign_list[i].append(arm)
-      for arm in __active_arms_copy[len(self.__agents):]:
-        agent_idx = int(np.random.randint(len(self.__agents)))
-        arms_assign_list[agent_idx].append(arm)
+#       for i, arm in enumerate(__active_arms_copy[:len(self.__agents)]):
+#         arms_assign_list[i].append(arm)
+#       for arm in __active_arms_copy[len(self.__agents):]:
+#         agent_idx = int(np.random.randint(len(self.__agents)))
+#         arms_assign_list[agent_idx].append(arm)
 
-    for i, agent in enumerate(self.__agents):
-      agent.assign_arms(arms_assign_list[i])
+#     for i, agent in enumerate(self.__agents):
+#       agent.assign_arms(arms_assign_list[i])
 
-  def reset(self):
-    self.__active_arms = list(range(self.arm_num))
-    for agent in self.__agents:
-      agent.reset()
-    self.__round_num = 0
-    self.__total_pulls = 0
-    self.__assign_arms()
+#   def reset(self):
+#     self.__active_arms = list(range(self.arm_num))
+#     for agent in self.__agents:
+#       agent.reset()
+#     self.__round_num = 0
+#     self.__total_pulls = 0
+#     self.__assign_arms()
 
-  def _name(self) -> str:
-    return 'collaborative_master'
+#   def _name(self) -> str:
+#     return 'collaborative_master'
 
-  def update(self, feedback: Feedback):
-    if self.__stage == "preparation_learning":
-      self.__agents[self.__current_agent_idx].update(feedback)
+#   def update(self, feedback: Feedback):
+#     if self.__stage == "preparation_learning":
+#       self.__agents[self.__current_agent_idx].update(feedback)
 
-    else:
-      raise Exception("%s: cannot update with this feedback" % self.name)
+#     else:
+#       raise Exception("%s: cannot update with this feedback" % self.name)
 
-  def iterable_actions(self, context=None) \
-    -> Iterable[Actions]:
-    while self.__round_num < self.__R + 1 \
-      and self.__total_pulls < self.__T and \
-      len(self.__active_arms)>1:
+#   def iterable_actions(self, context=None) \
+#     -> Iterable[Actions]:
+#     while self.__round_num < self.__R + 1 \
+#       and self.__total_pulls < self.__T and \
+#       len(self.__active_arms)>1:
 
-      # preparation and learning
-      self.__stage = "preparation_learning"
-      waiting_agents = [False] * len(self.__agents) # waiting for communication
-      stopped_agents = [False] * len(self.__agents) # terminated
-      while sum(waiting_agents) + sum(stopped_agents) != len(self.__agents):
-        for i, agent in enumerate(self.__agents):
-          self.__current_agent_idx = i # to be used in update
-          if not (waiting_agents[i] or stopped_agents[i]):
-            actions = agent.actions(context)
-            if actions.state == Actions.WAIT:
-              waiting_agents[i] = True
-            elif actions.state == Actions.STOP:
-              stopped_agents[i] = True
-            else:
-              yield actions
-      # other stages
-      self.__communication_aggregation_elimination()
+#       # preparation and learning
+#       self.__stage = "preparation_learning"
+#       # waiting for communication
+#       waiting_agents = [False] * len(self.__agents)
+#       stopped_agents = [False] * len(self.__agents) # terminated
+#       while sum(waiting_agents) + sum(stopped_agents) != len(self.__agents):
+#         for i, agent in enumerate(self.__agents):
+#           self.__current_agent_idx = i # to be used in update
+#           if not (waiting_agents[i] or stopped_agents[i]):
+#             actions = agent.actions(context)
+#             if actions.state == Actions.WAIT:
+#               waiting_agents[i] = True
+#             elif actions.state == Actions.STOP:
+#               stopped_agents[i] = True
+#             else:
+#               yield actions
+#       # other stages
+#       self.__communication_aggregation_elimination()
 
-      # complete_round routine
-      self.__round_num += 1
-      for agent in self.__agents:
-        agent.complete_round()
-      self.__assign_arms()
+#       # complete_round routine
+#       self.__round_num += 1
+#       for agent in self.__agents:
+#         agent.complete_round()
+#       self.__assign_arms()
 
-  def __communication_aggregation_elimination(self):
-    self.__stage = "communication_aggregation_elimination"
-    # communication and aggregation
-    i_l_r_list, p_l_r_list, pulls_used_list = [], [], []
-    for agent in self.__agents:
-      i_l_r, p_l_r, pulls_used = agent.broadcast()
-      pulls_used_list.append(pulls_used)
-      if i_l_r is not None:
-        i_l_r_list.append(i_l_r)
-        p_l_r_list.append(p_l_r)
+#   def __communication_aggregation_elimination(self):
+#     self.__stage = "communication_aggregation_elimination"
+#     # communication and aggregation
+#     i_l_r_list, p_l_r_list, pulls_used_list = [], [], []
+#     for agent in self.__agents:
+#       i_l_r, p_l_r, pulls_used = agent.broadcast()
+#       pulls_used_list.append(pulls_used)
+#       if i_l_r is not None:
+#         i_l_r_list.append(i_l_r)
+#         p_l_r_list.append(p_l_r)
 
-    self.__total_pulls += max(pulls_used_list)
+#     self.__total_pulls += max(pulls_used_list)
 
-    s_tilde_r = np.array(list(set(i_l_r_list)))
-    q_tilde_r = np.zeros_like(s_tilde_r, dtype="float64")
-    i_l_r_list = np.array(i_l_r_list)
-    p_l_r_list = np.array(p_l_r_list)
+#     s_tilde_r = np.array(list(set(i_l_r_list)))
+#     q_tilde_r = np.zeros_like(s_tilde_r, dtype="float64")
+#     i_l_r_list = np.array(i_l_r_list)
+#     p_l_r_list = np.array(p_l_r_list)
 
-    for i, i_l_r in enumerate(s_tilde_r):
-      q_tilde_r[i] = p_l_r_list[i_l_r_list == i_l_r].mean()
-    # elimination
-    confidence_radius = np.sqrt(
-      self.__R * np.log(200 * len(self.__agents) * self.__R) /
-      (self.__T * max(1, len(self.__agents) / len(self.__active_arms)))
-    )
-    best_q_i = np.max(q_tilde_r)
-    self.__active_arms = list(
-      s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
-    )
+#     for i, i_l_r in enumerate(s_tilde_r):
+#       q_tilde_r[i] = p_l_r_list[i_l_r_list == i_l_r].mean()
+#     # elimination
+#     confidence_radius = np.sqrt(
+#       self.__R * np.log(200 * len(self.__agents) * self.__R) /
+#       (self.__T * max(1, len(self.__agents) / len(self.__active_arms)))
+#     )
+#     best_q_i = np.max(q_tilde_r)
+#     self.__active_arms = list(
+#       s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
+#     )
 
-  @property
-  def best_arm(self):
-    if len(self.__active_arms) == 1:
-      return self.__active_arms[0]
-    raise Exception('%s: I don\'t have an answer yet!' % self.name)
+#   @property
+#   def best_arm(self):
+#     if len(self.__active_arms) == 1:
+#       return self.__active_arms[0]
+#     raise Exception('%s: I don\'t have an answer yet!' % self.name)
 
-  @property
-  def data(self):
-    return (self.__round_num, self.__total_pulls)
+#   @property
+#   def data(self):
+#     return (self.__round_num, self.__total_pulls)
