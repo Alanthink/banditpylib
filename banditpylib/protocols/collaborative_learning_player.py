@@ -74,7 +74,7 @@ class CollaborativeLearningProtocol(Protocol):
     trial.bandit = self.bandit.name
     trial.learner = self.current_learner.name
 
-    round_num, pulls_used = 0, 0
+    round_num, total_pulls_used = 0, 0
 
     # stages of the algorithms
     stopped_agents = [False] * len(agents) # terminated
@@ -117,6 +117,7 @@ class CollaborativeLearningProtocol(Protocol):
             p_l_r_list.append(p_l_r)
 
       # send info to master for elimination
+      # todo: handle empty i_l_r_list
       master.elimination(i_l_r_list, p_l_r_list)
 
       for i, agent in enumerate(agents):
@@ -125,12 +126,12 @@ class CollaborativeLearningProtocol(Protocol):
           stopped_agents[i] = True
 
       round_num += 1
-      pulls_used += max(pulls_used_list)
+      total_pulls_used += max(pulls_used_list)
 
     # add data
     data_item = trial.data_items.add()
     data_item.rounds = round_num
-    data_item.total_actions = pulls_used
+    data_item.total_actions = total_pulls_used
     total_regret = 0.0
     for i, agent in enumerate(agents):
       arm = Arm()
