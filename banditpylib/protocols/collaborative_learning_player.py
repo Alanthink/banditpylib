@@ -79,11 +79,15 @@ class CollaborativeLearningProtocol(Protocol):
     # stages of the algorithms
     stopped_agents = [False] * len(agents) # terminated
     while True:
+      # using only non-stopped agents
       running_agents = []
       for i, agent in enumerate(agents):
         if not stopped_agents[i]:
           running_agents.append(agent)
-      master.assign_arms(agents)
+      if len(running_agents) == 0:
+        break
+
+      master.assign_arms(running_agents)
       waiting_agents = [False] * len(agents) # waiting for communication
 
       # preparation and learning
