@@ -6,7 +6,7 @@ from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
-from .collaborative_agent import CollaborativeMaster
+from .collaborative_master import CollaborativeMaster
 
 class CollaborativeLearner(Learner):
   """Base class for collaborative learners in the ordinary multi-armed bandit
