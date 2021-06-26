@@ -1,6 +1,5 @@
 from typing import List
 from copy import deepcopy as dcopy
-import random
 
 import numpy as np
 from absl import logging
@@ -60,138 +59,78 @@ class CollaborativeLearningProtocol(Protocol):
       logging.set_verbosity(logging.DEBUG)
     np.random.seed(random_seed)
 
-    def assign_arms():
-      # function to assign arms to agents
-      self.__stage = "assign_arms"
-      arms_assign_list = []
-
-      def random_round(x: float) -> int:
-        # x = 19.3
-        # rounded to 19 with probability 0.7
-        # rounded to 20 with probability 0.3
-        frac_x = x - int(x)
-        if np.random.uniform() > frac_x:
-          return int(x)
-        return int(x) + 1
-
-      if len(self.__active_arms) < len(self.__agents):
-        num_agents_per_arm = len(self.__agents) / len(self.__active_arms)
-        for arm in self.__active_arms[:-1]:
-          arms_assign_list += [[arm]] * \
-            random_round(num_agents_per_arm)
-        arms_assign_list += [[self.__active_arms[-1]]] * \
-          (len(self.__agents) - len(arms_assign_list))
-        random.shuffle(arms_assign_list)
-      else:
-        active_arms_copy = dcopy(self.__active_arms)
-        random.shuffle(active_arms_copy)
-        for _ in range(len(self.__agents)):
-          arms_assign_list.append([])
-
-        for i, arm in enumerate(active_arms_copy[:len(self.__agents)]):
-          arms_assign_list[i].append(arm)
-        for arm in active_arms_copy[len(self.__agents):]:
-          agent_idx = int(np.random.randint(len(self.__agents)))
-          arms_assign_list[agent_idx].append(arm)
-
-      for i, agent in enumerate(self.__agents):
-        agent.assign_arms(arms_assign_list[i])
-
-    def communication_aggregation_elimination():
-      self.__stage = "communication_aggregation_elimination"
-      # communication and aggregation
-      i_l_r_list, p_l_r_list, pulls_used_list = [], [], []
-      for agent in self.__agents:
-        i_l_r, p_l_r, pulls_used = agent.broadcast()
-        pulls_used_list.append(pulls_used)
-        if i_l_r is not None:
-          i_l_r_list.append(i_l_r)
-          p_l_r_list.append(p_l_r)
-
-      self.__total_pulls += max(pulls_used_list)
-
-      s_tilde_r = np.array(list(set(i_l_r_list)))
-      q_tilde_r = np.zeros_like(s_tilde_r, dtype="float64")
-      i_l_r_list = np.array(i_l_r_list)
-      p_l_r_list = np.array(p_l_r_list)
-
-      for i, i_l_r in enumerate(s_tilde_r):
-        q_tilde_r[i] = p_l_r_list[i_l_r_list == i_l_r].mean()
-      # elimination
-      confidence_radius = np.sqrt(
-        self.__R * np.log(200 * len(self.__agents) * self.__R) /
-        (self.__T * max(1, len(self.__agents) / len(self.__active_arms)))
-      )
-      best_q_i = np.max(q_tilde_r)
-      self.__active_arms = list(
-        s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
-      )
-
-    def add_data():
-      data_item = trial.data_items.add()
-      data_item.rounds = self.__round_num
-      data_item.total_actions = self.__total_pulls
-      if len(self.__active_arms) == 1:
-        arm = Arm()
-        arm.id = self.__active_arms[0]
-        goal = IdentifyBestArm(best_arm=arm)
-        data_item.regret = self.bandit.regret(goal)
-      else:
-        data_item.regret = 1
-
-
-    # Initialization
-    self.__bandits = []
-    self.__agents = []
+    # initialization
+    agents = []
+    bandits = []
+    master = self.current_learner.master
+    master.reset()
     for _ in range(self.current_learner.num_agents):
-      self.__bandits.append(dcopy(self.bandit))
-      self.__agents.append(dcopy(self.current_learner))
-      # reset all bandits and agents
-      self.__bandits[-1].reset()
-      self.__agents[-1].reset()
+      agents.append(dcopy(self.current_learner))
+      agents[-1].reset()
+      bandits.append(dcopy(self.bandit))
+      bandits[-1].reset()
 
     trial = Trial()
     trial.bandit = self.bandit.name
     trial.learner = self.current_learner.name
 
-    self.__R = self.current_learner.rounds
-    self.__T = self.current_learner.horizon
+    round_num, pulls_used = 0, 0
 
-    self.__active_arms = list(range(self.current_learner.arm_num))
-    self.__round_num = 0
-    self.__total_pulls = 0
-    assign_arms()
-
-    while self.__round_num < self.__R + 1 and self.__total_pulls < self.__T\
-      and len(self.__active_arms)>1:
+    # stages of the algorithms
+    while True:
+      master.assign_arms(agents)
+      waiting_agents = [False] * len(agents) # waiting for communication
+      stopped_agents = [False] * len(agents) # terminated
 
       # preparation and learning
-      self.__stage = "preparation_learning"
-      waiting_agents = [False] * len(self.__agents) # waiting for communication
-      stopped_agents = [False] * len(self.__agents) # terminated
-      while sum(waiting_agents) + sum(stopped_agents) != len(self.__agents):
-        for i, agent in enumerate(self.__agents):
-          self.__current_agent_idx = i # to be used in update
-          if not (waiting_agents[i] or stopped_agents[i]):
-            actions = agent.actions(
-              self.__bandits[self.__current_agent_idx].context)
-            if actions.state == Actions.WAIT:
-              waiting_agents[i] = True
-            elif actions.state == Actions.STOP:
-              stopped_agents[i] = True
-            else:
-              feedback = self.__bandits[self.__current_agent_idx].feed(actions)
-              self.__agents[self.__current_agent_idx].update(feedback)
+      for i, agent in enumerate(agents):
+        while True:
+          actions = agent.actions(bandits[i].context)
+          if actions.state == Actions.WAIT:
+            waiting_agents[i] = True
+            break
+          elif actions.state == Actions.STOP:
+            stopped_agents[i] = True
+            break
+          else:
+            feedback = bandits[i].feed(actions)
+            agent.update(feedback)
+      if sum(stopped_agents) == len(agents):
+        break
 
-      # other stages
-      communication_aggregation_elimination()
+      # communication and aggregation
+      i_l_r_list, p_l_r_list, pulls_used_list = [], [], []
+      for i, agent in enumerate(agents):
+        if waiting_agents[i]:
+          i_l_r, p_l_r, pulls_used = agent.broadcast()
+          pulls_used_list.append(pulls_used)
+          if i_l_r is not None:
+            i_l_r_list.append(i_l_r)
+            p_l_r_list.append(p_l_r)
 
-      # complete_round routine
-      self.__round_num += 1
-      for agent in self.__agents:
+      # send info to master for elimination
+      master.elimination(i_l_r_list, p_l_r_list)
+
+      for agent in agents:
         agent.complete_round()
-      assign_arms()
 
-    add_data()
+      round_num += 1
+      pulls_used += max(pulls_used_list)
+
+    # add data
+    data_item = trial.data_items.add()
+    data_item.rounds = round_num
+    data_item.total_actions = pulls_used
+    total_regret = 0.0
+    for i, agent in enumerate(agents):
+      arm = Arm()
+      best_arm = agent.best_arm
+      if best_arm is None:
+        total_regret += 1
+      else:
+        arm.id = best_arm
+        goal = IdentifyBestArm(best_arm=arm)
+        total_regret += bandits[i].regret(goal)
+    data_item.regret = total_regret/len(agents)
 
     return trial.SerializeToString()

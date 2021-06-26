@@ -6,6 +6,7 @@ from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
 from banditpylib.learners import Learner, Goal, IdentifyBestArm
 
+from .collaborative_agent import CollaborativeMaster
 
 class CollaborativeLearner(Learner):
   """Base class for collaborative learners in the ordinary multi-armed bandit
@@ -21,7 +22,7 @@ class CollaborativeLearner(Learner):
   :param str name: alias name
   """
   def __init__(self, arm_num: int, rounds: int, horizon: int,
-    num_agents: int, name: Optional[str]):
+    num_agents: int, master:CollaborativeMaster, name: Optional[str]):
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
@@ -30,6 +31,7 @@ class CollaborativeLearner(Learner):
     self.__rounds = rounds
     self.__horizon = horizon
     self.__num_agents = num_agents
+    self.__master = master
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
@@ -54,6 +56,11 @@ class CollaborativeLearner(Learner):
   def num_agents(self) -> int:
     """Number of agents"""
     return self.__num_agents
+
+  @property
+  def master(self) -> CollaborativeMaster:
+    """Controlling Master"""
+    return self.__master
 
   @abstractmethod
   def complete_round(self):
