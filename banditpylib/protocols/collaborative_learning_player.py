@@ -115,8 +115,10 @@ class CollaborativeLearningProtocol(Protocol):
       # send info to master for elimination
       master.elimination(i_l_r_list, p_l_r_list)
 
-      for agent in agents:
+      for i, agent in enumerate(agents):
         agent.complete_round()
+        if agent.stage == "termination":
+          stopped_agents[i] = True
 
       round_num += 1
       pulls_used += max(pulls_used_list)

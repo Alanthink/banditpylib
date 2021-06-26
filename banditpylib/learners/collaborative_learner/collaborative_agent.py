@@ -150,7 +150,8 @@ class CollaborativeAgent(CollaborativeLearner):
       raise Exception('%s: I don\'t have an answer yet!' % self.name)
     return self.__i_l_r
 
-  def get_stage(self) -> str:
+  @property
+  def stage(self) -> str:
     return self.__stage
 
   def broadcast(self) -> Tuple[int, float, int]:
