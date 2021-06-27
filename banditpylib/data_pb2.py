@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='data.proto',
   package='banditpylib',
   syntax='proto3',
-  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x96\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0f\n\rcontext_oneof\"X\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\x0b\n\tarm_oneof\"7\n\x07\x41rmPull\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05times\x18\x02 \x01(\x05\"2\n\x07\x41\x63tions\x12\'\n\tarm_pulls\x18\x01 \x03(\x0b\x32\x14.banditpylib.ArmPull\"Y\n\x0b\x41rmFeedback\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\";\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12/\n\rarm_feedbacks\x18\x01 \x03(\x0b\x32\x18.banditpylib.ArmFeedback\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
+  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x95\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0e\n\x0c\x63ontext_type\"W\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\n\n\x08\x61rm_type\"7\n\x07\x41rmPull\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05times\x18\x02 \x01(\x05\"2\n\x07\x41\x63tions\x12\'\n\tarm_pulls\x18\x01 \x03(\x0b\x32\x14.banditpylib.ArmPull\"Y\n\x0b\x41rmFeedback\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\";\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12/\n\rarm_feedbacks\x18\x01 \x03(\x0b\x32\x18.banditpylib.ArmFeedback\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
 )
 
 
@@ -151,11 +151,11 @@ _CONTEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='context_oneof', full_name='banditpylib.Context.context_oneof',
+      name='context_type', full_name='banditpylib.Context.context_type',
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=148,
-  serialized_end=298,
+  serialized_end=297,
 )
 
 
@@ -185,8 +185,8 @@ _ARM_SET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=358,
-  serialized_end=375,
+  serialized_start=357,
+  serialized_end=374,
 )
 
 _ARM = _descriptor.Descriptor(
@@ -222,11 +222,11 @@ _ARM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='arm_oneof', full_name='banditpylib.Arm.arm_oneof',
+      name='arm_type', full_name='banditpylib.Arm.arm_type',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=300,
-  serialized_end=388,
+  serialized_start=299,
+  serialized_end=386,
 )
 
 
@@ -263,8 +263,8 @@ _ARMPULL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=390,
-  serialized_end=445,
+  serialized_start=388,
+  serialized_end=443,
 )
 
 
@@ -294,8 +294,8 @@ _ACTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=447,
-  serialized_end=497,
+  serialized_start=445,
+  serialized_end=495,
 )
 
 
@@ -339,8 +339,8 @@ _ARMFEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=499,
-  serialized_end=588,
+  serialized_start=497,
+  serialized_end=586,
 )
 
 
@@ -370,8 +370,8 @@ _FEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=590,
-  serialized_end=649,
+  serialized_start=588,
+  serialized_end=647,
 )
 
 
@@ -422,8 +422,8 @@ _DATAITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=651,
-  serialized_end=731,
+  serialized_start=649,
+  serialized_end=729,
 )
 
 
@@ -467,27 +467,27 @@ _TRIAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=733,
-  serialized_end=816,
+  serialized_start=731,
+  serialized_end=814,
 )
 
 _VECTORIZEDCONTEXT.fields_by_name['vectors'].message_type = _VECTOR
 _CONTEXT.fields_by_name['sequential_context'].message_type = _SEQUENTIALCONTEXT
 _CONTEXT.fields_by_name['vectorized_context'].message_type = _VECTORIZEDCONTEXT
-_CONTEXT.oneofs_by_name['context_oneof'].fields.append(
+_CONTEXT.oneofs_by_name['context_type'].fields.append(
   _CONTEXT.fields_by_name['sequential_context'])
-_CONTEXT.fields_by_name['sequential_context'].containing_oneof = _CONTEXT.oneofs_by_name['context_oneof']
-_CONTEXT.oneofs_by_name['context_oneof'].fields.append(
+_CONTEXT.fields_by_name['sequential_context'].containing_oneof = _CONTEXT.oneofs_by_name['context_type']
+_CONTEXT.oneofs_by_name['context_type'].fields.append(
   _CONTEXT.fields_by_name['vectorized_context'])
-_CONTEXT.fields_by_name['vectorized_context'].containing_oneof = _CONTEXT.oneofs_by_name['context_oneof']
+_CONTEXT.fields_by_name['vectorized_context'].containing_oneof = _CONTEXT.oneofs_by_name['context_type']
 _ARM_SET.containing_type = _ARM
 _ARM.fields_by_name['set'].message_type = _ARM_SET
-_ARM.oneofs_by_name['arm_oneof'].fields.append(
+_ARM.oneofs_by_name['arm_type'].fields.append(
   _ARM.fields_by_name['id'])
-_ARM.fields_by_name['id'].containing_oneof = _ARM.oneofs_by_name['arm_oneof']
-_ARM.oneofs_by_name['arm_oneof'].fields.append(
+_ARM.fields_by_name['id'].containing_oneof = _ARM.oneofs_by_name['arm_type']
+_ARM.oneofs_by_name['arm_type'].fields.append(
   _ARM.fields_by_name['set'])
-_ARM.fields_by_name['set'].containing_oneof = _ARM.oneofs_by_name['arm_oneof']
+_ARM.fields_by_name['set'].containing_oneof = _ARM.oneofs_by_name['arm_type']
 _ARMPULL.fields_by_name['arm'].message_type = _ARM
 _ACTIONS.fields_by_name['arm_pulls'].message_type = _ARMPULL
 _ARMFEEDBACK.fields_by_name['arm'].message_type = _ARM

@@ -20,7 +20,7 @@ message VectorizedContext {
 
 // Next tag: 3
 message Context {
-  oneof context_oneof {
+  oneof context_type {
     SequentialContext sequential_context = 1;
     VectorizedContext vectorized_context = 2;
   }
@@ -33,7 +33,7 @@ message Arm {
     repeated int32 id = 1;
   }
 
-  oneof arm_oneof {
+  oneof arm_type {
     // The arm id is an integer
     int32 id = 1;
     // The arm id is a set
