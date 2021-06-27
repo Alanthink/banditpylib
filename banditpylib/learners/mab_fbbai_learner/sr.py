@@ -70,10 +70,10 @@ class SR(MABFixedBudgetBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    for arm_rewards_pair in feedback.arm_rewards_pairs:
-      self.__active_arms[arm_rewards_pair.arm.id].update(
-          np.array(arm_rewards_pair.rewards))
-      self.__budget_left -= len(arm_rewards_pair.rewards)
+    for arm_feedback in feedback.arm_feedbacks:
+      self.__active_arms[arm_feedback.arm.id].update(
+          np.array(arm_feedback.rewards))
+      self.__budget_left -= len(arm_feedback.rewards)
 
     # Eliminate the arm with the smallest mean reward
     arm_id_to_remove = argmax_or_min_tuple(

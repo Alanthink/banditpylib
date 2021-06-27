@@ -55,20 +55,20 @@ message Actions {
 }
 
 // Next tag: 4
-message ArmRewardsPair {
-  // Arm to be pulled
+message ArmFeedback {
+  // Arm pulled
   Arm arm = 1;
-  // The corresponding rewards
+  // Rewards obtained
   repeated float rewards = 2;
   // This field is specific to MNL bandit. When this field is 0, it means the
-  // customer does not but any product. Otherwise (>0), it means the customer
+  // customer does not buy any product. Otherwise (>0), it means the customer
   // purchases some product.
   repeated int32 customer_feedbacks = 3;
 }
 
 // Next tag: 2
 message Feedback {
-  repeated ArmRewardsPair arm_rewards_pairs = 1;
+  repeated ArmFeedback arm_feedbacks = 1;
 }
 
 // Next tag: 5

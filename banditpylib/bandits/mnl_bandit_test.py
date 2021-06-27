@@ -126,4 +126,4 @@ class TestMNLBandit:
         }
         pulls: 5
       }
-      """, Actions())).arm_rewards_pairs[0].customer_feedbacks) == {0}
+      """, Actions())).arm_feedbacks[0].customer_feedbacks) == {0}

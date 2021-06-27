@@ -4,7 +4,7 @@ import numpy as np
 
 from banditpylib.arms import GaussianArm
 from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
-    ArmRewardsPair
+    ArmFeedback
 from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
 
@@ -58,14 +58,14 @@ class LinearBandit(Bandit):
   def context(self) -> Context:
     return Context()
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
+  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmFeedback:
     """Pull one arm
 
     Args:
       arm_pulls_pair: arm id and its pulls
 
     Returns:
-      arm_rewards_pair: arm id and its rewards
+      arm_feedback: arm id and its rewards
     """
     arm_id = arm_pulls_pair.arm.id
     pulls = arm_pulls_pair.pulls
@@ -74,7 +74,7 @@ class LinearBandit(Bandit):
       raise ValueError('Arm id is expected in the range [0, %d). Got %d.' %
                        (self.__arm_num, arm_id))
 
-    arm_rewards_pair = ArmRewardsPair()
+    arm_feedback = ArmFeedback()
 
     # Empirical rewards when `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls)
@@ -82,17 +82,17 @@ class LinearBandit(Bandit):
     self.__regret += (self.__best_arm.mean * pulls - em_rewards)
     self.__total_pulls += pulls
 
-    arm_rewards_pair.arm.id = arm_id
-    arm_rewards_pair.rewards.extend(list(em_rewards))  # type: ignore
+    arm_feedback.arm.id = arm_id
+    arm_feedback.rewards.extend(list(em_rewards))  # type: ignore
 
-    return arm_rewards_pair
+    return arm_feedback
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
       if arm_pulls_pair.pulls > 0:
-        arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
-        feedback.arm_rewards_pairs.append(arm_rewards_pair)
+        arm_feedback = self._take_action(arm_pulls_pair=arm_pulls_pair)
+        feedback.arm_feedbacks.append(arm_feedback)
     return feedback
 
   def reset(self):

@@ -85,10 +85,10 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
     return actions
 
   def update(self, feedback: Feedback):
-    for arm_rewards_pair in feedback.arm_rewards_pairs:
-      self.__pseudo_arms[arm_rewards_pair.arm.id].update(
-          np.array(arm_rewards_pair.rewards))
-      self.__total_pulls += len(arm_rewards_pair.rewards)
+    for arm_feedback in feedback.arm_feedbacks:
+      self.__pseudo_arms[arm_feedback.arm.id].update(
+          np.array(arm_feedback.rewards))
+      self.__total_pulls += len(arm_feedback.rewards)
 
     if self.__stage == 'initialization':
       self.__stage = 'main'

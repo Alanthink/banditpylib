@@ -99,9 +99,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
 
   def update(self, feedback: Feedback):
     if self.__stage == 'main_loop':
-      for arm_rewards_pair in feedback.arm_rewards_pairs:
-        self.__active_arms[arm_rewards_pair.arm.id].update(
-            np.array(arm_rewards_pair.rewards))
+      for arm_feedback in feedback.arm_feedbacks:
+        self.__active_arms[arm_feedback.arm.id].update(
+            np.array(arm_feedback.rewards))
       # Initialization of median elimination
       self.__stage = 'median_elimination'
       self.__me_ell = 1
@@ -115,9 +115,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
         self.__me_active_arms[arm_id] = PseudoArm()
 
     elif self.__stage == 'median_elimination':
-      for arm_rewards_pair in feedback.arm_rewards_pairs:
-        self.__me_active_arms[arm_rewards_pair.arm.id].update(
-            np.array(arm_rewards_pair.rewards))
+      for arm_feedback in feedback.arm_feedbacks:
+        self.__me_active_arms[arm_feedback.arm.id].update(
+            np.array(arm_feedback.rewards))
       if len(self.__me_active_arms) > self.__threshold:
         median = np.median(
             np.array([

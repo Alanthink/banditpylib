@@ -50,9 +50,9 @@ class ExploreThenCommit(MABLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
-    self.__pseudo_arms[arm_rewards_pair.arm.id].update(
-        np.array(arm_rewards_pair.rewards))
+    arm_feedback = feedback.arm_feedbacks[0]
+    self.__pseudo_arms[arm_feedback.arm.id].update(
+        np.array(arm_feedback.rewards))
     self.__time += 1
     if self.__best_arm < 0 and self.__time > self.__T_prime:
       self.__best_arm = argmax_or_min_tuple([

@@ -84,12 +84,12 @@ class LinUCB(LinearBanditLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    arm_feedback = feedback.arm_feedbacks[0]
 
-    pulled_arm_index = arm_rewards_pair.arm.id
+    pulled_arm_index = arm_feedback.arm.id
 
     # Xt: reward observed at t
-    Xt = np.array(arm_rewards_pair.rewards)
+    Xt = np.array(arm_feedback.rewards)
     # At: feature of arm played at t
     At = self.__feature_matrix[:, pulled_arm_index].reshape(-1, 1)
 

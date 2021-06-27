@@ -120,12 +120,12 @@ class EpsGreedy(MNLBanditLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    arm_feedback = feedback.arm_feedbacks[0]
 
-    self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
-    self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
+    self.__customer_choices[arm_feedback.customer_feedbacks[0]] += 1
+    self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
     self.__time += 1
-    if arm_rewards_pair.customer_feedbacks[0] == 0:
-      for product_id in arm_rewards_pair.arm.set.id:
+    if arm_feedback.customer_feedbacks[0] == 0:
+      for product_id in arm_feedback.arm.set.id:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1

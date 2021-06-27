@@ -19,8 +19,8 @@ class TestSH:
 
       feedback = Feedback()
       for arm_pulls_pair in actions.arm_pulls_pairs:
-        arm_rewards_pair = feedback.arm_rewards_pairs.add()
-        arm_rewards_pair.arm.id = arm_pulls_pair.arm.id
-        arm_rewards_pair.rewards.extend(list(np.zeros(arm_pulls_pair.pulls)))
+        arm_feedback = feedback.arm_feedbacks.add()
+        arm_feedback.arm.id = arm_pulls_pair.arm.id
+        arm_feedback.rewards.extend(list(np.zeros(arm_pulls_pair.pulls)))
       learner.update(feedback)
     assert learner.best_arm in list(range(arm_num))

@@ -156,11 +156,11 @@ class ThompsonSampling(MNLBanditLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
-    self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
+    arm_feedback = feedback.arm_feedbacks[0]
+    self.__customer_choices[arm_feedback.customer_feedbacks[0]] += 1
 
     # No purchase is observed
-    if arm_rewards_pair.customer_feedbacks[0] == 0:
+    if arm_feedback.customer_feedbacks[0] == 0:
       for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set.id:
         self.__serving_episodes[product_id] += 1
       # Check if it is the end of initial warm start stage
@@ -169,5 +169,5 @@ class ThompsonSampling(MNLBanditLearner):
         self.__done_warm_start = True
         self.__last_actions = None
       self.__episode += 1
-    self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
+    self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
     self.__time += 1

@@ -2,7 +2,7 @@ from typing import List
 
 from banditpylib.arms import StochasticArm
 from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
-    ArmRewardsPair
+    ArmFeedback
 from banditpylib.learners import Goal, MaximizeCorrectAnswers, \
     MakeAllAnswersCorrect
 from .utils import Bandit
@@ -61,14 +61,14 @@ class ThresholdingBandit(Bandit):
     """Total number of arms"""
     return self.__arm_num
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
+  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmFeedback:
     """Pull one arm
 
     Args:
       arm_pulls_pair: arm and its pulls
 
     Returns:
-      arm_rewards_pair: arm and its rewards
+      arm_feedback: arm and its feedback
     """
     arm_id = arm_pulls_pair.arm.id
     pulls = arm_pulls_pair.pulls
@@ -77,25 +77,25 @@ class ThresholdingBandit(Bandit):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
 
-    arm_rewards_pair = ArmRewardsPair()
+    arm_feedback = ArmFeedback()
     if pulls < 1:
-      return arm_rewards_pair
+      return arm_feedback
 
     # Empirical rewards when `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls=pulls)
     self.__total_pulls += pulls
 
-    arm_rewards_pair.arm.id = arm_id
-    arm_rewards_pair.rewards.extend(list(em_rewards))  # type: ignore
+    arm_feedback.arm.id = arm_id
+    arm_feedback.rewards.extend(list(em_rewards))  # type: ignore
 
-    return arm_rewards_pair
+    return arm_feedback
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
     for arm_pulls_pair in actions.arm_pulls_pairs:
-      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
-      if arm_rewards_pair.rewards:
-        feedback.arm_rewards_pairs.append(arm_rewards_pair)
+      arm_feedback = self._take_action(arm_pulls_pair=arm_pulls_pair)
+      if arm_feedback.rewards:
+        feedback.arm_feedbacks.append(arm_feedback)
     return feedback
 
   @property

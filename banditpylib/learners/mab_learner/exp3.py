@@ -62,9 +62,9 @@ class EXP3(MABLearner):
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
-    arm_id = arm_rewards_pair.arm.id
-    reward = arm_rewards_pair.rewards[0]
+    arm_feedback = feedback.arm_feedbacks[0]
+    arm_id = arm_feedback.arm.id
+    reward = arm_feedback.rewards[0]
     estimated_mean = reward / self.__probabilities[arm_id]
     self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num *
                                      estimated_mean)
