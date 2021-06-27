@@ -1,10 +1,10 @@
 import tempfile
 
+from banditpylib import parse_trials_from_bytes
 from banditpylib.arms import BernoulliArm
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.learners.mab_learner import EpsGreedy
 from .single_player import SinglePlayerProtocol
-from .utils import parse_trials_data
 
 
 class TestSinglePlayer:
@@ -22,5 +22,5 @@ class TestSinglePlayer:
 
     with open(temp_file.name, 'rb') as f:
       # check number of records is 3
-      trials_data = parse_trials_data(f.read())
-      assert len(trials_data) == 3
+      trials = parse_trials_from_bytes(f.read())
+      assert len(trials) == 3
