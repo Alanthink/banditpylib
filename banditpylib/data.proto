@@ -42,16 +42,16 @@ message Arm {
 }
 
 // Next tag: 3
-message ArmPullsPair {
+message ArmPull {
   // Arm to be pulled
   Arm arm = 1;
   // Number of times to pull
-  int32 pulls = 2;
+  int32 times = 2;
 }
 
 // Next tag: 2
 message Actions {
-  repeated ArmPullsPair arm_pulls_pairs = 1;
+  repeated ArmPull arm_pulls = 1;
 }
 
 // Next tag: 4

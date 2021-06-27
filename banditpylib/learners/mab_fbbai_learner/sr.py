@@ -56,17 +56,17 @@ class SR(MABFixedBudgetBAILearner):
     if self.__round < self.arm_num:
       if self.__round < self.arm_num - 1:
         for arm_id in self.__active_arms:
-          arm_pulls_pair = actions.arm_pulls_pairs.add()
-          arm_pulls_pair.arm.id = arm_id
-          arm_pulls_pair.pulls = self.__pulls_per_round[self.__round]
+          arm_pull = actions.arm_pulls.add()
+          arm_pull.arm.id = arm_id
+          arm_pull.times = self.__pulls_per_round[self.__round]
       else:
         # Use up the remaining budget when there are only two arms left
         pulls = [self.__budget_left // 2]
         pulls.append(self.__budget_left - pulls[0])
         for i in range(2):
-          arm_pulls_pair = actions.arm_pulls_pairs.add()
-          arm_pulls_pair.arm.id = list(self.__active_arms.keys())[i]
-          arm_pulls_pair.pulls = pulls[i]
+          arm_pull = actions.arm_pulls.add()
+          arm_pull.arm.id = list(self.__active_arms.keys())[i]
+          arm_pull.times = pulls[i]
     return actions
 
   def update(self, feedback: Feedback):

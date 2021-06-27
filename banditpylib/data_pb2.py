@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='data.proto',
   package='banditpylib',
   syntax='proto3',
-  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x96\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0f\n\rcontext_oneof\"X\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\x0b\n\tarm_oneof\"<\n\x0c\x41rmPullsPair\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05pulls\x18\x02 \x01(\x05\"=\n\x07\x41\x63tions\x12\x32\n\x0f\x61rm_pulls_pairs\x18\x01 \x03(\x0b\x32\x19.banditpylib.ArmPullsPair\"Y\n\x0b\x41rmFeedback\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\";\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12/\n\rarm_feedbacks\x18\x01 \x03(\x0b\x32\x18.banditpylib.ArmFeedback\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
+  serialized_pb=_b('\n\ndata.proto\x12\x0b\x62\x61nditpylib\"\"\n\x11SequentialContext\x12\r\n\x05value\x18\x01 \x03(\x02\"\x17\n\x06Vector\x12\r\n\x05value\x18\x01 \x03(\x02\"9\n\x11VectorizedContext\x12$\n\x07vectors\x18\x01 \x03(\x0b\x32\x13.banditpylib.Vector\"\x96\x01\n\x07\x43ontext\x12<\n\x12sequential_context\x18\x01 \x01(\x0b\x32\x1e.banditpylib.SequentialContextH\x00\x12<\n\x12vectorized_context\x18\x02 \x01(\x0b\x32\x1e.banditpylib.VectorizedContextH\x00\x42\x0f\n\rcontext_oneof\"X\n\x03\x41rm\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12#\n\x03set\x18\x02 \x01(\x0b\x32\x14.banditpylib.Arm.SetH\x00\x1a\x11\n\x03Set\x12\n\n\x02id\x18\x01 \x03(\x05\x42\x0b\n\tarm_oneof\"7\n\x07\x41rmPull\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\r\n\x05times\x18\x02 \x01(\x05\"2\n\x07\x41\x63tions\x12\'\n\tarm_pulls\x18\x01 \x03(\x0b\x32\x14.banditpylib.ArmPull\"Y\n\x0b\x41rmFeedback\x12\x1d\n\x03\x61rm\x18\x01 \x01(\x0b\x32\x10.banditpylib.Arm\x12\x0f\n\x07rewards\x18\x02 \x03(\x02\x12\x1a\n\x12\x63ustomer_feedbacks\x18\x03 \x03(\x05\";\n\x08\x46\x65\x65\x64\x62\x61\x63k\x12/\n\rarm_feedbacks\x18\x01 \x03(\x0b\x32\x18.banditpylib.ArmFeedback\"P\n\x08\x44\x61taItem\x12\x0e\n\x06rounds\x18\x01 \x01(\x05\x12\x15\n\rtotal_actions\x18\x02 \x01(\x05\x12\x0e\n\x06regret\x18\x03 \x01(\x02\x12\r\n\x05other\x18\x04 \x01(\x02\"S\n\x05Trial\x12\x0e\n\x06\x62\x61ndit\x18\x01 \x01(\t\x12\x0f\n\x07learner\x18\x02 \x01(\t\x12)\n\ndata_items\x18\x03 \x03(\x0b\x32\x15.banditpylib.DataItemb\x06proto3')
 )
 
 
@@ -230,22 +230,22 @@ _ARM = _descriptor.Descriptor(
 )
 
 
-_ARMPULLSPAIR = _descriptor.Descriptor(
-  name='ArmPullsPair',
-  full_name='banditpylib.ArmPullsPair',
+_ARMPULL = _descriptor.Descriptor(
+  name='ArmPull',
+  full_name='banditpylib.ArmPull',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='arm', full_name='banditpylib.ArmPullsPair.arm', index=0,
+      name='arm', full_name='banditpylib.ArmPull.arm', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pulls', full_name='banditpylib.ArmPullsPair.pulls', index=1,
+      name='times', full_name='banditpylib.ArmPull.times', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -264,7 +264,7 @@ _ARMPULLSPAIR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=390,
-  serialized_end=450,
+  serialized_end=445,
 )
 
 
@@ -276,7 +276,7 @@ _ACTIONS = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='arm_pulls_pairs', full_name='banditpylib.Actions.arm_pulls_pairs', index=0,
+      name='arm_pulls', full_name='banditpylib.Actions.arm_pulls', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -294,8 +294,8 @@ _ACTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=452,
-  serialized_end=513,
+  serialized_start=447,
+  serialized_end=497,
 )
 
 
@@ -339,8 +339,8 @@ _ARMFEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=515,
-  serialized_end=604,
+  serialized_start=499,
+  serialized_end=588,
 )
 
 
@@ -370,8 +370,8 @@ _FEEDBACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=606,
-  serialized_end=665,
+  serialized_start=590,
+  serialized_end=649,
 )
 
 
@@ -422,8 +422,8 @@ _DATAITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=667,
-  serialized_end=747,
+  serialized_start=651,
+  serialized_end=731,
 )
 
 
@@ -467,8 +467,8 @@ _TRIAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=749,
-  serialized_end=832,
+  serialized_start=733,
+  serialized_end=816,
 )
 
 _VECTORIZEDCONTEXT.fields_by_name['vectors'].message_type = _VECTOR
@@ -488,8 +488,8 @@ _ARM.fields_by_name['id'].containing_oneof = _ARM.oneofs_by_name['arm_oneof']
 _ARM.oneofs_by_name['arm_oneof'].fields.append(
   _ARM.fields_by_name['set'])
 _ARM.fields_by_name['set'].containing_oneof = _ARM.oneofs_by_name['arm_oneof']
-_ARMPULLSPAIR.fields_by_name['arm'].message_type = _ARM
-_ACTIONS.fields_by_name['arm_pulls_pairs'].message_type = _ARMPULLSPAIR
+_ARMPULL.fields_by_name['arm'].message_type = _ARM
+_ACTIONS.fields_by_name['arm_pulls'].message_type = _ARMPULL
 _ARMFEEDBACK.fields_by_name['arm'].message_type = _ARM
 _FEEDBACK.fields_by_name['arm_feedbacks'].message_type = _ARMFEEDBACK
 _TRIAL.fields_by_name['data_items'].message_type = _DATAITEM
@@ -498,7 +498,7 @@ DESCRIPTOR.message_types_by_name['Vector'] = _VECTOR
 DESCRIPTOR.message_types_by_name['VectorizedContext'] = _VECTORIZEDCONTEXT
 DESCRIPTOR.message_types_by_name['Context'] = _CONTEXT
 DESCRIPTOR.message_types_by_name['Arm'] = _ARM
-DESCRIPTOR.message_types_by_name['ArmPullsPair'] = _ARMPULLSPAIR
+DESCRIPTOR.message_types_by_name['ArmPull'] = _ARMPULL
 DESCRIPTOR.message_types_by_name['Actions'] = _ACTIONS
 DESCRIPTOR.message_types_by_name['ArmFeedback'] = _ARMFEEDBACK
 DESCRIPTOR.message_types_by_name['Feedback'] = _FEEDBACK
@@ -549,12 +549,12 @@ Arm = _reflection.GeneratedProtocolMessageType('Arm', (_message.Message,), dict(
 _sym_db.RegisterMessage(Arm)
 _sym_db.RegisterMessage(Arm.Set)
 
-ArmPullsPair = _reflection.GeneratedProtocolMessageType('ArmPullsPair', (_message.Message,), dict(
-  DESCRIPTOR = _ARMPULLSPAIR,
+ArmPull = _reflection.GeneratedProtocolMessageType('ArmPull', (_message.Message,), dict(
+  DESCRIPTOR = _ARMPULL,
   __module__ = 'data_pb2'
-  # @@protoc_insertion_point(class_scope:banditpylib.ArmPullsPair)
+  # @@protoc_insertion_point(class_scope:banditpylib.ArmPull)
   ))
-_sym_db.RegisterMessage(ArmPullsPair)
+_sym_db.RegisterMessage(ArmPull)
 
 Actions = _reflection.GeneratedProtocolMessageType('Actions', (_message.Message,), dict(
   DESCRIPTOR = _ACTIONS,

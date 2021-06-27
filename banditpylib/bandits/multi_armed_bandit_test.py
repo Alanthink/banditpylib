@@ -16,11 +16,11 @@ class TestOrdinaryBandit:
     # Pull arm 0 for 100 times
     actions = text_format.Parse(
         """
-      arm_pulls_pairs {
+      arm_pulls {
         arm {
           id: 0
         }
-        pulls: 100
+        times: 100
       }
       """, Actions())
     ordinary_bandit.feed(actions)

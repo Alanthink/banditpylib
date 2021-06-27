@@ -40,9 +40,9 @@ class Uniform(MABFixedBudgetBAILearner):
                                     np.ones(self.arm_num) / self.arm_num,
                                     size=1)[0]
       for arm_id in range(self.arm_num):
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls[arm_id] + 1
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls[arm_id] + 1
 
       self.__stop = True
 

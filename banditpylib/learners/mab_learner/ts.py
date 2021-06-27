@@ -71,10 +71,10 @@ class ThompsonSampling(MABLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.id = self.__sample_from_beta_prior(
+    arm_pull = actions.arm_pulls.add()
+    arm_pull.arm.id = self.__sample_from_beta_prior(
     ) if self.__prior_dist == 'beta' else self.__sample_from_gaussian_prior()
-    arm_pulls_pair.pulls = 1
+    arm_pull.times = 1
     return actions
 
   def update(self, feedback: Feedback):

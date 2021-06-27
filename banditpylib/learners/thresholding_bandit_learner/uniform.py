@@ -37,9 +37,9 @@ class Uniform(ThresholdingBanditLearner):
 
   def actions(self, context: Context) -> Actions:
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.id = (self.__time - 1) % self.arm_num
-    arm_pulls_pair.pulls = 1
+    arm_pull = actions.arm_pulls.add()
+    arm_pull.arm.id = (self.__time - 1) % self.arm_num
+    arm_pull.times = 1
     return actions
 
   def update(self, feedback: Feedback):

@@ -84,7 +84,7 @@ class EpsGreedy(MNLBanditLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     # Check if last observation is a purchase
     if self.__last_customer_feedback and self.__last_customer_feedback != 0:
@@ -95,8 +95,8 @@ class EpsGreedy(MNLBanditLearner):
 
     # With probability eps/t, randomly select an assortment to serve
     if np.random.random() <= self.__eps / self.__time:
-      arm_pulls_pair.arm.set.id.extend(list(self.__select_ramdom_assort()))
-      arm_pulls_pair.pulls = 1
+      arm_pull.arm.set.id.extend(list(self.__select_ramdom_assort()))
+      arm_pull.times = 1
       return actions
 
     self.reward.set_preference_params(self.__em_preference_params())
@@ -113,8 +113,8 @@ class EpsGreedy(MNLBanditLearner):
       _, best_assortment = search_best_assortment(reward=self.reward,
                                                   card_limit=self.card_limit)
 
-    arm_pulls_pair.arm.set.id.extend(list(best_assortment))
-    arm_pulls_pair.pulls = 1
+    arm_pull.arm.set.id.extend(list(best_assortment))
+    arm_pull.times = 1
 
     self.__last_actions = actions
     return actions

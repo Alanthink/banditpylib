@@ -1,7 +1,7 @@
 from typing import List
 
 from banditpylib.arms import StochasticArm
-from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPull, \
     ArmFeedback
 from banditpylib.learners import Goal, MaximizeCorrectAnswers, \
     MakeAllAnswersCorrect
@@ -61,17 +61,17 @@ class ThresholdingBandit(Bandit):
     """Total number of arms"""
     return self.__arm_num
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmFeedback:
+  def _take_action(self, arm_pull: ArmPull) -> ArmFeedback:
     """Pull one arm
 
     Args:
-      arm_pulls_pair: arm and its pulls
+      arm_pull: arm and its pulls
 
     Returns:
       arm_feedback: arm and its feedback
     """
-    arm_id = arm_pulls_pair.arm.id
-    pulls = arm_pulls_pair.pulls
+    arm_id = arm_pull.arm.id
+    pulls = arm_pull.times
 
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
@@ -92,8 +92,8 @@ class ThresholdingBandit(Bandit):
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
-    for arm_pulls_pair in actions.arm_pulls_pairs:
-      arm_feedback = self._take_action(arm_pulls_pair=arm_pulls_pair)
+    for arm_pull in actions.arm_pulls:
+      arm_feedback = self._take_action(arm_pull=arm_pull)
       if arm_feedback.rewards:
         feedback.arm_feedbacks.append(arm_feedback)
     return feedback

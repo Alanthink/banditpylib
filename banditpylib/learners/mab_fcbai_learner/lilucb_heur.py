@@ -65,9 +65,9 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
     if self.__stage == 'initialization':
       actions = Actions()
       for arm_id in range(self.arm_num):
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = 1
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = 1
       return actions
 
     # self.__stage == 'main'
@@ -78,9 +78,9 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
           1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls)):
         return actions
 
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.id = int(np.argmax(self.__ucb()))
-    arm_pulls_pair.pulls = 1
+    arm_pull = actions.arm_pulls.add()
+    arm_pull.arm.id = int(np.argmax(self.__ucb()))
+    arm_pull.times = 1
 
     return actions
 

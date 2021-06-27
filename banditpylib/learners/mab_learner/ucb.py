@@ -53,14 +53,14 @@ class UCB(MABLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     if self.__time <= self.arm_num:
-      arm_pulls_pair.arm.id = self.__time - 1
+      arm_pull.arm.id = self.__time - 1
     else:
-      arm_pulls_pair.arm.id = int(np.argmax(self.__UCB()))
+      arm_pull.arm.id = int(np.argmax(self.__UCB()))
 
-    arm_pulls_pair.pulls = 1
+    arm_pull.times = 1
     return actions
 
   def update(self, feedback: Feedback):

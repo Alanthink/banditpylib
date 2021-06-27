@@ -3,7 +3,7 @@ from typing import List
 import numpy as np
 
 from banditpylib.arms import GaussianArm
-from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPull, \
     ArmFeedback
 from banditpylib.learners import Goal, IdentifyBestArm, MaximizeTotalRewards
 from .utils import Bandit
@@ -58,17 +58,17 @@ class LinearBandit(Bandit):
   def context(self) -> Context:
     return Context()
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmFeedback:
+  def _take_action(self, arm_pull: ArmPull) -> ArmFeedback:
     """Pull one arm
 
     Args:
-      arm_pulls_pair: arm id and its pulls
+      arm_pull: arm id and its pulls
 
     Returns:
       arm_feedback: arm id and its rewards
     """
-    arm_id = arm_pulls_pair.arm.id
-    pulls = arm_pulls_pair.pulls
+    arm_id = arm_pull.arm.id
+    pulls = arm_pull.times
 
     if arm_id not in range(self.__arm_num):
       raise ValueError('Arm id is expected in the range [0, %d). Got %d.' %
@@ -89,9 +89,9 @@ class LinearBandit(Bandit):
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
-    for arm_pulls_pair in actions.arm_pulls_pairs:
-      if arm_pulls_pair.pulls > 0:
-        arm_feedback = self._take_action(arm_pulls_pair=arm_pulls_pair)
+    for arm_pull in actions.arm_pulls:
+      if arm_pull.times > 0:
+        arm_feedback = self._take_action(arm_pull=arm_pull)
         feedback.arm_feedbacks.append(arm_feedback)
     return feedback
 

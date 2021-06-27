@@ -14,10 +14,10 @@ class TestEXP3:
 
     for _ in range(1, horizon + 10):
       actions = learner.actions(Context())
-      assert len(actions.arm_pulls_pairs) == 1
-      arm_pulls_pair = actions.arm_pulls_pairs[0]
-      arm_id = arm_pulls_pair.arm.id
-      assert arm_pulls_pair.pulls == 1
+      assert len(actions.arm_pulls) == 1
+      arm_pull = actions.arm_pulls[0]
+      arm_id = arm_pull.arm.id
+      assert arm_pull.times == 1
       assert arm_id in set(range(arm_num))
       learner.update(
           text_format.Parse(

@@ -75,7 +75,7 @@ class UCB(MNLBanditLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     # Check if last observation is a purchase
     if self.__last_customer_feedback and self.__last_customer_feedback != 0:
@@ -90,15 +90,14 @@ class UCB(MNLBanditLearner):
           reward=self.reward,
           random_neighbors=self.random_neighbors,
           card_limit=self.card_limit,
-          init_assortment=(set(
-              self.__last_actions.arm_pulls_pairs[0].arm.set.id)
+          init_assortment=(set(self.__last_actions.arm_pulls[0].arm.set.id)
                            if self.__last_actions else None))
     else:
       _, best_assortment = search_best_assortment(reward=self.reward,
                                                   card_limit=self.card_limit)
 
-    arm_pulls_pair.arm.set.id.extend(list(best_assortment))
-    arm_pulls_pair.pulls = 1
+    arm_pull.arm.set.id.extend(list(best_assortment))
+    arm_pull.times = 1
 
     self.__last_actions = actions
     return actions
@@ -110,6 +109,6 @@ class UCB(MNLBanditLearner):
     self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
     self.__time += 1
     if arm_feedback.customer_feedbacks[0] == 0:
-      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set.id:
+      for product_id in self.__last_actions.arm_pulls[0].arm.set.id:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1

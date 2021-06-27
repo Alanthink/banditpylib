@@ -14,14 +14,13 @@ class TestSR:
 
     while True:
       actions = learner.actions(Context())
-      if not actions.arm_pulls_pairs:
+      if not actions.arm_pulls:
         break
 
       feedback = Feedback()
-      for arm_pulls_pair in actions.arm_pulls_pairs:
+      for arm_pull in actions.arm_pulls:
         arm_feedback = feedback.arm_feedbacks.add()
-        arm_feedback.arm.id = arm_pulls_pair.arm.id
-        arm_feedback.rewards.extend(
-            list(np.random.random(arm_pulls_pair.pulls)))
+        arm_feedback.arm.id = arm_pull.arm.id
+        arm_feedback.rewards.extend(list(np.random.random(arm_pull.times)))
       learner.update(feedback)
     assert learner.best_arm in list(range(arm_num))

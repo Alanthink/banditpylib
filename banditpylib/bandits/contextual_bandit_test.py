@@ -19,11 +19,11 @@ class TestContextualBandit:
       contextual_bandit.feed(
           text_format.Parse(
               """
-      arm_pulls_pairs {
+      arm_pulls {
         arm {
           id: 1
         }
-        pulls: 1
+        times: 1
       }
       """, Actions()))
 

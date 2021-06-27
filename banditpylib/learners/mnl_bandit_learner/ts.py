@@ -78,9 +78,9 @@ class ThompsonSampling(MNLBanditLearner):
       return self.__last_actions
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
-    arm_pulls_pair.arm.set.id.append(self.__next_product_in_warm_start)
-    arm_pulls_pair.pulls = 1
+    arm_pull = actions.arm_pulls.add()
+    arm_pull.arm.set.id.append(self.__next_product_in_warm_start)
+    arm_pull.times = 1
     self.__next_product_in_warm_start += 1
     return actions
 
@@ -118,7 +118,7 @@ class ThompsonSampling(MNLBanditLearner):
       actions = self.__warm_start()
     else:
       actions = Actions()
-      arm_pulls_pair = actions.arm_pulls_pairs.add()
+      arm_pull = actions.arm_pulls.add()
 
       # Check if last observation is a purchase
       if self.__last_customer_feedback and self.__last_customer_feedback != 0:
@@ -134,8 +134,7 @@ class ThompsonSampling(MNLBanditLearner):
       if self.use_local_search:
         # Initial assortment to start for local search
         if self.__last_actions is not None:
-          init_assortment = set(
-              self.__last_actions.arm_pulls_pairs[0].arm.set.id)
+          init_assortment = set(self.__last_actions.arm_pulls[0].arm.set.id)
         else:
           init_assortment = None
         _, best_assortment = local_search_best_assortment(
@@ -147,8 +146,8 @@ class ThompsonSampling(MNLBanditLearner):
         _, best_assortment = search_best_assortment(reward=self.reward,
                                                     card_limit=self.card_limit)
 
-      arm_pulls_pair.arm.set.id.extend(list(best_assortment))
-      arm_pulls_pair.pulls = 1
+      arm_pull.arm.set.id.extend(list(best_assortment))
+      arm_pull.times = 1
 
       self.__first_step_after_warm_start = False
 
@@ -161,7 +160,7 @@ class ThompsonSampling(MNLBanditLearner):
 
     # No purchase is observed
     if arm_feedback.customer_feedbacks[0] == 0:
-      for product_id in self.__last_actions.arm_pulls_pairs[0].arm.set.id:
+      for product_id in self.__last_actions.arm_pulls[0].arm.set.id:
         self.__serving_episodes[product_id] += 1
       # Check if it is the end of initial warm start stage
       if not self.__done_warm_start and \

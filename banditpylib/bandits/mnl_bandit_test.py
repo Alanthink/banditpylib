@@ -97,13 +97,13 @@ class TestMNLBandit:
     bandit.feed(
         text_format.Parse(
             """
-      arm_pulls_pairs {
+      arm_pulls {
         arm {
           set {
             id: 1
           }
         }
-        pulls: 3
+        times: 3
       }
       """, Actions()))
     assert bandit.regret(MaximizeTotalRewards()) == 0.0
@@ -118,12 +118,12 @@ class TestMNLBandit:
         bandit.feed(
             text_format.Parse(
                 """
-      arm_pulls_pairs {
+      arm_pulls {
         arm {
           set {
             id: 1
           }
         }
-        pulls: 5
+        times: 5
       }
       """, Actions())).arm_feedbacks[0].customer_feedbacks) == {0}

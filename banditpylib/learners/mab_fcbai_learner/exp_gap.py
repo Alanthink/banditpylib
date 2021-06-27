@@ -70,9 +70,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
                         (math.log(3) - self.__me_log_delta_ell))
 
     for arm_id in self.__me_active_arms:
-      arm_pulls_pair = actions.arm_pulls_pairs.add()
-      arm_pulls_pair.arm.id = arm_id
-      arm_pulls_pair.pulls = pulls
+      arm_pull = actions.arm_pulls.add()
+      arm_pull.arm.id = arm_id
+      arm_pull.times = pulls
     return actions
 
   def actions(self, context: Context) -> Actions:
@@ -88,9 +88,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
       pulls = math.ceil(2 / (self.__eps_r**2) *
                         (math.log(2) - self.__log_delta_r))
       for arm_id in self.__active_arms:
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls
     else:
       # self.__stage == 'median_elimination'
       actions = self.__median_elimination()

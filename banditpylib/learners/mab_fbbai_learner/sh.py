@@ -65,9 +65,9 @@ class SH(MABFixedBudgetBAILearner):
                                     size=1)[0]
       i = 0
       for arm_id in self.__active_arms:
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls[i]
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls[i]
         i = i + 1
       self.__stop = True
     else:
@@ -75,9 +75,9 @@ class SH(MABFixedBudgetBAILearner):
       pulls = math.floor(self.budget /
                          (len(self.__active_arms) * self.__total_rounds))
       for arm_id in self.__active_arms:
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls
 
     return actions
 

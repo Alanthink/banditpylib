@@ -79,7 +79,7 @@ class SinglePlayerProtocol(Protocol):
       actions = self.current_learner.actions(self.bandit.context)
 
       # Stop the game if no actions are returned by the learner
-      if not actions.arm_pulls_pairs:
+      if not actions.arm_pulls:
         break
 
       # Record intermediate regrets
@@ -89,8 +89,8 @@ class SinglePlayerProtocol(Protocol):
       feedback = self.bandit.feed(actions)
       self.current_learner.update(feedback)
 
-      for arm_pulls_pair in actions.arm_pulls_pairs:
-        total_actions += arm_pulls_pair.pulls
+      for arm_pull in actions.arm_pulls:
+        total_actions += arm_pull.times
       rounds += 1
 
     # Record final regret

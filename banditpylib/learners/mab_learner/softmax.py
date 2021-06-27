@@ -50,19 +50,19 @@ class Softmax(MABLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     if self.__time <= self.arm_num:
-      arm_pulls_pair.arm.id = self.__time - 1
+      arm_pull.arm.id = self.__time - 1
     else:
       weights = np.array([
           math.exp(self.__pseudo_arms[arm_id].em_mean / self.__gamma)
           for arm_id in range(self.arm_num)
       ])
-      arm_pulls_pair.arm.id = np.random.choice(
+      arm_pull.arm.id = np.random.choice(
           self.arm_num, 1, p=[weight / sum(weights) for weight in weights])[0]
 
-    arm_pulls_pair.pulls = 1
+    arm_pull.times = 1
     return actions
 
   def update(self, feedback: Feedback):

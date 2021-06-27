@@ -14,17 +14,16 @@ class TestLilUCBHeuristic:
 
     while True:
       actions = learner.actions(Context())
-      if not actions.arm_pulls_pairs:
+      if not actions.arm_pulls:
         break
 
       feedback = Feedback()
-      for arm_pulls_pair in actions.arm_pulls_pairs:
+      for arm_pull in actions.arm_pulls:
         arm_feedback = feedback.arm_feedbacks.add()
-        arm_feedback.arm.id = arm_pulls_pair.arm.id
+        arm_feedback.arm.id = arm_pull.arm.id
         arm_feedback.rewards.extend(
-            list(
-                np.random.normal(arm_pulls_pair.arm.id / arm_num, 1,
-                                 arm_pulls_pair.pulls)))
+            list(np.random.normal(arm_pull.arm.id / arm_num, 1,
+                                  arm_pull.times)))
       learner.update(feedback)
 
     assert learner.best_arm in list(range(arm_num))
