@@ -72,7 +72,7 @@ message Feedback {
 }
 
 // Next tag: 5
-message DataItem {
+message Result {
   // Total communication rounds
   int32 rounds = 1;
   // Total actions performed by the learner
@@ -85,11 +85,11 @@ message DataItem {
 }
 
 // Next tag: 4
-// This message stores the data generated within one trial
+// This message stores the results generated within one trial
 message Trial {
   // Bandit name
   string bandit = 1;
   // Learner name
   string learner = 2;
-  repeated DataItem data_items  = 3;
+  repeated Result results  = 3;
 }

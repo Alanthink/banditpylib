@@ -47,9 +47,9 @@ def trial_data_messages_to_dict(filename: str) -> pd.DataFrame:
     data = []
     trials_data = parse_trials_data(f.read())
     for trial in trials_data:
-      for data_item in trial.data_items:
+      for result in trial.results:
         tmp_dict = json_format.MessageToDict(
-            data_item,
+            result,
             including_default_value_fields=True,
             preserving_proto_field_name=True)
         tmp_dict['bandit'] = trial.bandit
