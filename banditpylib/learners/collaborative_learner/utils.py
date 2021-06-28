@@ -274,7 +274,7 @@ class CollaborativeLearner():
   @property
   def name(self) -> str:
     if self.__name is None:
-      return 'collaborative_agent'
+      return 'collaborative_learner'
     return self.__name
 
   @property

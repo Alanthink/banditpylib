@@ -46,8 +46,8 @@ class CollaborativeLearningProtocol(Protocol):
     used.
   """
   def __init__(self,
-               bandit: Bandit, agents: List[CollaborativeLearner]):
-    super().__init__(bandit=bandit, learners=agents)
+               bandit: Bandit, learners: List[CollaborativeLearner]):
+    super().__init__(bandit=bandit, learners=learners)
 
   @property
   def name(self) -> str:
@@ -140,15 +140,9 @@ class CollaborativeLearningProtocol(Protocol):
     data_item.rounds = round_num
     data_item.total_actions = total_pulls_used
     total_regret = 0.0
-    for i, agent in enumerate(agents):
-      arm = Arm()
-      best_arm = agent.best_arm
-      if best_arm is None:
-        total_regret += 1
-      else:
-        arm.id = best_arm
-        goal = IdentifyBestArm(best_arm=arm)
-        total_regret += bandits[i].regret(goal)
+    for i in range(len(agents)):
+      total_regret += bandits[i].regret(
+        self.current_learner.agent_goal(index=i))
     data_item.regret = total_regret/len(agents)
 
     return trial.SerializeToString()
