@@ -34,7 +34,6 @@ class CollaborativeLearningProtocol(Protocol):
 
   .. todo::
     extend protocol to compare different types of agents
-    or different num_agent/round/horizon combos
 
 
   :param Bandit bandit: bandit environment
@@ -60,13 +59,12 @@ class CollaborativeLearningProtocol(Protocol):
     np.random.seed(random_seed)
 
     # initialization
-    agents = []
+    agents = self.current_learner.agents
     bandits = []
     master = self.current_learner.master
     master.reset()
-    for _ in range(self.current_learner.num_agents):
-      agents.append(dcopy(self.current_learner))
-      agents[-1].reset()
+    for i, agent in enumerate(agents):
+      agent.reset()
       bandits.append(dcopy(self.bandit))
       bandits[-1].reset()
 
@@ -87,9 +85,11 @@ class CollaborativeLearningProtocol(Protocol):
       if len(running_agents) == 0:
         break
 
-      master.assign_arms(running_agents)
-      waiting_agents = [False] * len(agents) # waiting for communication
+      arms_assign_list = master.assign_arms(len(running_agents))
+      for i, agent in enumerate(agents):
+        agent.assign_arms(arms_assign_list[i])
 
+      waiting_agents = [False] * len(agents) # waiting for communication
       # preparation and learning
       for i, agent in enumerate(agents):
         while True:
@@ -116,8 +116,15 @@ class CollaborativeLearningProtocol(Protocol):
             i_l_r_list.append(i_l_r)
             p_l_r_list.append(p_l_r)
 
+      if len(i_l_r_list)==0:
+        # end after adding data
+        data_item = trial.data_items.add()
+        data_item.rounds = round_num
+        data_item.total_actions = total_pulls_used
+        data_item.regret = 1
+        return trial.SerializeToString()
+
       # send info to master for elimination
-      # todo: handle empty i_l_r_list
       master.elimination(i_l_r_list, p_l_r_list)
 
       for i, agent in enumerate(agents):
