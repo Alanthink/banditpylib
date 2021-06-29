@@ -38,22 +38,22 @@ class EpsGreedy(MABLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     if self.__time <= self.arm_num:
-      arm_pulls_pair.arm.id = self.__time - 1
+      arm_pull.arm.id = self.__time - 1
     # With probability eps/t, randomly select an arm to pull
     elif np.random.random() <= self.__eps / self.__time:
-      arm_pulls_pair.arm.id = np.random.randint(0, self.arm_num)
+      arm_pull.arm.id = np.random.randint(0, self.arm_num)
     else:
-      arm_pulls_pair.arm.id = int(
+      arm_pull.arm.id = int(
           np.argmax(np.array([arm.em_mean for arm in self.__pseudo_arms])))
 
-    arm_pulls_pair.pulls = 1
+    arm_pull.times = 1
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
-    self.__pseudo_arms[arm_rewards_pair.arm.id].update(
-        np.array(arm_rewards_pair.rewards))
+    arm_feedback = feedback.arm_feedbacks[0]
+    self.__pseudo_arms[arm_feedback.arm.id].update(
+        np.array(arm_feedback.rewards))
     self.__time += 1

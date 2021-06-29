@@ -1,5 +1,5 @@
-from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
-    ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPull, \
+    ArmFeedback
 from banditpylib.learners import Goal, MaximizeTotalRewards
 from .contextual_bandit_utils import ContextGenerator
 from .utils import Bandit
@@ -43,43 +43,43 @@ class ContextualBandit(Bandit):
     rewards = self.__context_and_rewards[1]
     self.__regret += max(rewards) - rewards[arm_id]
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
+  def _take_action(self, arm_pull: ArmPull) -> ArmFeedback:
     """Pull one arm
 
     Args:
-      arm_pulls_pair: arm and its pulls
+      arm_pull: arm and its pulls
 
     Returns:
-      arm_rewards_pair: arm and its rewards
+      arm_feedback: arm and its feedback
     """
-    arm_id = arm_pulls_pair.arm.id
-    pulls = arm_pulls_pair.pulls
+    arm_id = arm_pull.arm.id
+    pulls = arm_pull.times
 
     if arm_id not in range(self.__arm_num):
       raise Exception('Arm id %d is out of range [0, %d)!' % \
           (arm_id, self.__arm_num))
 
-    arm_rewards_pair = ArmRewardsPair()
+    arm_feedback = ArmFeedback()
     if pulls < 1:
-      return arm_rewards_pair
+      return arm_feedback
 
     self.__update_regret(arm_id)
     for _ in range(pulls - 1):
       self.__context_and_rewards = self.__context_generator.context()
       self.__update_regret(arm_id)
-      arm_rewards_pair.rewards.append(self.__context_and_rewards[1][arm_id])
+      arm_feedback.rewards.append(self.__context_and_rewards[1][arm_id])
 
     self.__total_pulls += pulls
-    arm_rewards_pair.arm.id = arm_id
-    return arm_rewards_pair
+    arm_feedback.arm.id = arm_id
+    return arm_feedback
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
 
-    for arm_pulls_pair in actions.arm_pulls_pairs:
-      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
-      if arm_rewards_pair.rewards:
-        feedback.arm_rewards_pairs.append(arm_rewards_pair)
+    for arm_pull in actions.arm_pulls:
+      arm_feedback = self._take_action(arm_pull=arm_pull)
+      if arm_feedback.rewards:
+        feedback.arm_feedbacks.append(arm_feedback)
     return feedback
 
   def reset(self):

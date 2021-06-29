@@ -31,17 +31,17 @@ class TestLinUCB:
       assert learner.actions(
           Context()).SerializeToString() == text_format.Parse(
               """
-            arm_pulls_pairs <
+            arm_pulls <
               arm <
                 id: 0
               >
-              pulls: 1
+              times: 1
             >
             """, Actions()).SerializeToString()
       learner.update(
           text_format.Parse(
               """
-            arm_rewards_pairs <
+            arm_feedbacks <
               arm <
                 id: 0
               >

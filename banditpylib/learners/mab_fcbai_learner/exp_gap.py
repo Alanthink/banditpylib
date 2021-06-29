@@ -70,9 +70,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
                         (math.log(3) - self.__me_log_delta_ell))
 
     for arm_id in self.__me_active_arms:
-      arm_pulls_pair = actions.arm_pulls_pairs.add()
-      arm_pulls_pair.arm.id = arm_id
-      arm_pulls_pair.pulls = pulls
+      arm_pull = actions.arm_pulls.add()
+      arm_pull.arm.id = arm_id
+      arm_pull.times = pulls
     return actions
 
   def actions(self, context: Context) -> Actions:
@@ -88,9 +88,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
       pulls = math.ceil(2 / (self.__eps_r**2) *
                         (math.log(2) - self.__log_delta_r))
       for arm_id in self.__active_arms:
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls
     else:
       # self.__stage == 'median_elimination'
       actions = self.__median_elimination()
@@ -99,9 +99,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
 
   def update(self, feedback: Feedback):
     if self.__stage == 'main_loop':
-      for arm_rewards_pair in feedback.arm_rewards_pairs:
-        self.__active_arms[arm_rewards_pair.arm.id].update(
-            np.array(arm_rewards_pair.rewards))
+      for arm_feedback in feedback.arm_feedbacks:
+        self.__active_arms[arm_feedback.arm.id].update(
+            np.array(arm_feedback.rewards))
       # Initialization of median elimination
       self.__stage = 'median_elimination'
       self.__me_ell = 1
@@ -115,9 +115,9 @@ class ExpGap(MABFixedConfidenceBAILearner):
         self.__me_active_arms[arm_id] = PseudoArm()
 
     elif self.__stage == 'median_elimination':
-      for arm_rewards_pair in feedback.arm_rewards_pairs:
-        self.__me_active_arms[arm_rewards_pair.arm.id].update(
-            np.array(arm_rewards_pair.rewards))
+      for arm_feedback in feedback.arm_feedbacks:
+        self.__me_active_arms[arm_feedback.arm.id].update(
+            np.array(arm_feedback.rewards))
       if len(self.__me_active_arms) > self.__threshold:
         median = np.median(
             np.array([

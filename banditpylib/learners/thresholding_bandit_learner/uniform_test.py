@@ -14,15 +14,15 @@ class TestUniform:
     apt.reset()
     for _ in range(budget):
       actions = apt.actions(Context())
-      assert len(actions.arm_pulls_pairs) == 1
+      assert len(actions.arm_pulls) == 1
 
-      arm_id = actions.arm_pulls_pairs[0].arm.id
+      arm_id = actions.arm_pulls[0].arm.id
       assert 0 <= arm_id < arm_num
 
       apt.update(
           text_format.Parse(
               """
-        arm_rewards_pairs <
+        arm_feedbacks <
           arm <
             id: {arm_id}
           >

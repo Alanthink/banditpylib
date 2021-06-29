@@ -40,18 +40,18 @@ class Uniform(MABFixedBudgetBAILearner):
                                     np.ones(self.arm_num) / self.arm_num,
                                     size=1)[0]
       for arm_id in range(self.arm_num):
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = pulls[arm_id] + 1
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = pulls[arm_id] + 1
 
       self.__stop = True
 
     return actions
 
   def update(self, feedback: Feedback):
-    for arm_rewards_pair in feedback.arm_rewards_pairs:
-      self.__pseudo_arms[arm_rewards_pair.arm.id].update(
-          np.array(arm_rewards_pair.rewards))
+    for arm_feedback in feedback.arm_feedbacks:
+      self.__pseudo_arms[arm_feedback.arm.id].update(
+          np.array(arm_feedback.rewards))
     if self.__stop:
       self.__best_arm = argmax_or_min(
           [arm.em_mean for arm in self.__pseudo_arms])

@@ -18,10 +18,10 @@ class TestThompsonSampling:
     assert ts_learner.actions(
         Context()).SerializeToString() == text_format.Parse(
             """
-        arm_pulls_pairs <
+        arm_pulls <
           arm <
             id: 1
           >
-          pulls: 1
+          times: 1
         >
         """, Actions()).SerializeToString()

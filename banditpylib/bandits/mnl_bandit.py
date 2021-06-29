@@ -5,8 +5,8 @@ from absl import logging
 
 import numpy as np
 
-from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPullsPair, \
-    ArmRewardsPair
+from banditpylib.data_pb2 import Context, Actions, Feedback, ArmPull, \
+    ArmFeedback
 from banditpylib.learners import Goal, MaximizeTotalRewards
 from .mnl_bandit_utils import Reward, MeanReward, search_best_assortment
 from .utils import Bandit
@@ -108,17 +108,17 @@ class MNLBandit(Bandit):
   def name(self) -> str:
     return 'mnl_bandit'
 
-  def _take_action(self, arm_pulls_pair: ArmPullsPair) -> ArmRewardsPair:
+  def _take_action(self, arm_pull: ArmPull) -> ArmFeedback:
     """Serve one assortment
 
     Args:
-      arm_pulls_pair: assortment and number of serving times
+      arm_pull: assortment and number of serving times
 
     Returns:
       feedbacks of the customer
     """
-    assortment = set(arm_pulls_pair.arm.set.id)
-    times = arm_pulls_pair.pulls
+    assortment = set(arm_pull.arm.set.id)
+    times = arm_pull.times
 
     if not assortment:
       raise Exception('Empty assortment!')
@@ -144,24 +144,24 @@ class MNLBandit(Bandit):
         for sample in sample_results
     ]
 
-    arm_rewards_pair = ArmRewardsPair()
-    arm_rewards_pair.arm.set.id.extend(list(assortment))
-    arm_rewards_pair.rewards.extend(
+    arm_feedback = ArmFeedback()
+    arm_feedback.arm.set.id.extend(list(assortment))
+    arm_feedback.rewards.extend(
         np.array([self.__revenues[choice] for choice in choices]))
-    arm_rewards_pair.customer_feedbacks.extend(choices)
+    arm_feedback.customer_feedbacks.extend(choices)
 
     # Update regret
     self.__regret += (self.__best_reward -
                       self.__reward.calc(assortment)) * times
 
-    return arm_rewards_pair
+    return arm_feedback
 
   def feed(self, actions: Actions) -> Feedback:
     feedback = Feedback()
-    for arm_pulls_pair in actions.arm_pulls_pairs:
-      arm_rewards_pair = self._take_action(arm_pulls_pair=arm_pulls_pair)
-      if arm_rewards_pair.rewards:
-        feedback.arm_rewards_pairs.append(arm_rewards_pair)
+    for arm_pull in actions.arm_pulls:
+      arm_feedback = self._take_action(arm_pull=arm_pull)
+      if arm_feedback.rewards:
+        feedback.arm_feedbacks.append(arm_feedback)
     return feedback
 
   def reset(self):

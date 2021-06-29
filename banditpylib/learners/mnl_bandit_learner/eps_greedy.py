@@ -84,7 +84,7 @@ class EpsGreedy(MNLBanditLearner):
     del context
 
     actions = Actions()
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     # Check if last observation is a purchase
     if self.__last_customer_feedback and self.__last_customer_feedback != 0:
@@ -95,8 +95,8 @@ class EpsGreedy(MNLBanditLearner):
 
     # With probability eps/t, randomly select an assortment to serve
     if np.random.random() <= self.__eps / self.__time:
-      arm_pulls_pair.arm.set.id.extend(list(self.__select_ramdom_assort()))
-      arm_pulls_pair.pulls = 1
+      arm_pull.arm.set.id.extend(list(self.__select_ramdom_assort()))
+      arm_pull.times = 1
       return actions
 
     self.reward.set_preference_params(self.__em_preference_params())
@@ -113,19 +113,19 @@ class EpsGreedy(MNLBanditLearner):
       _, best_assortment = search_best_assortment(reward=self.reward,
                                                   card_limit=self.card_limit)
 
-    arm_pulls_pair.arm.set.id.extend(list(best_assortment))
-    arm_pulls_pair.pulls = 1
+    arm_pull.arm.set.id.extend(list(best_assortment))
+    arm_pull.times = 1
 
     self.__last_actions = actions
     return actions
 
   def update(self, feedback: Feedback):
-    arm_rewards_pair = feedback.arm_rewards_pairs[0]
+    arm_feedback = feedback.arm_feedbacks[0]
 
-    self.__customer_choices[arm_rewards_pair.customer_feedbacks[0]] += 1
-    self.__last_customer_feedback = arm_rewards_pair.customer_feedbacks[0]
+    self.__customer_choices[arm_feedback.customer_feedbacks[0]] += 1
+    self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
     self.__time += 1
-    if arm_rewards_pair.customer_feedbacks[0] == 0:
-      for product_id in arm_rewards_pair.arm.set.id:
+    if arm_feedback.customer_feedbacks[0] == 0:
+      for product_id in arm_feedback.arm.set.id:
         self.__serving_episodes[product_id] += 1
       self.__episode += 1

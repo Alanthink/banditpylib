@@ -18,17 +18,17 @@ class TestEpsGreedy:
       assert learner.actions(
           Context()).SerializeToString() == text_format.Parse(
               """
-        arm_pulls_pairs <
+        arm_pulls <
           arm <
             id: {arm_id}
           >
-          pulls: 1
+          times: 1
         >
         """.format(arm_id=time - 1), Actions()).SerializeToString()
       learner.update(
           text_format.Parse(
               """
-        arm_rewards_pairs <
+        arm_feedbacks <
           arm <
             id: {arm_id}
           >

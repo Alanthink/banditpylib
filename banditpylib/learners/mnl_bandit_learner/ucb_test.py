@@ -22,7 +22,7 @@ class TestUCB:
     learner._UCB__UCB = MagicMock(return_value=mock_preference_params)
     assert learner.actions(Context()).SerializeToString() == text_format.Parse(
         """
-      arm_pulls_pairs {
+      arm_pulls {
         arm {
           set {
             id: 1
@@ -31,6 +31,6 @@ class TestUCB:
             id: 4
           }
         }
-        pulls: 1
+        times: 1
       }
       """, Actions()).SerializeToString()

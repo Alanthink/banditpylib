@@ -10,21 +10,6 @@
 .. currentmodule:: banditpylib.protocols
 
 
-Functions
-=========
-
-- :py:func:`parse_trials_data`:
-  Retrieve trials data from bytes data
-
-- :py:func:`trial_data_messages_to_dict`:
-  Read file storing trials data and transform to pandas DataFrame
-
-
-.. autofunction:: parse_trials_data
-
-.. autofunction:: trial_data_messages_to_dict
-
-
 Classes
 =======
 

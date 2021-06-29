@@ -36,27 +36,27 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Regret Minimization  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3`, `ExploreThenCommit`, `Softmax` |
-| Fix-Budget BAI   | `Uniform`, `SR`, `SH`|
-| Fix-Confidence BAI   | `ExpGap`, `LilUCBHeuristic`|
+| Maximize rewards  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3`, `ExploreThenCommit`, `Softmax` |
+| Best arm identification with fixed budget   | `Uniform`, `SR`, `SH`|
+| Best arm identification with fixed confidence   | `ExpGap`, `LilUCBHeuristic`|
 
 #### MNL bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Regret Minimization  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
+| Maximize rewards  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
 #### Thresholding bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Simple Regret | `Uniform`, `APT` |
+| Make all answers correct | `Uniform`, `APT` |
 
 #### Linear bandit
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Regret Minimization  | `LinUCB` |
+| Maximize rewards  | `LinUCB` |
 
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
