@@ -84,9 +84,10 @@ class CollaborativeLearningProtocol(Protocol):
       if len(running_agents) == 0:
         break
 
-      arms_assign_list = master.assign_arms(len(running_agents))
+      arms_assign_list, num_active_arms = master.assign_arms(
+        len(running_agents))
       for i, agent in enumerate(agents):
-        agent.assign_arms(arms_assign_list[i])
+        agent.assign_arms(arms_assign_list[i], num_active_arms)
 
       waiting_agents = [False] * len(agents) # waiting for communication
       # preparation and learning
@@ -115,6 +116,7 @@ class CollaborativeLearningProtocol(Protocol):
             i_l_r_list.append(i_l_r)
             p_l_r_list.append(p_l_r)
 
+      # empty i_l_r_list
       if len(i_l_r_list)==0:
         # end after adding data
         result = trial.results.add()

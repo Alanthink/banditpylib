@@ -42,8 +42,13 @@ class CollaborativeBAIAgent(ABC):
     """Update the round-local variables"""
 
   @abstractmethod
-  def assign_arms(self, arms: List[int]):
-    """Assign a set of arms to the agent"""
+  def assign_arms(self, arms: List[int], num_active_arms: int):
+    """Assign a set of arms to the agent
+
+    Args:
+      * arms: arm indices that have been assigned
+      * total number of active arms
+    """
 
   @abstractmethod
   def actions(self, context: Context) -> Actions:
@@ -115,14 +120,16 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def assign_arms(self, num_running_agents: int) -> List[List[int]]:
+  def get_assigned_arms(self, num_running_agents: int) ->\
+    Tuple[List[List[int]], int]:
     """Assign arms to non-terminated agents
 
     Args:
       num_running_agents: number of running agents
 
     Returns:
-      list of set of assigned arms per agent
+      * list of set of assigned arms per agent
+      * number of active arms
     """
 
   @abstractmethod
@@ -133,6 +140,11 @@ class CollaborativeBAIMaster(ABC):
       i_l_r_list: list of arm indexes used by the agents in learning
       p_l_r_list: emperical means seen by the agents
     """
+
+  @property
+  @abstractmethod
+  def active_arms(self):
+    """Arm indices that haven't been eliminated"""
 
 
 class CollaborativeBAILearner():

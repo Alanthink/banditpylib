@@ -54,10 +54,15 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     else:
       self.__stage = "termination"
 
-  def assign_arms(self, arms: List[int]):
+  def assign_arms(self, arms: List[int], num_active_arms: int):
     if self.__stage != "unassigned":
       raise Exception('%s: I can\'t be assigned arms in stage %s!'\
         % (self.name, self.__stage))
+    if num_active_arms==1:
+      self.__i_l_r = arms[0]
+      self.__stage = "termination"
+      return
+
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
     self.__central_algo = LilUCBHeuristicCollaborative(self.__arm_num,
@@ -190,8 +195,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   def reset(self):
     self.__active_arms = list(range(self.__arm_num))
 
-  def assign_arms(self, num_running_agents: int) -> List[List[int]]:
-    # assumption: no agent has terminated
+  def get_assigned_arms(self, num_running_agents: int) ->\
+    Tuple[List[List[int]], int]:
     # valid only for this particular algorithm
     self.__stage = "assign_arms"
     arms_assign_list = []
@@ -224,7 +229,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
       for arm in __active_arms_copy[num_running_agents:]:
         agent_idx = int(np.random.randint(num_running_agents))
         arms_assign_list[agent_idx].append(arm)
-    return arms_assign_list
+    return arms_assign_list, len(self.active_arms)
 
   def elimination(self, i_l_r_list, p_l_r_list):
     s_tilde_r = np.array(list(set(i_l_r_list)))
@@ -243,3 +248,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
     self.__active_arms = list(
       s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
     )
+
+  @property
+  def active_arms(self):
+    return self.__active_arms
