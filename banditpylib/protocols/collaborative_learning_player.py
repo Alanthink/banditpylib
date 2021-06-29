@@ -5,9 +5,8 @@ import numpy as np
 from absl import logging
 
 from banditpylib.bandits import Bandit
-from banditpylib.data_pb2 import Trial, Arm, Actions
-from banditpylib.learners import IdentifyBestArm
-from banditpylib.learners.collaborative_learner import CollaborativeLearner
+from banditpylib.data_pb2 import Trial, Actions
+from banditpylib.learners.collaborative_learner import CollaborativeBAILearner
 from .utils import Protocol
 
 
@@ -37,7 +36,7 @@ class CollaborativeLearningProtocol(Protocol):
 
 
   :param Bandit bandit: bandit environment
-  :param List[CollaborativeLearner] agents: agent classes to be used
+  :param List[CollaborativeBAILearner] agents: agent classes to be used
   :param List[int] num_agents: number of agents per class
 
   .. note::
@@ -46,7 +45,7 @@ class CollaborativeLearningProtocol(Protocol):
     used.
   """
   def __init__(self,
-               bandit: Bandit, learners: List[CollaborativeLearner]):
+               bandit: Bandit, learners: List[CollaborativeBAILearner]):
     super().__init__(bandit=bandit, learners=learners)
 
   @property
@@ -118,10 +117,10 @@ class CollaborativeLearningProtocol(Protocol):
 
       if len(i_l_r_list)==0:
         # end after adding data
-        data_item = trial.data_items.add()
-        data_item.rounds = round_num
-        data_item.total_actions = total_pulls_used
-        data_item.regret = 1
+        result = trial.results.add()
+        result.rounds = round_num
+        result.total_actions = total_pulls_used
+        result.regret = 1
         return trial.SerializeToString()
 
       # send info to master for elimination
@@ -136,13 +135,13 @@ class CollaborativeLearningProtocol(Protocol):
       total_pulls_used += max(pulls_used_list)
 
     # add data
-    data_item = trial.data_items.add()
-    data_item.rounds = round_num
-    data_item.total_actions = total_pulls_used
+    result = trial.results.add()
+    result.rounds = round_num
+    result.total_actions = total_pulls_used
     total_regret = 0.0
     for i in range(len(agents)):
       total_regret += bandits[i].regret(
         self.current_learner.agent_goal(index=i))
-    data_item.regret = total_regret/len(agents)
+    result.regret = total_regret/len(agents)
 
     return trial.SerializeToString()

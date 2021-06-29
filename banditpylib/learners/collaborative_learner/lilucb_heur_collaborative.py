@@ -76,9 +76,9 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
 
       # 1 pull each for every assigned arm
       for arm_id in self.__assigned_arms:
-        arm_pulls_pair = actions.arm_pulls_pairs.add()
-        arm_pulls_pair.arm.id = arm_id
-        arm_pulls_pair.pulls = 1
+        arm_pull = actions.arm_pulls.add()
+        arm_pull.arm.id = arm_id
+        arm_pull.times = 1
       return actions
 
     # self.__stage == 'main'
@@ -89,22 +89,22 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
           1 + self.__a * (self.__total_pulls - pseudo_arm.total_pulls)):
         return actions
 
-    arm_pulls_pair = actions.arm_pulls_pairs.add()
+    arm_pull = actions.arm_pulls.add()
 
     # map local arm index to the bandits arm index
-    arm_pulls_pair.arm.id = self.__assigned_arms[int(np.argmax(self.__ucb()))]
-    arm_pulls_pair.pulls = 1
+    arm_pull.arm.id = self.__assigned_arms[int(np.argmax(self.__ucb()))]
+    arm_pull.times = 1
 
     return actions
 
   def update(self, feedback: Feedback):
-    for arm_rewards_pair in feedback.arm_rewards_pairs:
+    for arm_feedback in feedback.arm_feedbacks:
       # reverse map from bandit index to local index
       pseudo_arm_index = np.where(
-        self.__assigned_arms==arm_rewards_pair.arm.id)[0][0]
+        self.__assigned_arms==arm_feedback.arm.id)[0][0]
       self.__pseudo_arms[pseudo_arm_index].update(
-          np.array(arm_rewards_pair.rewards))
-      self.__total_pulls += len(arm_rewards_pair.rewards)
+          np.array(arm_feedback.rewards))
+      self.__total_pulls += len(arm_feedback.rewards)
 
     if self.__stage == 'initialization':
       self.__stage = 'main'
