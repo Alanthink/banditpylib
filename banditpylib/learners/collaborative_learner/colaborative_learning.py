@@ -104,7 +104,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
 
     # in learning:
     #   if learning_arm is none, do no pulls and move to communication
-    #   else pull learning_arm for a fixed number of times and move to communication
+    #   else pull learning_arm and move to communication
     elif self.__stage == "learning":
       actions = Actions()
       self.__stage = "communication"
@@ -233,7 +233,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
   def elimination(self, arm_ids, em_mean_rewards):
     accumulated_arm_ids = np.array(list(set(arm_ids)))
-    accumulated_em_mean_rewards = np.zeros_like(s_tilde_r, dtype="float64")
+    accumulated_em_mean_rewards = np.zeros_like(
+      accumulated_arm_ids, dtype="float64")
     arm_ids = np.array(arm_ids)
     em_mean_rewards = np.array(em_mean_rewards)
 
@@ -247,8 +248,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
     )
     highest_em_reward = np.max(accumulated_em_mean_rewards)
     self.__active_arms = list(
-      accumulated_arm_ids[
-        accumulated_em_mean_rewards >= highest_em_reward - 2 * confidence_radius]
+      accumulated_arm_ids[accumulated_em_mean_rewards >=
+        highest_em_reward - 2 * confidence_radius]
     )
 
   @property

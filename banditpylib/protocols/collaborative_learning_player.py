@@ -84,7 +84,7 @@ class CollaborativeLearningProtocol(Protocol):
       if len(running_agents) == 0:
         break
 
-      arms_assign_list, num_active_arms = master.assign_arms(
+      arms_assign_list, num_active_arms = master.get_assigned_arms(
         len(running_agents))
       for i, agent in enumerate(running_agents):
         agent.assign_arms(arms_assign_list[i], num_active_arms)
