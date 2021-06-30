@@ -86,7 +86,7 @@ class CollaborativeLearningProtocol(Protocol):
 
       arms_assign_list, num_active_arms = master.assign_arms(
         len(running_agents))
-      for i, agent in enumerate(agents):
+      for i, agent in enumerate(running_agents):
         agent.assign_arms(arms_assign_list[i], num_active_arms)
 
       waiting_agents = [False] * len(agents) # waiting for communication
@@ -107,17 +107,17 @@ class CollaborativeLearningProtocol(Protocol):
         break
 
       # communication and aggregation
-      i_l_r_list, p_l_r_list, pulls_used_list = [], [], []
+      arm_ids, em_mean_rewards, pulls_used_list = [], [], []
       for i, agent in enumerate(agents):
         if waiting_agents[i]:
-          i_l_r, p_l_r, pulls_used = agent.broadcast()
+          arm_id, em_mean_reward, pulls_used = agent.broadcast()
           pulls_used_list.append(pulls_used)
-          if i_l_r is not None:
-            i_l_r_list.append(i_l_r)
-            p_l_r_list.append(p_l_r)
+          if arm_id is not None:
+            arm_ids.append(arm_id)
+            em_mean_rewards.append(em_mean_reward)
 
-      # empty i_l_r_list
-      if len(i_l_r_list)==0:
+      # empty arm_ids list
+      if len(arm_ids)==0:
         # end after adding data
         result = trial.results.add()
         result.rounds = round_num
@@ -126,7 +126,7 @@ class CollaborativeLearningProtocol(Protocol):
         return trial.SerializeToString()
 
       # send info to master for elimination
-      master.elimination(i_l_r_list, p_l_r_list)
+      master.elimination(arm_ids, em_mean_rewards)
 
       for i, agent in enumerate(agents):
         agent.complete_round()

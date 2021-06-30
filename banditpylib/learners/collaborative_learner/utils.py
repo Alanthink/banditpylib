@@ -133,12 +133,12 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def elimination(self, i_l_r_list: List[int], p_l_r_list: List[float]):
+  def elimination(self, arm_ids: List[int], em_mean_rewards: List[float]):
     """Update the set of active arms based on some criteria
 
     Args:
-      i_l_r_list: list of arm indexes used by the agents in learning
-      p_l_r_list: emperical means seen by the agents
+      arm_ids: list of arm indexes used by the agents in learning
+      em_mean_rewards: emperical means of rewards seen by the agents
     """
 
   @property

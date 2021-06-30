@@ -59,7 +59,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       raise Exception('%s: I can\'t be assigned arms in stage %s!'\
         % (self.name, self.__stage))
     if num_active_arms==1:
-      self.__i_l_r = arms[0]
+      self.__learning_arm = arms[0]
       self.__stage = "termination"
       return
 
@@ -86,34 +86,34 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     elif self.__stage == "preparation":
       if len(self.__assigned_arms) == 1:
         self.__stage = "learning"
-        self.__i_l_r = self.__assigned_arms[0]
+        self.__learning_arm = self.__assigned_arms[0]
         return self.actions()
       if self.__central_algo.get_total_pulls() >= self.__horizon//2:
         self.__stage = "learning"
-        self.__i_l_r = None
+        self.__learning_arm = None
         return self.actions()
 
       central_algo_actions = self.__central_algo.actions()
       if not central_algo_actions.arm_pulls:
         # central algo terminated before T/2 pulls
         self.__stage = "learning"
-        self.__i_l_r = self.__central_algo.best_arm
+        self.__learning_arm = self.__central_algo.best_arm
         return self.actions()
       self.__central_algo_action_taken = True
       return central_algo_actions
 
     # in learning:
-    #   if i_l_r is none, do no pulls and move to communication
-    #   else pull i_l_r for a fixed number of times and move to communication
+    #   if learning_arm is none, do no pulls and move to communication
+    #   else pull learning_arm for a fixed number of times and move to communication
     elif self.__stage == "learning":
       actions = Actions()
       self.__stage = "communication"
-      if self.__i_l_r is None:
+      if self.__learning_arm is None:
         actions.state = Actions.WAIT
         return actions
       else:
         arm_pull = actions.arm_pulls.add()
-        arm_pull.arm.id = self.__i_l_r # pylint: disable=protobuf-type-error
+        arm_pull.arm.id = self.__learning_arm # pylint: disable=protobuf-type-error
         arm_pull.times = self.__num_pulls_learning
         return actions
 
@@ -140,14 +140,14 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     self.__round_pulls += num_pulls
 
     # handle feedback
-    self.__p_l_r = None # default in case i_l_r is None
+    self.__learning_mean = None # default in case learning_arm is None
     if self.__central_algo_action_taken:
       self.__central_algo.update(feedback)
     elif num_pulls>0:
       # non-zero pulls not by central_algo => learning step was done
       for arm_feedback in feedback.arm_feedbacks:
-        if arm_feedback.arm.id == self.__i_l_r:
-          self.__p_l_r = np.array(arm_feedback.rewards).mean()
+        if arm_feedback.arm.id == self.__learning_arm:
+          self.__learning_mean = np.array(arm_feedback.rewards).mean()
     # else ignore feedback (which is empty)
 
     self.__central_algo_action_taken = False
@@ -157,7 +157,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     # returns arm that the agent chose (could be None)
     if self.__stage != "termination":
       raise Exception('%s: I don\'t have an answer yet!' % self.name)
-    return self.__i_l_r
+    return self.__learning_arm
 
   @property
   def stage(self) -> str:
@@ -167,7 +167,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     if self.__stage != "communication":
       raise Exception('%s: I can\'t broadcast in stage %s!'\
         % (self.name, self.__stage))
-    return self.__i_l_r, self.__p_l_r, self.__round_pulls
+    return self.__learning_arm, self.__learning_mean, self.__round_pulls
 
 class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   r"""Implementation of master in Collaborative Learning Algorithm
@@ -202,7 +202,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
     arms_assign_list = []
 
     def random_round(x: float) -> int:
-      # x = 19.3
+      # if x = 19.3
       # rounded to 19 with probability 0.7
       # rounded to 20 with probability 0.3
       frac_x = x - int(x)
@@ -219,34 +219,36 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         (num_running_agents - len(arms_assign_list))
       random.shuffle(arms_assign_list)
     else:
-      __active_arms_copy = dcopy(self.__active_arms)
-      random.shuffle(__active_arms_copy)
+      active_arms_copy = dcopy(self.__active_arms)
+      random.shuffle(active_arms_copy)
       for _ in range(num_running_agents):
         arms_assign_list.append([])
 
-      for i, arm in enumerate(__active_arms_copy[:num_running_agents]):
+      for i, arm in enumerate(active_arms_copy[:num_running_agents]):
         arms_assign_list[i].append(arm)
-      for arm in __active_arms_copy[num_running_agents:]:
+      for arm in active_arms_copy[num_running_agents:]:
         agent_idx = int(np.random.randint(num_running_agents))
         arms_assign_list[agent_idx].append(arm)
     return arms_assign_list, len(self.active_arms)
 
-  def elimination(self, i_l_r_list, p_l_r_list):
-    s_tilde_r = np.array(list(set(i_l_r_list)))
-    q_tilde_r = np.zeros_like(s_tilde_r, dtype="float64")
-    i_l_r_list = np.array(i_l_r_list)
-    p_l_r_list = np.array(p_l_r_list)
+  def elimination(self, arm_ids, em_mean_rewards):
+    accumulated_arm_ids = np.array(list(set(arm_ids)))
+    accumulated_em_mean_rewards = np.zeros_like(s_tilde_r, dtype="float64")
+    arm_ids = np.array(arm_ids)
+    em_mean_rewards = np.array(em_mean_rewards)
 
-    for i, i_l_r in enumerate(s_tilde_r):
-      q_tilde_r[i] = p_l_r_list[i_l_r_list == i_l_r].mean()
+    for i, arm_id in enumerate(accumulated_arm_ids):
+      accumulated_em_mean_rewards[i] =\
+        em_mean_rewards[arm_ids == arm_id].mean()
     # elimination
     confidence_radius = np.sqrt(
       self.__R * np.log(200 * self.__num_agents * self.__R) /
       (self.__T * max(1, self.__num_agents / len(self.__active_arms)))
     )
-    best_q_i = np.max(q_tilde_r)
+    highest_em_reward = np.max(accumulated_em_mean_rewards)
     self.__active_arms = list(
-      s_tilde_r[q_tilde_r >= best_q_i - 2 * confidence_radius]
+      accumulated_arm_ids[
+        accumulated_em_mean_rewards >= highest_em_reward - 2 * confidence_radius]
     )
 
   @property
