@@ -54,7 +54,7 @@ class ThresholdingBandit(Bandit):
     return 'thresholding_bandit'
 
   def reset(self):
-    self.__total_pulls = 0
+    pass
 
   @property
   def arm_num(self) -> int:
@@ -83,7 +83,6 @@ class ThresholdingBandit(Bandit):
 
     # Empirical rewards when `arm_id` is pulled for `pulls` times
     em_rewards = self.__arms[arm_id].pull(pulls=pulls)
-    self.__total_pulls += pulls
 
     arm_feedback.arm.id = arm_id
     arm_feedback.rewards.extend(list(em_rewards))  # type: ignore

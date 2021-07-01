@@ -80,7 +80,6 @@ class LinearBandit(Bandit):
     em_rewards = self.__arms[arm_id].pull(pulls)
 
     self.__regret += (self.__best_arm.mean * pulls - em_rewards)
-    self.__total_pulls += pulls
 
     arm_feedback.arm.id = arm_id
     arm_feedback.rewards.extend(list(em_rewards))  # type: ignore
@@ -96,7 +95,6 @@ class LinearBandit(Bandit):
     return feedback
 
   def reset(self):
-    self.__total_pulls = 0
     self.__regret = 0.0
 
   @property

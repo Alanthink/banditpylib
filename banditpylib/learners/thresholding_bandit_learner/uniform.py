@@ -25,7 +25,7 @@ class Uniform(ThresholdingBanditLearner):
                name: Optional[str] = None):
     super().__init__(arm_num=arm_num, name=name)
     self.__theta = theta
-    self.__eps = eps
+    del eps
 
   def _name(self) -> str:
     return 'uniform_sampling'

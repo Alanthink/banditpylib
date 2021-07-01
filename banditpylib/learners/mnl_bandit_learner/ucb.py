@@ -44,7 +44,7 @@ class UCB(MNLBanditLearner):
 
   def reset(self):
     # Current time step
-    self.__time = 1
+    # self.__time = 1
     # Current episode
     self.__episode = 1
     # Number of episodes a product is served until the current episode
@@ -107,7 +107,7 @@ class UCB(MNLBanditLearner):
     self.__customer_choices[arm_feedback.customer_feedbacks[0]] += 1
 
     self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
-    self.__time += 1
+    # self.__time += 1
     if arm_feedback.customer_feedbacks[0] == 0:
       for product_id in self.__last_actions.arm_pulls[0].arm.set.id:
         self.__serving_episodes[product_id] += 1

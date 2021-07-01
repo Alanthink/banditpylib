@@ -46,7 +46,7 @@ class EXP3(MABLearner):
   def reset(self):
     self.__weights = np.array([1] * self.arm_num)
     # Current time step
-    self.__time = 1
+    # self.__time = 1
 
   def actions(self, context: Context) -> Actions:
     del context
@@ -67,4 +67,4 @@ class EXP3(MABLearner):
     estimated_mean = reward / self.__probabilities[arm_id]
     self.__weights[arm_id] *= np.exp(self.__gamma / self.arm_num *
                                      estimated_mean)
-    self.__time += 1
+    # self.__time += 1

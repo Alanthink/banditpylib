@@ -77,8 +77,7 @@ class SR(MABFixedBudgetBAILearner):
 
     # Eliminate the arm with the smallest mean reward
     arm_id_to_remove = argmax_or_min_tuple(
-        [(self.__active_arms[arm_id].em_mean, arm_id)
-         for arm_id in self.__active_arms],
+        [(arm.em_mean, arm_id) for arm_id, arm in self.__active_arms.items()],
         find_min=True)
     del self.__active_arms[arm_id_to_remove]
 

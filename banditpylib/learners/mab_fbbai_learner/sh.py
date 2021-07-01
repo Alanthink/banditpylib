@@ -46,7 +46,7 @@ class SH(MABFixedBudgetBAILearner):
     self.__best_arm = None
     self.__total_rounds = math.ceil(math.log(self.arm_num, 2))
     # Current round
-    self.__round = 1
+    # self.__round = 1
     self.__stop = False
 
   def actions(self, context: Context) -> Actions:
@@ -88,8 +88,7 @@ class SH(MABFixedBudgetBAILearner):
       self.__budget_left -= len(arm_feedback.rewards)
     if self.__stop:
       self.__best_arm = argmax_or_min_tuple([
-          (self.__active_arms[arm_id].em_mean, arm_id)
-          for arm_id in self.__active_arms
+          (arm.em_mean, arm_id) for arm_id, arm in self.__active_arms.items()
       ])
     else:
       # Remove half of the arms with the worst empirical means
@@ -97,7 +96,7 @@ class SH(MABFixedBudgetBAILearner):
           self.__active_arms.items(), key=lambda x: x[1].em_mean,
           reverse=True)[:math.ceil(len(self.__active_arms) / 2)]
       self.__active_arms = dict((x, PseudoArm()) for x, _ in remaining_arms)
-    self.__round += 1
+    # self.__round += 1
 
   @property
   def best_arm(self) -> int:
