@@ -1,10 +1,10 @@
 from typing import Optional, Union, List
 
 from banditpylib.bandits import LinearBandit
-from banditpylib.learners import Learner, MaximizeTotalRewards, Goal
+from banditpylib.learners import SinglePlayerLearner, MaximizeTotalRewards, Goal
 
 
-class LinearBanditLearner(Learner):
+class LinearBanditLearner(SinglePlayerLearner):
   """Abstract class for learners playing with linear bandit
 
   :param int arm_num: number of arms

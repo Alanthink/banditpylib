@@ -94,11 +94,6 @@ class Learner(ABC):
       default learner name
     """
 
-  @property
-  @abstractmethod
-  def running_environment(self) -> Union[type, List[type]]:
-    """Type of bandit environment the learner plays with"""
-
   @abstractmethod
   def reset(self):
     """Reset the learner
@@ -106,6 +101,25 @@ class Learner(ABC):
     .. warning::
       This function should be called before the start of the game.
     """
+
+  @property
+  @abstractmethod
+  def running_environment(self) -> Union[type, List[type]]:
+    """Type of bandit environment the learner plays with"""
+
+  @property
+  @abstractmethod
+  def goal(self) -> Goal:
+    """Goal of the learner"""
+
+
+class SinglePlayerLearner(Learner):
+  """Abstract class for single player learners
+
+  :param Optional[str] name: alias name
+  """
+  def __init__(self, name: Optional[str]):
+    super().__init__(name)
 
   @abstractmethod
   def actions(self, context: Context) -> Actions:
@@ -126,8 +140,3 @@ class Learner(ABC):
       feedback: feedback returned by the bandit environment after
         :func:`actions` is executed
     """
-
-  @property
-  @abstractmethod
-  def goal(self) -> Goal:
-    """Goal of the learner"""

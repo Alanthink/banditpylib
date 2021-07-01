@@ -4,10 +4,10 @@ from typing import Optional, Union, List
 
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
-from banditpylib.learners import Learner, Goal, IdentifyBestArm
+from banditpylib.learners import SinglePlayerLearner, Goal, IdentifyBestArm
 
 
-class MABFixedBudgetBAILearner(Learner):
+class MABFixedBudgetBAILearner(SinglePlayerLearner):
   """Abstract class for best-arm identification learners playing with the
   ordinary multi-armed bandit
 

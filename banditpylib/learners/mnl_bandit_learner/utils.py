@@ -6,10 +6,10 @@ import numpy as np
 
 from banditpylib.bandits import MNLBandit
 from banditpylib.bandits import Reward
-from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
+from banditpylib.learners import SinglePlayerLearner, Goal, MaximizeTotalRewards
 
 
-class MNLBanditLearner(Learner):
+class MNLBanditLearner(SinglePlayerLearner):
   """Abstract class for learners playing with mnl bandit
 
   Product 0 is reserved for non-purchase. And it is assumed that the preference

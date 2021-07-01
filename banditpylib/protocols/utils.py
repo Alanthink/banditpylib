@@ -96,7 +96,7 @@ class Protocol(ABC):
 
     Args:
       trials: number of repetitions
-      output_filename: file used to dump the results
+      output_filename: name of the file used to dump the results
       processes: maximum number of processes to run. -1 means no limit
       debug: debug mode. When it is set to `True`, `trials` will be
         automatically set to 1 and debug information of the trial will be

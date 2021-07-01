@@ -4,10 +4,10 @@ from typing import Optional, Union, List
 
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
-from banditpylib.learners import Learner, Goal, IdentifyBestArm
+from banditpylib.learners import SinglePlayerLearner, Goal, IdentifyBestArm
 
 
-class MABFixedConfidenceBAILearner(Learner):
+class MABFixedConfidenceBAILearner(SinglePlayerLearner):
   """Base class for bai learners in the ordinary multi-armed bandit
 
   This learner aims to identify the best arm with fixed confidence.
