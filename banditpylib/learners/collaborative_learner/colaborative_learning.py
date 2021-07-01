@@ -38,7 +38,6 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     return "lilUCBHeur_collaborative_agent"
 
   def reset(self):
-    self.__total_pulls = 0
     self.__round_pulls = 0
     self.__round_num = 0
     self.__stage = "unassigned"
@@ -136,7 +135,6 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     num_pulls = 0
     for arm_feedback in feedback.arm_feedbacks:
       num_pulls += len(arm_feedback.rewards)
-    self.__total_pulls += num_pulls
     self.__round_pulls += num_pulls
 
     # handle feedback
@@ -198,7 +196,6 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   def get_assigned_arms(self, num_running_agents: int) ->\
     Tuple[List[List[int]], int]:
     # valid only for this particular algorithm
-    self.__stage = "assign_arms"
     arms_assign_list = []
 
     def random_round(x: float) -> int:
