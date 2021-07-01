@@ -37,7 +37,7 @@ class ThompsonSampling(MABLearner):
   def reset(self):
     self.__pseudo_arms = [PseudoArm() for arm_id in range(self.arm_num)]
     # Current time step
-    self.__time = 1
+    # self.__time = 1
 
   def __sample_from_beta_prior(self) -> int:
     """
@@ -81,4 +81,4 @@ class ThompsonSampling(MABLearner):
     arm_feedback = feedback.arm_feedbacks[0]
     self.__pseudo_arms[arm_feedback.arm.id].update(
         np.array(arm_feedback.rewards))
-    self.__time += 1
+    # self.__time += 1

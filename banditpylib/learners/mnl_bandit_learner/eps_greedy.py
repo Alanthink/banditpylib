@@ -50,7 +50,7 @@ class EpsGreedy(MNLBanditLearner):
     # Current time step
     self.__time = 1
     # Current episode
-    self.__episode = 1
+    # self.__episode = 1
     # Number of episodes a product is served until the current episode
     # (exclusive)
     self.__serving_episodes = np.zeros(self.product_num + 1)
@@ -128,4 +128,4 @@ class EpsGreedy(MNLBanditLearner):
     if arm_feedback.customer_feedbacks[0] == 0:
       for product_id in arm_feedback.arm.set.id:
         self.__serving_episodes[product_id] += 1
-      self.__episode += 1
+      # self.__episode += 1

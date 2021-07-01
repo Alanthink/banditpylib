@@ -104,7 +104,7 @@ class ExpGap(MABFixedConfidenceBAILearner):
             np.array(arm_feedback.rewards))
       # Initialization of median elimination
       self.__stage = 'median_elimination'
-      self.__me_ell = 1
+      # self.__me_ell = 1
       self.__me_eps_ell = self.__eps_r / 8
       self.__me_log_delta_ell = self.__log_delta_r - math.log(2)
       self.__me_eps_left = self.__eps_r / 2
@@ -132,7 +132,7 @@ class ExpGap(MABFixedConfidenceBAILearner):
         self.__me_delta_left *= 0.5
         self.__me_eps_ell *= 0.75
         self.__me_log_delta_ell -= math.log(2)
-        self.__me_ell += 1
+        # self.__me_ell += 1
       else:
         # Best arm returned by median elimination
         best_arm_by_me = argmax_or_min_tuple([

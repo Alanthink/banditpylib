@@ -69,7 +69,6 @@ class ContextualBandit(Bandit):
       self.__update_regret(arm_id)
       arm_feedback.rewards.append(self.__context_and_rewards[1][arm_id])
 
-    self.__total_pulls += pulls
     arm_feedback.arm.id = arm_id
     return arm_feedback
 
@@ -84,7 +83,6 @@ class ContextualBandit(Bandit):
 
   def reset(self):
     self.__context_generator.reset()
-    self.__total_pulls = 0
     self.__regret = 0.0
 
   @property

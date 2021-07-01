@@ -60,7 +60,6 @@ class MultiArmedBandit(Bandit):
     self.__regret += (
         self.__best_arm.mean * pulls - sum(em_rewards)  # type: ignore
     )
-    self.__total_pulls += pulls
 
     arm_feedback.arm.id = arm_id
     arm_feedback.rewards.extend(list(em_rewards))  # type: ignore
@@ -76,7 +75,6 @@ class MultiArmedBandit(Bandit):
     return feedback
 
   def reset(self):
-    self.__total_pulls = 0
     self.__regret = 0.0
 
   @property

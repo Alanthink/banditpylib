@@ -1,10 +1,10 @@
 from typing import Optional, List, Union
 
 from banditpylib.bandits import MultiArmedBandit, LinearBandit
-from banditpylib.learners import Learner, Goal, MaximizeTotalRewards
+from banditpylib.learners import SinglePlayerLearner, Goal, MaximizeTotalRewards
 
 
-class MABLearner(Learner):
+class MABLearner(SinglePlayerLearner):
   """Abstract class for learners playing with the ordinary multi-armed bandit
 
   This type of learners aim to maximize the total collected rewards.

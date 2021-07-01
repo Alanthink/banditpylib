@@ -1,10 +1,10 @@
 from typing import Optional, Union, List
 
 from banditpylib.bandits import ThresholdingBandit
-from banditpylib.learners import Learner
+from banditpylib.learners import SinglePlayerLearner
 
 
-class ThresholdingBanditLearner(Learner):
+class ThresholdingBanditLearner(SinglePlayerLearner):
   """Abstract class for learners playing with thresholding bandit
 
   :param int arm_num: number of arms

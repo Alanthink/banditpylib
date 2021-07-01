@@ -51,9 +51,9 @@ class ThompsonSampling(MNLBanditLearner):
 
   def reset(self):
     # Current time step
-    self.__time = 1
+    # self.__time = 1
     # Current episode
-    self.__episode = 1
+    # self.__episode = 1
     # Number of episodes a product is served until the current episode
     # (exclusive)
     self.__serving_episodes = np.zeros(self.product_num + 1)
@@ -149,7 +149,7 @@ class ThompsonSampling(MNLBanditLearner):
       arm_pull.arm.set.id.extend(list(best_assortment))
       arm_pull.times = 1
 
-      self.__first_step_after_warm_start = False
+      # self.__first_step_after_warm_start = False
 
     self.__last_actions = actions
     return actions
@@ -167,6 +167,6 @@ class ThompsonSampling(MNLBanditLearner):
           self.__next_product_in_warm_start > self.product_num:
         self.__done_warm_start = True
         self.__last_actions = None
-      self.__episode += 1
+      # self.__episode += 1
     self.__last_customer_feedback = arm_feedback.customer_feedbacks[0]
-    self.__time += 1
+    # self.__time += 1

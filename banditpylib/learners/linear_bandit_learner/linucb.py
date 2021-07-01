@@ -32,7 +32,6 @@ class LinUCB(LinearBanditLearner):
 
     self.__delta = delta
     self.__lambda_reg = lambda_reg
-    self.__features = features
     self.__d = len(features[0])  # d: length of each feature
     self.__k = len(features)  # arm_nums
 

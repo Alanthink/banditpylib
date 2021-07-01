@@ -2,5 +2,6 @@ from .utils import *
 
 __all__ = [
     'Goal', 'IdentifyBestArm', 'MaximizeTotalRewards',
-    'MaximizeCorrectAnswers', 'MakeAllAnswersCorrect', 'Learner'
+    'MaximizeCorrectAnswers', 'MakeAllAnswersCorrect', 'Learner',
+    'SinglePlayerLearner'
 ]
