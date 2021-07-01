@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm, Feedback, Actions, Context
-from banditpylib.learners import Goal, IdentifyBestArm
+from banditpylib.learners import Goal, IdentifyBestArm, Learner
 
 class CollaborativeBAIAgent(ABC):
   r"""One individual agent
@@ -80,12 +80,12 @@ class CollaborativeBAIAgent(ABC):
     """Stage of the agent"""
 
   @abstractmethod
-  def broadcast(self) -> Tuple[int, float, int]:
+  def broadcast(self) -> Tuple[List[int], List[float], int]:
     """Broadcasts information learnt in the current round
 
     Returns: (in a tuple)
-      * arm used in learning
-      * average reward seen
+      * List[arms used in learning]
+      * List[corresponding average reward seen]
       * pulls used in the current round
     """
 
@@ -147,7 +147,7 @@ class CollaborativeBAIMaster(ABC):
     """Arm indices that haven't been eliminated"""
 
 
-class CollaborativeBAILearner():
+class CollaborativeBAILearner(Learner):
   """Learner that puts the agents and master together
 
   :param CollaborativeAgent agent: one instance of an agent
@@ -158,36 +158,37 @@ class CollaborativeBAILearner():
   def __init__(self, agent: CollaborativeBAIAgent,
     master: CollaborativeBAIMaster, num_agents: int,
     name: Optional[str] = None):
+    super().__init__(name)
     self.__agents = []
     for _ in range(num_agents):
       self.__agents.append(dcopy(agent))
     self.__master = master
-    self.__name = name
 
-  @property
-  def name(self) -> str:
-    if self.__name is None:
-      return 'collaborative_learner'
-    return self.__name
+  def _name(self) -> str:
+    return 'collaborative_learner'
+
+  def reset(self):
+    for agent in self.__agents:
+      agent.reset()
+    self.__master.reset()
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
     return MultiArmedBandit
 
-  @property
-  def agents(self) -> List[CollaborativeBAIAgent]:
+  def get_agents(self) -> List[CollaborativeBAIAgent]:
     """Involved agents"""
     return self.__agents
 
-  @property
-  def master(self) -> CollaborativeBAIMaster:
+  def get_master(self) -> CollaborativeBAIMaster:
     """Controlling Master"""
     return self.__master
 
-  def agent_goal(self, index) -> Goal:
-    if index not in range(len(self.__agents)):
-      raise ValueError("Index expected n [0, %d), got %d" %\
-        (len(self.__agents), index))
+  @property
+  def goal(self) -> Goal:
     arm = Arm()
-    arm.id = self.__agents[index].best_arm
+    if len(self.__master.active_arms) == 1:
+      arm.id = self.__master.active_arms[0]
+      return IdentifyBestArm(best_arm=arm)
+    arm.id = -1 # imlies regret of 1
     return IdentifyBestArm(best_arm=arm)

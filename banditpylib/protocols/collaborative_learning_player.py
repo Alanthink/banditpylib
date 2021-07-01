@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, cast
 from copy import deepcopy as dcopy
 
 import numpy as np
@@ -6,12 +6,13 @@ from absl import logging
 
 from banditpylib.bandits import Bandit
 from banditpylib.data_pb2 import Trial, Actions
+from banditpylib.learners import Learner
 from banditpylib.learners.collaborative_learner import CollaborativeBAILearner
 from .utils import Protocol
 
 
 class CollaborativeLearningProtocol(Protocol):
-  """Collaborative learning protocol
+  """Collaborative learning protocol :cite:'arXiv:1904.03293'
 
   This protocol is used to simulate the multi-agent game
   as discussed in the paper. It runs in rounds. During each round,
@@ -20,9 +21,10 @@ class CollaborativeLearningProtocol(Protocol):
   * fetch the state of the environment and ask each learner for actions;
   * send the actions to the enviroment for execution;
   * update each learner with the corresponding feedback of the environment;
-  * repeat the above steps until every agent enters the WAIT state;
-  * receive information broadcasted from every agent,
-    and use it to decide the parameters of the next round.
+  * repeat the above steps until every agent enters the WAIT or STOP state;
+  * if there is at least one agent in WAIT state, then receive information
+    broadcasted from every waiting agent, and use it to decide
+    the parameters of the next round.
 
   The simulation stopping criteria is:
 
@@ -31,13 +33,8 @@ class CollaborativeLearningProtocol(Protocol):
   Algorithm is guaranteed to stop before total number of time-steps
   achieve `horizon`.
 
-  .. todo::
-    extend protocol to compare different types of agents
-
-
   :param Bandit bandit: bandit environment
-  :param List[CollaborativeBAILearner] agents: agent classes to be used
-  :param List[int] num_agents: number of agents per class
+  :param List[CollaborativeBAILearner] learners: learners that will be compared
 
   .. note::
     During a timestep, a learner may want to perform multiple actions, which is
@@ -46,7 +43,7 @@ class CollaborativeLearningProtocol(Protocol):
   """
   def __init__(self,
                bandit: Bandit, learners: List[CollaborativeBAILearner]):
-    super().__init__(bandit=bandit, learners=learners)
+    super().__init__(bandit=bandit, learners=cast(List[Learner], learners))
 
   @property
   def name(self) -> str:
@@ -58,23 +55,23 @@ class CollaborativeLearningProtocol(Protocol):
     np.random.seed(random_seed)
 
     # initialization
-    agents = self.current_learner.agents
+    current_learner = cast(CollaborativeBAILearner, self.current_learner)
+    current_learner.reset()
+    agents = current_learner.get_agents()
     bandits = []
-    master = self.current_learner.master
-    master.reset()
-    for i, agent in enumerate(agents):
-      agent.reset()
+    master = current_learner.get_master()
+    for _ in range(len(agents)):
       bandits.append(dcopy(self.bandit))
       bandits[-1].reset()
 
     trial = Trial()
     trial.bandit = self.bandit.name
-    trial.learner = self.current_learner.name
+    trial.learner = current_learner.name
 
     round_num, total_pulls_used = 0, 0
 
     # stages of the algorithms
-    stopped_agents = [False] * len(agents) # terminated
+    stopped_agents = [False] * len(agents) # terminated agents
     while True:
       # using only non-stopped agents
       running_agents = []
@@ -103,22 +100,26 @@ class CollaborativeLearningProtocol(Protocol):
           else:
             feedback = bandits[i].feed(actions)
             agent.update(feedback)
+
+      # stop if all agents are in STOP
       if sum(stopped_agents) == len(agents):
         break
 
+      # otherwise atleat one agent is in WAIT
       # communication and aggregation
       arm_ids, em_mean_rewards, pulls_used_list = [], [], []
       for i, agent in enumerate(agents):
         if waiting_agents[i]:
-          arm_id, em_mean_reward, pulls_used = agent.broadcast()
+          arm_ids_used, em_mean_rewards_seen, pulls_used = agent.broadcast()
           pulls_used_list.append(pulls_used)
-          if arm_id is not None:
-            arm_ids.append(arm_id)
-            em_mean_rewards.append(em_mean_reward)
+          for j, arm_id in enumerate(arm_ids_used):
+            if arm_id is not None:
+              arm_ids.append(arm_id)
+              em_mean_rewards.append(em_mean_rewards_seen[j])
 
-      # empty arm_ids list
+      # if arm_ids list is empty (agents broadcasted nothing)
       if len(arm_ids)==0:
-        # end after adding data
+        # return after adding data
         result = trial.results.add()
         result.rounds = round_num
         result.total_actions = total_pulls_used
@@ -136,14 +137,11 @@ class CollaborativeLearningProtocol(Protocol):
       round_num += 1
       total_pulls_used += max(pulls_used_list)
 
-    # add data
+    # add data when algorithm stops running
     result = trial.results.add()
     result.rounds = round_num
     result.total_actions = total_pulls_used
-    total_regret = 0.0
-    for i in range(len(agents)):
-      total_regret += bandits[i].regret(
-        self.current_learner.agent_goal(index=i))
-    result.regret = total_regret/len(agents)
+    result.regret = self.bandit.regret(
+      current_learner.goal)
 
     return trial.SerializeToString()

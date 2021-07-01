@@ -12,7 +12,7 @@ from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
 from .utils import CollaborativeBAIAgent, CollaborativeBAIMaster
 
 class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
-  r"""Implementation of agent of the Collaborative Learning Algorithm
+  r"""Implementation of agent of the Collaborative Learning Algorithm\
   Uses LilUCBHeuristic as the central algorithm
 
   :param int arm_num: number of arms of the bandit
@@ -163,11 +163,11 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
   def stage(self) -> str:
     return self.__stage
 
-  def broadcast(self) -> Tuple[int, float, int]:
+  def broadcast(self) -> Tuple[List[int], List[float], int]:
     if self.__stage != "communication":
       raise Exception('%s: I can\'t broadcast in stage %s!'\
         % (self.name, self.__stage))
-    return self.__learning_arm, self.__learning_mean, self.__round_pulls
+    return [self.__learning_arm], [self.__learning_mean], self.__round_pulls
 
 class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   r"""Implementation of master in Collaborative Learning Algorithm
