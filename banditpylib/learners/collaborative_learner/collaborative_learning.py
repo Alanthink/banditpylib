@@ -362,7 +362,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         agent_arm_assignment[agent_ids[i]].append(arm)
       for arm in active_arms_copy[len(agent_ids):]:
         agent_idx = random.choice(agent_ids)
-        arms_assign_list[agent_idx].append(arm)
+        agent_arm_assignment[agent_idx].append(arm)
     return agent_arm_assignment
 
   def initial_arm_assignment(self, agent_ids) -> Dict[int, List[int]]:
