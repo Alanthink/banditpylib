@@ -284,8 +284,9 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       raise Exception('%s: I can\'t broadcast in stage %s!'\
         % (self.name, self.__stage))
     return_dict = {}
-    return_dict[self.__learning_arm] = (self.__learning_mean,
-      self.__pulls_used)
+    if self.__learning_arm:
+      return_dict[self.__learning_arm] = (self.__learning_mean,
+        self.__pulls_used)
     self.__complete_round()
     return return_dict
 
