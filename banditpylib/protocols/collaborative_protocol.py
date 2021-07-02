@@ -12,7 +12,7 @@ from .utils import Protocol
 
 
 class CollaborativeLearningProtocol(Protocol):
-  """Collaborative learning protocol :cite:'arXiv:1904.03293'
+  """Collaborative learning protocol :cite:'tao2019collaborative'
 
   This protocol is used to simulate the multi-agent game
   as discussed in the paper. It runs in rounds. During each round,
