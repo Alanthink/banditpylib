@@ -1,4 +1,4 @@
-from typing import List, cast
+from typing import List, cast, Dict, Tuple
 from copy import deepcopy as dcopy
 
 import numpy as np
@@ -56,91 +56,95 @@ class CollaborativeLearningProtocol(Protocol):
 
     # initialization
     current_learner = cast(CollaborativeBAILearner, self.current_learner)
-    current_learner.reset()
+    agent_arm_assignment = current_learner.reset()
     agents = current_learner.get_agents()
     bandits = []
     master = current_learner.get_master()
     for _ in range(len(agents)):
       bandits.append(dcopy(self.bandit))
       bandits[-1].reset()
+    for agent_id in agent_arm_assignment:
+      agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
 
     trial = Trial()
     trial.bandit = self.bandit.name
     trial.learner = current_learner.name
 
-    round_num, total_pulls_used = 0, 0
+    communication_rounds, total_pulls = 0, 0
+    active_agent_ids = list(range(len(agents)))
 
-    # stages of the algorithms
-    stopped_agents = [False] * len(agents) # terminated agents
     while True:
-      # using only non-stopped agents
-      running_agents = []
-      for i, agent in enumerate(agents):
-        if not stopped_agents[i]:
-          running_agents.append(agent)
-      if len(running_agents) == 0:
+      max_pulls = 0
+      agent_in_wait_ids = []
+      if len(active_agent_ids) == 0:
         break
 
-      arms_assign_list, num_active_arms = master.get_assigned_arms(
-        len(running_agents))
-      for i, agent in enumerate(running_agents):
-        agent.assign_arms(arms_assign_list[i], num_active_arms)
-
-      waiting_agents = [False] * len(agents) # waiting for communication
       # preparation and learning
-      for i, agent in enumerate(agents):
+      for agent_id in active_agent_ids:
+        agent = agents[agent_id]
+        pulls = 0
         while True:
-          actions = agent.actions(bandits[i].context)
-          if actions.state == Actions.WAIT:
-            waiting_agents[i] = True
-            break
-          elif actions.state == Actions.STOP:
-            stopped_agents[i] = True
-            break
-          else:
-            feedback = bandits[i].feed(actions)
-            agent.update(feedback)
+          actions = agent.actions(bandits[agent_id].context)
+          for arm_pull in actions.arm_pulls:
+            pulls += arm_pull.times
 
-      # stop if all agents are in STOP
-      if sum(stopped_agents) == len(agents):
+          if actions.state == Actions.DEFAULT_NORMAL:
+            feedback = bandits[agent_id].feed(actions)
+            agent.update(feedback)
+          elif actions.state == Actions.WAIT:
+            agent_in_wait_ids.append(agent_id)
+            break
+          else: # actions.state == Actions.STOP
+            break
+        max_pulls = max(max_pulls, pulls)
+      total_pulls += max_pulls
+
+      # stop if all agents are in STOP <=> no agents in WAIT
+      if not agent_in_wait_ids:
         break
 
-      # otherwise atleat one agent is in WAIT
       # communication and aggregation
-      arm_ids, em_mean_rewards, pulls_used_list = [], [], []
-      for i, agent in enumerate(agents):
-        if waiting_agents[i]:
-          arm_ids_used, em_mean_rewards_seen, pulls_used = agent.broadcast()
-          pulls_used_list.append(pulls_used)
-          for j, arm_id in enumerate(arm_ids_used):
-            if arm_id is not None:
-              arm_ids.append(arm_id)
-              em_mean_rewards.append(em_mean_rewards_seen[j])
+      # key is arm id and target is a tuple storing average rewards and pulls
+      messages: Dict[int, Tuple[float, int]] = {}
+      for agent_id in agent_in_wait_ids:
+        agent = agents[agent_id]
 
-      # if arm_ids list is empty (agents broadcasted nothing)
-      if len(arm_ids)==0:
+        # key is arm_id, target is Tuple[em_mean_reward, pulls]
+        # empty dict => arm_id was None
+        message_from_agent = agent.broadcast()
+        for arm_id in message_from_agent:
+          if arm_id not in messages:
+            messages[arm_id] = (0.0, 0)
+          arm_info = message_from_agent[arm_id]
+          new_pulls = messages[arm_id][1] + arm_info[1]
+          new_em_mean_reward = (messages[arm_id][1] * messages[arm_id][0] + \
+              arm_info[1] * arm_info[0]) / new_pulls
+          messages[arm_id] = (new_em_mean_reward, new_pulls)
+
+
+      # if all agents broadcasted nothing
+      if not messages:
         # return after adding data
         result = trial.results.add()
-        result.rounds = round_num
-        result.total_actions = total_pulls_used
+        result.rounds = communication_rounds
+        result.total_actions = total_pulls
         result.regret = 1
         return trial.SerializeToString()
 
-      # send info to master for elimination
-      master.elimination(arm_ids, em_mean_rewards)
-
-      for i, agent in enumerate(agents):
+      # Send info to master for elimination to get arm assignment for next round
+      # agent_arm_assignment: key is agent_id, value is a list storing arm ids
+      # assigned to this agent
+      agent_arm_assignment = master.elimination(agent_in_wait_ids, messages)
+      for agent in agents:
         agent.complete_round()
-        if agent.stage == "termination":
-          stopped_agents[i] = True
-
-      round_num += 1
-      total_pulls_used += max(pulls_used_list)
+      for agent_id in agent_arm_assignment:
+        agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
+      communication_rounds += 1
 
     # add data when algorithm stops running
     result = trial.results.add()
-    result.rounds = round_num
-    result.total_actions = total_pulls_used
+    result.rounds = communication_rounds
+    result.total_actions = total_pulls
     result.regret = self.bandit.regret(
       current_learner.goal)
 

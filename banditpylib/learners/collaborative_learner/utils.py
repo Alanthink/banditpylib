@@ -1,4 +1,4 @@
-from typing import Optional, Union, List, Tuple
+from typing import Optional, Union, List, Tuple, Dict
 from copy import deepcopy as dcopy
 from abc import ABC, abstractmethod
 
@@ -42,12 +42,11 @@ class CollaborativeBAIAgent(ABC):
     """Update the round-local variables"""
 
   @abstractmethod
-  def assign_arms(self, arms: List[int], num_active_arms: int):
+  def set_input_arms(self, arms: List[int]):
     """Assign a set of arms to the agent
 
     Args:
-      * arms: arm indices that have been assigned
-      * total number of active arms
+      * arms: arm indices that have been assigneds
     """
 
   @abstractmethod
@@ -80,13 +79,13 @@ class CollaborativeBAIAgent(ABC):
     """Stage of the agent"""
 
   @abstractmethod
-  def broadcast(self) -> Tuple[List[int], List[float], int]:
+  def broadcast(self) -> Dict[int, Tuple[float, int]]:
     """Broadcasts information learnt in the current round
 
-    Returns: (in a tuple)
-      * List[arms used in learning]
-      * List[corresponding average reward seen]
-      * pulls used in the current round
+    Returns: (a dict of)
+      * arm ids used in learning
+      * Tuple[corresponding average reward seen,
+        number of pulls used to deduce average]
     """
 
 
@@ -120,25 +119,17 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def get_assigned_arms(self, num_running_agents: int) ->\
-    Tuple[List[List[int]], int]:
-    """Assign arms to non-terminated agents
+  def elimination(self, agent_in_wait_ids: List[int],
+    messages: Dict[int, Tuple[float, int]]) ->Dict[int, List[int]]:
+    """Update the set of active arms based on some criteria
+    and return arm assignment
 
     Args:
-      num_running_agents: number of running agents
+      agent_in_wait_ids: list of agents that will be assigned arms
+      messages: aggregation of messages broadcasted from agents
 
     Returns:
-      * list of set of assigned arms per agent
-      * number of active arms
-    """
-
-  @abstractmethod
-  def elimination(self, arm_ids: List[int], em_mean_rewards: List[float]):
-    """Update the set of active arms based on some criteria
-
-    Args:
-      arm_ids: list of arm indexes used by the agents in learning
-      em_mean_rewards: emperical means of rewards seen by the agents
+      dictionary of arm assignment per agent
     """
 
   @property
@@ -170,7 +161,7 @@ class CollaborativeBAILearner(Learner):
   def reset(self):
     for agent in self.__agents:
       agent.reset()
-    self.__master.reset()
+    return self.__master.reset()
 
   @property
   def running_environment(self) -> Union[type, List[type]]:

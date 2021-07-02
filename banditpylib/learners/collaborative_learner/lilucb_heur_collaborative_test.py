@@ -1,7 +1,7 @@
 import numpy as np
 
 from banditpylib.data_pb2 import Feedback
-from .lilucb_heur_collaborative import LilUCBHeuristicCollaborative
+from .collaborative_learning import LilUCBHeuristicCollaborative
 
 
 class TestLilUCBHeuristicCollaborative:
