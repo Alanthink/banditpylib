@@ -1,0 +1,41 @@
+&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 1‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2†'&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2„&
+multi_armed_bandit	learner 2„&
+multi_armed_bandit	learner 2„&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2„&
+multi_armed_bandit	learner 2‚&
+multi_armed_bandit	learner 2ˆ4&
+multi_armed_bandit	learner 2„&
+multi_armed_bandit	learner 2ˆ4&
+multi_armed_bandit	learner 2„

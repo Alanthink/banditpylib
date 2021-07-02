@@ -166,7 +166,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     # True if action forwarded from central algo
     self.__central_algo_action_taken = False
 
-  def complete_round(self):
+  def __complete_round(self):
     self.__round_num += 1
     self.__central_algo_action_taken = False
     if self.__round_num < self.__rounds + 1:
@@ -286,6 +286,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     return_dict = {}
     return_dict[self.__learning_arm] = (self.__learning_mean,
       self.__pulls_used)
+    self.__complete_round()
     return return_dict
 
 class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
@@ -319,7 +320,6 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
   def reset(self):
     self.__active_arms = list(range(self.__arm_num))
-    return self.__assign_arms(list(range(self.__num_agents)))
 
   def __assign_arms(self, agent_ids: List[int]) ->\
     Dict[int, List[int]]:
@@ -334,8 +334,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         return int(x)
       return int(x) + 1
 
-    if len(self.__active_arms) == 1:
-      # if only one arm is active, don't assign any arms
+    if len(self.__active_arms) <= 1:
+      # don't assign any arms if 0/1 active arms
       agent_arm_assignment = {}
       for agent_id in agent_ids:
         agent_arm_assignment[agent_id] = []
@@ -365,8 +365,15 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         arms_assign_list[agent_idx].append(arm)
     return agent_arm_assignment
 
-  def elimination(self, agent_in_wait_ids: List[int],
+  def initial_arm_assignment(self, agent_ids) -> Dict[int, List[int]]:
+    return self.__assign_arms(agent_ids)
+
+  def elimination(self, agent_ids: List[int],
     messages: Dict[int, Tuple[float, int]]) ->Dict[int, List[int]]:
+    if not messages:
+      self.__active_arms = []
+      return self.__assign_arms(agent_ids)
+
     accumulated_arm_ids = np.array(list(messages.keys()))
     accumulated_em_mean_rewards = np.array(
       list(map(lambda x: messages[x][0], messages.keys())))
@@ -382,7 +389,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         highest_em_reward - 2 * confidence_radius]
     )
 
-    return self.__assign_arms(agent_in_wait_ids)
+    return self.__assign_arms(agent_ids)
 
   @property
   def active_arms(self):

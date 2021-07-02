@@ -38,10 +38,6 @@ class CollaborativeBAIAgent(ABC):
     """
 
   @abstractmethod
-  def complete_round(self):
-    """Update the round-local variables"""
-
-  @abstractmethod
   def set_input_arms(self, arms: List[int]):
     """Assign a set of arms to the agent
 
@@ -119,13 +115,24 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def elimination(self, agent_in_wait_ids: List[int],
-    messages: Dict[int, Tuple[float, int]]) ->Dict[int, List[int]]:
+  def initial_arm_assignment(self, agent_ids) -> Dict[int, List[int]]:
+    """The arm assignment for the first round
+
+    Args:
+      agent_ids: list of agents that will be assigned arms
+
+    Returns:
+      dictionary of arm assignment per agent
+    """
+
+  @abstractmethod
+  def elimination(self, agent_ids: List[int],
+    messages: Dict[int, Tuple[float, int]]) -> Dict[int, List[int]]:
     """Update the set of active arms based on some criteria
     and return arm assignment
 
     Args:
-      agent_in_wait_ids: list of agents that will be assigned arms
+      agent_ids: list of agents that will be assigned arms
       messages: aggregation of messages broadcasted from agents
 
     Returns:
@@ -161,7 +168,7 @@ class CollaborativeBAILearner(Learner):
   def reset(self):
     for agent in self.__agents:
       agent.reset()
-    return self.__master.reset()
+    self.__master.reset()
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
@@ -181,5 +188,5 @@ class CollaborativeBAILearner(Learner):
     if len(self.__master.active_arms) == 1:
       arm.id = self.__master.active_arms[0]
       return IdentifyBestArm(best_arm=arm)
-    arm.id = -1 # imlies regret of 1
+    arm.id = -1 # implies regret of 1
     return IdentifyBestArm(best_arm=arm)

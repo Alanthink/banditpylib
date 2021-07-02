@@ -56,15 +56,13 @@ class CollaborativeLearningProtocol(Protocol):
 
     # initialization
     current_learner = cast(CollaborativeBAILearner, self.current_learner)
-    agent_arm_assignment = current_learner.reset()
+    current_learner.reset()
     agents = current_learner.get_agents()
     bandits = []
     master = current_learner.get_master()
     for _ in range(len(agents)):
       bandits.append(dcopy(self.bandit))
       bandits[-1].reset()
-    for agent_id in agent_arm_assignment:
-      agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
 
     trial = Trial()
     trial.bandit = self.bandit.name
@@ -72,12 +70,13 @@ class CollaborativeLearningProtocol(Protocol):
 
     communication_rounds, total_pulls = 0, 0
     active_agent_ids = list(range(len(agents)))
+    agent_arm_assignment = master.initial_arm_assignment(active_agent_ids)
+    for agent_id in agent_arm_assignment:
+      agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
 
     while True:
       max_pulls = 0
       agent_in_wait_ids = []
-      if len(active_agent_ids) == 0:
-        break
 
       # preparation and learning
       for agent_id in active_agent_ids:
@@ -121,22 +120,10 @@ class CollaborativeLearningProtocol(Protocol):
               arm_info[1] * arm_info[0]) / new_pulls
           messages[arm_id] = (new_em_mean_reward, new_pulls)
 
-
-      # if all agents broadcasted nothing
-      if not messages:
-        # return after adding data
-        result = trial.results.add()
-        result.rounds = communication_rounds
-        result.total_actions = total_pulls
-        result.regret = 1
-        return trial.SerializeToString()
-
       # Send info to master for elimination to get arm assignment for next round
       # agent_arm_assignment: key is agent_id, value is a list storing arm ids
       # assigned to this agent
       agent_arm_assignment = master.elimination(agent_in_wait_ids, messages)
-      for agent in agents:
-        agent.complete_round()
       for agent_id in agent_arm_assignment:
         agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
       communication_rounds += 1
