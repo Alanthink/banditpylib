@@ -179,9 +179,6 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       # terminate if no arms assigned
       self.__stage = "termination"
       return
-    if self.__stage != "unassigned":
-      raise Exception('%s: I can\'t be assigned arms in stage %s!'\
-        % (self.name, self.__stage))
 
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
