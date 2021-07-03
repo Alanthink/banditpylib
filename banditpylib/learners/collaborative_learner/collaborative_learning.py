@@ -374,8 +374,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
     # elimination
     confidence_radius = np.sqrt(
-      self.__comm_rounds * np.log(200 * self.__num_agents * self.__comm_rounds) /
-      (self.__T * max(1, self.__num_agents / len(self.__active_arms)))
+      self.__comm_rounds * np.log(200 * self.__num_agents * self.__comm_rounds)
+      / (self.__T * max(1, self.__num_agents / len(self.__active_arms)))
     )
     highest_em_reward = np.max(accumulated_em_mean_rewards)
     self.__active_arms = list(
