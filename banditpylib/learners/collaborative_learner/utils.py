@@ -26,7 +26,7 @@ class CollaborativeBAIAgent(ABC):
   def _name(self) -> str:
     """
     Returns:
-      default learner name
+      default agent name
     """
 
   @abstractmethod
@@ -42,7 +42,7 @@ class CollaborativeBAIAgent(ABC):
     """Assign a set of arms to the agent
 
     Args:
-      * arms: arm indices that have been assigneds
+      arms: arm indices that have been assigneds
     """
 
   @abstractmethod
@@ -70,10 +70,6 @@ class CollaborativeBAIAgent(ABC):
   def best_arm(self) -> int:
     """Arm that the agent chose (could be None)"""
 
-  @property
-  def stage(self) -> str:
-    """Stage of the agent"""
-
   @abstractmethod
   def broadcast(self) -> Dict[int, Tuple[float, int]]:
     """Broadcasts information learnt in the current round
@@ -96,14 +92,14 @@ class CollaborativeBAIMaster(ABC):
 
   @property
   def name(self) -> str:
-    """Name of the agent"""
+    """Name of the master"""
     return self.__name
 
   @abstractmethod
   def _name(self) -> str:
     """
     Returns:
-      default learner name
+      default master name
     """
 
   @abstractmethod
@@ -115,14 +111,11 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def initial_arm_assignment(self, agent_ids) -> Dict[int, List[int]]:
+  def initial_arm_assignment(self) -> Dict[int, List[int]]:
     """The arm assignment for the first round
 
-    Args:
-      agent_ids: list of agents that will be assigned arms
-
     Returns:
-      dictionary of arm assignment per agent
+      dictionary of arm assignment per agent for all agents
     """
 
   @abstractmethod

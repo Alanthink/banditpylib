@@ -272,10 +272,6 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       raise Exception('%s: I don\'t have an answer yet!' % self.name)
     return self.__learning_arm
 
-  @property
-  def stage(self) -> str:
-    return self.__stage
-
   def broadcast(self) -> Dict[int, Tuple[float, int]]:
     if self.__stage != "communication":
       raise Exception('%s: I can\'t broadcast in stage %s!'\
@@ -309,7 +305,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
       raise ValueError('Number of rounds is expected at least 2. Got %d.' %
                        rounds)
     self.__arm_num = arm_num
-    self.__R = rounds - 1
+    self.__comm_rounds = rounds - 1
     self.__T = horizon
     self.__num_agents = num_agents
 
@@ -363,8 +359,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         agent_arm_assignment[agent_idx].append(arm)
     return agent_arm_assignment
 
-  def initial_arm_assignment(self, agent_ids) -> Dict[int, List[int]]:
-    return self.__assign_arms(agent_ids)
+  def initial_arm_assignment(self) -> Dict[int, List[int]]:
+    return self.__assign_arms(list(range(self.__num_agents)))
 
   def elimination(self, agent_ids: List[int],
     messages: Dict[int, Tuple[float, int]]) ->Dict[int, List[int]]:
@@ -378,7 +374,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
     # elimination
     confidence_radius = np.sqrt(
-      self.__R * np.log(200 * self.__num_agents * self.__R) /
+      self.__comm_rounds * np.log(200 * self.__num_agents * self.__comm_rounds) /
       (self.__T * max(1, self.__num_agents / len(self.__active_arms)))
     )
     highest_em_reward = np.max(accumulated_em_mean_rewards)

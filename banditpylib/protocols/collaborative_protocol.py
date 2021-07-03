@@ -12,7 +12,7 @@ from .utils import Protocol
 
 
 class CollaborativeLearningProtocol(Protocol):
-  """Collaborative learning protocol :cite:'tao2019collaborative'
+  """Collaborative learning protocol :cite:`tao2019collaborative`
 
   This protocol is used to simulate the multi-agent game
   as discussed in the paper. It runs in rounds. During each round,
@@ -70,7 +70,7 @@ class CollaborativeLearningProtocol(Protocol):
 
     communication_rounds, total_pulls = 0, 0
     active_agent_ids = list(range(len(agents)))
-    agent_arm_assignment = master.initial_arm_assignment(active_agent_ids)
+    agent_arm_assignment = master.initial_arm_assignment()
     for agent_id in agent_arm_assignment:
       agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
 
