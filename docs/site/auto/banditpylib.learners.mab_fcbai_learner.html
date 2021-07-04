@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>banditpylib.learners.mab_fcbai_learner &mdash; banditpylib 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="banditpylib.learners.mab_learner" href="banditpylib.learners.mab_learner.html" />
+    <link rel="prev" title="banditpylib.learners.mab_fbbai_learner" href="banditpylib.learners.mab_fbbai_learner.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme_link.html">Readme</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.arms.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.arms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.bandits</span></code></a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="banditpylib.learners.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.learners</span></code></a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="banditpylib.learners.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="banditpylib.learners.html#classes">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.protocols.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.protocols</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a> &raquo;</li>
+        
+          <li><a href="banditpylib.learners.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.learners</span></code></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">banditpylib.learners.mab_fcbai_learner</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/auto/banditpylib.learners.mab_fcbai_learner.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-banditpylib.learners.mab_fcbai_learner">
+<span id="banditpylib-learners-mab-fcbai-learner"></span><h1><code class="docutils literal notranslate"><span class="pre">banditpylib.learners.mab_fcbai_learner</span></code><a class="headerlink" href="#module-banditpylib.learners.mab_fcbai_learner" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#classes" id="id5">Classes</a></p></li>
+</ul>
+</div>
+<div class="section" id="classes">
+<h2><a class="toc-backref" href="#id5">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" title="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner"><code class="xref py py-class docutils literal notranslate"><span class="pre">MABFixedConfidenceBAILearner</span></code></a>:
+Base class for bai learners in the ordinary multi-armed bandit</p></li>
+<li><p><a class="reference internal" href="#banditpylib.learners.mab_fcbai_learner.ExpGap" title="banditpylib.learners.mab_fcbai_learner.ExpGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpGap</span></code></a>:
+Exponential-gap elimination policy <span id="id1">[<a class="reference internal" href="../bibliography.html#id8" title="Zohar Karnin, Tomer Koren, and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML. 2013.">KKS13</a>]</span></p></li>
+<li><p><a class="reference internal" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic" title="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic"><code class="xref py py-class docutils literal notranslate"><span class="pre">LilUCBHeuristic</span></code></a>:
+LilUCB heuristic policy <span id="id2">[<a class="reference internal" href="../bibliography.html#id9" title="Kevin Jamieson, Matthew Malloy, Robert Nowak, and Sébastien Bubeck. Lil’ucb: an optimal exploration algorithm for multi-armed bandits. In COLT. 2014.">JMNB14</a>]</span></p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">banditpylib.learners.mab_fcbai_learner.</span></span><span class="sig-name descname"><span class="pre">MABFixedConfidenceBAILearner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arm_num</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/utils.html#MABFixedConfidenceBAILearner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for bai learners in the ordinary multi-armed bandit</p>
+<p>This learner aims to identify the best arm with fixed confidence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arm_num</strong> (<em>int</em>) – number of arms</p></li>
+<li><p><strong>confidence</strong> (<em>float</em>) – confidence level. It should be within (0, 1). The
+algorithm should output the best arm with probability at least this value.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – alias name</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-899539ef079f813acd86dda2f13ff1862cdb2fd3.png" alt="Inheritance diagram of MABFixedConfidenceBAILearner" usemap="#inheritance2c9ec194d3" class="inheritance graphviz" /></div>
+<map id="inheritance2c9ec194d3" name="inheritance2c9ec194d3">
+<area shape="rect" id="node2" href="banditpylib.learners.html#banditpylib.learners.Learner" target="_top" title="Abstract class for learners" alt="" coords="125,5,197,31"/>
+<area shape="rect" id="node4" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" target="_top" title="Abstract class for single player learners" alt="" coords="245,5,388,31"/>
+<area shape="rect" id="node3" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" target="_top" title="Base class for bai learners in the ordinary multi&#45;armed bandit" alt="" coords="436,5,655,31"/>
+</map><dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.arm_num">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">arm_num</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.arm_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of arms</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.best_arm">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">best_arm</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the best arm identified by the learner</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.confidence">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">confidence</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.confidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confidence level of the learner</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.goal">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">goal</span></span><em class="property"><span class="pre">:</span> <span class="pre">banditpylib.learners.utils.Goal</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goal of the learner</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.running_environment">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">running_environment</span></span><em class="property"><span class="pre">:</span> <span class="pre">Union[type,</span> <span class="pre">List[type]]</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner.running_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of bandit environment the learner plays with</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">banditpylib.learners.mab_fcbai_learner.</span></span><span class="sig-name descname"><span class="pre">ExpGap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arm_num</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/exp_gap.html#ExpGap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential-gap elimination policy <span id="id3">[<a class="reference internal" href="../bibliography.html#id8" title="Zohar Karnin, Tomer Koren, and Oren Somekh. Almost optimal exploration in multi-armed bandits. In ICML. 2013.">KKS13</a>]</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arm_num</strong> (<em>int</em>) – number of arms</p></li>
+<li><p><strong>confidence confidence</strong> (<em>float</em>) – confidence level. It should be within
+(0, 1). The algorithm should output the best arm with probability at least
+this value.</p></li>
+<li><p><strong>threshold</strong> (<em>int</em>) – do uniform sampling when the active arms are no greater
+than the threshold within median elimination</p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – alias name</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-72eeae02f2bd6dc8c1ca733d01aeb1c72f5538af.png" alt="Inheritance diagram of ExpGap" usemap="#inheritancef59f447f43" class="inheritance graphviz" /></div>
+<map id="inheritancef59f447f43" name="inheritancef59f447f43">
+<area shape="rect" id="node4" href="banditpylib.learners.html#banditpylib.learners.Learner" target="_top" title="Abstract class for learners" alt="" coords="123,5,194,30"/>
+<area shape="rect" id="node2" href="#banditpylib.learners.mab_fcbai_learner.ExpGap" target="_top" title="Exponential&#45;gap elimination policy :cite:`karnin2013almost`" alt="" coords="692,5,763,30"/>
+<area shape="rect" id="node3" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" target="_top" title="Base class for bai learners in the ordinary multi&#45;armed bandit" alt="" coords="429,5,645,30"/>
+<area shape="rect" id="node5" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" target="_top" title="Abstract class for single player learners" alt="" coords="242,5,382,30"/>
+</map><dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap.actions">
+<span class="sig-name descname"><span class="pre">actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">data_pb2.Context</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">data_pb2.Actions</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/exp_gap.html#ExpGap.actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actions of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>context</strong> – contextual information about the bandit environment</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>actions to take</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap.best_arm">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">best_arm</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the best arm identified by the learner</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/exp_gap.html#ExpGap.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the learner</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function should be called before the start of the game.</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap.stage">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">stage</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.stage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stage of the learner</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.ExpGap.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feedback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">data_pb2.Feedback</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/exp_gap.html#ExpGap.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>feedback</strong> – feedback returned by the bandit environment after
+<a class="reference internal" href="#banditpylib.learners.mab_fcbai_learner.ExpGap.actions" title="banditpylib.learners.mab_fcbai_learner.ExpGap.actions"><code class="xref py py-func docutils literal notranslate"><span class="pre">actions()</span></code></a> is executed</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">banditpylib.learners.mab_fcbai_learner.</span></span><span class="sig-name descname"><span class="pre">LilUCBHeuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arm_num</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/lilucb_heur.html#LilUCBHeuristic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>LilUCB heuristic policy <span id="id4">[<a class="reference internal" href="../bibliography.html#id9" title="Kevin Jamieson, Matthew Malloy, Robert Nowak, and Sébastien Bubeck. Lil’ucb: an optimal exploration algorithm for multi-armed bandits. In COLT. 2014.">JMNB14</a>]</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arm_num</strong> (<em>int</em>) – number of arms</p></li>
+<li><p><strong>confidence</strong> (<em>float</em>) – confidence level. It should be within (0, 1). The
+algorithm should output the best arm with probability at least this value.</p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – alias name</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-04500c98c25a59ab46c150a40ac26b07b1d56997.png" alt="Inheritance diagram of LilUCBHeuristic" usemap="#inheritance1ae2a31455" class="inheritance graphviz" /></div>
+<map id="inheritance1ae2a31455" name="inheritance1ae2a31455">
+<area shape="rect" id="node2" href="banditpylib.learners.html#banditpylib.learners.Learner" target="_top" title="Abstract class for learners" alt="" coords="117,5,184,29"/>
+<area shape="rect" id="node5" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" target="_top" title="Abstract class for single player learners" alt="" coords="229,5,362,29"/>
+<area shape="rect" id="node3" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic" target="_top" title="LilUCB heuristic policy :cite:`jamieson2014lil`" alt="" coords="655,5,763,29"/>
+<area shape="rect" id="node4" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" target="_top" title="Base class for bai learners in the ordinary multi&#45;armed bandit" alt="" coords="406,5,610,29"/>
+</map><dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.actions">
+<span class="sig-name descname"><span class="pre">actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">data_pb2.Context</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">data_pb2.Actions</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/lilucb_heur.html#LilUCBHeuristic.actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actions of the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>context</strong> – contextual information about the bandit environment</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>actions to take</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.best_arm">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">best_arm</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.best_arm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the best arm identified by the learner</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/lilucb_heur.html#LilUCBHeuristic.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the learner</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function should be called before the start of the game.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feedback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">data_pb2.Feedback</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/learners/mab_fcbai_learner/lilucb_heur.html#LilUCBHeuristic.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the learner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>feedback</strong> – feedback returned by the bandit environment after
+<a class="reference internal" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.actions" title="banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic.actions"><code class="xref py py-func docutils literal notranslate"><span class="pre">actions()</span></code></a> is executed</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="banditpylib.learners.mab_learner.html" class="btn btn-neutral float-right" title="banditpylib.learners.mab_learner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="banditpylib.learners.mab_fbbai_learner.html" class="btn btn-neutral float-left" title="banditpylib.learners.mab_fbbai_learner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Chester Holtz, Chao Tao, Guangyu Xi.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

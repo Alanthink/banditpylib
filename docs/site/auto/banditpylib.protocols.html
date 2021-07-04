@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>banditpylib.protocols &mdash; banditpylib 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="../bibliography.html" />
+    <link rel="prev" title="banditpylib.learners.thresholding_bandit_learner" href="banditpylib.learners.thresholding_bandit_learner.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme_link.html">Readme</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="banditpylib.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.arms.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.arms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.bandits.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.bandits</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="banditpylib.learners.html"><code class="docutils literal notranslate"><span class="pre">banditpylib.learners</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">banditpylib.protocols</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="banditpylib.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">banditpylib.protocols</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/auto/banditpylib.protocols.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-banditpylib.protocols">
+<span id="banditpylib-protocols"></span><h1><code class="docutils literal notranslate"><span class="pre">banditpylib.protocols</span></code><a class="headerlink" href="#module-banditpylib.protocols" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#classes" id="id1">Classes</a></p></li>
+</ul>
+</div>
+<div class="section" id="classes">
+<h2><a class="toc-backref" href="#id1">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#banditpylib.protocols.Protocol" title="banditpylib.protocols.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a>:
+Abstract class for a protocol which is used to coordinate the interactions</p></li>
+<li><p><a class="reference internal" href="#banditpylib.protocols.SinglePlayerProtocol" title="banditpylib.protocols.SinglePlayerProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">SinglePlayerProtocol</span></code></a>:
+Single player protocol</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="banditpylib.protocols.Protocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">banditpylib.protocols.</span></span><span class="sig-name descname"><span class="pre">Protocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="banditpylib.bandits.html#banditpylib.bandits.Bandit" title="banditpylib.bandits.utils.Bandit"><span class="pre">banditpylib.bandits.utils.Bandit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">learners</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="banditpylib.learners.html#banditpylib.learners.Learner" title="banditpylib.learners.utils.Learner"><span class="pre">banditpylib.learners.utils.Learner</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/protocols/utils.html#Protocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.protocols.Protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class for a protocol which is used to coordinate the interactions
+between the learner and the bandit environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<a class="reference internal" href="banditpylib.bandits.html#banditpylib.bandits.Bandit" title="banditpylib.bandits.Bandit"><em>Bandit</em></a>) – bandit environment</p></li>
+<li><p><strong>learners</strong> (<em>List</em><em>[</em><a class="reference internal" href="banditpylib.learners.html#banditpylib.learners.Learner" title="banditpylib.learners.Learner"><em>Learner</em></a><em>]</em>) – learners used to run simulations</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-727bbb901a4fb49badbf522f186c4c05d00dced4.png" alt="Inheritance diagram of Protocol" usemap="#inheritance10c0d73dd3" class="inheritance graphviz" /></div>
+<map id="inheritance10c0d73dd3" name="inheritance10c0d73dd3">
+<area shape="rect" id="node2" href="#banditpylib.protocols.Protocol" target="_top" title="Abstract class for a protocol which is used to coordinate the interactions" alt="" coords="125,5,197,31"/>
+</map><dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.protocols.Protocol.bandit">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bandit</span></span><em class="property"><span class="pre">:</span> <span class="pre">banditpylib.bandits.utils.Bandit</span></em><a class="headerlink" href="#banditpylib.protocols.Protocol.bandit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bandit environment the simulator is using the learners to play with</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.protocols.Protocol.current_learner">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">current_learner</span></span><em class="property"><span class="pre">:</span> <span class="pre">banditpylib.learners.utils.Learner</span></em><a class="headerlink" href="#banditpylib.protocols.Protocol.current_learner" title="Permalink to this definition">¶</a></dt>
+<dd><p>The learner used by the simulator currently</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.protocols.Protocol.name">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#banditpylib.protocols.Protocol.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protocol name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banditpylib.protocols.Protocol.play">
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trials</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/protocols/utils.html#Protocol.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.protocols.Protocol.play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start playing the game</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trials</strong> – number of repetitions</p></li>
+<li><p><strong>output_filename</strong> – name of the file used to dump the results</p></li>
+<li><p><strong>processes</strong> – maximum number of processes to run. -1 means no limit</p></li>
+<li><p><strong>debug</strong> – debug mode. When it is set to <cite>True</cite>, <cite>trials</cite> will be
+automatically set to 1 and debug information of the trial will be
+printed out.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By default, <cite>output_filename</cite> will be opened with mode <cite>a</cite>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="banditpylib.protocols.SinglePlayerProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">banditpylib.protocols.</span></span><span class="sig-name descname"><span class="pre">SinglePlayerProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="banditpylib.bandits.html#banditpylib.bandits.Bandit" title="banditpylib.bandits.utils.Bandit"><span class="pre">banditpylib.bandits.utils.Bandit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">learners</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" title="banditpylib.learners.utils.SinglePlayerLearner"><span class="pre">banditpylib.learners.utils.SinglePlayerLearner</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_regrets</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">horizon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/banditpylib/protocols/single_player.html#SinglePlayerProtocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banditpylib.protocols.SinglePlayerProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single player protocol</p>
+<p>This protocol is used to simulate the ordinary single-player game. It runs in
+rounds. During each round, the protocol runs the following steps in sequence:</p>
+<ul class="simple">
+<li><p>fetch the state of the environment and ask the learner for actions;</p></li>
+<li><p>send the actions to the enviroment for execution;</p></li>
+<li><p>update the learner with the feedback of the environment.</p></li>
+</ul>
+<p>The simulation stopping criteria is one of the following two:</p>
+<ul class="simple">
+<li><p>no actions are returned by the learner;</p></li>
+<li><p>total number of actions achieve <cite>horizon</cite>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bandit</strong> (<a class="reference internal" href="banditpylib.bandits.html#banditpylib.bandits.Bandit" title="banditpylib.bandits.Bandit"><em>Bandit</em></a>) – bandit environment</p></li>
+<li><p><strong>learners</strong> (<em>List</em><em>[</em><a class="reference internal" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" title="banditpylib.learners.SinglePlayerLearner"><em>SinglePlayerLearner</em></a><em>]</em>) – learners to be compared with</p></li>
+<li><p><strong>intermediate_regrets</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – a list of rounds. If set, the regrets
+after these rounds will be recorded</p></li>
+<li><p><strong>horizon</strong> (<em>int</em>) – horizon of the game (i.e., total number of actions a
+leaner can make)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>During a round, a learner may want to perform multiple actions, which is
+so-called batched learner. The total number of rounds shows how often the
+learner wants to communicate with the bandit environment which is at most
+<cite>horizon</cite>.</p>
+</div>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-d5692c909bf270a9dc3d80796c0b3c4d8aa06d35.png" alt="Inheritance diagram of SinglePlayerProtocol" usemap="#inheritanceac8ac397c1" class="inheritance graphviz" /></div>
+<map id="inheritanceac8ac397c1" name="inheritanceac8ac397c1">
+<area shape="rect" id="node2" href="#banditpylib.protocols.Protocol" target="_top" title="Abstract class for a protocol which is used to coordinate the interactions" alt="" coords="125,5,197,31"/>
+<area shape="rect" id="node3" href="#banditpylib.protocols.SinglePlayerProtocol" target="_top" title="Single player protocol" alt="" coords="245,5,391,31"/>
+</map><dl class="py property">
+<dt class="sig sig-object py" id="banditpylib.protocols.SinglePlayerProtocol.name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#banditpylib.protocols.SinglePlayerProtocol.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protocol name</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../bibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="banditpylib.learners.thresholding_bandit_learner.html" class="btn btn-neutral float-left" title="banditpylib.learners.thresholding_bandit_learner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Chester Holtz, Chao Tao, Guangyu Xi.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

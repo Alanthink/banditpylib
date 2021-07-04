@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>banditpylib.bandits.linear_bandit &mdash; banditpylib 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme_link.html">Readme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto/banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>banditpylib.bandits.linear_bandit</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for banditpylib.bandits.linear_bandit</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">banditpylib.arms</span> <span class="kn">import</span> <span class="n">GaussianArm</span>
+<span class="kn">from</span> <span class="nn">banditpylib.data_pb2</span> <span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Actions</span><span class="p">,</span> <span class="n">Feedback</span><span class="p">,</span> <span class="n">ArmPull</span><span class="p">,</span> \
+    <span class="n">ArmFeedback</span>
+<span class="kn">from</span> <span class="nn">banditpylib.learners</span> <span class="kn">import</span> <span class="n">Goal</span><span class="p">,</span> <span class="n">IdentifyBestArm</span><span class="p">,</span> <span class="n">MaximizeTotalRewards</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Bandit</span>
+
+
+<div class="viewcode-block" id="LinearBandit"><a class="viewcode-back" href="../../../auto/banditpylib.bandits.html#banditpylib.bandits.LinearBandit">[docs]</a><span class="k">class</span> <span class="nc">LinearBandit</span><span class="p">(</span><span class="n">Bandit</span><span class="p">):</span>
+  <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finite-armed linear bandit</span>
+
+<span class="sd">  Arms are indexed from 0 by default. Each pull of arm :math:`i` will generate</span>
+<span class="sd">  an `i.i.d.` reward from distribution :math:`\langle \theta, v_i \rangle</span>
+<span class="sd">  + \epsilon`, where :math:`v_i` is the feature vector of arm :math:`i`,</span>
+<span class="sd">  :math:`\theta` is the unknown parameter and :math:`\epsilon` is a zero-mean</span>
+<span class="sd">  noise.</span>
+
+<span class="sd">  :param List[np.ndarray] features: feature vectors of the arms</span>
+<span class="sd">  :param np.ndarray theta: unknown parameter theta</span>
+<span class="sd">  :param float std: standard variance of noise</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+               <span class="n">theta</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+               <span class="n">std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of arms is expected at least 2. Got </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span>
+                       <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dimension of arm </span><span class="si">%d</span><span class="se">\&#39;</span><span class="s1">s feature vector is expected &#39;</span>
+                         <span class="s1">&#39;the same as theta</span><span class="se">\&#39;</span><span class="s1">s. Got </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature</span><span class="p">)))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__features</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__theta</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">std</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+          <span class="s1">&#39;Standard deviation of noise is expected greater than 0. Got </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span>
+          <span class="n">std</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__std</span> <span class="o">=</span> <span class="n">std</span>
+    <span class="c1"># Each arm in linear bandit can be seen as a Gaussian arm</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__arms</span> <span class="o">=</span> <span class="p">[</span><span class="n">GaussianArm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__theta</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__std</span><span class="p">)</span> \
+                   <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__features</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([(</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">arm</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+                              <span class="k">for</span> <span class="p">(</span><span class="n">arm_id</span><span class="p">,</span> <span class="n">arm</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">)],</span>
+                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_id</span><span class="p">]</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;linear_bandit&#39;</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Context</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">Context</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">_take_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arm_pull</span><span class="p">:</span> <span class="n">ArmPull</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArmFeedback</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Pull one arm</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      arm_pull: arm id and its pulls</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      arm_feedback: arm id and its rewards</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arm_id</span> <span class="o">=</span> <span class="n">arm_pull</span><span class="o">.</span><span class="n">arm</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">pulls</span> <span class="o">=</span> <span class="n">arm_pull</span><span class="o">.</span><span class="n">times</span>
+
+    <span class="k">if</span> <span class="n">arm_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Arm id is expected in the range [0, </span><span class="si">%d</span><span class="s1">). Got </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span>
+                       <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span><span class="p">,</span> <span class="n">arm_id</span><span class="p">))</span>
+
+    <span class="n">arm_feedback</span> <span class="o">=</span> <span class="n">ArmFeedback</span><span class="p">()</span>
+
+    <span class="c1"># Empirical rewards when `arm_id` is pulled for `pulls` times</span>
+    <span class="n">em_rewards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arms</span><span class="p">[</span><span class="n">arm_id</span><span class="p">]</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="n">pulls</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">__regret</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm</span><span class="o">.</span><span class="n">mean</span> <span class="o">*</span> <span class="n">pulls</span> <span class="o">-</span> <span class="n">em_rewards</span><span class="p">)</span>
+
+    <span class="n">arm_feedback</span><span class="o">.</span><span class="n">arm</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">arm_id</span>
+    <span class="n">arm_feedback</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">em_rewards</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">return</span> <span class="n">arm_feedback</span>
+
+<div class="viewcode-block" id="LinearBandit.feed"><a class="viewcode-back" href="../../../auto/banditpylib.bandits.html#banditpylib.bandits.LinearBandit.feed">[docs]</a>  <span class="k">def</span> <span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actions</span><span class="p">:</span> <span class="n">Actions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Feedback</span><span class="p">:</span>
+    <span class="n">feedback</span> <span class="o">=</span> <span class="n">Feedback</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">arm_pull</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">arm_pulls</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">arm_pull</span><span class="o">.</span><span class="n">times</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">arm_feedback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_take_action</span><span class="p">(</span><span class="n">arm_pull</span><span class="o">=</span><span class="n">arm_pull</span><span class="p">)</span>
+        <span class="n">feedback</span><span class="o">.</span><span class="n">arm_feedbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arm_feedback</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">feedback</span></div>
+
+<div class="viewcode-block" id="LinearBandit.reset"><a class="viewcode-back" href="../../../auto/banditpylib.bandits.html#banditpylib.bandits.LinearBandit.reset">[docs]</a>  <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__regret</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">arm_num</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Total number of arms&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__arm_num</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">features</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      feature vectors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__features</span>
+
+  <span class="k">def</span> <span class="nf">__best_arm_regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arm_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">      arm_id: best arm identified by the learner</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      0 if `arm_id` is the best arm else 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_id</span> <span class="o">!=</span> <span class="n">arm_id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinearBandit.regret"><a class="viewcode-back" href="../../../auto/banditpylib.bandits.html#banditpylib.bandits.LinearBandit.regret">[docs]</a>  <span class="k">def</span> <span class="nf">regret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal</span><span class="p">:</span> <span class="n">Goal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">IdentifyBestArm</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__best_arm_regret</span><span class="p">(</span><span class="n">goal</span><span class="o">.</span><span class="n">best_arm</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">MaximizeTotalRewards</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__regret</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Goal </span><span class="si">%s</span><span class="s1"> is not supported.&#39;</span> <span class="o">%</span> <span class="n">goal</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Chester Holtz, Chao Tao, Guangyu Xi.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

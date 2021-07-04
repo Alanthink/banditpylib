@@ -1,0 +1,4 @@
+<map id="inheritance3d215455e6" name="inheritance3d215455e6">
+<area shape="rect" id="node1" href="#banditpylib.bandits.MeanReward" target="_top" title="Mean reward" alt="" coords="125,5,227,31"/>
+<area shape="rect" id="node2" href="#banditpylib.bandits.Reward" target="_top" title="General reward class" alt="" coords="5,5,77,31"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="inheritance1ae2a31455" name="inheritance1ae2a31455">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,72,29"/>
+<area shape="rect" id="node2" href="banditpylib.learners.html#banditpylib.learners.Learner" target="_top" title="Abstract class for learners" alt="" coords="117,5,184,29"/>
+<area shape="rect" id="node5" href="banditpylib.learners.html#banditpylib.learners.SinglePlayerLearner" target="_top" title="Abstract class for single player learners" alt="" coords="229,5,362,29"/>
+<area shape="rect" id="node3" href="#banditpylib.learners.mab_fcbai_learner.LilUCBHeuristic" target="_top" title="LilUCB heuristic policy :cite:`jamieson2014lil`" alt="" coords="655,5,763,29"/>
+<area shape="rect" id="node4" href="#banditpylib.learners.mab_fcbai_learner.MABFixedConfidenceBAILearner" target="_top" title="Base class for bai learners in the ordinary multi&#45;armed bandit" alt="" coords="406,5,610,29"/>
+</map>

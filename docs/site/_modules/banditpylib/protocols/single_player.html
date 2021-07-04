@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>banditpylib.protocols.single_player &mdash; banditpylib 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> banditpylib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme_link.html">Readme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto/banditpylib.html"><code class="docutils literal notranslate"><span class="pre">banditpylib</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">banditpylib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>banditpylib.protocols.single_player</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for banditpylib.protocols.single_player</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">cast</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">logging</span>
+
+<span class="kn">from</span> <span class="nn">banditpylib.bandits</span> <span class="kn">import</span> <span class="n">Bandit</span>
+<span class="kn">from</span> <span class="nn">banditpylib.data_pb2</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">banditpylib.learners</span> <span class="kn">import</span> <span class="n">Learner</span><span class="p">,</span> <span class="n">SinglePlayerLearner</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+
+<div class="viewcode-block" id="SinglePlayerProtocol"><a class="viewcode-back" href="../../../auto/banditpylib.protocols.html#banditpylib.protocols.SinglePlayerProtocol">[docs]</a><span class="k">class</span> <span class="nc">SinglePlayerProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Single player protocol</span>
+
+<span class="sd">  This protocol is used to simulate the ordinary single-player game. It runs in</span>
+<span class="sd">  rounds. During each round, the protocol runs the following steps in sequence:</span>
+
+<span class="sd">  * fetch the state of the environment and ask the learner for actions;</span>
+<span class="sd">  * send the actions to the enviroment for execution;</span>
+<span class="sd">  * update the learner with the feedback of the environment.</span>
+
+<span class="sd">  The simulation stopping criteria is one of the following two:</span>
+
+<span class="sd">  * no actions are returned by the learner;</span>
+<span class="sd">  * total number of actions achieve `horizon`.</span>
+
+
+<span class="sd">  :param Bandit bandit: bandit environment</span>
+<span class="sd">  :param List[SinglePlayerLearner] learners: learners to be compared with</span>
+<span class="sd">  :param List[int] intermediate_regrets: a list of rounds. If set, the regrets</span>
+<span class="sd">    after these rounds will be recorded</span>
+<span class="sd">  :param int horizon: horizon of the game (i.e., total number of actions a</span>
+<span class="sd">    leaner can make)</span>
+
+<span class="sd">  .. note::</span>
+<span class="sd">    During a round, a learner may want to perform multiple actions, which is</span>
+<span class="sd">    so-called batched learner. The total number of rounds shows how often the</span>
+<span class="sd">    learner wants to communicate with the bandit environment which is at most</span>
+<span class="sd">    `horizon`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">bandit</span><span class="p">:</span> <span class="n">Bandit</span><span class="p">,</span>
+               <span class="n">learners</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SinglePlayerLearner</span><span class="p">],</span>
+               <span class="n">intermediate_regrets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">horizon</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">bandit</span><span class="o">=</span><span class="n">bandit</span><span class="p">,</span> <span class="n">learners</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Learner</span><span class="p">],</span> <span class="n">learners</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__intermediate_regrets</span> <span class="o">=</span> \
+        <span class="n">intermediate_regrets</span> <span class="k">if</span> <span class="n">intermediate_regrets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__horizon</span> <span class="o">=</span> <span class="n">horizon</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;single_player_protocol&#39;</span>
+
+  <span class="k">def</span> <span class="nf">_one_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
+
+    <span class="c1"># Reset the bandit environment and the learner</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">current_learner</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">SinglePlayerLearner</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_learner</span><span class="p">)</span>
+    <span class="n">current_learner</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="n">trial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">()</span>
+    <span class="n">trial</span><span class="o">.</span><span class="n">bandit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">trial</span><span class="o">.</span><span class="n">learner</span> <span class="o">=</span> <span class="n">current_learner</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">rounds</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Number of actions the learner has made</span>
+    <span class="n">total_actions</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">add_result</span><span class="p">():</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+      <span class="n">result</span><span class="o">.</span><span class="n">rounds</span> <span class="o">=</span> <span class="n">rounds</span>
+      <span class="n">result</span><span class="o">.</span><span class="n">total_actions</span> <span class="o">=</span> <span class="n">total_actions</span>
+      <span class="n">result</span><span class="o">.</span><span class="n">regret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">regret</span><span class="p">(</span><span class="n">current_learner</span><span class="o">.</span><span class="n">goal</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">total_actions</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__horizon</span><span class="p">:</span>
+      <span class="n">actions</span> <span class="o">=</span> <span class="n">current_learner</span><span class="o">.</span><span class="n">actions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+
+      <span class="c1"># Stop the game if no actions are returned by the learner</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">actions</span><span class="o">.</span><span class="n">arm_pulls</span><span class="p">:</span>
+        <span class="k">break</span>
+
+      <span class="c1"># Record intermediate regrets</span>
+      <span class="k">if</span> <span class="n">rounds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intermediate_regrets</span><span class="p">:</span>
+        <span class="n">add_result</span><span class="p">()</span>
+
+      <span class="n">feedback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+      <span class="n">current_learner</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">feedback</span><span class="p">)</span>
+
+      <span class="k">for</span> <span class="n">arm_pull</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">arm_pulls</span><span class="p">:</span>
+        <span class="n">total_actions</span> <span class="o">+=</span> <span class="n">arm_pull</span><span class="o">.</span><span class="n">times</span>
+      <span class="n">rounds</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Record final regret</span>
+    <span class="n">add_result</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">trial</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Chester Holtz, Chao Tao, Guangyu Xi.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
