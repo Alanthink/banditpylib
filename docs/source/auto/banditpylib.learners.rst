@@ -44,6 +44,9 @@ Classes
 - :py:class:`Learner`:
   Abstract class for learners
 
+- :py:class:`SinglePlayerLearner`:
+  Abstract class for single player learners
+
 
 .. autoclass:: Goal
    :members:
@@ -85,4 +88,11 @@ Classes
 
    .. rubric:: Inheritance
    .. inheritance-diagram:: Learner
+      :parts: 1
+
+.. autoclass:: SinglePlayerLearner
+   :members:
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: SinglePlayerLearner
       :parts: 1
