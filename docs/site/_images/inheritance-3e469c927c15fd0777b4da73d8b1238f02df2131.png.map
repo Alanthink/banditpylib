@@ -1,5 +1,0 @@
-<map id="inheritance74245d6ce0" name="inheritance74245d6ce0">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
-<area shape="rect" id="node2" href="#banditpylib.learners.Goal" target="_top" title="Abstract class for the goal of a learner" alt="" coords="125,5,197,31"/>
-<area shape="rect" id="node3" href="#banditpylib.learners.IdentifyBestArm" target="_top" title="Best arm identification" alt="" coords="245,5,361,31"/>
-</map>

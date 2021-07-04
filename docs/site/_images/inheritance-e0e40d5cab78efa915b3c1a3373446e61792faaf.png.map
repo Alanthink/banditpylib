@@ -1,5 +1,0 @@
-<map id="inheritance40a9b4d712" name="inheritance40a9b4d712">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
-<area shape="rect" id="node2" href="#banditpylib.bandits.Bandit" target="_top" title="Abstract class for bandit environments" alt="" coords="125,5,197,31"/>
-<area shape="rect" id="node3" href="#banditpylib.bandits.ContextualBandit" target="_top" title="Finite&#45;armed contextual bandit" alt="" coords="245,5,369,31"/>
-</map>

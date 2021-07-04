@@ -1,5 +1,0 @@
-<map id="inheritanceac8ac397c1" name="inheritanceac8ac397c1">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
-<area shape="rect" id="node2" href="#banditpylib.protocols.Protocol" target="_top" title="Abstract class for a protocol which is used to coordinate the interactions" alt="" coords="125,5,197,31"/>
-<area shape="rect" id="node3" href="#banditpylib.protocols.SinglePlayerProtocol" target="_top" title="Single player protocol" alt="" coords="245,5,391,31"/>
-</map>

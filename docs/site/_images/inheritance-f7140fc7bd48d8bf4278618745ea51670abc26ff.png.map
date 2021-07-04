@@ -1,6 +1,0 @@
-<map id="inheritancecb339ca1cd" name="inheritancecb339ca1cd">
-<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
-<area shape="rect" id="node2" href="#banditpylib.arms.Arm" target="_top" title="Arm" alt="" coords="125,5,197,31"/>
-<area shape="rect" id="node4" href="#banditpylib.arms.StochasticArm" target="_top" title="Stochastic arm" alt="" coords="245,5,353,31"/>
-<area shape="rect" id="node3" href="#banditpylib.arms.GaussianArm" target="_top" title="Gaussian arm" alt="" coords="401,5,504,31"/>
-</map>
