@@ -381,7 +381,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
   def elimination(self, agent_ids: List[int],
     messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
-    
+
     all_empty = True
     for agent_id in messages:
       if messages[agent_id]:
