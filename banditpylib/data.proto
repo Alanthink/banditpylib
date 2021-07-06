@@ -49,9 +49,16 @@ message ArmPull {
   int32 times = 2;
 }
 
-// Next tag: 2
+// Next tag: 3
 message Actions {
   repeated ArmPull arm_pulls = 1;
+
+  enum StateType {
+    DEFAULT_NORMAL = 0;   // wants to take actions [default]
+    WAIT = 1;             // wants to communicate  
+    STOP = 2;             // terminated
+  }
+  StateType state = 2;    // used by collaborative learners
 }
 
 // Next tag: 4
