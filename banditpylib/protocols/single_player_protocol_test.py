@@ -4,7 +4,7 @@ from banditpylib import parse_trials_from_bytes
 from banditpylib.arms import BernoulliArm
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.learners.mab_learner import EpsGreedy
-from .single_player import SinglePlayerProtocol
+from .single_player_protocol import SinglePlayerProtocol
 
 
 class TestSinglePlayer:

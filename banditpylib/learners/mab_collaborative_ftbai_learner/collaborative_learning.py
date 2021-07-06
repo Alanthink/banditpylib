@@ -282,10 +282,10 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     if self.__stage != "communication":
       raise Exception('%s: I can\'t broadcast in stage %s!'\
         % (self.name, self.__stage))
-    return_dict = {}
+    return_dict: Dict[int, Tuple[float, int]] = {}
     if self.__learning_arm:
-      return_dict[self.__learning_arm] = (self.__learning_mean,
-                                          self.__pulls_used)
+      return_dict[self.__learning_arm] = (
+        self.__learning_mean, self.__pulls_used) # type: ignore
     self.__complete_round()
     return return_dict
 
