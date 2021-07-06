@@ -1,7 +1,7 @@
 import numpy as np
 
 from banditpylib.data_pb2 import Feedback
-from .collaborative_learning import LilUCBHeuristicCollaborative
+from .lilucb_heur_collaborative import CentralizedLilUCBHeuristic
 
 
 class TestLilUCBHeuristicCollaborative:
@@ -9,9 +9,9 @@ class TestLilUCBHeuristicCollaborative:
   def test_simple_run(self):
     arm_num = 3
     confidence = 0.95
-    learner = LilUCBHeuristicCollaborative(arm_num=arm_num,
-                                           confidence=confidence,
-                                           assigned_arms=np.arange(arm_num))
+    learner = CentralizedLilUCBHeuristic(arm_num=arm_num,
+                                         confidence=confidence,
+                                         assigned_arms=np.arange(arm_num))
     learner.reset()
 
     while True:

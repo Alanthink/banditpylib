@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List, Union
+from copy import deepcopy as dcopy
+from typing import Optional, List, Union, Dict, Tuple
 
 from banditpylib.data_pb2 import Context, Arm, Actions, Feedback
 
@@ -140,3 +141,158 @@ class SinglePlayerLearner(Learner):
       feedback: feedback returned by the bandit environment after
         :func:`actions` is executed
     """
+
+
+class CollaborativeAgent(ABC):
+  r"""Abstract class for collaborative agents
+
+  :param Optional[str] name: alias name
+  """
+  def __init__(self, name: Optional[str]):
+    self.__name = self._name() if name is None else name
+
+  @property
+  def name(self) -> str:
+    """Name of the agent"""
+    return self.__name
+
+  @abstractmethod
+  def _name(self) -> str:
+    """
+    Returns:
+      default agent name
+    """
+
+  @abstractmethod
+  def reset(self):
+    """Reset the agent
+
+    .. warning::
+      This function should be called before the start of each game.
+    """
+
+  @abstractmethod
+  def set_input_arms(self, arms: List[int]):
+    """Assign a set of arms to the agent
+
+    Args:
+      arms: arm indices that have been assigned
+    """
+
+  @abstractmethod
+  def actions(self, context: Context) -> Actions:
+    """Actions of the agent
+
+    Args:
+      context: contextual information about the bandit environment
+
+    Returns:
+      actions to take
+    """
+
+  @abstractmethod
+  def update(self, feedback: Feedback):
+    """Update the agent
+
+    Args:
+      feedback: feedback returned by the bandit environment after
+        :func:`actions` is executed
+    """
+
+  @abstractmethod
+  def broadcast(self) -> Dict[int, Tuple[float, int]]:
+    """Broadcast information learnt in the current round
+
+    Returns:
+      arm ids, corresponding average rewards seen, and numbers of pulls used to
+        deduce average rewards
+    """
+
+
+class CollaborativeMaster(ABC):
+  r"""Abstract class for collaborative masters that handle arm assignment and
+  elimination
+
+  :param Optional[str] name: alias name
+  """
+  def __init__(self, name: Optional[str]):
+    self.__name = self._name() if name is None else name
+
+  @property
+  def name(self) -> str:
+    """Name of the master"""
+    return self.__name
+
+  @abstractmethod
+  def _name(self) -> str:
+    """
+    Returns:
+      default master name
+    """
+
+  @abstractmethod
+  def reset(self):
+    """Reset the master
+
+    .. warning::
+      This function should be called before the start of each game.
+    """
+
+  @abstractmethod
+  def initial_arm_assignment(self) -> Dict[int, List[int]]:
+    """The arm assignment before the first round
+
+    Returns:
+      arm assignment per agent for all agents
+    """
+
+  @abstractmethod
+  def elimination(
+      self, agent_ids: List[int],
+      messages: Dict[int, Dict[int, Tuple[float,
+                                          int]]]) -> Dict[int, List[int]]:
+    """Update the set of active arms based on some criteria and return arm
+    assignment
+
+    Args:
+      agent_ids: list of agents that will be assigned arms
+      messages: dict of messages broadcasted from agents
+
+    Returns:
+      arm assignment per agent
+    """
+
+
+class CollaborativeLearner(Learner):
+  """Abstract class for collaborative learners
+
+  :param CollaborativeAgent agent: one instance of a collaborative agent
+  :param CollaboratveMaster master: instance of a collaborative master
+  :param int num_agents: total number of agents involved
+  :param Optional[str] name: alias name
+  """
+  def __init__(self,
+               agent: CollaborativeAgent,
+               master: CollaborativeMaster,
+               num_agents: int,
+               name: Optional[str] = None):
+    super().__init__(name=name)
+    self.__agents = []
+    for _ in range(num_agents):
+      self.__agents.append(dcopy(agent))
+    self.__master = master
+
+  def reset(self):
+    for agent in self.__agents:
+      agent.reset()
+    self.__master.reset()
+
+  @property
+  def agents(self) -> List[CollaborativeAgent]:
+    """Involved agents"""
+    return self.__agents
+
+  @property
+  def master(self) -> CollaborativeMaster:
+    """Controlling master"""
+    return self.__master

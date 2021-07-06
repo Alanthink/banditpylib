@@ -12,10 +12,11 @@ from banditpylib.arms import PseudoArm
 from banditpylib import argmax_or_min_tuple
 from banditpylib.learners.mab_fcbai_learner import MABFixedConfidenceBAILearner
 
-from .utils import CollaborativeBAIAgent, CollaborativeBAIMaster
+from .utils import MABCollaborativeFixedTimeBAIAgent, \
+    MABCollaborativeFixedTimeBAIMaster, MABCollaborativeFixedTimeBAILearner
 
 
-class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
+class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
   """LilUCB heuristic policy :cite:`jamieson2014lil`
   Modified implementation to supplement CollaborativeAgent
   along with additional functionality to work on only a subset of arms
@@ -132,7 +133,7 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
     return self.__total_pulls
 
 
-class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
+class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
   r"""Implementation of agent of the Collaborative Learning Algorithm\
   Uses LilUCBHeuristic as the central algorithm
 
@@ -186,8 +187,8 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
 
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
-    self.__central_algo = LilUCBHeuristicCollaborative(self.__arm_num, 0.99,
-                                                       self.__assigned_arms)
+    self.__central_algo = CentralizedLilUCBHeuristic(self.__arm_num, 0.99,
+                                                     self.__assigned_arms)
     self.__central_algo.reset()
     if self.__stage == "unassigned":
       self.__stage = "preparation"
@@ -284,13 +285,13 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
         % (self.name, self.__stage))
     return_dict: Dict[int, Tuple[float, int]] = {}
     if self.__learning_arm:
-      return_dict[self.__learning_arm] = (
-        self.__learning_mean, self.__pulls_used) # type: ignore
+      return_dict[self.__learning_arm] = (self.__learning_mean,
+                                          self.__pulls_used)  # type: ignore
     self.__complete_round()
     return return_dict
 
 
-class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
+class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
   r"""Implementation of master in Collaborative Learning Algorithm
 
   :param int arm_num: number of arms of the bandit
@@ -421,3 +422,30 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
                             2 * confidence_radius])
 
     return self.__assign_arms(agent_ids)
+
+
+class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
+  """Colaborative learners using lilucb heuristic as centralized policy
+
+  :param int num_agents: number of agents
+  :param int arm_num: number of arms of the bandit
+  :param int rounds: number of rounds of communication allowed
+  :param int horizon: maximum number of pulls the agent can make
+    (over all rounds combined)
+  :param Optional[str] name: alias name
+  """
+  def __init__(self,
+               num_agents: int,
+               arm_num: int,
+               rounds: int,
+               horizon: int,
+               name: Optional[str] = None):
+    super().__init__(agent=LilUCBHeuristicAgent(arm_num=arm_num,
+                                                rounds=rounds,
+                                                horizon=horizon),
+                     master=LilUCBHeuristicMaster(arm_num=arm_num,
+                                                  rounds=rounds,
+                                                  horizon=horizon,
+                                                  num_agents=num_agents),
+                     num_agents=num_agents,
+                     name=name)

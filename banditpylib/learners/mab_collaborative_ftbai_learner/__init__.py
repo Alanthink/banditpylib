@@ -1,8 +1,7 @@
 from .utils import *
-from .collaborative_learning import *
+from .lilucb_heur_collaborative import *
 
 __all__ = [
-    'CollaborativeBAILearner', 'CollaborativeBAIAgent',
-    'CollaborativeBAIMaster', 'LilUCBHeuristicCollaborativeBAIAgent',
-    'LilUCBHeuristicCollaborativeBAIMaster'
+    'MABCollaborativeFixedTimeBAILearner',
+    'LilUCBHeuristicCollaborative',
 ]
