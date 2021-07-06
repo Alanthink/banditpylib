@@ -58,6 +58,14 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 |     :---      |      :--- |
 | Maximize rewards  | `LinUCB` |
 
+### Colaborative learning protocol
+
+#### Multi-armed bandit
+
+| Goal | Policies |
+|     :---      |      :--- |
+| Best arm identification with fixed time  | (`LilUCBHeuristicCollaborativeBAIMaster`, `LilUCBHeuristicCollaborativeBAIAgent`) |
+
 For a detailed description, please check the [documentation](https://alanthink.github.io/banditpylib-doc/).
 
 ## Getting Started
