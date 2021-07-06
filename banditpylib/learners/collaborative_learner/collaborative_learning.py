@@ -153,9 +153,9 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       raise ValueError('Number of rounds is expected at least 2. Got %d.' %
                        rounds)
     self.__arm_num = arm_num
-    self.__rounds = rounds - 1
+    self.__comm_rounds = rounds - 1
     self.__horizon = horizon
-    self.__num_pulls_learning = int(0.5 * horizon / self.__rounds)
+    self.__num_pulls_learning = int(0.5 * horizon / self.__comm_rounds)
 
   def _name(self) -> str:
     return "lilUCBHeur_collaborative_agent"
@@ -169,7 +169,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
   def __complete_round(self):
     self.__round_num += 1
     self.__central_algo_action_taken = False
-    if self.__round_num < self.__rounds + 1:
+    if self.__round_num < self.__comm_rounds + 1:
       self.__stage = "unassigned"
     else:
       self.__stage = "termination"
@@ -185,7 +185,8 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     self.__central_algo = LilUCBHeuristicCollaborative(self.__arm_num,
       0.99, self.__assigned_arms)
     self.__central_algo.reset()
-    self.__stage = "preparation"
+    if self.__stage == "unassigned":
+      self.__stage = "preparation"
 
   def actions(self, context=None) -> Actions:
     # a core assumption is all non-empty actions immediately receive feedback
@@ -315,8 +316,7 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   def reset(self):
     self.__active_arms = list(range(self.__arm_num))
 
-  def __assign_arms(self, agent_ids: List[int]) ->\
-    Dict[int, List[int]]:
+  def __assign_arms(self, agent_ids: List[int]) -> Dict[int, List[int]]:
     agent_arm_assignment: Dict[int, List[int]] = {}
 
     def random_round(x: float) -> int:
@@ -338,39 +338,75 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
     if len(self.__active_arms) < len(agent_ids):
       arms_assign_list = []
       num_agents_per_arm = len(agent_ids) / len(self.__active_arms)
+
+      # match agent to all but the last arm
       for arm in self.__active_arms[:-1]:
         arms_assign_list += [[arm]] * \
           random_round(num_agents_per_arm)
+
+      # match remaining agents to last arm
       arms_assign_list += [[self.__active_arms[-1]]] * \
         (len(agent_ids) - len(arms_assign_list))
       random.shuffle(arms_assign_list)
       for i, agent_id in enumerate(agent_ids):
         agent_arm_assignment[agent_id] = arms_assign_list[i]
+
     else:
       active_arms_copy = dcopy(self.__active_arms)
       random.shuffle(active_arms_copy)
       for agent_id in agent_ids:
         agent_arm_assignment[agent_id] = []
 
+      # assign atleast 1 arm per agent
       for i, arm in enumerate(active_arms_copy[:len(agent_ids)]):
         agent_arm_assignment[agent_ids[i]].append(arm)
-      for arm in active_arms_copy[len(agent_ids):]:
-        agent_idx = random.choice(agent_ids)
-        agent_arm_assignment[agent_idx].append(arm)
+
+      # assign remaining arms
+      num_arms_per_agent = (len(active_arms_copy) - len(agent_ids))\
+      / len(agent_ids)
+      i = len(agent_ids)
+      for agent_id in agent_ids[:-1]:
+        if i >= len(active_arms_copy):
+          break
+        num_arms = random_round(num_arms_per_agent)
+        agent_arm_assignment[agent_id] += active_arms_copy[i: i + num_arms]
+        i+= num_arms
+      if i < len(active_arms_copy):
+        agent_arm_assignment[agent_ids[-1]] += active_arms_copy[i:]
+
     return agent_arm_assignment
 
   def initial_arm_assignment(self) -> Dict[int, List[int]]:
     return self.__assign_arms(list(range(self.__num_agents)))
 
   def elimination(self, agent_ids: List[int],
-    messages: Dict[int, Tuple[float, int]]) ->Dict[int, List[int]]:
-    if not messages:
+    messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
+    
+    all_empty = True
+    for agent_id in messages:
+      if messages[agent_id]:
+        all_empty = False
+        break
+
+    if all_empty:
       self.__active_arms = []
       return self.__assign_arms(agent_ids)
 
-    accumulated_arm_ids = np.array(list(messages.keys()))
+    aggregate_messages: Dict[int, Tuple[float, int]] = {}
+    for agent_id in messages.keys():
+      message_from_agent = messages[agent_id]
+      for arm_id in message_from_agent:
+        if arm_id not in aggregate_messages:
+          aggregate_messages[arm_id] = (0.0, 0)
+        arm_info = message_from_agent[arm_id]
+        new_pulls = aggregate_messages[arm_id][1] + arm_info[1]
+        new_em_mean_reward = (aggregate_messages[arm_id][1] * \
+         aggregate_messages[arm_id][0] + arm_info[1] * arm_info[0]) / new_pulls
+        aggregate_messages[arm_id] = (new_em_mean_reward, new_pulls)
+
+    accumulated_arm_ids = np.array(list(aggregate_messages.keys()))
     accumulated_em_mean_rewards = np.array(
-      list(map(lambda x: messages[x][0], messages.keys())))
+      list(map(lambda x: aggregate_messages[x][0], aggregate_messages.keys())))
 
     # elimination
     confidence_radius = np.sqrt(

@@ -23,15 +23,12 @@ class CollaborativeLearningProtocol(Protocol):
   * update each learner with the corresponding feedback of the environment;
   * repeat the above steps until every agent enters the WAIT or STOP state;
   * if there is at least one agent in WAIT state, then receive information
-    broadcasted from every waiting agent, and use it to decide
-    the parameters of the next round.
+    broadcasted from every waiting agent and send them to master to decide
+    arm assignment of next round.
 
   The simulation stopping criteria is:
 
   * every agent enters STOP state;
-
-  Algorithm is guaranteed to stop before total number of time-steps
-  achieve `horizon`.
 
   :param Bandit bandit: bandit environment
   :param List[CollaborativeBAILearner] learners: learners that will be compared
@@ -103,27 +100,21 @@ class CollaborativeLearningProtocol(Protocol):
         break
 
       # communication and aggregation
-      # key is arm id and target is a tuple storing average rewards and pulls
-      messages: Dict[int, Tuple[float, int]] = {}
+      # key is arm id and target is a dict broadcasted by agent
+      accumulated_messages: Dict[int, Dict[int, Tuple[float, int]]] = {}
       for agent_id in agent_in_wait_ids:
         agent = agents[agent_id]
 
         # key is arm_id, target is Tuple[em_mean_reward, pulls]
         # empty dict => arm_id was None
         message_from_agent = agent.broadcast()
-        for arm_id in message_from_agent:
-          if arm_id not in messages:
-            messages[arm_id] = (0.0, 0)
-          arm_info = message_from_agent[arm_id]
-          new_pulls = messages[arm_id][1] + arm_info[1]
-          new_em_mean_reward = (messages[arm_id][1] * messages[arm_id][0] + \
-              arm_info[1] * arm_info[0]) / new_pulls
-          messages[arm_id] = (new_em_mean_reward, new_pulls)
+        accumulated_messages[agent_id] = message_from_agent
 
       # Send info to master for elimination to get arm assignment for next round
       # agent_arm_assignment: key is agent_id, value is a list storing arm ids
       # assigned to this agent
-      agent_arm_assignment = master.elimination(agent_in_wait_ids, messages)
+      agent_arm_assignment = master.elimination(
+        agent_in_wait_ids, accumulated_messages)
       for agent_id in agent_arm_assignment:
         agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
       communication_rounds += 1

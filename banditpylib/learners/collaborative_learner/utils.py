@@ -75,8 +75,8 @@ class CollaborativeBAIAgent(ABC):
     """Broadcasts information learnt in the current round
 
     Returns: (a dict of)
-      * arm ids used in learning
-      * Tuple[corresponding average reward seen,
+      arm ids used in learning
+      Tuple[corresponding average reward seen,
         number of pulls used to deduce average]
     """
 
@@ -120,13 +120,13 @@ class CollaborativeBAIMaster(ABC):
 
   @abstractmethod
   def elimination(self, agent_ids: List[int],
-    messages: Dict[int, Tuple[float, int]]) -> Dict[int, List[int]]:
+    messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
     """Update the set of active arms based on some criteria
     and return arm assignment
 
     Args:
       agent_ids: list of agents that will be assigned arms
-      messages: aggregation of messages broadcasted from agents
+      messages: dict of messages broadcasted from agents
 
     Returns:
       dictionary of arm assignment per agent

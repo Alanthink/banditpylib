@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List, Union
 
-from banditpylib.data_pb2 import (
-  Context, Arm, Actions, Feedback)
+from banditpylib.data_pb2 import Context, Arm, Actions, Feedback
 
 
 class Goal(ABC):
