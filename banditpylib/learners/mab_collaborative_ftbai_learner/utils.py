@@ -6,6 +6,7 @@ from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm, Feedback, Actions, Context
 from banditpylib.learners import Goal, IdentifyBestArm, Learner
 
+
 class CollaborativeBAIAgent(ABC):
   r"""One individual agent
 
@@ -13,7 +14,6 @@ class CollaborativeBAIAgent(ABC):
 
   :param Optional[str] name: alias name
   """
-
   def __init__(self, name: Optional[str]):
     self.__name = self._name() if name is None else name
 
@@ -86,7 +86,6 @@ class CollaborativeBAIMaster(ABC):
 
   :param Optional[str] name: alias name
   """
-
   def __init__(self, name: Optional[str]):
     self.__name = self._name() if name is None else name
 
@@ -119,8 +118,10 @@ class CollaborativeBAIMaster(ABC):
     """
 
   @abstractmethod
-  def elimination(self, agent_ids: List[int],
-    messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
+  def elimination(
+      self, agent_ids: List[int],
+      messages: Dict[int, Dict[int, Tuple[float,
+                                          int]]]) -> Dict[int, List[int]]:
     """Update the set of active arms based on some criteria
     and return arm assignment
 
@@ -141,9 +142,11 @@ class CollaborativeBAILearner(Learner):
   :param int num_agents: total number of agents involved
   :param Optional[str] name: alias name
   """
-  def __init__(self, agent: CollaborativeBAIAgent,
-    master: CollaborativeBAIMaster, num_agents: int,
-    name: Optional[str] = None):
+  def __init__(self,
+               agent: CollaborativeBAIAgent,
+               master: CollaborativeBAIMaster,
+               num_agents: int,
+               name: Optional[str] = None):
     super().__init__(name)
     self.__agents = []
     for _ in range(num_agents):
@@ -176,7 +179,7 @@ class CollaborativeBAILearner(Learner):
     best_arm = self.__agents[0].best_arm
     for agent in self.__agents[1:]:
       if best_arm != agent.best_arm:
-        best_arm = -1 # implies regret of 1
+        best_arm = -1  # implies regret of 1
         break
     arm.id = best_arm
     return IdentifyBestArm(best_arm=arm)

@@ -10,7 +10,8 @@ class TestLilUCBHeuristicCollaborative:
     arm_num = 3
     confidence = 0.95
     learner = LilUCBHeuristicCollaborative(arm_num=arm_num,
-      confidence=confidence, assigned_arms=np.arange(arm_num))
+                                           confidence=confidence,
+                                           assigned_arms=np.arange(arm_num))
     learner.reset()
 
     while True:
@@ -23,9 +24,8 @@ class TestLilUCBHeuristicCollaborative:
         arm_feedback = feedback.arm_feedbacks.add()
         arm_feedback.arm.id = arm_pull.arm.id
         arm_feedback.rewards.extend(
-            list(
-                np.random.normal(arm_pull.arm.id / arm_num, 1,
-                                 arm_pull.times)))
+            list(np.random.normal(arm_pull.arm.id / arm_num, 1,
+                                  arm_pull.times)))
       learner.update(feedback)
 
     assert learner.best_arm in list(range(arm_num))

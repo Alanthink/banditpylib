@@ -14,6 +14,7 @@ from banditpylib.learners.mab_fcbai_learner import MABFixedConfidenceBAILearner
 
 from .utils import CollaborativeBAIAgent, CollaborativeBAIMaster
 
+
 class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
   """LilUCB heuristic policy :cite:`jamieson2014lil`
   Modified implementation to supplement CollaborativeAgent
@@ -25,17 +26,19 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
   :param np.ndarray assigned_arms: arm indices the learner has to work with
   :param str name: alias name
   """
-  def __init__(self, arm_num: int, confidence: float,
-    assigned_arms: np.ndarray = None, name: str = None):
-    assert np.max(assigned_arms)<arm_num and len(assigned_arms)<=arm_num, (
-      "assigned arms should be a subset of [arm_num]\nReceived: "
-        + str(assigned_arms))
+  def __init__(self,
+               arm_num: int,
+               confidence: float,
+               assigned_arms: np.ndarray = None,
+               name: str = None):
+    assert np.max(assigned_arms) < arm_num and len(assigned_arms) <= arm_num, (
+        "assigned arms should be a subset of [arm_num]\nReceived: " +
+        str(assigned_arms))
     super().__init__(arm_num=arm_num, confidence=confidence, name=name)
     if assigned_arms is not None:
       self.__assigned_arms = assigned_arms
     else:
       self.__assigned_arms = np.arange(arm_num)
-
 
   def _name(self) -> str:
     return 'lilUCB_heur_collaborative'
@@ -80,7 +83,7 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
   def actions(self, context=None) -> Actions:
     del context
     if self.__stage == 'initialization':
-      actions = Actions() # default state is normal
+      actions = Actions()  # default state is normal
 
       # 1 pull each for every assigned arm
       for arm_id in self.__assigned_arms:
@@ -109,7 +112,7 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
     for arm_feedback in feedback.arm_feedbacks:
       # reverse map from bandit index to local index
       pseudo_arm_index = np.where(
-        self.__assigned_arms==arm_feedback.arm.id)[0][0]
+          self.__assigned_arms == arm_feedback.arm.id)[0][0]
       self.__pseudo_arms[pseudo_arm_index].update(
           np.array(arm_feedback.rewards))
       self.__total_pulls += len(arm_feedback.rewards)
@@ -120,12 +123,10 @@ class LilUCBHeuristicCollaborative(MABFixedConfidenceBAILearner):
   @property
   def best_arm(self) -> int:
     # map best arm local index to actual bandit index
-    return self.__assigned_arms[
-      argmax_or_min_tuple([
+    return self.__assigned_arms[argmax_or_min_tuple([
         (pseudo_arm.total_pulls, arm_id)
         for (arm_id, pseudo_arm) in enumerate(self.__pseudo_arms)
-      ])
-    ]
+    ])]
 
   def get_total_pulls(self) -> int:
     return self.__total_pulls
@@ -142,9 +143,11 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     (over all rounds combined)
   :param Optional[str] name: alias name
   """
-
-  def __init__(self, arm_num: int, rounds: int,
-    horizon: int, name: Optional[str] = None):
+  def __init__(self,
+               arm_num: int,
+               rounds: int,
+               horizon: int,
+               name: Optional[str] = None):
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
@@ -183,8 +186,8 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
 
     self.__assigned_arms = np.array(arms)
     # confidence of 0.01 suggested in the paper
-    self.__central_algo = LilUCBHeuristicCollaborative(self.__arm_num,
-      0.99, self.__assigned_arms)
+    self.__central_algo = LilUCBHeuristicCollaborative(self.__arm_num, 0.99,
+                                                       self.__assigned_arms)
     self.__central_algo.reset()
     if self.__stage == "unassigned":
       self.__stage = "preparation"
@@ -207,7 +210,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
         self.__stage = "learning"
         self.__learning_arm = self.__assigned_arms[0]
         return self.actions()
-      if self.__central_algo.get_total_pulls() >= self.__horizon//2:
+      if self.__central_algo.get_total_pulls() >= self.__horizon // 2:
         self.__stage = "learning"
         # use whatever best_arm the central algo outputs
         self.__learning_arm = self.__central_algo.best_arm
@@ -233,7 +236,7 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
         return actions
       else:
         arm_pull = actions.arm_pulls.add()
-        arm_pull.arm.id = self.__learning_arm # pylint: disable=protobuf-type-error
+        arm_pull.arm.id = self.__learning_arm  # pylint: disable=protobuf-type-error
         arm_pull.times = self.__num_pulls_learning
         return actions
 
@@ -249,16 +252,16 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
 
     else:
       raise Exception(self.name + ": " + self.__stage +
-        " does not allow actions to be played")
+                      " does not allow actions to be played")
 
   def update(self, feedback: Feedback):
-    self.__learning_mean = None # default in case learning_arm is None
+    self.__learning_mean = None  # default in case learning_arm is None
     num_pulls = 0
     for arm_feedback in feedback.arm_feedbacks:
       num_pulls += len(arm_feedback.rewards)
     if self.__central_algo_action_taken:
       self.__central_algo.update(feedback)
-    elif num_pulls>0:
+    elif num_pulls > 0:
       # non-zero pulls not by central_algo => learning step was done
       for arm_feedback in feedback.arm_feedbacks:
         if arm_feedback.arm.id == self.__learning_arm:
@@ -282,9 +285,10 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
     return_dict = {}
     if self.__learning_arm:
       return_dict[self.__learning_arm] = (self.__learning_mean,
-        self.__pulls_used)
+                                          self.__pulls_used)
     self.__complete_round()
     return return_dict
+
 
 class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   r"""Implementation of master in Collaborative Learning Algorithm
@@ -297,9 +301,12 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   :param int num_agents: number of agents
   :param Optional[str] name: alias name
   """
-
-  def __init__(self, arm_num:int, rounds: int,
-    horizon: int, num_agents: int, name: Optional[str] = None):
+  def __init__(self,
+               arm_num: int,
+               rounds: int,
+               horizon: int,
+               num_agents: int,
+               name: Optional[str] = None):
     super().__init__(name)
     if arm_num <= 1:
       raise ValueError('Number of arms is expected at least 2. Got %d.' %
@@ -371,8 +378,8 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         if i >= len(active_arms_copy):
           break
         num_arms = random_round(num_arms_per_agent)
-        agent_arm_assignment[agent_id] += active_arms_copy[i: i + num_arms]
-        i+= num_arms
+        agent_arm_assignment[agent_id] += active_arms_copy[i:i + num_arms]
+        i += num_arms
       if i < len(active_arms_copy):
         agent_arm_assignment[agent_ids[-1]] += active_arms_copy[i:]
 
@@ -381,8 +388,10 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   def initial_arm_assignment(self) -> Dict[int, List[int]]:
     return self.__assign_arms(list(range(self.__num_agents)))
 
-  def elimination(self, agent_ids: List[int],
-    messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
+  def elimination(
+      self, agent_ids: List[int],
+      messages: Dict[int, Dict[int, Tuple[float,
+                                          int]]]) -> Dict[int, List[int]]:
 
     aggregate_messages: Dict[int, Tuple[float, int]] = {}
     for agent_id in messages.keys():
@@ -398,17 +407,17 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
 
     accumulated_arm_ids = np.array(list(aggregate_messages.keys()))
     accumulated_em_mean_rewards = np.array(
-      list(map(lambda x: aggregate_messages[x][0], aggregate_messages.keys())))
+        list(map(lambda x: aggregate_messages[x][0],
+                 aggregate_messages.keys())))
 
     # elimination
     confidence_radius = np.sqrt(
-      self.__comm_rounds * np.log(200 * self.__num_agents * self.__comm_rounds)
-      / (self.__T * max(1, self.__num_agents / len(self.__active_arms)))
-    )
+        self.__comm_rounds *
+        np.log(200 * self.__num_agents * self.__comm_rounds) /
+        (self.__T * max(1, self.__num_agents / len(self.__active_arms))))
     highest_em_reward = np.max(accumulated_em_mean_rewards)
     self.__active_arms = list(
-      accumulated_arm_ids[accumulated_em_mean_rewards >=
-        highest_em_reward - 2 * confidence_radius]
-    )
+        accumulated_arm_ids[accumulated_em_mean_rewards >= highest_em_reward -
+                            2 * confidence_radius])
 
     return self.__assign_arms(agent_ids)

@@ -7,7 +7,8 @@ from absl import logging
 from banditpylib.bandits import Bandit
 from banditpylib.data_pb2 import Trial, Actions
 from banditpylib.learners import Learner
-from banditpylib.learners.collaborative_learner import CollaborativeBAILearner
+from banditpylib.learners.mab_collaborative_ftbai_learner \
+    import CollaborativeBAILearner
 from .utils import Protocol
 
 
@@ -38,8 +39,7 @@ class CollaborativeLearningProtocol(Protocol):
     so-called batched learner. In this case, eah action counts as a timestep
     used.
   """
-  def __init__(self,
-               bandit: Bandit, learners: List[CollaborativeBAILearner]):
+  def __init__(self, bandit: Bandit, learners: List[CollaborativeBAILearner]):
     super().__init__(bandit=bandit, learners=cast(List[Learner], learners))
 
   @property
@@ -90,7 +90,7 @@ class CollaborativeLearningProtocol(Protocol):
           elif actions.state == Actions.WAIT:
             agent_in_wait_ids.append(agent_id)
             break
-          else: # actions.state == Actions.STOP
+          else:  # actions.state == Actions.STOP
             break
         max_pulls = max(max_pulls, pulls)
       total_pulls += max_pulls
@@ -113,8 +113,8 @@ class CollaborativeLearningProtocol(Protocol):
       # Send info to master for elimination to get arm assignment for next round
       # agent_arm_assignment: key is agent_id, value is a list storing arm ids
       # assigned to this agent
-      agent_arm_assignment = master.elimination(
-        agent_in_wait_ids, accumulated_messages)
+      agent_arm_assignment = master.elimination(agent_in_wait_ids,
+                                                accumulated_messages)
       for agent_id in agent_arm_assignment:
         agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
       communication_rounds += 1
@@ -123,7 +123,6 @@ class CollaborativeLearningProtocol(Protocol):
     result = trial.results.add()
     result.rounds = communication_rounds
     result.total_actions = total_pulls
-    result.regret = self.bandit.regret(
-      current_learner.goal)
+    result.regret = self.bandit.regret(current_learner.goal)
 
     return trial.SerializeToString()
