@@ -19,6 +19,9 @@ Classes
 - :py:class:`SinglePlayerProtocol`:
   Single player protocol
 
+- :py:class:`CollaborativeLearningProtocol`:
+  Collaborative learning protocol :cite:`tao2019collaborative`
+
 
 .. autoclass:: Protocol
    :members:
@@ -32,4 +35,11 @@ Classes
 
    .. rubric:: Inheritance
    .. inheritance-diagram:: SinglePlayerProtocol
+      :parts: 1
+
+.. autoclass:: CollaborativeLearningProtocol
+   :members:
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CollaborativeLearningProtocol
       :parts: 1

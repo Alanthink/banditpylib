@@ -14,6 +14,7 @@ Submodules
 .. toctree::
 
    banditpylib.learners.linear_bandit_learner
+   banditpylib.learners.mab_collaborative_ftbai_learner
    banditpylib.learners.mab_fbbai_learner
    banditpylib.learners.mab_fcbai_learner
    banditpylib.learners.mab_learner
@@ -46,6 +47,15 @@ Classes
 
 - :py:class:`SinglePlayerLearner`:
   Abstract class for single player learners
+
+- :py:class:`CollaborativeLearner`:
+  Abstract class for collaborative learners
+
+- :py:class:`CollaborativeAgent`:
+  Abstract class for collaborative agents
+
+- :py:class:`CollaborativeMaster`:
+  Abstract class for collaborative masters that handle arm assignment and
 
 
 .. autoclass:: Goal
@@ -95,4 +105,25 @@ Classes
 
    .. rubric:: Inheritance
    .. inheritance-diagram:: SinglePlayerLearner
+      :parts: 1
+
+.. autoclass:: CollaborativeLearner
+   :members:
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CollaborativeLearner
+      :parts: 1
+
+.. autoclass:: CollaborativeAgent
+   :members:
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CollaborativeAgent
+      :parts: 1
+
+.. autoclass:: CollaborativeMaster
+   :members:
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CollaborativeMaster
       :parts: 1
