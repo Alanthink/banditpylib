@@ -132,11 +132,6 @@ class CollaborativeBAIMaster(ABC):
       dictionary of arm assignment per agent
     """
 
-  @property
-  @abstractmethod
-  def active_arms(self):
-    """Arm indices that haven't been eliminated"""
-
 
 class CollaborativeBAILearner(Learner):
   """Learner that puts the agents and master together
@@ -178,8 +173,10 @@ class CollaborativeBAILearner(Learner):
   @property
   def goal(self) -> Goal:
     arm = Arm()
-    if len(self.__master.active_arms) == 1:
-      arm.id = self.__master.active_arms[0]
-      return IdentifyBestArm(best_arm=arm)
-    arm.id = -1 # implies regret of 1
+    best_arm = self.__agents[0].best_arm
+    for agent in self.__agents[1:]:
+      if best_arm != agent.best_arm:
+        best_arm = -1 # implies regret of 1
+        break
+    arm.id = best_arm
     return IdentifyBestArm(best_arm=arm)

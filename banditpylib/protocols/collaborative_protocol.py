@@ -100,7 +100,7 @@ class CollaborativeLearningProtocol(Protocol):
         break
 
       # communication and aggregation
-      # key is arm id and target is a dict broadcasted by agent
+      # key is agent id and target is a dict broadcasted by agent
       accumulated_messages: Dict[int, Dict[int, Tuple[float, int]]] = {}
       for agent_id in agent_in_wait_ids:
         agent = agents[agent_id]

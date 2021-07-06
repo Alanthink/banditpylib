@@ -175,8 +175,9 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
       self.__stage = "termination"
 
   def set_input_arms(self, arms: List[int]):
-    if not arms:
-      # terminate if no arms assigned
+    if arms[0] < 0:
+      # terminate since there is only one active arm
+      self.__learning_arm = arms[1]
       self.__stage = "termination"
       return
 
@@ -208,7 +209,8 @@ class LilUCBHeuristicCollaborativeBAIAgent(CollaborativeBAIAgent):
         return self.actions()
       if self.__central_algo.get_total_pulls() >= self.__horizon//2:
         self.__stage = "learning"
-        self.__learning_arm = None
+        # use whatever best_arm the central algo outputs
+        self.__learning_arm = self.__central_algo.best_arm
         return self.actions()
 
       central_algo_actions = self.__central_algo.actions()
@@ -328,11 +330,11 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
         return int(x)
       return int(x) + 1
 
-    if len(self.__active_arms) <= 1:
-      # don't assign any arms if 0/1 active arms
+    if len(self.__active_arms) == 1:
+      # use -1 as the first arm if there is only 1 active arm
       agent_arm_assignment = {}
       for agent_id in agent_ids:
-        agent_arm_assignment[agent_id] = []
+        agent_arm_assignment[agent_id] = [-1, self.__active_arms[0]]
       return agent_arm_assignment
 
     if len(self.__active_arms) < len(agent_ids):
@@ -382,16 +384,6 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
   def elimination(self, agent_ids: List[int],
     messages: Dict[int, Dict[int, Tuple[float, int]]]) -> Dict[int, List[int]]:
 
-    all_empty = True
-    for agent_id in messages:
-      if messages[agent_id]:
-        all_empty = False
-        break
-
-    if all_empty:
-      self.__active_arms = []
-      return self.__assign_arms(agent_ids)
-
     aggregate_messages: Dict[int, Tuple[float, int]] = {}
     for agent_id in messages.keys():
       message_from_agent = messages[agent_id]
@@ -420,7 +412,3 @@ class LilUCBHeuristicCollaborativeBAIMaster(CollaborativeBAIMaster):
     )
 
     return self.__assign_arms(agent_ids)
-
-  @property
-  def active_arms(self):
-    return self.__active_arms
