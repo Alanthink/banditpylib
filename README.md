@@ -36,7 +36,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Maximize rewards  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3`, `ExploreThenCommit`, `Softmax` |
+| Maximize total rewards  | `Uniform`, `EpsGreedy`, `UCB`, `ThompsonSampling`, `UCBV`, `MOSS`, `EXP3`, `ExploreThenCommit`, `Softmax` |
 | Best arm identification with fixed budget   | `Uniform`, `SR`, `SH`|
 | Best arm identification with fixed confidence   | `ExpGap`, `LilUCBHeuristic`|
 
@@ -44,7 +44,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Maximize rewards  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
+| Maximize total rewards  | `EpsGreedy`, `UCB`, `ThompsonSampling` |
 
 #### Thresholding bandit
 
@@ -56,7 +56,7 @@ The library consists of four components i.e., `arms`, `bandits`, `learners` and 
 
 | Goal | Policies |
 |     :---      |      :--- |
-| Maximize rewards  | `LinUCB` |
+| Maximize total rewards  | `LinUCB` |
 
 ### Colaborative learning protocol
 
