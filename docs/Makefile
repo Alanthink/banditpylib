@@ -1,4 +1,4 @@
-.PHONY = help docs preview reset push
+.PHONY = help docs preview reset push push_main
 
 .DEFAULT: help
 help:
@@ -10,6 +10,8 @@ help:
 	@echo "       reset the documentation"
 	@echo "make push"
 	@echo "       push the documentation changes"
+	@echo "make push_main"
+	@echo "       push the documentation changes to the main repository"
 
 docs:
 	# Delete previous built files
@@ -29,3 +31,6 @@ reset:
 
 push:
 	cd site && git push
+
+push_main:
+	git add . && git commit -m "docs update" && git push
