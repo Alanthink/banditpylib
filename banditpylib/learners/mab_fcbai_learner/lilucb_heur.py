@@ -36,6 +36,7 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
     # Total number of pulls used
     self.__total_pulls = 0
     self.__stage = 'initialization'
+    self.__ucb = np.array([0.0]*self.arm_num)
 
   def __confidence_radius(self, pulls: int) -> float:
     """
@@ -51,15 +52,13 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
         2 * (1 + self.__eps) *
         math.log(math.log((1 + self.__eps) * pulls) / self.__delta) / pulls)
 
-  def __ucb(self) -> np.ndarray:
+  def __update_ucb(self, arm_id:int):
     """
-    Returns:
-      upper confidence bound
+    Args:
+      arm_id: index of the arm whose ucb has to be updated
     """
-    return np.array([
-        pseudo_arm.em_mean + self.__confidence_radius(pseudo_arm.total_pulls)
-        for pseudo_arm in self.__pseudo_arms
-    ])
+    self.__ucb[arm_id] = self.__pseudo_arms[arm_id].em_mean +\
+      self.__confidence_radius(self.__pseudo_arms[arm_id].total_pulls)
 
   def actions(self, context: Context) -> Actions:
     if self.__stage == 'initialization':
@@ -79,7 +78,7 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
         return actions
 
     arm_pull = actions.arm_pulls.add()
-    arm_pull.arm.id = int(np.argmax(self.__ucb()))
+    arm_pull.arm.id = int(np.argmax(self.__ucb))
     arm_pull.times = 1
 
     return actions
@@ -88,6 +87,7 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
     for arm_feedback in feedback.arm_feedbacks:
       self.__pseudo_arms[arm_feedback.arm.id].update(
           np.array(arm_feedback.rewards))
+      self.__update_ucb(arm_feedback.arm.id)
       self.__total_pulls += len(arm_feedback.rewards)
 
     if self.__stage == 'initialization':
