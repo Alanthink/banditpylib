@@ -1,5 +1,0 @@
-before:
-    INFO:absl:start Exponential-Gap Elimination's play with multi_armed_bandit
-    INFO:absl:Exponential-Gap Elimination's play with multi_armed_bandit runs 36.91 seconds.
-    INFO:absl:start Heuristic lilUCB's play with multi_armed_bandit
-    INFO:absl:Heuristic lilUCB's play with multi_armed_bandit runs 30.58 seconds.

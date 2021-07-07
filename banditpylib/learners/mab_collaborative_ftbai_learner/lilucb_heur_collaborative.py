@@ -56,6 +56,7 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
     # Total number of pulls used
     self.__total_pulls = 0
     self.__stage = 'initialization'
+    self.__ucb = np.array([0.0]*len(self.__assigned_arms))
 
   def __confidence_radius(self, pulls: int) -> float:
     """
@@ -71,15 +72,13 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
         2 * (1 + self.__eps) *
         math.log(math.log((1 + self.__eps) * pulls) / self.__delta) / pulls)
 
-  def __ucb(self) -> np.ndarray:
+  def __update_ucb(self, arm_id:int):
     """
-    Returns:
-      upper confidence bound
+    Args:
+      arm_id: index of the arm whose ucb has to be updated
     """
-    return np.array([
-        pseudo_arm.em_mean + self.__confidence_radius(pseudo_arm.total_pulls)
-        for pseudo_arm in self.__pseudo_arms
-    ])
+    self.__ucb[arm_id] = self.__pseudo_arms[arm_id].em_mean +\
+      self.__confidence_radius(self.__pseudo_arms[arm_id].total_pulls)
 
   def actions(self, context=None) -> Actions:
     del context
@@ -104,7 +103,7 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
     arm_pull = actions.arm_pulls.add()
 
     # map local arm index to the bandits arm index
-    arm_pull.arm.id = self.__assigned_arms[int(np.argmax(self.__ucb()))]
+    arm_pull.arm.id = self.__assigned_arms[int(np.argmax(self.__ucb))]
     arm_pull.times = 1
 
     return actions
@@ -116,6 +115,7 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
           self.__assigned_arms == arm_feedback.arm.id)[0][0]
       self.__pseudo_arms[pseudo_arm_index].update(
           np.array(arm_feedback.rewards))
+      self.__update_ucb(pseudo_arm_index)
       self.__total_pulls += len(arm_feedback.rewards)
 
     if self.__stage == 'initialization':
