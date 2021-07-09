@@ -1,5 +1,6 @@
 from typing import Optional, Union, List, cast
 from abc import abstractmethod
+import random
 
 from banditpylib.bandits import MultiArmedBandit
 from banditpylib.data_pb2 import Arm
@@ -60,10 +61,8 @@ class MABCollaborativeFixedTimeBAILearner(CollaborativeLearner):
   @property
   def goal(self) -> Goal:
     arm = Arm()
-    best_arm = cast(MABCollaborativeFixedTimeBAIAgent, self.agents[0]).best_arm
-    for agent in self.agents[1:]:
-      if best_arm != cast(MABCollaborativeFixedTimeBAIAgent, agent).best_arm:
-        best_arm = -1  # implies regret of 1
-        break
-    arm.id = best_arm
+    best_arms: List[int] = []
+    for agent in self.agents:
+      best_arms.append(cast(MABCollaborativeFixedTimeBAIAgent, agent).best_arm)
+    arm.id = random.choice(best_arms)
     return IdentifyBestArm(best_arm=arm)

@@ -112,8 +112,7 @@ class CollaborativeLearningProtocol(Protocol):
         accumulated_messages[agent_id] = message_from_agent
 
       # Send info to master for elimination to get arm assignment for next round
-      agent_arm_assignment = master.elimination(agent_in_wait_ids,
-                                                accumulated_messages)
+      agent_arm_assignment = master.elimination(accumulated_messages)
       for agent_id in agent_arm_assignment:
         agents[agent_id].set_input_arms(agent_arm_assignment[agent_id])
       communication_rounds += 1

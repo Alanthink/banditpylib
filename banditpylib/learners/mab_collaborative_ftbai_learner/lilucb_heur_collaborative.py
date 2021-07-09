@@ -390,8 +390,7 @@ class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
     return self.__assign_arms(list(range(self.__num_agents)))
 
   def elimination(
-      self, agent_ids: List[int],
-      messages: Dict[int, Dict[int, Tuple[float,
+      self, messages: Dict[int, Dict[int, Tuple[float,
                                           int]]]) -> Dict[int, List[int]]:
 
     aggregate_messages: Dict[int, Tuple[float, int]] = {}
@@ -421,7 +420,7 @@ class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
         accumulated_arm_ids[accumulated_em_mean_rewards >= highest_em_reward -
                             2 * confidence_radius])
 
-    return self.__assign_arms(agent_ids)
+    return self.__assign_arms(list(messages.keys()))
 
 
 class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
