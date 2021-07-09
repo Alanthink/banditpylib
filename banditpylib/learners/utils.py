@@ -248,15 +248,13 @@ class CollaborativeMaster(ABC):
 
   @abstractmethod
   def elimination(
-      self, agent_ids: List[int],
-      messages: Dict[int, Dict[int, Tuple[float,
+      self, messages: Dict[int, Dict[int, Tuple[float,
                                           int]]]) -> Dict[int, List[int]]:
     """Update the set of active arms based on some criteria and return arm
     assignment
 
     Args:
-      agent_ids: list of agents that will be assigned arms
-      messages: dict of messages broadcasted from agents
+      messages: dict of messages broadcasted from agents, where key is agent_id
 
     Returns:
       arm assignment per agent
