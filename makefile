@@ -42,6 +42,7 @@ clean-pyc:
 	@find . -name '*~' -delete
 	@find . -name '__pycache__' -type d | xargs rm -fr
 	@find . -name '.pytest_cache' -type d | xargs rm -fr
+	@find . -name '.ipynb_checkpoints' -type d | xargs rm -fr
 	@rm -rf .mypy_cache
 
 clean: clean-pyc

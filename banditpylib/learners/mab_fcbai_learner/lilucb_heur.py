@@ -36,7 +36,7 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
     # Total number of pulls used
     self.__total_pulls = 0
     self.__stage = 'initialization'
-    self.__ucb = np.array([0.0]*self.arm_num)
+    self.__ucb = np.array([0.0] * self.arm_num)
 
   def __confidence_radius(self, pulls: int) -> float:
     """
@@ -52,7 +52,7 @@ class LilUCBHeuristic(MABFixedConfidenceBAILearner):
         2 * (1 + self.__eps) *
         math.log(math.log((1 + self.__eps) * pulls) / self.__delta) / pulls)
 
-  def __update_ucb(self, arm_id:int):
+  def __update_ucb(self, arm_id: int):
     """
     Args:
       arm_id: index of the arm whose ucb has to be updated
