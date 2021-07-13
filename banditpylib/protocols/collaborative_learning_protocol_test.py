@@ -15,7 +15,7 @@ class TestCollaborativeLearning:
     arms = [GaussianArm(mu=mean, std=1) for mean in means]
     bandit = MultiArmedBandit(arms=arms)
     lil_ucb_collaborative_learner = LilUCBHeuristicCollaborative(num_agents=3,
-      arm_num=len(arms), rounds=4, horizon=10000)
+      arm_num=len(arms), rounds=4, horizon=100)
     collaborative_learner = CollaborativeLearningProtocol(
       bandit=bandit, learners=[lil_ucb_collaborative_learner])
     temp_file = tempfile.NamedTemporaryFile()
