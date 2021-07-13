@@ -248,8 +248,9 @@ class CollaborativeMaster(ABC):
 
   @abstractmethod
   def elimination(
-      self, messages: Dict[int, Dict[int, Tuple[float,
-                                          int]]]) -> Dict[int, List[int]]:
+      self, messages: Dict[int, Dict[int,
+                                     Tuple[float,
+                                           int]]]) -> Dict[int, List[int]]:
     """Update the set of active arms based on some criteria and return arm
     assignment
 
