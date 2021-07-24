@@ -19,7 +19,7 @@ class CollaborativeLearningProtocol(Protocol):
 
   - For each agent,
 
-    * fetch the state of the corresponding environment and ask the agent for 
+    * fetch the state of the corresponding environment and ask the agent for
       actions;
     * send the actions to the enviroment for execution;
     * update the agent with the feedback of the environment;
