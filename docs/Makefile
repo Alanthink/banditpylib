@@ -14,12 +14,15 @@ help:
 	@echo "       push the documentation changes to the main repository"
 
 docs:
-	# Delete previous built files
+	@echo "\033[0;32mDelete previous built files\033[0m"
 	rm -rf build/*
-	@sphinx-build -M html source build
-	@cp ../example.jpg build/html/
-	@echo "\033[0;32mDeploying updated documentation to GitHub...\033[0m\n"
-	@rm -rf site/* && cp -r build/html/* site/
+	@echo "\n\033[0;32mRun sphinx\033[0m"
+	sphinx-build -M html source build
+	@echo "\n\033[0;32mCopy example image\033[0m"
+	cp ../example.jpg build/html/
+	@echo "\n\033[0;32mCopy built files to submodule\033[0m"
+	rm -rf site/* && cp -r build/html/* site/
+	@echo "\n\033[0;32mDeploy updated documentation to GitHub\033[0m"
 	cd site && git add .
 	cd site && git commit -m "rebuilding site $$(date)"
 
