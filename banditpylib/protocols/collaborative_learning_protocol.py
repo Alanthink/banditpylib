@@ -17,18 +17,17 @@ class CollaborativeLearningProtocol(Protocol):
   as discussed in the paper. It runs in rounds. During each round,
   the protocol runs the following steps in sequence:
 
-  * select an agent;
-  * fetch the state of the environment and ask the agent for actions;
-  * send the actions to the enviroment for execution;
-  * update the agent with the corresponding feedback of the environment;
-  * repeat the above steps until every agent enters the WAIT or STOP state;
-  * if there is at least one agent in WAIT state, then receive information
+  - For each agent,
+
+    * fetch the state of the corresponding environment and ask the agent for 
+      actions;
+    * send the actions to the enviroment for execution;
+    * update the agent with the feedback of the environment;
+    * repeat the above steps until the agent enters the `WAIT` or `STOP` state.
+
+  - If there is at least one agent in `WAIT` state, then receive information
     broadcasted from every waiting agent and send them to master to decide
-    arm assignment of next round.
-
-  The simulation stopping criteria is:
-
-  * every agent enters STOP state.
+    arm assignment of next round. Otherwise, stop the simulaiton.
 
   :param Bandit bandit: bandit environment
   :param List[CollaborativeLearner] learners: learners that will be compared
@@ -39,6 +38,10 @@ class CollaborativeLearningProtocol(Protocol):
   .. note::
     Each action counts as a timestep. The time (or sample) complexity equals to
     the maximum number of pulls used by the agents.
+
+  .. note::
+    According to the protocol, number of rounds always equals to number of
+    communication rounds plus one.
   """
   def __init__(self, bandit: Bandit, learners: List[CollaborativeLearner]):
     super().__init__(bandit=bandit, learners=cast(List[Learner], learners))
