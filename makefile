@@ -18,6 +18,8 @@ help:
 	@echo "       generate requirements"
 	@echo "make fix"
 	@echo "       run yapf to format all .py files"
+	@echo "make all"
+	@echo "       run make fix, make test, and make lint"
 
 build:
 	@echo "\033[0;32mGenerate protobuf message\033[0m"
@@ -32,7 +34,7 @@ install: install_requirements
 
 test:
 	@echo "\033[0;32mRun tests\033[0m"
-	${PYTHON} -m pytest banditpylib
+	${PYTHON} -m pytest -s banditpylib
 
 lint:
 	@echo "\033[0;32mCheck static errors\033[0m"
@@ -58,3 +60,10 @@ freeze:
 fix:
 	@echo "\033[0;32mFormat code\033[0m"
 	yapf -irp --style="{indent_width: 2}" --exclude 'banditpylib/data_pb2.py' banditpylib
+
+all:
+	make fix
+	@echo ""
+	make test
+	@echo ""
+	make lint

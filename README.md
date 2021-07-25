@@ -97,9 +97,11 @@ make clean
        clean cache files
 make fix
        run yapf to format all .py files
+make all
+       run make fix, make test, and make lint
 ```
 
-We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make lint` when submitting a PR.
+We use `pylint` and `mypy` to check the code style. Please make sure no errors occur with `make all` when submitting a PR.
 
 ### Example
 
