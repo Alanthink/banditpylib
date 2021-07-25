@@ -15,18 +15,13 @@ A lightweight python library for bandit algorithms
 
 ## Introduction
 
-This library is intended for fast and robust build of bandit algorithms. Hence it has the following features:
+This library is intended to enable fast and robust comparison between different bandit algorithms. It provides following features:
 
-* object-oriented design
-* multiprocesses support
-* friendly runtime info
+* object-oriented design: this allows unnecessary environmental information to be hidden from learners. Besides, it is easy extend the library and implement new algorithms.
+* multi-process support: it is not uncommon to run a game muitiple repetitions. One can run multiple repetitions simultaneously with this feature.
+* friendly runtime information: useful information is provided when necessary, which reduces the difficulty of debug. 
 
-The library consists of four components i.e., `arms`, `bandits`, `learners` and `protocols`, which are explained in the following:
-
-* `arms`: a set of arms used to build bandit environments
-* `bandits`: bandit environments
-* `learners`: bandit algorithms
-* `protocols`: protocols which are used to coordinate the interactions between the learner and the bandit environment
+The library consists of four submodules and they are `arms`, `bandits`, `learners` and `protocols` respectively, among which `protocols` are those used to coordinate the interactions between the learner and the bandit environment.
 
 ## Implemented Policies
 
@@ -150,7 +145,7 @@ The following figure shows the simulation results.
 
 ![output example](example.jpg)
 
-Please check this [notebook](examples/ordinary_bandit.ipynb) to figure out more details.
+Please check this [notebook](examples/multi_armed_bandit.ipynb) to figure out more details.
 
 ## Bibtex Citation
 
