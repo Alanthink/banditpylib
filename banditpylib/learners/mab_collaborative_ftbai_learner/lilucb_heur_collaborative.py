@@ -1,15 +1,11 @@
-# Implementation of the Collaborative Learning Algorithm
-
 from typing import Optional, List, Tuple, Dict
-import random
 import math
-from copy import deepcopy as dcopy
 
 import numpy as np
 
-from banditpylib.data_pb2 import Feedback, Actions
-from banditpylib.arms import PseudoArm
 from banditpylib import argmax_or_min_tuple
+from banditpylib.data_pb2 import Feedback, Actions, Context
+from banditpylib.arms import PseudoArm
 from banditpylib.learners.mab_fcbai_learner import MABFixedConfidenceBAILearner
 
 from .utils import MABCollaborativeFixedTimeBAIAgent, \
@@ -134,169 +130,248 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
 
 
 class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
-  r"""Implementation of agent of the Collaborative Learning Algorithm\
-  Uses LilUCBHeuristic as the central algorithm
+  """Agent of collaborative learning
 
   :param int arm_num: number of arms of the bandit
-  :param int rounds: number of rounds of communication allowed
-    (this agent uses one more)
+  :param int rounds: number of total rounds allowed
   :param int horizon: maximum number of pulls the agent can make
     (over all rounds combined)
+  :param int num_agents: total number of agents
   :param Optional[str] name: alias name
   """
+
+  # Stages within the agent
+  UNASSIGNED = "unassigned"
+  CENTRALIZED_LEARNING = "centralized_learning"
+  LEARNING = "learning"
+  COMMUNICATION = "communication"
+  TERMINATION = "termination"
+
   def __init__(self,
                arm_num: int,
                rounds: int,
                horizon: int,
+               num_agents: int,
                name: Optional[str] = None):
     super().__init__(name)
-    if arm_num <= 1:
-      raise ValueError('Number of arms is expected at least 2. Got %d.' %
-                       arm_num)
-    if rounds <= 1:
-      raise ValueError('Number of rounds is expected at least 2. Got %d.' %
-                       rounds)
     self.__arm_num = arm_num
     self.__comm_rounds = rounds - 1
     self.__horizon = horizon
-    self.__num_pulls_learning = int(0.5 * horizon / self.__comm_rounds)
+    self.__num_agents = num_agents
+    self.reset()
 
   def _name(self) -> str:
-    return "lilUCBHeur_collaborative_agent"
+    return "lilucb_heuristic_collaborative_agent"
 
   def reset(self):
-    self.__round_num = 0
-    self.__stage = "unassigned"
-    # True if action forwarded from central algo
-    self.__central_algo_action_taken = False
+    self.__id = np.random.rand() # pylint: disable=unused-private-member
+    self.__round_index = 0
 
-  def __complete_round(self):
-    self.__round_num += 1
-    self.__central_algo_action_taken = False
-    if self.__round_num < self.__comm_rounds + 1:
-      self.__stage = "unassigned"
+    # Calculate number of pulls used per round
+    self.__num_pulls_per_round = []
+    if self.__arm_num > self.__num_agents:
+      if self.__comm_rounds == 1:
+        self.__num_pulls_per_round.append(self.__horizon)
+      else:
+        self.__num_pulls_per_round.append(int(0.5 * self.__horizon))
+        self.__num_pulls_per_round.extend(
+            [int(0.5 * self.__horizon /
+                 (self.__comm_rounds - 1))] * (self.__comm_rounds - 1))
     else:
-      self.__stage = "termination"
+      self.__num_pulls_per_round.extend(
+          [int(self.__horizon / self.__comm_rounds)] * self.__comm_rounds)
+    # For the last round, we always use 0 pulls.
+    self.__num_pulls_per_round.append(0)
+    # Assign the remaining budget
+    for i in range(self.__horizon - sum(self.__num_pulls_per_round)):
+      self.__num_pulls_per_round[i] += 1
+
+    self.__stage = self.UNASSIGNED
 
   def set_input_arms(self, arms: List[int]):
+    if self.__stage != self.UNASSIGNED:
+      raise Exception("The agent is expected in stage unassigned. Got %s." %
+                      self.__stage)
+
     if arms[0] < 0:
-      # terminate since there is only one active arm
-      self.__learning_arm = arms[1]
-      self.__stage = "termination"
+      # Terminate since there is only one active arm
+      self.__best_arm = arms[1]
+      self.__stage = self.TERMINATION
       return
 
+    # Maintain informaiton of assigned arms
     self.__assigned_arms = np.array(arms)
-    # confidence of 0.01 suggested in the paper
-    self.__central_algo = CentralizedLilUCBHeuristic(self.__arm_num, 0.99,
-                                                     self.__assigned_arms)
-    self.__central_algo.reset()
-    if self.__stage == "unassigned":
-      self.__stage = "preparation"
+    self.__assigned_arm_info: Dict[int, Tuple[float, int]] = {}
+    for arm_id in arms:
+      self.__assigned_arm_info[arm_id] = (0.0, 0)
 
-  def actions(self, context=None) -> Actions:
-    # a core assumption is all non-empty actions immediately receive feedback
-    # and hence stage is changed here and not when feedback is received
+    if self.__round_index == 0 and len(self.__assigned_arms) > 1:
+      # Confidence of 0.99 suggested in the paper
+      self.__central_algo = CentralizedLilUCBHeuristic(self.__arm_num, 0.99,
+                                                       self.__assigned_arms)
+      self.__central_algo.reset()
+      self.__stage = self.CENTRALIZED_LEARNING
+    else:
+      if len(self.__assigned_arms) > 1:
+        raise Exception("Got more than 1 arm in stage learning.")
+      if self.__round_index == self.__comm_rounds:
+        self.__best_arm = arms[0]
+        self.__stage = self.TERMINATION
+      else:
+        self.__arm_to_broadcast = arms[0]
+        self.__stage = self.LEARNING
+
+  def actions(self, context: Context) -> Actions:
     del context
 
-    if self.__stage == "unassigned":
-      raise Exception("No arms assigned to agent " + self.name)
+    if self.__stage == self.UNASSIGNED:
+      raise Exception("%s: I can\'t act in stage unassigned." % self.name)
 
-    # in preparation:
-    #   if only one arm is assigned, proceed to learning
-    #   else if central_algo is running, forward its actions
-    #   and get best arm when central_algo completes
-    #   but interrupt central algo after T/2 pulls
-    elif self.__stage == "preparation":
-      if len(self.__assigned_arms) == 1:
-        self.__stage = "learning"
-        self.__learning_arm = self.__assigned_arms[0]
-        return self.actions()
-      if self.__central_algo.get_total_pulls() >= self.__horizon // 2:
-        self.__stage = "learning"
-        # use whatever best_arm the central algo outputs
-        self.__learning_arm = self.__central_algo.best_arm
-        return self.actions()
+    if self.__stage == self.CENTRALIZED_LEARNING:
+      if self.__round_index > 0:
+        raise Exception("Expected centralized learning in round 0. Got %d." %
+                        self.__round_index)
+
+      if self.__central_algo.get_total_pulls(
+      ) >= self.__num_pulls_per_round[0]:
+        # Early stop the centralized algorithm when it uses more than horizon
+        # / 2 pulls.
+        self.__stage = self.COMMUNICATION
+        self.__arm_to_broadcast = np.random.choice(self.__assigned_arms)
+        actions = Actions()
+        actions.state = Actions.WAIT
+        return actions
 
       central_algo_actions = self.__central_algo.actions()
       if not central_algo_actions.arm_pulls:
-        # central algo terminated before T/2 pulls
-        self.__stage = "learning"
-        self.__learning_arm = self.__central_algo.best_arm
-        return self.actions()
-      self.__central_algo_action_taken = True
-      return central_algo_actions
-
-    # in learning:
-    #   if learning_arm is none, do no pulls and move to communication
-    #   else pull learning_arm and move to communication
-    elif self.__stage == "learning":
-      actions = Actions()
-      self.__stage = "communication"
-      if self.__learning_arm is None:
+        # Centralized algorithm terminates before using up horizon / 2 pulls
+        self.__stage = self.COMMUNICATION
+        self.__arm_to_broadcast = self.__central_algo.best_arm
+        actions = Actions()
         actions.state = Actions.WAIT
         return actions
-      else:
-        arm_pull = actions.arm_pulls.add()
-        arm_pull.arm.id = self.__learning_arm  # pylint: disable=protobuf-type-error
-        arm_pull.times = self.__num_pulls_learning
-        return actions
-
-    elif self.__stage == "communication":
+      return central_algo_actions
+    elif self.__stage == self.LEARNING:
+      actions = Actions()
+      arm_pull = actions.arm_pulls.add()
+      arm_pull.arm.id = self.__arm_to_broadcast
+      arm_pull.times = self.__num_pulls_per_round[self.__round_index]
+      return actions
+    elif self.__stage == self.COMMUNICATION:
       actions = Actions()
       actions.state = Actions.WAIT
       return actions
-
-    elif self.__stage == "termination":
+    else:
+      # self.__stage == self.TERMINATION
       actions = Actions()
       actions.state = Actions.STOP
       return actions
 
-    else:
-      raise Exception(self.name + ": " + self.__stage +
-                      " does not allow actions to be played")
-
   def update(self, feedback: Feedback):
-    self.__learning_mean = None  # default in case learning_arm is None
-    num_pulls = 0
-    for arm_feedback in feedback.arm_feedbacks:
-      num_pulls += len(arm_feedback.rewards)
-    if self.__central_algo_action_taken:
-      self.__central_algo.update(feedback)
-    elif num_pulls > 0:
-      # non-zero pulls not by central_algo => learning step was done
-      for arm_feedback in feedback.arm_feedbacks:
-        if arm_feedback.arm.id == self.__learning_arm:
-          self.__learning_mean = np.array(arm_feedback.rewards).mean()
-          self.__pulls_used = len(arm_feedback.rewards)
-    # else ignore feedback (which is empty)
+    if self.__stage not in [self.CENTRALIZED_LEARNING, self.LEARNING]:
+      raise Exception("%s: I can\'t do update in stage not learning." %
+                      self.name)
 
-    self.__central_algo_action_taken = False
+    for arm_feedback in feedback.arm_feedbacks:
+      old_arm_info = self.__assigned_arm_info[arm_feedback.arm.id]
+      new_arm_info = (
+          (old_arm_info[0] * old_arm_info[1] + sum(arm_feedback.rewards)) /
+          (old_arm_info[1] + len(arm_feedback.rewards)),
+          old_arm_info[1] + len(arm_feedback.rewards))
+      self.__assigned_arm_info[arm_feedback.arm.id] = new_arm_info
+
+    if self.__stage == self.CENTRALIZED_LEARNING:
+      self.__central_algo.update(feedback)
+    else:
+      # self.__stage == self.LEARNING
+      self.__stage = self.COMMUNICATION
 
   @property
   def best_arm(self) -> int:
-    # returns arm that the agent chose (could be None)
-    if self.__stage != "termination":
-      raise Exception('%s: I don\'t have an answer yet!' % self.name)
-    return self.__learning_arm
+    if self.__stage != self.TERMINATION:
+      raise Exception('%s: I don\'t have an answer yet.' % self.name)
+    return self.__best_arm
 
   def broadcast(self) -> Dict[int, Tuple[float, int]]:
-    if self.__stage != "communication":
-      raise Exception('%s: I can\'t broadcast in stage %s!'\
+    if self.__stage != self.COMMUNICATION:
+      raise Exception('%s: I can\'t broadcast in stage %s.'\
         % (self.name, self.__stage))
-    return_dict: Dict[int, Tuple[float, int]] = {}
-    if self.__learning_arm:
-      return_dict[self.__learning_arm] = (self.__learning_mean,
-                                          self.__pulls_used)  # type: ignore
-    self.__complete_round()
-    return return_dict
+
+    # Complete the current round
+    self.__round_index += 1
+    self.__stage = self.UNASSIGNED
+
+    message: Dict[int, Tuple[float, int]] = {}
+    message[self.__arm_to_broadcast] = self.__assigned_arm_info[
+        self.__arm_to_broadcast]
+    return message
+
+
+def assign_arms(active_arms: List[int],
+                agent_ids: List[int]) -> Dict[int, List[int]]:
+  """Assign arms to agents to pull
+
+  Args:
+    active_arms: list of active arm ids
+    agent_ids: list of agent ids
+
+  Returns:
+    arm assignment where key is agent id and value is assigned arms to this
+      agent
+  """
+  if not active_arms:
+    raise ValueError("No arms to assign.")
+
+  if not agent_ids:
+    raise ValueError("No agents to assign.")
+
+  agent_arm_assignment: Dict[int, List[int]] = {}
+
+  if len(active_arms) == 1:
+    # Use -1 as the first arm id if there is only one active arm
+    for agent_id in agent_ids:
+      agent_arm_assignment[agent_id] = [-1, active_arms[0]]
+    return agent_arm_assignment
+
+  if len(active_arms) < len(agent_ids):
+    # Number of arms is less than the number of agents
+    min_num_agents_per_arm = int(len(agent_ids) / len(active_arms))
+    arms_assign_list = active_arms * min_num_agents_per_arm
+    if len(agent_ids) > len(arms_assign_list):
+      arms_assign_list.extend(
+          list(
+              np.random.choice(active_arms,
+                               len(agent_ids) - len(arms_assign_list))))
+    np.random.shuffle(arms_assign_list)
+
+    for i, agent_id in enumerate(agent_ids):
+      agent_arm_assignment[agent_id] = [arms_assign_list[i]]
+
+  else:
+    # Number of arms is at least the number of agents
+    min_num_arms_per_agent = int(len(active_arms) / len(agent_ids))
+    agents_assign_list = agent_ids * min_num_arms_per_agent
+    if len(active_arms) > len(agents_assign_list):
+      agents_assign_list.extend(
+          list(
+              np.random.choice(agent_ids,
+                               len(active_arms) - len(agents_assign_list))))
+    np.random.shuffle(agents_assign_list)
+
+    for i, arm_id in enumerate(active_arms):
+      agent_id = agents_assign_list[i]
+      if agent_id not in agent_arm_assignment:
+        agent_arm_assignment[agent_id] = []
+      agent_arm_assignment[agent_id].append(arm_id)
+
+  return agent_arm_assignment
 
 
 class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
-  r"""Implementation of master in Collaborative Learning Algorithm
+  """Master of collaborative learning
 
   :param int arm_num: number of arms of the bandit
-  :param int rounds: number of rounds of communication allowed
-    (this agent uses one more)
+  :param int rounds: number of total rounds allowed
   :param int horizon: maximum number of pulls the agent can make
     (over all rounds combined)
   :param int num_agents: number of agents
@@ -309,85 +384,19 @@ class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
                num_agents: int,
                name: Optional[str] = None):
     super().__init__(name)
-    if arm_num <= 1:
-      raise ValueError('Number of arms is expected at least 2. Got %d.' %
-                       arm_num)
-    if rounds <= 1:
-      raise ValueError('Number of rounds is expected at least 2. Got %d.' %
-                       rounds)
     self.__arm_num = arm_num
     self.__comm_rounds = rounds - 1
     self.__T = horizon
     self.__num_agents = num_agents
 
   def _name(self) -> str:
-    return "lilUCBHeur_collaborative_master"
+    return "lilucb_heuristic_collaborative_master"
 
   def reset(self):
     self.__active_arms = list(range(self.__arm_num))
 
-  def __assign_arms(self, agent_ids: List[int]) -> Dict[int, List[int]]:
-    agent_arm_assignment: Dict[int, List[int]] = {}
-
-    def random_round(x: float) -> int:
-      # if x = 19.3
-      # rounded to 19 with probability 0.7
-      # rounded to 20 with probability 0.3
-      frac_x = x - int(x)
-      if np.random.uniform() > frac_x:
-        return int(x)
-      return int(x) + 1
-
-    if len(self.__active_arms) == 1:
-      # use -1 as the first arm if there is only 1 active arm
-      agent_arm_assignment = {}
-      for agent_id in agent_ids:
-        agent_arm_assignment[agent_id] = [-1, self.__active_arms[0]]
-      return agent_arm_assignment
-
-    if len(self.__active_arms) < len(agent_ids):
-      arms_assign_list = []
-      num_agents_per_arm = len(agent_ids) / len(self.__active_arms)
-
-      # match agent to all but the last arm
-      for arm in self.__active_arms[:-1]:
-        arms_assign_list += [[arm]] * \
-          random_round(num_agents_per_arm)
-
-      # match remaining agents to last arm
-      arms_assign_list += [[self.__active_arms[-1]]] * \
-        (len(agent_ids) - len(arms_assign_list))
-      random.shuffle(arms_assign_list)
-      for i, agent_id in enumerate(agent_ids):
-        agent_arm_assignment[agent_id] = arms_assign_list[i]
-
-    else:
-      active_arms_copy = dcopy(self.__active_arms)
-      random.shuffle(active_arms_copy)
-      for agent_id in agent_ids:
-        agent_arm_assignment[agent_id] = []
-
-      # assign atleast 1 arm per agent
-      for i, arm in enumerate(active_arms_copy[:len(agent_ids)]):
-        agent_arm_assignment[agent_ids[i]].append(arm)
-
-      # assign remaining arms
-      num_arms_per_agent = (len(active_arms_copy) - len(agent_ids))\
-      / len(agent_ids)
-      i = len(agent_ids)
-      for agent_id in agent_ids[:-1]:
-        if i >= len(active_arms_copy):
-          break
-        num_arms = random_round(num_arms_per_agent)
-        agent_arm_assignment[agent_id] += active_arms_copy[i:i + num_arms]
-        i += num_arms
-      if i < len(active_arms_copy):
-        agent_arm_assignment[agent_ids[-1]] += active_arms_copy[i:]
-
-    return agent_arm_assignment
-
   def initial_arm_assignment(self) -> Dict[int, List[int]]:
-    return self.__assign_arms(list(range(self.__num_agents)))
+    return assign_arms(self.__active_arms, list(range(self.__num_agents)))
 
   def elimination(
       self, messages: Dict[int, Dict[int,
@@ -402,8 +411,9 @@ class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
           aggregate_messages[arm_id] = (0.0, 0)
         arm_info = message_from_agent[arm_id]
         new_pulls = aggregate_messages[arm_id][1] + arm_info[1]
-        new_em_mean_reward = (aggregate_messages[arm_id][1] * \
-         aggregate_messages[arm_id][0] + arm_info[1] * arm_info[0]) / new_pulls
+        new_em_mean_reward = (aggregate_messages[arm_id][0] * \
+            aggregate_messages[arm_id][1] + arm_info[0] * arm_info[1]) \
+            / new_pulls
         aggregate_messages[arm_id] = (new_em_mean_reward, new_pulls)
 
     accumulated_arm_ids = np.array(list(aggregate_messages.keys()))
@@ -411,25 +421,25 @@ class LilUCBHeuristicMaster(MABCollaborativeFixedTimeBAIMaster):
         list(map(lambda x: aggregate_messages[x][0],
                  aggregate_messages.keys())))
 
-    # elimination
+    # Elimination
     confidence_radius = np.sqrt(
         self.__comm_rounds *
         np.log(200 * self.__num_agents * self.__comm_rounds) /
         (self.__T * max(1, self.__num_agents / len(self.__active_arms))))
     highest_em_reward = np.max(accumulated_em_mean_rewards)
     self.__active_arms = list(
-        accumulated_arm_ids[accumulated_em_mean_rewards >= highest_em_reward -
-                            2 * confidence_radius])
+        accumulated_arm_ids[accumulated_em_mean_rewards >= (
+            highest_em_reward - 2 * confidence_radius)])
 
-    return self.__assign_arms(list(messages.keys()))
+    return assign_arms(self.__active_arms, list(messages.keys()))
 
 
 class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
-  """Colaborative learners using lilucb heuristic as centralized policy
+  """Colaborative learner using lilucb heuristic as centralized policy
 
   :param int num_agents: number of agents
   :param int arm_num: number of arms of the bandit
-  :param int rounds: number of rounds of communication allowed
+  :param int rounds: number of total rounds allowed
   :param int horizon: maximum number of pulls the agent can make
     (over all rounds combined)
   :param Optional[str] name: alias name
@@ -440,12 +450,28 @@ class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
                rounds: int,
                horizon: int,
                name: Optional[str] = None):
+    if arm_num <= 1:
+      raise ValueError('Number of arms is expected at least 2. Got %d.' %
+                       arm_num)
+    if rounds <= 2:
+      raise ValueError('Number of rounds is expected at least 2. Got %d.' %
+                       rounds)
+
+    if horizon <= rounds - 1:
+      raise ValueError(
+          'Horizon is expected at least total rounds minus one. Got %d.' %
+          horizon)
+
     super().__init__(agent=LilUCBHeuristicAgent(arm_num=arm_num,
                                                 rounds=rounds,
-                                                horizon=horizon),
+                                                horizon=horizon,
+                                                num_agents=num_agents),
                      master=LilUCBHeuristicMaster(arm_num=arm_num,
                                                   rounds=rounds,
                                                   horizon=horizon,
                                                   num_agents=num_agents),
                      num_agents=num_agents,
                      name=name)
+
+  def _name(self) -> str:
+    return 'lilucb_heuristic_collaborative'

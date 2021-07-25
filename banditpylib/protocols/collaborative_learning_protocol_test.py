@@ -22,6 +22,6 @@ class TestCollaborativeLearning:
     collaborative_learner.play(trials=3, output_filename=temp_file.name)
 
     with open(temp_file.name, 'rb') as f:
-      # check number of records is 3
+      # Check number of records is 3
       trials = parse_trials_from_bytes(f.read())
       assert len(trials) == 3

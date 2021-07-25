@@ -9,9 +9,8 @@ from banditpylib.learners import Goal, IdentifyBestArm, \
 
 
 class MABCollaborativeFixedTimeBAIAgent(CollaborativeAgent):
-  """Abstract agent identify the best arm with fixed time
-
-  This agent aims to identify the best arm with other agents.
+  """Abstract agent to identify the best arm with fixed time in the ordinary
+  multi-armed bandit environment
 
   :param Optional[str] name: alias name
   """
@@ -25,7 +24,8 @@ class MABCollaborativeFixedTimeBAIAgent(CollaborativeAgent):
 
 
 class MABCollaborativeFixedTimeBAIMaster(CollaborativeMaster):
-  """Abstract master to identify the best arm with fixed time
+  """Abstract master to identify the best arm with fixed time in the ordinary
+  multi-armed bandit environment
 
   :param Optional[str] name: alias name
   """
@@ -34,7 +34,8 @@ class MABCollaborativeFixedTimeBAIMaster(CollaborativeMaster):
 
 
 class MABCollaborativeFixedTimeBAILearner(CollaborativeLearner):
-  """Learner that puts the agents and master together
+  """Collaborative fixed-time learner aiming to identify the best arm in the
+  ordinary multi-armed bandit environment
 
   :param CollaborativeAgent agent: one instance of an agent
   :param CollaboratveMaster master: instance of the master
@@ -50,9 +51,6 @@ class MABCollaborativeFixedTimeBAILearner(CollaborativeLearner):
                      master=cast(CollaborativeMaster, master),
                      num_agents=num_agents,
                      name=name)
-
-  def _name(self) -> str:
-    return 'collaborative_learner'
 
   @property
   def running_environment(self) -> Union[type, List[type]]:
