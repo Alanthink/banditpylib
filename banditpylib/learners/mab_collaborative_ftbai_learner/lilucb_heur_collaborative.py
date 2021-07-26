@@ -133,10 +133,7 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
   """Agent of collaborative learning
 
   :param int arm_num: number of arms of the bandit
-  :param int rounds: number of total rounds allowed
-  :param int horizon: maximum number of pulls the agent can make
-    (over all rounds combined)
-  :param int num_agents: total number of agents
+  :param List[int] num_pulls_per_round: number of pulls used per round
   :param Optional[str] name: alias name
   """
 
@@ -149,43 +146,19 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
 
   def __init__(self,
                arm_num: int,
-               rounds: int,
-               horizon: int,
-               num_agents: int,
+               num_pulls_per_round: List[int],
                name: Optional[str] = None):
     super().__init__(name)
     self.__arm_num = arm_num
-    self.__comm_rounds = rounds - 1
-    self.__horizon = horizon
-    self.__num_agents = num_agents
+    self.__comm_rounds = len(num_pulls_per_round) - 1
+    self.__num_pulls_per_round = num_pulls_per_round
     self.reset()
 
   def _name(self) -> str:
     return "lilucb_heuristic_collaborative_agent"
 
   def reset(self):
-    self.__id = np.random.rand() # pylint: disable=unused-private-member
     self.__round_index = 0
-
-    # Calculate number of pulls used per round
-    self.__num_pulls_per_round = []
-    if self.__arm_num > self.__num_agents:
-      if self.__comm_rounds == 1:
-        self.__num_pulls_per_round.append(self.__horizon)
-      else:
-        self.__num_pulls_per_round.append(int(0.5 * self.__horizon))
-        self.__num_pulls_per_round.extend(
-            [int(0.5 * self.__horizon /
-                 (self.__comm_rounds - 1))] * (self.__comm_rounds - 1))
-    else:
-      self.__num_pulls_per_round.extend(
-          [int(self.__horizon / self.__comm_rounds)] * self.__comm_rounds)
-    # For the last round, we always use 0 pulls.
-    self.__num_pulls_per_round.append(0)
-    # Assign the remaining budget
-    for i in range(self.__horizon - sum(self.__num_pulls_per_round)):
-      self.__num_pulls_per_round[i] += 1
-
     self.__stage = self.UNASSIGNED
 
   def set_input_arms(self, arms: List[int]):
@@ -199,8 +172,8 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
       self.__stage = self.TERMINATION
       return
 
-    # Maintain informaiton of assigned arms
-    self.__assigned_arms = np.array(arms)
+    # Maintain empirical informaiton of assigned arms
+    self.__assigned_arms = arms
     self.__assigned_arm_info: Dict[int, Tuple[float, int]] = {}
     for arm_id in arms:
       self.__assigned_arm_info[arm_id] = (0.0, 0)
@@ -208,7 +181,7 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
     if self.__round_index == 0 and len(self.__assigned_arms) > 1:
       # Confidence of 0.99 suggested in the paper
       self.__central_algo = CentralizedLilUCBHeuristic(self.__arm_num, 0.99,
-                                                       self.__assigned_arms)
+                                                       np.array(arms))
       self.__central_algo.reset()
       self.__stage = self.CENTRALIZED_LEARNING
     else:
@@ -221,9 +194,7 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
         self.__arm_to_broadcast = arms[0]
         self.__stage = self.LEARNING
 
-  def actions(self, context: Context) -> Actions:
-    del context
-
+  def actions(self, context: Context = None) -> Actions:
     if self.__stage == self.UNASSIGNED:
       raise Exception("%s: I can\'t act in stage unassigned." % self.name)
 
@@ -236,20 +207,24 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
       ) >= self.__num_pulls_per_round[0]:
         # Early stop the centralized algorithm when it uses more than horizon
         # / 2 pulls.
-        self.__stage = self.COMMUNICATION
+        self.__stage = self.LEARNING
         self.__arm_to_broadcast = np.random.choice(self.__assigned_arms)
-        actions = Actions()
-        actions.state = Actions.WAIT
-        return actions
+        self.__round_index += 1
+        return self.actions()
+
+      if len(self.__assigned_arms) == 1:
+        self.__stage = self.LEARNING
+        self.__arm_to_broadcast = self.__assigned_arms[0]
+        self.__round_index += 1
+        return self.actions()
 
       central_algo_actions = self.__central_algo.actions()
       if not central_algo_actions.arm_pulls:
         # Centralized algorithm terminates before using up horizon / 2 pulls
-        self.__stage = self.COMMUNICATION
+        self.__stage = self.LEARNING
         self.__arm_to_broadcast = self.__central_algo.best_arm
-        actions = Actions()
-        actions.state = Actions.WAIT
-        return actions
+        self.__round_index += 1
+        return self.actions()
       return central_algo_actions
     elif self.__stage == self.LEARNING:
       actions = Actions()
@@ -462,10 +437,28 @@ class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
           'Horizon is expected at least total rounds minus one. Got %d.' %
           horizon)
 
-    super().__init__(agent=LilUCBHeuristicAgent(arm_num=arm_num,
-                                                rounds=rounds,
-                                                horizon=horizon,
-                                                num_agents=num_agents),
+    # Calculate number of pulls used per round
+    num_pulls_per_round = []
+    pseudo_comm_rounds = rounds
+    if arm_num > num_agents:
+      if pseudo_comm_rounds == 1:
+        num_pulls_per_round.append(horizon)
+      else:
+        num_pulls_per_round.append(int(0.5 * horizon))
+        num_pulls_per_round.extend(
+            [int(0.5 * horizon /
+                 (pseudo_comm_rounds - 1))] * (pseudo_comm_rounds - 1))
+    else:
+      num_pulls_per_round.extend([int(horizon / pseudo_comm_rounds)] *
+                                 pseudo_comm_rounds)
+    # For the last round, we always use 0 pulls.
+    num_pulls_per_round.append(0)
+    # Assign the remaining budget
+    for i in range(horizon - sum(num_pulls_per_round)):
+      num_pulls_per_round[i] += 1
+
+    super().__init__(agent=LilUCBHeuristicAgent(
+        arm_num=arm_num, num_pulls_per_round=num_pulls_per_round),
                      master=LilUCBHeuristicMaster(arm_num=arm_num,
                                                   rounds=rounds,
                                                   horizon=horizon,
