@@ -172,11 +172,18 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
       self.__stage = self.TERMINATION
       return
 
-    # Maintain empirical informaiton of assigned arms
     self.__assigned_arms = arms
+    # Maintain empirical informaiton of assigned arms
     self.__assigned_arm_info: Dict[int, Tuple[float, int]] = {}
     for arm_id in arms:
       self.__assigned_arm_info[arm_id] = (0.0, 0)
+
+    if self.__round_index == self.__comm_rounds:
+      self.__best_arm = arms[0]
+      self.__stage = self.TERMINATION
+    else:
+      self.__arm_to_broadcast = arms[0]
+      self.__stage = self.LEARNING
 
     if self.__round_index == 0 and len(self.__assigned_arms) > 1:
       # Confidence of 0.99 suggested in the paper
@@ -187,12 +194,6 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
     else:
       if len(self.__assigned_arms) > 1:
         raise Exception("Got more than 1 arm in stage learning.")
-      if self.__round_index == self.__comm_rounds:
-        self.__best_arm = arms[0]
-        self.__stage = self.TERMINATION
-      else:
-        self.__arm_to_broadcast = arms[0]
-        self.__stage = self.LEARNING
 
   def actions(self, context: Context = None) -> Actions:
     if self.__stage == self.UNASSIGNED:
@@ -247,18 +248,19 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
       raise Exception("%s: I can\'t do update in stage not learning." %
                       self.name)
 
-    for arm_feedback in feedback.arm_feedbacks:
-      old_arm_info = self.__assigned_arm_info[arm_feedback.arm.id]
-      new_arm_info = (
-          (old_arm_info[0] * old_arm_info[1] + sum(arm_feedback.rewards)) /
-          (old_arm_info[1] + len(arm_feedback.rewards)),
-          old_arm_info[1] + len(arm_feedback.rewards))
-      self.__assigned_arm_info[arm_feedback.arm.id] = new_arm_info
-
     if self.__stage == self.CENTRALIZED_LEARNING:
       self.__central_algo.update(feedback)
     else:
       # self.__stage == self.LEARNING
+
+      for arm_feedback in feedback.arm_feedbacks:
+        old_arm_info = self.__assigned_arm_info[arm_feedback.arm.id]
+        new_arm_info = (
+            (old_arm_info[0] * old_arm_info[1] + sum(arm_feedback.rewards)) /
+            (old_arm_info[1] + len(arm_feedback.rewards)),
+            old_arm_info[1] + len(arm_feedback.rewards))
+        self.__assigned_arm_info[arm_feedback.arm.id] = new_arm_info
+
       self.__stage = self.COMMUNICATION
 
   @property
