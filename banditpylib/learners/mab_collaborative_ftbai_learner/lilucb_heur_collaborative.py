@@ -15,7 +15,7 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
 
   :param int arm_num: number of arms of the bandit
   :param int rounds: number of total rounds allowed
-  :param List[int] num_pulls_per_round: number of pulls used per round
+  :param int horizon: total number of pulls allowed
   :param Optional[str] name: alias name
   """
 
@@ -29,14 +29,12 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
   def __init__(self,
                arm_num: int,
                rounds: int,
-               num_pulls_per_round: List[int],
+               horizon: int,
                name: Optional[str] = None):
     super().__init__(name)
     self.__arm_num = arm_num
-    self.__use_centralized_algo = True if (
-        len(num_pulls_per_round) > rounds) else False
-    self.__rounds = len(num_pulls_per_round)
-    self.__num_pulls_per_round = num_pulls_per_round
+    self.__rounds = rounds
+    self.__horizon = horizon
     self.reset()
 
   def _name(self) -> str:
@@ -50,6 +48,20 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
     if self.__stage != self.UNASSIGNED:
       raise Exception("The agent is expected in stage unassigned. Got %s." %
                       self.__stage)
+
+    if self.__round_index == 0:
+      if len(arms) > 1:
+        self.__use_centralized_algo = True
+        self.__num_pulls_per_round = get_num_pulls_per_round(
+            rounds=self.__rounds,
+            horizon=self.__horizon,
+            use_centralized_learning=True)
+      else:
+        self.__use_centralized_algo = False
+        self.__num_pulls_per_round = get_num_pulls_per_round(
+            rounds=self.__rounds,
+            horizon=self.__horizon,
+            use_centralized_learning=False)
 
     if arms[0] < 0:
       # Terminate since there is only one active arm
@@ -134,19 +146,18 @@ class LilUCBHeuristicAgent(MABCollaborativeFixedTimeBAIAgent):
       raise Exception("%s: I can\'t do update in stage not learning." %
                       self.name)
 
+    for arm_feedback in feedback.arm_feedbacks:
+      old_arm_info = self.__assigned_arm_info[arm_feedback.arm.id]
+      new_arm_info = (
+          (old_arm_info[0] * old_arm_info[1] + sum(arm_feedback.rewards)) /
+          (old_arm_info[1] + len(arm_feedback.rewards)),
+          old_arm_info[1] + len(arm_feedback.rewards))
+      self.__assigned_arm_info[arm_feedback.arm.id] = new_arm_info
+
     if self.__stage == self.CENTRALIZED_LEARNING:
       self.__central_algo.update(feedback)
     else:
       # self.__stage == self.LEARNING
-
-      for arm_feedback in feedback.arm_feedbacks:
-        old_arm_info = self.__assigned_arm_info[arm_feedback.arm.id]
-        new_arm_info = (
-            (old_arm_info[0] * old_arm_info[1] + sum(arm_feedback.rewards)) /
-            (old_arm_info[1] + len(arm_feedback.rewards)),
-            old_arm_info[1] + len(arm_feedback.rewards))
-        self.__assigned_arm_info[arm_feedback.arm.id] = new_arm_info
-
       self.__stage = self.COMMUNICATION
 
   @property
@@ -265,15 +276,9 @@ class LilUCBHeuristicCollaborative(MABCollaborativeFixedTimeBAILearner):
           'Horizon is expected at least total rounds minus one. Got %d.' %
           horizon)
 
-    num_pulls_per_round = get_num_pulls_per_round(rounds=rounds,
-                                                  arm_num=arm_num,
-                                                  num_agents=num_agents,
-                                                  horizon=horizon)
-
-    super().__init__(agent=LilUCBHeuristicAgent(
-        arm_num=arm_num,
-        rounds=rounds,
-        num_pulls_per_round=num_pulls_per_round),
+    super().__init__(agent=LilUCBHeuristicAgent(arm_num=arm_num,
+                                                rounds=rounds,
+                                                horizon=horizon),
                      master=LilUCBHeuristicMaster(arm_num=arm_num,
                                                   rounds=rounds,
                                                   horizon=horizon,

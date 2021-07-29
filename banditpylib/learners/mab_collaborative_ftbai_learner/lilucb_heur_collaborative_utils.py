@@ -127,35 +127,30 @@ class CentralizedLilUCBHeuristic(MABFixedConfidenceBAILearner):
     return self.__total_pulls
 
 
-def get_num_pulls_per_round(rounds: int, arm_num: int, num_agents: int,
-                            horizon: int):
+def get_num_pulls_per_round(rounds: int,
+                            horizon: int,
+                            use_centralized_learning: bool = False):
   """Calculate number of pulls used per round
-
-  When `arm_num` > `num_agents`, the output result has one more round than the
-  input. It is assumed there will be no communication after the first
-  round within which the main goal is to eliminate assigned arms such that only
-  one remains.
 
   Args:
     rounds: number of total rounds allowed
-    arm_num: number of arms of the bandit
-    num_agents: number of agents
     horizon: maximum number of pulls the agent can make
       (over all rounds combined)
+    use_centralized_learning: when it is true, the output result has one more
+      round than the input. It is assumed there will be no communication after
+      the first round within which the main goal is to eliminate assigned arms
+      such that only one arm remains.
 
   Returns:
     number of pulls used per round
   """
   num_pulls_per_round = []
-  if arm_num > num_agents:
+  if use_centralized_learning:
     pseudo_comm_rounds = rounds
-    if pseudo_comm_rounds == 1:
-      num_pulls_per_round.append(horizon)
-    else:
-      num_pulls_per_round.append(int(0.5 * horizon))
-      num_pulls_per_round.extend(
-          [int(0.5 * horizon /
-               (pseudo_comm_rounds - 1))] * (pseudo_comm_rounds - 1))
+    num_pulls_per_round.append(int(0.5 * horizon))
+    num_pulls_per_round.extend([int(0.5 * horizon /
+                                    (pseudo_comm_rounds - 1))] *
+                               (pseudo_comm_rounds - 1))
   else:
     comm_rounds = rounds - 1
     num_pulls_per_round.extend([int(horizon / comm_rounds)] * comm_rounds)

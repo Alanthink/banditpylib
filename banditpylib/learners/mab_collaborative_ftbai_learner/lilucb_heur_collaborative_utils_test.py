@@ -8,25 +8,17 @@ class TestLilUCBHeuristicCollaborativeUtils:
   """Test utilities of collaborative lilUCB-heuristic policy"""
   def test_get_num_pulls_per_round(self):
     rounds = 3
-    arm_num = 5
-    num_agents = 10
     horizon = 2000
 
-    num_pulls_per_round = get_num_pulls_per_round(rounds=rounds,
-                                                  arm_num=arm_num,
-                                                  num_agents=num_agents,
-                                                  horizon=horizon)
+    num_pulls_per_round = get_num_pulls_per_round(
+        rounds=rounds, horizon=horizon, use_centralized_learning=False)
     assert num_pulls_per_round == [1000, 1000, 0]
 
     rounds = 3
-    arm_num = 20
-    num_agents = 10
     horizon = 2000
 
-    num_pulls_per_round = get_num_pulls_per_round(rounds=rounds,
-                                                  arm_num=arm_num,
-                                                  num_agents=num_agents,
-                                                  horizon=horizon)
+    num_pulls_per_round = get_num_pulls_per_round(
+        rounds=rounds, horizon=horizon, use_centralized_learning=True)
     assert num_pulls_per_round == [1000, 500, 500, 0]
 
   def test_assign_arms(self):
