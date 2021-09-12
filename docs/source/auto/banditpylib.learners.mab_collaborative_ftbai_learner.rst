@@ -14,10 +14,10 @@ Classes
 =======
 
 - :py:class:`MABCollaborativeFixedTimeBAILearner`:
-  Learner that puts the agents and master together
+  Collaborative fixed-time learner aiming to identify the best arm in the
 
 - :py:class:`LilUCBHeuristicCollaborative`:
-  Colaborative learners using lilucb heuristic as centralized policy
+  Colaborative learner using lilucb heuristic as centralized policy
 
 
 .. autoclass:: MABCollaborativeFixedTimeBAILearner

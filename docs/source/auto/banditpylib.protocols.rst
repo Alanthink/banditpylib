@@ -14,7 +14,7 @@ Classes
 =======
 
 - :py:class:`Protocol`:
-  Abstract class for a protocol which is used to coordinate the interactions
+  Abstract class for a communication protocol which defines the principles of
 
 - :py:class:`SinglePlayerProtocol`:
   Single player protocol
