@@ -15,10 +15,9 @@ class TestSinglePlayer:
     ordinary_bandit = MultiArmedBandit(arms)
     eps_greedy_learner = EpsGreedy(arm_num=3)
     single_player = SinglePlayerProtocol(bandit=ordinary_bandit,
-                                         learners=[eps_greedy_learner],
-                                         horizon=10)
+                                         learners=[eps_greedy_learner])
     temp_file = tempfile.NamedTemporaryFile()
-    single_player.play(trials=3, output_filename=temp_file.name)
+    single_player.play(3, temp_file.name, horizon=10)
 
     with open(temp_file.name, 'rb') as f:
       # check number of records is 3

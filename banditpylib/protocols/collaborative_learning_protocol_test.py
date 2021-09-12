@@ -19,7 +19,7 @@ class TestCollaborativeLearning:
     collaborative_learner = CollaborativeLearningProtocol(
         bandit=bandit, learners=[lil_ucb_collaborative_learner])
     temp_file = tempfile.NamedTemporaryFile()
-    collaborative_learner.play(trials=3, output_filename=temp_file.name)
+    collaborative_learner.play(3, temp_file.name)
 
     with open(temp_file.name, 'rb') as f:
       # Check number of records is 3

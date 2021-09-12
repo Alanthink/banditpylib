@@ -13,31 +13,32 @@ from .utils import Protocol
 class CollaborativeLearningProtocol(Protocol):
   """Collaborative learning protocol :cite:`tao2019collaborative`
 
-  This protocol is used to simulate the multi-agent game
-  as discussed in the paper. It runs in rounds. During each round,
-  the protocol runs the following steps in sequence:
+  This class defines the communication protocol for the collaborative learning
+  multi-agent game as discussed in the reference paper. The game runs in
+  rounds. During each round, the protocol runs the following steps in sequence:
 
   - For each agent,
 
-    * fetch the state of the corresponding environment and ask the agent for
-      actions;
-    * send the actions to the enviroment for execution;
-    * update the agent with the feedback of the environment;
+    * fetch the state of the corresponding bandit environment and ask the agent
+      for actions;
+    * send the actions to the bandit environment for execution;
+    * update the agent with the feedback of the bandit environment;
     * repeat the above steps until the agent enters the `WAIT` or `STOP` state.
 
-  - If there is at least one agent in `WAIT` state, then receive information
+  - If there is at least one agent in `WAIT` state, then fetch information
     broadcasted from every waiting agent and send them to master to decide
-    arm assignment of next round. Otherwise, stop the simulaiton.
+    arm assignment of next round. Otherwise, stop the game.
 
   :param Bandit bandit: bandit environment
   :param List[CollaborativeLearner] learners: learners that will be compared
+    with
 
   .. note::
     Each agent interacts with an independent bandit environment.
 
   .. note::
     Each action counts as a timestep. The time (or sample) complexity equals to
-    the maximum number of pulls used by the agents.
+    the maximum number of pulls across different agents.
 
   .. note::
     According to the protocol, number of rounds always equals to number of
@@ -50,23 +51,23 @@ class CollaborativeLearningProtocol(Protocol):
   def name(self) -> str:
     return 'collaborative_learning_protocol'
 
-  def _one_trial(self, random_seed: int, debug: bool) -> bytes:
-    if debug:
+  def _one_trial(self, random_seed: int) -> bytes:
+    if self._debug:
       logging.set_verbosity(logging.DEBUG)
     np.random.seed(random_seed)
 
     # Initialization
-    current_learner = cast(CollaborativeLearner, self.current_learner)
+    current_learner = cast(CollaborativeLearner, self._current_learner)
     current_learner.reset()
     agents = current_learner.agents
     bandits = []
     master = current_learner.master
     for _ in range(len(agents)):
-      bandits.append(dcopy(self.bandit))
+      bandits.append(dcopy(self._bandit))
       bandits[-1].reset()
 
     trial = Trial()
-    trial.bandit = self.bandit.name
+    trial.bandit = self._bandit.name
     trial.learner = current_learner.name
 
     communication_rounds, total_pulls = 0, 0
@@ -124,6 +125,6 @@ class CollaborativeLearningProtocol(Protocol):
     result = trial.results.add()
     result.rounds = communication_rounds
     result.total_actions = total_pulls
-    result.regret = self.bandit.regret(current_learner.goal)
+    result.regret = self._bandit.regret(current_learner.goal)
 
     return trial.SerializeToString()

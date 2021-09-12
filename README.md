@@ -132,15 +132,14 @@ learners = [EpsGreedy(arm_num=len(arms)),
 ```Python
 # Horizon of the game
 horizon = 2000
-# Record intermediate regrets for each trial
-intermediate_regrets = list(range(0, horizon+1, 50))
 # Set up simulator using single-player protocol
-game = SinglePlayerProtocol(bandit=bandit,
-                            learners=learners,
-                            intermediate_regrets=intermediate_regrets,
-                            horizon=horizon)
+game = SinglePlayerProtocol(bandit=bandit, learners=learners)
+# Record intermediate regrets after these horizons
+intermediate_horizons = list(range(0, horizon+1, 50))
 # Start playing the game and for each setup we run 200 trials
-game.play(trials=200)
+game.play(trials=200,
+          intermediate_horizons=intermediate_horizons,
+          horizon=horizon)
 ```
 
 The following figure shows the simulation results.
